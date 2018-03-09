@@ -23,10 +23,6 @@ public class InitializeTestSuite {
         FileInputStream inputStream = null;
         Properties properties = new Properties();
         try {
-            //String envName = System.getProperty("envName").toString();
-            //System.out.println("Environment Name: " + System.getProperty("envName"));
-            //String propertyFileName = envName + ".properties";
-            //String filePath = new File(propertyFileName).getAbsolutePath();
             String filePath = System.getProperty("propertiesFile");
             File configFile = new File(filePath);
 
