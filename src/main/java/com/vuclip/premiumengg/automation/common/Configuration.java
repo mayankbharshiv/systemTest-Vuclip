@@ -33,4 +33,6 @@ public class Configuration {
 
     public static String vuconnectSystemtestDbName;
 
+    public static String billingPackageServer;
+
 }

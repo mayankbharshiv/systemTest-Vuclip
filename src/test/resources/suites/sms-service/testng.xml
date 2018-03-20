@@ -1,7 +1,0 @@
-<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="sms-service" parallel="methods" thread-count="1" verbose="1" preserve-order="true"
-       data-provider-thread-count="1">
-    <test name="sms-service" preserve-order="true">
-        <classes></classes>
-    </test>
-</suite>
