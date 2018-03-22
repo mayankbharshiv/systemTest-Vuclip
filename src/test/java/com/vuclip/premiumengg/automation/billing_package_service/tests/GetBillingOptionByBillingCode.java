@@ -1,15 +1,11 @@
 package com.vuclip.premiumengg.automation.billing_package_service.tests;
 
+import com.vuclip.premiumengg.automation.billing_package_service.base.BPSValidationHelper;
 import com.vuclip.premiumengg.automation.billing_package_service.base.BillingPackage;
 import com.vuclip.premiumengg.automation.billing_package_service.base.BillingResponse;
 import com.vuclip.premiumengg.automation.helpers.BPSHelper;
-import io.restassured.path.json.JsonPath;
-import io.restassured.response.Response;
-import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import java.util.Map;
 
 /**
  * Created by Kohitij_Das on 22/03/18.
@@ -17,30 +13,27 @@ import java.util.Map;
 public class GetBillingOptionByBillingCode {
 
     private BPSHelper bpsHelper;
-    private String jsonQuery = "find {e -> e.productId == " + BillingPackage.PACKAGE1.getProductId() + "}";
+    private BPSValidationHelper validationHelper;
 
     @BeforeClass(alwaysRun = true)
     public void setup() throws Exception {
         bpsHelper = new BPSHelper();
+        validationHelper = new BPSValidationHelper();
     }
 
     @Test
     public void verify_get_billing_options_with_valid_billingCode() throws Exception {
         final String validBillingCode = BillingPackage.PACKAGE1.getBillingCode();
-        JsonPath billingPackages = new JsonPath(bpsHelper
-                .getBillingOptionByBillingCode(validBillingCode).asString());
-        billingPackages.setRoot("billingPackages");
-        Map billingPackage = billingPackages.get(jsonQuery);
-        Assert.assertEquals(billingPackage.get("serviceId"), BillingPackage.PACKAGE1.getServiceId());
-        Assert.assertEquals(billingPackage.size(), 23);
+        validationHelper.validate_billing_package(bpsHelper
+                .getBillingOptionByBillingCode(validBillingCode)
+        );
     }
 
     @Test
     public void verify_get_billing_options_with_invalid_billingCode() throws Exception {
         final String invalidBillingCode = "999999";
-        final Response response = bpsHelper.getBillingOptionByBillingCode(invalidBillingCode);
-        Assert.assertEquals(response.getBody().jsonPath().getString("message"), BillingResponse.NOTFOUND.getMessage());
-        Assert.assertEquals(response.getBody().jsonPath().getBoolean("successful"), BillingResponse.NOTFOUND.isSuccessful());
-        Assert.assertEquals(response.getBody().jsonPath().getInt("responseCode"), BillingResponse.NOTFOUND.getResponseCode());
+        validationHelper.validate_billing_response(bpsHelper
+                .getBillingOptionByBillingCode(invalidBillingCode), BillingResponse.NOTFOUND
+        );
     }
 }
