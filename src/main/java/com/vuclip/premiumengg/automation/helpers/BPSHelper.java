@@ -52,4 +52,19 @@ public class BPSHelper {
         response.prettyPrint();
         return response;
     }
+
+    /**
+     * @param billingCode
+     * @return
+     * @throws Exception
+     */
+    public Response getBillingOptionByBillingCode(String billingCode) throws Exception {
+        final Response response = given(requestSpecification)
+                .contentType(ContentType.JSON)
+                .log().all()
+                .pathParam("billing_code", billingCode)
+                .get("bps/api/getBillingOptionByBillingCode/{billing_code}");
+        response.prettyPrint();
+        return response;
+    }
 }
