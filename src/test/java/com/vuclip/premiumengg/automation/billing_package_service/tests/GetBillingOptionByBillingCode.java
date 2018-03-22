@@ -1,5 +1,6 @@
 package com.vuclip.premiumengg.automation.billing_package_service.tests;
 
+import com.vuclip.premiumengg.automation.billing_package_service.base.BillingPackage;
 import com.vuclip.premiumengg.automation.helpers.BPSHelper;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
@@ -15,7 +16,7 @@ import java.util.Map;
 public class GetBillingOptionByBillingCode {
 
     private BPSHelper bpsHelper;
-    private String jsonQuery = "find {e -> e.productId == 11}";
+    private String jsonQuery = "find {e -> e.productId == " + BillingPackage.PACKAGE1.getProductId() + "}";
 
     @BeforeClass(alwaysRun = true)
     public void setup() throws Exception {
@@ -24,12 +25,12 @@ public class GetBillingOptionByBillingCode {
 
     @Test
     public void verify_get_billing_options_with_valid_billingCode() throws Exception {
-        final String validBillingCode = "927312121";
+        final String validBillingCode = BillingPackage.PACKAGE1.getBillingCode();
         JsonPath billingPackages = new JsonPath(bpsHelper
                 .getBillingOptionByBillingCode(validBillingCode).asString());
         billingPackages.setRoot("billingPackages");
         Map billingPackage = billingPackages.get(jsonQuery);
-        Assert.assertEquals(billingPackage.get("serviceId"), "TEST_SERVICEID_927311336");
+        Assert.assertEquals(billingPackage.get("serviceId"), BillingPackage.PACKAGE1.getServiceId());
         Assert.assertEquals(billingPackage.size(), 23);
     }
 

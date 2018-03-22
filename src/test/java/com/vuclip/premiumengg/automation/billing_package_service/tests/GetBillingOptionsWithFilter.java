@@ -1,5 +1,6 @@
 package com.vuclip.premiumengg.automation.billing_package_service.tests;
 
+import com.vuclip.premiumengg.automation.billing_package_service.base.BillingPackage;
 import com.vuclip.premiumengg.automation.helpers.BPSHelper;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
@@ -17,7 +18,7 @@ import java.util.Map;
 public class GetBillingOptionsWithFilter {
 
     private BPSHelper bpsHelper;
-    private String jsonQuery = "find {e -> e.productId == 11}";
+    private String jsonQuery = "find {e -> e.productId == " + BillingPackage.PACKAGE1.getProductId() + "}";
 
     @BeforeClass(alwaysRun = true)
     public void setup() throws Exception {
@@ -27,12 +28,12 @@ public class GetBillingOptionsWithFilter {
     @Test
     public void verify_get_billing_options_with_productId() throws Exception {
         final Map<String, Object> params = new HashMap<String, Object>();
-        params.put("productId", 11);
+        params.put("productId", BillingPackage.PACKAGE1.getProductId());
         JsonPath billingPackages = new JsonPath(bpsHelper
                 .getBillingOptionWithFilters(params).asString());
         billingPackages.setRoot("billingPackages");
         Map billingPackage = billingPackages.get(jsonQuery);
-        Assert.assertEquals(billingPackage.get("serviceId"), "TEST_SERVICEID_927311336");
+        Assert.assertEquals(billingPackage.get("serviceId"), BillingPackage.PACKAGE1.getServiceId());
         Assert.assertEquals(billingPackage.size(), 23);
     }
 
@@ -50,27 +51,27 @@ public class GetBillingOptionsWithFilter {
     @DataProvider(name = "validFilterOptions")
     public Object[][] validFilterOptions() {
         return new Object[][]{
-                {"partnerId", 11},
-                {"isCarrier", true},
-                {"billingCode", "927312121"},
-                {"price", 99.15243},
-                {"country", "India"},
-                {"itemId", 1},
-                {"itemTypeId", 1},
-                {"clientId", 1}
+                {"partnerId", BillingPackage.PACKAGE1.getPartnerId()},
+                {"isCarrier", BillingPackage.PACKAGE1.isCarrier()},
+                {"billingCode", BillingPackage.PACKAGE1.getBillingCode()},
+                {"price", BillingPackage.PACKAGE1.getPrice()},
+                {"country", BillingPackage.PACKAGE1.getCountry()},
+                {"itemId", BillingPackage.PACKAGE1.getItemId()},
+                {"itemTypeId", BillingPackage.PACKAGE1.getItemTypeId()},
+                {"clientId", BillingPackage.PACKAGE1.getClientId()}
         };
     }
 
     @Test(dataProvider = "validFilterOptions")
     public void verify_get_billing_options_with_valid_filter(String filterName, Object filterValue) throws Exception {
         final Map<String, Object> params = new HashMap<String, Object>();
-        params.put("productId", 11);
+        params.put("productId", BillingPackage.PACKAGE1.getProductId());
         params.put(filterName, filterValue);
         JsonPath billingPackages = new JsonPath(bpsHelper
                 .getBillingOptionWithFilters(params).asString());
         billingPackages.setRoot("billingPackages");
         Map billingPackage = billingPackages.get(jsonQuery);
-        Assert.assertEquals(billingPackage.get("serviceId"), "TEST_SERVICEID_927311336");
+        Assert.assertEquals(billingPackage.get("serviceId"), BillingPackage.PACKAGE1.getServiceId());
         Assert.assertEquals(billingPackage.size(), 23);
     }
 
@@ -91,7 +92,7 @@ public class GetBillingOptionsWithFilter {
     @Test(dataProvider = "invalidFilterOptions")
     public void verify_get_billing_options_with_invalid_filter(String filterName, Object filterValue) throws Exception {
         final Map<String, Object> params = new HashMap<String, Object>();
-        params.put("productId", 11);
+        params.put("productId", BillingPackage.PACKAGE1.getProductId());
         params.put(filterName, filterValue);
         final Response response = bpsHelper.getBillingOptionWithFilters(params);
         Assert.assertEquals(response.getBody().jsonPath().getString("message"),

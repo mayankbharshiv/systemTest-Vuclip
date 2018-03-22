@@ -1,5 +1,6 @@
 package com.vuclip.premiumengg.automation.billing_package_service.tests;
 
+import com.vuclip.premiumengg.automation.billing_package_service.base.BillingPackage;
 import com.vuclip.premiumengg.automation.helpers.BPSHelper;
 import io.restassured.path.json.JsonPath;
 import org.testng.Assert;
@@ -14,7 +15,7 @@ import java.util.Map;
 public class GetAllBillingOptions {
 
     private BPSHelper bpsHelper;
-    private String jsonQuery = "find {e -> e.productId == 11}";
+    private String jsonQuery = "find {e -> e.productId == " + BillingPackage.PACKAGE1.getProductId() + "}";
 
     @BeforeClass(alwaysRun = true)
     public void setup() throws Exception {
@@ -38,8 +39,8 @@ public class GetAllBillingOptions {
         JsonPath billingPackages = new JsonPath(bpsHelper.getAllBillingOptions().asString());
         billingPackages.setRoot("billingPackages");
         Map billingPack = billingPackages.get(jsonQuery);
-        Assert.assertEquals("TestProduct11", billingPack.get("productName"));
-        Assert.assertEquals(11, billingPack.get("partnerId"));
-        Assert.assertEquals("927312121", billingPack.get("billingCode"));
+        Assert.assertEquals(BillingPackage.PACKAGE1.getProductName(), billingPack.get("productName"));
+        Assert.assertEquals(BillingPackage.PACKAGE1.getPartnerId(), billingPack.get("partnerId"));
+        Assert.assertEquals(BillingPackage.PACKAGE1.getBillingCode(), billingPack.get("billingCode"));
     }
 }
