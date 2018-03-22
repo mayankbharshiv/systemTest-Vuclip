@@ -1,6 +1,7 @@
 package com.vuclip.premiumengg.automation.billing_package_service.tests;
 
 import com.vuclip.premiumengg.automation.billing_package_service.base.BillingPackage;
+import com.vuclip.premiumengg.automation.billing_package_service.base.BillingResponse;
 import com.vuclip.premiumengg.automation.helpers.BPSHelper;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
@@ -42,10 +43,9 @@ public class GetBillingOptionsWithFilter {
         final Map<String, Object> params = new HashMap<String, Object>();
         final Response response = bpsHelper.getBillingOptionWithFilters(params);
         response.then().assertThat().statusCode(400);
-        Assert.assertEquals(response.getBody().jsonPath().getString("message"),
-                "productId : cannot be null");
-        Assert.assertEquals(response.getBody().jsonPath().getBoolean("successful"),
-                false);
+        Assert.assertEquals(response.getBody().jsonPath().getString("message"), BillingResponse.BADREQUEST.getMessage());
+        Assert.assertEquals(response.getBody().jsonPath().getBoolean("successful"), BillingResponse.BADREQUEST.isSuccessful());
+        Assert.assertEquals(response.getBody().jsonPath().getInt("responseCode"), BillingResponse.BADREQUEST.getResponseCode());
     }
 
     @DataProvider(name = "validFilterOptions")
@@ -95,11 +95,8 @@ public class GetBillingOptionsWithFilter {
         params.put("productId", BillingPackage.PACKAGE1.getProductId());
         params.put(filterName, filterValue);
         final Response response = bpsHelper.getBillingOptionWithFilters(params);
-        Assert.assertEquals(response.getBody().jsonPath().getString("message"),
-                "No billing packages found");
-        Assert.assertEquals(response.getBody().jsonPath().getBoolean("successful"),
-                false);
-        Assert.assertEquals(response.getBody().jsonPath().getInt("responseCode"),
-                404);
+        Assert.assertEquals(response.getBody().jsonPath().getString("message"), BillingResponse.NOTFOUND.getMessage());
+        Assert.assertEquals(response.getBody().jsonPath().getBoolean("successful"), BillingResponse.NOTFOUND.isSuccessful());
+        Assert.assertEquals(response.getBody().jsonPath().getInt("responseCode"), BillingResponse.NOTFOUND.getResponseCode());
     }
 }

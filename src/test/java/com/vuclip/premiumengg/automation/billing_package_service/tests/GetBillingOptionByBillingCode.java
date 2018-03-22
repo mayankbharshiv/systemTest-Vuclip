@@ -1,6 +1,7 @@
 package com.vuclip.premiumengg.automation.billing_package_service.tests;
 
 import com.vuclip.premiumengg.automation.billing_package_service.base.BillingPackage;
+import com.vuclip.premiumengg.automation.billing_package_service.base.BillingResponse;
 import com.vuclip.premiumengg.automation.helpers.BPSHelper;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
@@ -38,11 +39,8 @@ public class GetBillingOptionByBillingCode {
     public void verify_get_billing_options_with_invalid_billingCode() throws Exception {
         final String invalidBillingCode = "999999";
         final Response response = bpsHelper.getBillingOptionByBillingCode(invalidBillingCode);
-        Assert.assertEquals(response.getBody().jsonPath().getString("message"),
-                "No billing packages found");
-        Assert.assertEquals(response.getBody().jsonPath().getBoolean("successful"),
-                false);
-        Assert.assertEquals(response.getBody().jsonPath().getInt("responseCode"),
-                404);
+        Assert.assertEquals(response.getBody().jsonPath().getString("message"), BillingResponse.NOTFOUND.getMessage());
+        Assert.assertEquals(response.getBody().jsonPath().getBoolean("successful"), BillingResponse.NOTFOUND.isSuccessful());
+        Assert.assertEquals(response.getBody().jsonPath().getInt("responseCode"), BillingResponse.NOTFOUND.getResponseCode());
     }
 }

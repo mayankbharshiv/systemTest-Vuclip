@@ -1,6 +1,7 @@
 package com.vuclip.premiumengg.automation.billing_package_service.tests;
 
 import com.vuclip.premiumengg.automation.billing_package_service.base.BillingPackage;
+import com.vuclip.premiumengg.automation.billing_package_service.base.BillingResponse;
 import com.vuclip.premiumengg.automation.helpers.BPSHelper;
 import io.restassured.path.json.JsonPath;
 import org.testng.Assert;
@@ -25,13 +26,13 @@ public class GetAllBillingOptions {
     @Test
     public void verify_get_all_billing_options_response_code() throws Exception {
         Assert.assertEquals(bpsHelper.getAllBillingOptions()
-                .getBody().jsonPath().getInt("responseCode"), 1);
+                .getBody().jsonPath().getInt("responseCode"), BillingResponse.SUCCESS.getResponseCode());
     }
 
     @Test
     public void verify_get_all_billing_options_message() throws Exception {
         Assert.assertEquals(bpsHelper.getAllBillingOptions()
-                .getBody().jsonPath().getString("message"), "Success");
+                .getBody().jsonPath().getString("message"), BillingResponse.SUCCESS.getMessage());
     }
 
     @Test
