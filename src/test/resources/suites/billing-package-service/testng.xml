@@ -5,6 +5,7 @@
         <classes>
             <class name="com.vuclip.premiumengg.automation.billing_package_service.base.InitializeTestSuite"></class>
             <class name="com.vuclip.premiumengg.automation.billing_package_service.tests.GetAllBillingOptions"></class>
+            <class name="com.vuclip.premiumengg.automation.billing_package_service.tests.GetBillingOptionsWithFilter"></class>
         </classes>
     </test>
 </suite>
