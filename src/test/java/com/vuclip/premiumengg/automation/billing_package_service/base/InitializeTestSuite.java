@@ -1,8 +1,8 @@
-package com.vuclip.premiumengg.automation.vuconnect.base;
+package com.vuclip.premiumengg.automation.billing_package_service.base;
 
 import com.vuclip.premiumengg.automation.common.Configuration;
 import com.vuclip.premiumengg.automation.common.DBConnection;
-import com.vuclip.premiumengg.automation.common.RedisConnection;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 
 import java.io.File;
@@ -19,7 +19,7 @@ public class InitializeTestSuite {
      */
     @BeforeSuite(alwaysRun = true)
     public final void init() {
-        System.out.println("====== SettingUp vuconnect-system-tests execution ======");
+        System.out.println("====== SettingUp billing-package-service-system-tests execution ======");
         FileInputStream inputStream = null;
         Properties properties = new Properties();
         try {
@@ -29,27 +29,22 @@ public class InitializeTestSuite {
             inputStream = new FileInputStream(configFile);
             properties.load(inputStream);
 
-            Configuration.vuConnectServer = properties.getProperty("vuConnectServer");
-            Configuration.testDataServer = properties.getProperty("testDataServer");
-            Configuration.redisServers = properties.getProperty("redisServers");
-            Configuration.redisVuconnectDomain = properties.getProperty("redisVuconnectDomain");
+            Configuration.billingPackageServer = properties.getProperty("billingPackageServer");
             Configuration.dbServer = properties.getProperty("dbServer");
             Configuration.dbPort = properties.getProperty("dbPort");
-            Configuration.vuconnectDbName = properties.getProperty("vuconnectDbName");
+            Configuration.dbName = properties.getProperty("dbName");
             Configuration.dbUser = properties.getProperty("dbUser");
             Configuration.dbPassword = properties.getProperty("dbPassword");
-            Configuration.rabbitmqUserName = properties.getProperty("rabbitmqUserName");
-            Configuration.rabbitmqPassword = properties.getProperty("rabbitmqPassword");
-            Configuration.rabbitmqHost = properties.getProperty("rabbitmqHost");
-            Configuration.rabbitmqQueueType = properties.getProperty("rabbitmqQueueType");
-            Configuration.vuconnectSystemtestDbName = properties.getProperty("vuconnectSystemtestDbName");
-
 
             new DBConnection();
-            new RedisConnection();
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @AfterSuite(alwaysRun = true)
+    public void teardown() throws Exception {
+        DBConnection.closeAllConnections();
     }
 }
