@@ -1,4 +1,4 @@
-package com.vuclip.premiumengg.automation.billing_package_service.base;
+package com.vuclip.premiumengg.automation.billing_package_service.common.base;
 
 import com.vuclip.premiumengg.automation.common.Configuration;
 import com.vuclip.premiumengg.automation.common.DBConnection;

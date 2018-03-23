@@ -1,12 +1,12 @@
 package com.vuclip.premiumengg.automation.billing_package_service.tests;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.vuclip.premiumengg.automation.billing_package_service.base.BPSValidationHelper;
-import com.vuclip.premiumengg.automation.billing_package_service.base.BillingPackage;
-import com.vuclip.premiumengg.automation.billing_package_service.base.BillingResponse;
+import com.vuclip.premiumengg.automation.billing_package_service.common.models.BillingPackage;
+import com.vuclip.premiumengg.automation.billing_package_service.common.models.BillingResponse;
+import com.vuclip.premiumengg.automation.billing_package_service.common.utils.BPSDBUtil;
+import com.vuclip.premiumengg.automation.billing_package_service.common.utils.BPSHelper;
+import com.vuclip.premiumengg.automation.billing_package_service.common.utils.BPSValidationHelper;
 import com.vuclip.premiumengg.automation.common.DBConnection;
-import com.vuclip.premiumengg.automation.helpers.BPSHelper;
-import com.vuclip.premiumengg.automation.utils.DBUtils;
 import io.restassured.response.Response;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -21,13 +21,13 @@ public class StoreBillingOption {
     private static Connection dbConnection;
     private BPSHelper bpsHelper;
     private BPSValidationHelper validationHelper;
-    private DBUtils dbUtils;
+    private BPSDBUtil dbUtils;
 
     @BeforeClass(alwaysRun = true)
     public void setup() throws Exception {
         bpsHelper = new BPSHelper();
         validationHelper = new BPSValidationHelper();
-        dbUtils = new DBUtils();
+        dbUtils = new BPSDBUtil();
 
         setupDbConnection();
         cleanupBillingOption();

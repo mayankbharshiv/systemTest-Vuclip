@@ -1,4 +1,4 @@
-package com.vuclip.premiumengg.automation.billing_package_service.base;
+package com.vuclip.premiumengg.automation.billing_package_service.common.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 

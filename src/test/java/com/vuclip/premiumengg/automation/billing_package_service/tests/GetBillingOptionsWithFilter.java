@@ -1,9 +1,9 @@
 package com.vuclip.premiumengg.automation.billing_package_service.tests;
 
-import com.vuclip.premiumengg.automation.billing_package_service.base.BPSValidationHelper;
-import com.vuclip.premiumengg.automation.billing_package_service.base.BillingPackage;
-import com.vuclip.premiumengg.automation.billing_package_service.base.BillingResponse;
-import com.vuclip.premiumengg.automation.helpers.BPSHelper;
+import com.vuclip.premiumengg.automation.billing_package_service.common.models.BillingPackage;
+import com.vuclip.premiumengg.automation.billing_package_service.common.models.BillingResponse;
+import com.vuclip.premiumengg.automation.billing_package_service.common.utils.BPSHelper;
+import com.vuclip.premiumengg.automation.billing_package_service.common.utils.BPSValidationHelper;
 import io.restassured.response.Response;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;

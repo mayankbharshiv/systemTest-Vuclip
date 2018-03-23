@@ -1,4 +1,4 @@
-package com.vuclip.premiumengg.automation.helpers;
+package com.vuclip.premiumengg.automation.billing_package_service.common.utils;
 
 import com.vuclip.premiumengg.automation.common.Configuration;
 import io.restassured.http.ContentType;

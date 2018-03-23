@@ -1,5 +1,7 @@
-package com.vuclip.premiumengg.automation.billing_package_service.base;
+package com.vuclip.premiumengg.automation.billing_package_service.common.utils;
 
+import com.vuclip.premiumengg.automation.billing_package_service.common.models.BillingPackage;
+import com.vuclip.premiumengg.automation.billing_package_service.common.models.BillingResponse;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import org.testng.Assert;

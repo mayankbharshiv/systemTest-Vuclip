@@ -1,4 +1,4 @@
-package com.vuclip.premiumengg.automation.billing_package_service.base;
+package com.vuclip.premiumengg.automation.billing_package_service.common.models;
 
 /**
  * Created by Kohitij_Das on 22/03/18.
