@@ -5,13 +5,7 @@ package com.vuclip.premiumengg.automation.common;
  */
 public class Configuration {
 
-    public static String vuConnectServer;
-
-    public static String testDataServer;
-
-    public static String redisServers;
-
-    public static String redisVuconnectDomain;
+    public static String billingPackageServer;
 
     public static String dbServer;
 
@@ -23,16 +17,6 @@ public class Configuration {
 
     public static String dbPassword;
 
-    public static String rabbitmqUserName;
-
-    public static String rabbitmqPassword;
-
-    public static String rabbitmqHost;
-
-    public static String rabbitmqQueueType;
-
-    public static String vuconnectSystemtestDbName;
-
-    public static String billingPackageServer;
+    public static String redisServers;
 
 }
