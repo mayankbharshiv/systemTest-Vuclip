@@ -24,8 +24,8 @@ public class GetBillingOptionByBillingCode {
     @Test
     public void verify_get_billing_options_with_valid_billingCode() throws Exception {
         final String validBillingCode = BillingPackage.PACKAGE1.getBillingCode();
-        validationHelper.validate_billing_package(bpsHelper
-                .getBillingOptionByBillingCode(validBillingCode)
+        validationHelper.validate_billing_packages(bpsHelper
+                .getBillingOptionByBillingCode(validBillingCode), BillingPackage.PACKAGE1, "billingPackages"
         );
     }
 

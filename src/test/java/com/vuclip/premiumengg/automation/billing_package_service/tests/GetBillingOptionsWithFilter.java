@@ -30,8 +30,8 @@ public class GetBillingOptionsWithFilter {
     public void verify_get_billing_options_with_productId() throws Exception {
         final Map<String, Object> params = new HashMap<String, Object>();
         params.put("productId", BillingPackage.PACKAGE1.getProductId());
-        validationHelper.validate_billing_package(bpsHelper
-                .getBillingOptionWithFilters(params)
+        validationHelper.validate_billing_packages(bpsHelper
+                .getBillingOptionWithFilters(params), BillingPackage.PACKAGE1, "billingPackages"
         );
     }
 
@@ -64,8 +64,8 @@ public class GetBillingOptionsWithFilter {
         final Map<String, Object> params = new HashMap<String, Object>();
         params.put("productId", BillingPackage.PACKAGE1.getProductId());
         params.put(filterName, filterValue);
-        validationHelper.validate_billing_package(bpsHelper
-                .getBillingOptionWithFilters(params)
+        validationHelper.validate_billing_packages(bpsHelper
+                .getBillingOptionWithFilters(params), BillingPackage.PACKAGE1, "billingPackages"
         );
     }
 

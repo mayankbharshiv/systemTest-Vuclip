@@ -5,13 +5,13 @@ import io.restassured.response.Response;
 import org.testng.Assert;
 
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Kohitij_Das on 22/03/18.
  */
 public class BPSValidationHelper {
 
-    private String jsonQuery = "find {e -> e.productId == " + BillingPackage.PACKAGE1.getProductId() + "}";
     private int fieldCount = 23;
 
     /**
@@ -29,13 +29,34 @@ public class BPSValidationHelper {
      * @param billingResponse
      * @throws Exception
      */
-    public void validate_billing_package(Response billingResponse) throws Exception {
+    public void validate_billing_packages(Response billingResponse, BillingPackage billingPackage, String rootNode) throws Exception {
         JsonPath billingPackages = new JsonPath(billingResponse.asString());
-        billingPackages.setRoot("billingPackages");
-        Map billingPack = billingPackages.get(jsonQuery);
-        Assert.assertEquals(BillingPackage.PACKAGE1.getProductName(), billingPack.get("productName"));
-        Assert.assertEquals(BillingPackage.PACKAGE1.getPartnerId(), billingPack.get("partnerId"));
-        Assert.assertEquals(BillingPackage.PACKAGE1.getBillingCode(), billingPack.get("billingCode"));
+        billingPackages.setRoot(rootNode);
+        Map billingPack = billingPackages.get(getFindQuery(billingPackage.getProductId()));
+        Assert.assertEquals(billingPackage.getProductName(), billingPack.get("productName"));
+        Assert.assertEquals(billingPackage.getPartnerId(), billingPack.get("partnerId"));
+        Assert.assertEquals(billingPackage.getBillingCode(), billingPack.get("billingCode"));
         Assert.assertEquals(fieldCount, billingPack.size());
+    }
+
+    /**
+     * @param billingResponse
+     * @param billingPackage
+     * @throws Exception
+     */
+    public void validate_billing_package(Response billingResponse, BillingPackage billingPackage) throws Exception {
+        Assert.assertEquals(billingResponse.getBody().jsonPath()
+                .getInt("billingPackage.productId"), billingPackage.getProductId());
+        Assert.assertEquals(billingResponse.getBody().jsonPath()
+                .getString("billingPackage.productName"), billingPackage.getProductName());
+        Assert.assertEquals(billingResponse.getBody().jsonPath()
+                .getInt("billingPackage.partnerId"), billingPackage.getPartnerId());
+        Assert.assertEquals(billingResponse.getBody().jsonPath()
+                .getString("billingPackage.billingCode"), billingPackage.getBillingCode());
+    }
+
+    private String getFindQuery(int productId) throws ExecutionException {
+        String jsonQuery = "find {e -> e.productId == " + productId + "}";
+        return jsonQuery;
     }
 }

@@ -7,6 +7,7 @@
             <class name="com.vuclip.premiumengg.automation.billing_package_service.tests.GetAllBillingOptions"></class>
             <class name="com.vuclip.premiumengg.automation.billing_package_service.tests.GetBillingOptionsWithFilter"></class>
             <class name="com.vuclip.premiumengg.automation.billing_package_service.tests.GetBillingOptionByBillingCode"></class>
+            <class name="com.vuclip.premiumengg.automation.billing_package_service.tests.StoreBillingOption"></class>
         </classes>
     </test>
 </suite>

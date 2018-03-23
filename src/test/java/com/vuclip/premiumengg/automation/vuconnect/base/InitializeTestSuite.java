@@ -35,7 +35,7 @@ public class InitializeTestSuite {
             Configuration.redisVuconnectDomain = properties.getProperty("redisVuconnectDomain");
             Configuration.dbServer = properties.getProperty("dbServer");
             Configuration.dbPort = properties.getProperty("dbPort");
-            Configuration.vuconnectDbName = properties.getProperty("vuconnectDbName");
+            //Configuration.vuconnectDbName = properties.getProperty("vuconnectDbName");
             Configuration.dbUser = properties.getProperty("dbUser");
             Configuration.dbPassword = properties.getProperty("dbPassword");
             Configuration.rabbitmqUserName = properties.getProperty("rabbitmqUserName");

@@ -1,6 +1,8 @@
 package com.vuclip.premiumengg.automation.billing_package_service.base;
 
 import com.vuclip.premiumengg.automation.common.Configuration;
+import com.vuclip.premiumengg.automation.common.DBConnection;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 
 import java.io.File;
@@ -28,9 +30,21 @@ public class InitializeTestSuite {
             properties.load(inputStream);
 
             Configuration.billingPackageServer = properties.getProperty("billingPackageServer");
+            Configuration.dbServer = properties.getProperty("dbServer");
+            Configuration.dbPort = properties.getProperty("dbPort");
+            Configuration.dbName = properties.getProperty("dbName");
+            Configuration.dbUser = properties.getProperty("dbUser");
+            Configuration.dbPassword = properties.getProperty("dbPassword");
+
+            new DBConnection();
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @AfterSuite(alwaysRun = true)
+    public void teardown() throws Exception {
+        DBConnection.closeAllConnections();
     }
 }

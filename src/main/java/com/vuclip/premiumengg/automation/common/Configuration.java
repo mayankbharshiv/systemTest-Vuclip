@@ -17,7 +17,7 @@ public class Configuration {
 
     public static String dbPort;
 
-    public static String vuconnectDbName;
+    public static String dbName;
 
     public static String dbUser;
 

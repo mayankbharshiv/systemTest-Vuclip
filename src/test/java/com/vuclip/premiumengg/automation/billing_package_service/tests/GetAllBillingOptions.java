@@ -1,6 +1,7 @@
 package com.vuclip.premiumengg.automation.billing_package_service.tests;
 
 import com.vuclip.premiumengg.automation.billing_package_service.base.BPSValidationHelper;
+import com.vuclip.premiumengg.automation.billing_package_service.base.BillingPackage;
 import com.vuclip.premiumengg.automation.billing_package_service.base.BillingResponse;
 import com.vuclip.premiumengg.automation.helpers.BPSHelper;
 import org.testng.annotations.BeforeClass;
@@ -29,8 +30,8 @@ public class GetAllBillingOptions {
 
     @Test
     public void verify_get_all_billing_options_billingPackages() throws Exception {
-        validationHelper.validate_billing_package(bpsHelper
-                .getAllBillingOptions()
+        validationHelper.validate_billing_packages(bpsHelper
+                .getAllBillingOptions(), BillingPackage.PACKAGE1, "billingPackages"
         );
     }
 }

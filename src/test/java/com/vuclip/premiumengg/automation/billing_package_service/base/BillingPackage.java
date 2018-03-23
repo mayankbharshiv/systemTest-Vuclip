@@ -1,11 +1,16 @@
 package com.vuclip.premiumengg.automation.billing_package_service.base;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 /**
  * Created by Kohitij_Das on 22/03/18.
  */
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum BillingPackage {
 
     PACKAGE1(11, "TestProduct11", 11, "TestPartner11", "India", "IN", "927312121", "TEST_SERVICEID_927311336", 99.15243,
+            "INR", 30, 7, 5, 1, "DAYS", 1, 1, 1, "ACTIVE", false, true, false, false),
+    PACKAGE2(999, "TestProduct999", 999, "TestPartner999", "India", "IN", "927319999", "TEST_SERVICEID_927319999", 999.99,
             "INR", 30, 7, 5, 1, "DAYS", 1, 1, 1, "ACTIVE", false, true, false, false);
 
     private final int productId;

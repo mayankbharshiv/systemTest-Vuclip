@@ -67,4 +67,20 @@ public class BPSHelper {
         response.prettyPrint();
         return response;
     }
+
+    /**
+     * @param jsonBody
+     * @return
+     * @throws Exception
+     */
+    public Response storeBillingOption(String jsonBody) throws Exception {
+        final Response response = given(requestSpecification)
+                .contentType(ContentType.JSON)
+                .body(jsonBody)
+                .log().all()
+                .post("/bps/api/storeBillingOption");
+        response.prettyPrint();
+        return response;
+
+    }
 }
