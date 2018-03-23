@@ -41,6 +41,14 @@ public class StoreBillingOption {
         validationHelper.validate_billing_package(response, BillingPackage.PACKAGE2);
     }
 
+    @Test(dependsOnMethods = "verify_store_new_billing_option")
+    public void verify_newly_created_billing_package() throws Exception {
+        final String validBillingCode = BillingPackage.PACKAGE2.getBillingCode();
+        validationHelper.validate_billing_packages(bpsHelper
+                .getBillingOptionByBillingCode(validBillingCode), BillingPackage.PACKAGE2, "billingPackages"
+        );
+    }
+
     private void setupDbConnection() throws Exception {
         dbConnection = DBConnection.getDbConnection();
     }

@@ -63,7 +63,7 @@ public class BPSHelper {
                 .contentType(ContentType.JSON)
                 .log().all()
                 .pathParam("billing_code", billingCode)
-                .get("bps/api/getBillingOptionByBillingCode/{billing_code}");
+                .get("/bps/api/getBillingOptionByBillingCode/{billing_code}");
         response.prettyPrint();
         return response;
     }
