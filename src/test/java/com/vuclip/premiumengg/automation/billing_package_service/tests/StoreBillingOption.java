@@ -41,7 +41,7 @@ public class StoreBillingOption {
         validationHelper.validate_billing_package(response, BillingPackage.PACKAGE2);
     }
 
-    @Test(dependsOnMethods = "verify_store_new_billing_option")
+    @Test(dependsOnMethods = "verify_store_new_billing_option", enabled = false)
     public void verify_newly_created_billing_package() throws Exception {
         final String validBillingCode = BillingPackage.PACKAGE2.getBillingCode();
         validationHelper.validate_billing_packages(bpsHelper
@@ -49,7 +49,7 @@ public class StoreBillingOption {
         );
     }
 
-    @Test(dependsOnMethods = "verify_newly_created_billing_package")
+    @Test(dependsOnMethods = "verify_newly_created_billing_package", enabled = false)
     public void verify_nelwy_created_package_in_all_billing_options() throws Exception {
         final Response response = bpsHelper.getAllBillingOptions();
         validationHelper.validate_billing_response(response, BillingResponse.SUCCESS);
