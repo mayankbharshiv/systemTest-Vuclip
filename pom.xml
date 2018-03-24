@@ -10,8 +10,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <parallelType>methods</parallelType>
         <threads>1</threads>
-        <useDefaultListeners>true</useDefaultListeners>
-        <serviceName>vuconnect</serviceName>
+        <serviceName>billing-package-service</serviceName>
     </properties>
 
     <dependencies>
@@ -110,8 +109,8 @@
                     </suiteXmlFiles>
                     <properties>
                         <property>
-                            <name>usedefaultlisteners</name>
-                            <value>${useDefaultListeners}</value>
+                            <name>listener</name>
+                            <value>com.vuclip.premiumengg.automation.listners.RetryListener</value>
                         </property>
                     </properties>
                     <parallel>${parallelType}</parallel>
