@@ -49,6 +49,13 @@ public class StoreBillingOption {
         );
     }
 
+    @Test(dependsOnMethods = "verify_newly_created_billing_package")
+    public void verify_nelwy_created_package_in_all_billing_options() throws Exception {
+        final Response response = bpsHelper.getAllBillingOptions();
+        validationHelper.validate_billing_response(response, BillingResponse.SUCCESS);
+        validationHelper.validate_billing_packages(response, BillingPackage.PACKAGE2, "billingPackages");
+    }
+
     private void setupDbConnection() throws Exception {
         dbConnection = DBConnection.getDbConnection();
     }
