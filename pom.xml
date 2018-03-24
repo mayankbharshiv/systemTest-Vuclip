@@ -115,7 +115,7 @@
                     </properties>
                     <parallel>${parallelType}</parallel>
                     <threadCount>${threads}</threadCount>
-                    <testFailureIgnore>true</testFailureIgnore>
+                    <testFailureIgnore>false</testFailureIgnore>
                 </configuration>
             </plugin>
         </plugins>
