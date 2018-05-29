@@ -1,0 +1,161 @@
+{
+	"product": {
+		"productId": 1,
+		"productName": "VIU",
+		"productType": "FULL_STORE",
+		"url": "www.viu.com",
+		"context": "viu-context",
+		"cassId": 11,
+		"encryptionEnable": true,
+		"encryptionValidityInMinutes": 30,
+		"callbackUrl": "www.viu.com",
+		"consentCancelUrl": "www.viu.com",
+		"errorUrl": "www.viu.com",
+		"description": "VIU Product",
+		"status": "ACTIVE"
+	},
+	"productPartnerMappings": [
+		{
+			"productId": 1,
+			"partnerId": 1,
+			"chargingDependOnSmsDelivery": false,
+			"optOutSmsEnabled": true,
+			"preRenewalSmsEnabled": true,
+			"partnerConsentParserEndpoint": "Parse EndPoint",
+			"partnerConsentUrlGenerationEndpoint": "Url Generation EndPoint",
+			"dateFormat": "dd-mm-yyyy",
+			"validityFromPartner": true,
+			"blacklistValidity": 180,
+			"cooldownApplicable": true,
+			"cooldownValidity": 3,
+			"timeUnit": "hour",
+			"stepUpChargingApplicable": false,
+			"allowedFreeTrialCount": 1
+		}
+	],
+	"productCountryMapping": {
+		"productId": 1,
+		"countries": [
+			{
+				"countryCode": "IN"
+			}
+		]
+	},
+	"adNetworkNotifications": [
+		{
+			"adNetworkNotificationId": 1,
+			"productId": 1,
+			"partnerId": 1,
+			"countryCode": "IN",
+			"pricePoint": "b1",
+			"id": 1,
+			"paidPercentage": 100,
+			"freePercentage": 50,
+			"winbackPercentage": 90
+		}
+	],
+	"activityFlows": [
+		{
+			"name": "ACTIVATION",
+			"billingPackageId": "b1",
+			"partnerId": 1,
+			"mode": "WAP",
+			"actions": [
+				{
+					"action": "CONSENT",
+					"flowType": "VUCLIP_CONSENT"
+				},
+				{
+					"action": "REGISTRATION",
+					"flowType": "VUCLIP_SYNC"
+				},
+				{
+					"action": "CHARGING",
+					"flowType": "VUCLIP_ASYNC"
+				}
+			]
+		},
+		{
+			"name": "WINBACK",
+			"partnerId": 1,
+			"billingPackageId": "b1",
+			"actions": [
+				{
+					"action": "CHARGING",
+					"flowType": "VUCLIP_ASYNC"
+				}
+			]
+		},
+		{
+			"name": "RENEWAL",
+			"partnerId": 1,
+			"billingPackageId": "b1",
+			"actions": [
+				{
+					"action": "CHARGING",
+					"flowType": "VUCLIP_ASYNC"
+				}
+			]
+		}
+	],
+	"pricePoints": [
+		{
+			"billingCode": "b1",
+			"price": 50.0,
+			"description": "description",
+			"validity": 30,
+			"noOfCredits": 100,
+			"serviceId": 0,
+			"appId": 0,
+			"ujId": 0,
+			"itemId": 0,
+			"itemTypeId": 0,
+			"balanceCheckRequired": false,
+			"fallbackApplicable": false,
+			"freeTrialApplicable": false,
+			"fallbackPpBillingCode": "dummy",
+			"freeTrialBillingCode": "dummy",
+			"freeTrialDays": 10,
+			"exclusionPeriod": 10,
+			"autoRenewalApplicable": true,
+			"status": "active",
+			"contentAccessPostDeactivation": false,
+			"noOfDaysContentAccessAllowInParking": 0,
+			"noOfDaysContentAccessAllowInSuspend": 5,
+			"parkingPeriod": 240,
+			"suspendPeriod": 480,
+			"activationCoolDownPeriod": 1,
+			"productId": 1,
+			"partnerId": 1,
+			"countryCode": "IN",
+			"actInitValidity": 5,
+			"deactivationRetryValidity": 5,
+			"notificationWaitPeriod": 1,
+			"timeUnit": "hour"
+		}
+	],
+	"retry": [
+		{
+			"retryId": 1,
+			"productId": 1,
+			"partnerId": 1,
+			"countryCode": "IN",
+			"activityType": "RENEWAL",
+			"maxRetryCount": 3,
+			"batchSize": 100,
+			"status": "active",
+			"retryIntervalInMinuntes": 1,
+			"attemptWindows": "testAttemptWindow",
+			"schedulingDays": "testSchedulingDays",
+			"exceutionWindow": "executionWindows"
+		}
+	],
+	"blackouts": [
+		{
+			"productId": 1,
+			"partnerId": 1,
+			"countryCode": "IN",
+			"blackoutWindow": "5:20-7:40"
+		}
+	]
+}

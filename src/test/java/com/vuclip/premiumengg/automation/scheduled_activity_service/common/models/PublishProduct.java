@@ -1,0 +1,223 @@
+
+package com.vuclip.premiumengg.automation.scheduled_activity_service.common.models;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonPropertyOrder({
+    "productId",
+    "productName",
+    "productType",
+    "url",
+    "context",
+    "cassId",
+    "encryptionEnable",
+    "encryptionValidityInMinutes",
+    "callbackUrl",
+    "consentCancelUrl",
+    "errorUrl",
+    "description",
+    "status"
+})
+public class PublishProduct {
+
+    @JsonProperty("productId")
+    private Integer productId;
+    @JsonProperty("productName")
+    private String productName;
+    @JsonProperty("productType")
+    private String productType;
+    @JsonProperty("url")
+    private String url;
+    @JsonProperty("context")
+    private String context;
+    @JsonProperty("cassId")
+    private Integer cassId;
+    @JsonProperty("encryptionEnable")
+    private Boolean encryptionEnable;
+    @JsonProperty("encryptionValidityInMinutes")
+    private Integer encryptionValidityInMinutes;
+    @JsonProperty("callbackUrl")
+    private String callbackUrl;
+    @JsonProperty("consentCancelUrl")
+    private String consentCancelUrl;
+    @JsonProperty("errorUrl")
+    private String errorUrl;
+    @JsonProperty("description")
+    private String description;
+    @JsonProperty("status")
+    private String status;
+
+    /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public PublishProduct() {
+    }
+
+    /**
+     * 
+     * @param callbackUrl
+     * @param status
+     * @param description
+     * @param consentCancelUrl
+     * @param encryptionValidityInMinutes
+     * @param encryptionEnable
+     * @param errorUrl
+     * @param context
+     * @param cassId
+     * @param productName
+     * @param url
+     * @param productType
+     * @param productId
+     */
+    public PublishProduct(Integer productId, String productName, String productType, String url, String context, Integer cassId, Boolean encryptionEnable, Integer encryptionValidityInMinutes, String callbackUrl, String consentCancelUrl, String errorUrl, String description, String status) {
+        super();
+        this.productId = productId;
+        this.productName = productName;
+        this.productType = productType;
+        this.url = url;
+        this.context = context;
+        this.cassId = cassId;
+        this.encryptionEnable = encryptionEnable;
+        this.encryptionValidityInMinutes = encryptionValidityInMinutes;
+        this.callbackUrl = callbackUrl;
+        this.consentCancelUrl = consentCancelUrl;
+        this.errorUrl = errorUrl;
+        this.description = description;
+        this.status = status;
+    }
+
+    @JsonProperty("productId")
+    public Integer getProductId() {
+        return productId;
+    }
+
+    @JsonProperty("productId")
+    public void setProductId(Integer productId) {
+        this.productId = productId;
+    }
+
+    @JsonProperty("productName")
+    public String getProductName() {
+        return productName;
+    }
+
+    @JsonProperty("productName")
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    @JsonProperty("productType")
+    public String getProductType() {
+        return productType;
+    }
+
+    @JsonProperty("productType")
+    public void setProductType(String productType) {
+        this.productType = productType;
+    }
+
+    @JsonProperty("url")
+    public String getUrl() {
+        return url;
+    }
+
+    @JsonProperty("url")
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    @JsonProperty("context")
+    public String getContext() {
+        return context;
+    }
+
+    @JsonProperty("context")
+    public void setContext(String context) {
+        this.context = context;
+    }
+
+    @JsonProperty("cassId")
+    public Integer getCassId() {
+        return cassId;
+    }
+
+    @JsonProperty("cassId")
+    public void setCassId(Integer cassId) {
+        this.cassId = cassId;
+    }
+
+    @JsonProperty("encryptionEnable")
+    public Boolean getEncryptionEnable() {
+        return encryptionEnable;
+    }
+
+    @JsonProperty("encryptionEnable")
+    public void setEncryptionEnable(Boolean encryptionEnable) {
+        this.encryptionEnable = encryptionEnable;
+    }
+
+    @JsonProperty("encryptionValidityInMinutes")
+    public Integer getEncryptionValidityInMinutes() {
+        return encryptionValidityInMinutes;
+    }
+
+    @JsonProperty("encryptionValidityInMinutes")
+    public void setEncryptionValidityInMinutes(Integer encryptionValidityInMinutes) {
+        this.encryptionValidityInMinutes = encryptionValidityInMinutes;
+    }
+
+    @JsonProperty("callbackUrl")
+    public String getCallbackUrl() {
+        return callbackUrl;
+    }
+
+    @JsonProperty("callbackUrl")
+    public void setCallbackUrl(String callbackUrl) {
+        this.callbackUrl = callbackUrl;
+    }
+
+    @JsonProperty("consentCancelUrl")
+    public String getConsentCancelUrl() {
+        return consentCancelUrl;
+    }
+
+    @JsonProperty("consentCancelUrl")
+    public void setConsentCancelUrl(String consentCancelUrl) {
+        this.consentCancelUrl = consentCancelUrl;
+    }
+
+    @JsonProperty("errorUrl")
+    public String getErrorUrl() {
+        return errorUrl;
+    }
+
+    @JsonProperty("errorUrl")
+    public void setErrorUrl(String errorUrl) {
+        this.errorUrl = errorUrl;
+    }
+
+    @JsonProperty("description")
+    public String getDescription() {
+        return description;
+    }
+
+    @JsonProperty("description")
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    @JsonProperty("status")
+    public String getStatus() {
+        return status;
+    }
+
+    @JsonProperty("status")
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+}
