@@ -17,8 +17,9 @@ public class ObjectMapperUtils {
     private static ObjectMapper objectMapper = new ObjectMapper();
 
     /**
-     * @param file
+     * @param filepath
      * @param returnType
+     * @param <T>
      * @return
      */
     public static <T> T readValue(String filepath, Class<T> returnType) {
@@ -45,6 +46,12 @@ public class ObjectMapperUtils {
         return null;
     }
 
+    /**
+     * @param jsonObject
+     * @param returnType
+     * @param <T>
+     * @return
+     */
     public static <T> T readValueFromString(String jsonObject, Class<T> returnType) {
         try {
             return objectMapper.readValue(jsonObject, returnType);
@@ -82,6 +89,11 @@ public class ObjectMapperUtils {
         return s;
     }
 
+    /**
+     * @param value
+     * @param filepath
+     * @return
+     */
     public static boolean writeValueInFile(Object value, String filepath) {
 
         File f = new File(filepath);
@@ -98,7 +110,6 @@ public class ObjectMapperUtils {
             e.printStackTrace();
             return false;
         }
-
     }
 
     /**
@@ -122,56 +133,4 @@ public class ObjectMapperUtils {
 
         return output;
     }
-
-    /**
-     * soap to POJO
-     *
-     * @param data
-     * @param clz
-     * @return
-     */
-    // public static <T> T unmarshall(String data, Class<T> clz) {
-    // Object jaxbElementg = null;
-    // try {
-    //
-    // System.out.println("data " + data);
-    // // JAXBContext jaxbContext = JAXBContext.newInstance(clz);
-    // //
-    // // Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-    // // Question que= (Question) jaxbUnmarshaller.unmarshal(file);
-    //
-    // JAXBContext context = JAXBContext.newInstance(clz);
-    // Unmarshaller unmarshaller = context.createUnmarshaller();
-    // StreamSource streamSource = new StreamSource(new StringReader(data));
-    // jaxbElementg = unmarshaller.unmarshal(streamSource);
-    // // retVal = jaxbElementg.getValue();
-    // System.out.println("retVal" + jaxbElementg);
-    // } catch (JAXBException e) {
-    // System.out.println("Error occured while unmarshalling xml to object " +
-    // clz.getSimpleName());
-    // }
-    // return (T) jaxbElementg;
-    // }
-
-    // /**
-    // * JSON from URL to Object Staff obj = mapper.readValue(new
-    // * URL("http://path/to/file/staff.json"), Staff.class);
-    // *
-    // * @param url
-    // * @param returnType
-    // * @return
-    // */
-    // public static <T> T readValue(URL url, Class<T> returnType) {
-    // try {
-    // return objectMapper.readValue(url, returnType);
-    // } catch (JsonParseException e) {
-    // System.out.printlnged(e.getMessage(),false);
-    // } catch (JsonMappingException e) {
-    // System.out.printlnged(e.getMessage(),false);
-    // } catch (IOException e) {
-    // System.out.printlnged(e.getMessage(),false);
-    // }
-    //
-    // return null;
-    // }
 }
