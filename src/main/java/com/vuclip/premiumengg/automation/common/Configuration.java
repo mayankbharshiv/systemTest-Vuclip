@@ -7,6 +7,8 @@ public class Configuration {
 
     public static String billingPackageServer;
 
+    public static String subscriptionServiceServer;
+
     public static String dbServer;
 
     public static String dbPort;
@@ -18,5 +20,17 @@ public class Configuration {
     public static String dbPassword;
 
     public static String redisServers;
+
+    public static String rabbitMQServer;
+
+    public static String rabbitMQPort;
+
+    public static String rabbitMQUser;
+
+    public static String rabbitMQPassword;
+
+    public static String smsServer;
+
+    public static String sasServer;
 
 }

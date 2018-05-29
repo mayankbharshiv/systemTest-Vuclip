@@ -22,7 +22,7 @@ public class DBConnection {
      */
     public static void closeAllConnections() throws SQLException {
         if (!dbConnection.isClosed()) {
-            System.out.println("closing Database Connection");
+            System.out.println("==========closing Database Connection==============");
             dbConnection.close();
         }
     }
