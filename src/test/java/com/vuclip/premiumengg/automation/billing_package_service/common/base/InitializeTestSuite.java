@@ -36,8 +36,6 @@ public class InitializeTestSuite {
             Configuration.dbUser = properties.getProperty("dbUser");
             Configuration.dbPassword = properties.getProperty("dbPassword");
 
-            new DBConnection();
-
         } catch (Exception e) {
             e.printStackTrace();
         }
