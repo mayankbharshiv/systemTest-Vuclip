@@ -93,7 +93,7 @@ public class ActivityEvent {
     @JsonProperty("userSource")
     private String userSource;
     @JsonProperty("nextBillingDate")
-    private Integer nextBillingDate;
+    private long nextBillingDate;
 
     /**
      * No args constructor for use in serialization
@@ -133,7 +133,7 @@ public class ActivityEvent {
      * @param errorCode
      * @param subscriptionBillingCode
      */
-    public ActivityEvent(String eventType, String userId, Integer productId, Integer partnerId, String subscriptionBillingCode, String chargedBillingCode, String fallbackBillingCode, String mode, String action, Object activity, String transactionId, String transactionState, Double chargedPrice, Object partnerTransactionId, Integer itemId, Integer itemTypeId, String actionResult, String serviceId, Integer subscriptionId, Object circleCode, String errorCode, String errorDesc, Boolean delayed, Boolean closed, String customerTransactionId, String userPreferredLanguage, String userSource, Integer nextBillingDate) {
+    public ActivityEvent(String eventType, String userId, Integer productId, Integer partnerId, String subscriptionBillingCode, String chargedBillingCode, String fallbackBillingCode, String mode, String action, Object activity, String transactionId, String transactionState, Double chargedPrice, Object partnerTransactionId, Integer itemId, Integer itemTypeId, String actionResult, String serviceId, Integer subscriptionId, Object circleCode, String errorCode, String errorDesc, Boolean delayed, Boolean closed, String customerTransactionId, String userPreferredLanguage, String userSource, long nextBillingDate) {
         super();
         this.eventType = eventType;
         this.userId = userId;
@@ -436,12 +436,12 @@ public class ActivityEvent {
     }
 
     @JsonProperty("nextBillingDate")
-    public Integer getNextBillingDate() {
+    public long getNextBillingDate() {
         return nextBillingDate;
     }
 
     @JsonProperty("nextBillingDate")
-    public void setNextBillingDate(Integer nextBillingDate) {
+    public void setNextBillingDate(long nextBillingDate) {
         this.nextBillingDate = nextBillingDate;
     }
 
