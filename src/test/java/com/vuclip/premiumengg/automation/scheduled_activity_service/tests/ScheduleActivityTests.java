@@ -76,7 +76,6 @@ public class ScheduleActivityTests {
 		publishConfigRequest.getRetry().get(0).setActivityType(activityType);
 		Log4J.getLogger().info("Config API Called");	
 		sasValidationHelper.validate_sms_api_response(sasHelper.saveProduct(publishConfigRequest));
-
 	}
 	
 	
