@@ -8,8 +8,8 @@ import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 
 import com.vuclip.premiumengg.automation.common.Configuration;
+import com.vuclip.premiumengg.automation.common.JDBCTemplate;
 import com.vuclip.premiumengg.automation.common.Log4J;
-import com.vuclip.premiumengg.automation.common.RabbitMQConnection;
 
 /**
  * @author Rahul Sahu
@@ -21,7 +21,7 @@ public class InitializeTestSuite {
 	 */
 	@BeforeSuite(alwaysRun = true)
 	public final void init() {
-		System.out.println("====== SettingUp scheduled-activity-service-tests execution ======");
+		Log4J.getLogger().info("====== SettingUp scheduled-activity-service-tests execution ======");
 		FileInputStream inputStream = null;
 		Properties properties = new Properties();
 		try {
@@ -42,14 +42,7 @@ public class InitializeTestSuite {
 			Configuration.rabbitMQPort = properties.getProperty("rabbitMQPort");
 			Configuration.rabbitMQUser = properties.getProperty("rabbitMQUser");
 			Configuration.rabbitMQPassword = properties.getProperty("rabbitMQPassword");
-
-			// initilize DB object
-			// new JDBCTemplate();
-			new RabbitMQConnection();
 			
-			// Log4J setup
-			new Log4J();
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -57,6 +50,7 @@ public class InitializeTestSuite {
 
 	@AfterSuite(alwaysRun = true)
 	public void teardown() throws Exception {
-		// TODO
+		JDBCTemplate.closeAllConnections();
 	}
+
 }
