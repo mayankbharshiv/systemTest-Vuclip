@@ -18,8 +18,6 @@ import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils
 import com.vuclip.premiumengg.automation.utils.DBUtils;
 import com.vuclip.premiumengg.automation.utils.ObjectMapperUtils;
 
-import io.restassured.response.Response;
-
 /**
  * 
  * @author mayank.bharshiv
@@ -39,14 +37,13 @@ public class ScheduleActivityTests {
 		sasHelper = new SASHelper();
 		sasValidationHelper = new SASValidationHelper();
 		rand = new Random();
-		productId = 1;// rand.nextInt(10);
+		productId = rand.nextInt(10);
 		partnerId = productId;
-		Log4J.getLogger().info("Cleanup Test Data");
-		SASDBHelper.cleanTestData("product_id=" + String.valueOf(productId));
+		
 
 	}
 
-	@DataProvider(name = "activityType")
+	@DataProvider(name = "setupConfigJob")
 	public Object[][] activityType() {
 		return new Object[][] { { ActivityType.ACTIVATION_TYPE }, { ActivityType.ACTIVATION_RETRY_TYPE },
 				{ ActivityType.DEACTIVATION }, { ActivityType.DEACTIVATION_RETRY_TYPE },
@@ -56,8 +53,13 @@ public class ScheduleActivityTests {
 	}
 
 	@BeforeMethod
+	public void cleanTestData()
+	{
+		Log4J.getLogger().info("Cleanup Test Data");
+		SASDBHelper.cleanTestData("product_id=" + productId);
+	}
 
-	@Test(dataProvider = "activityType")
+	@Test(dataProvider = "setupConfigJob")
 	public void setupConfigJob(String activityType) throws Exception {
 
 		// create job config for activity types( ex- Activation, deactivation)
@@ -89,7 +91,20 @@ public class ScheduleActivityTests {
 	@DataProvider(name = "testType")
 	public Object[][] testType() {
 		return new Object[][] {
-				{ "ACTIVATION", "ACT_INIT", "ACTIVATED", "SUCCESS", "CHARGING", "123", "renewal", "OPEN", } };
+				{ "ACTIVATION", "ACT_INIT", "ACTIVATED", "SUCCESS", "CHARGING", "101", "renewal", "OPEN"},
+				{ "ACTIVATION", "ACT_INIT", "ACTIVATED", "LOW_BALANCE", "CHARGING", "102", "renewal", "OPEN"},
+				{ "ACTIVATION", "ACT_INIT", "ACTIVATED", "FAILURE", "CHARGING", "103", "renewal", "OPEN"},
+				{ "ACTIVATION", "ACT_INIT", "ACTIVATED", "ERROR", "CHARGING", "104", "renewal", "OPEN"},
+				{ "ACTIVATION", "ACT_INIT", "ACT_INIT", "SUCCESS", "CHARGING", "105", "ACTIVATION", "OPEN"},
+				{ "ACTIVATION", "ACT_INIT", "ACT_INIT", "LOW_BALANCE", "CHARGING", "106","ACTIVATION", "OPEN"},
+				{ "ACTIVATION", "ACT_INIT", "ACT_INIT", "FAILURE", "CHARGING", "107","ACTIVATION", "OPEN"},
+				{ "ACTIVATION", "ACT_INIT", "ACT_INIT", "ERROR", "CHARGING", "108","ACTIVATION", "OPEN"},
+				{ "ACTIVATION", "ACT_INIT", "PARKING", "SUCCESS", "CHARGING", "109", "winback", "OPEN"},
+				{ "ACTIVATION", "ACT_INIT", "PARKING", "FAILURE", "CHARGING", "110", "winback", "OPEN"},
+				{ "ACTIVATION", "ACT_INIT", "PARKING", "LOW_BALANCE", "CHARGING", "111", "winback", "OPEN"},
+				{ "ACTIVATION", "ACT_INIT", "PARKING", "ERROR", "CHARGING", "112", "winback", "OPEN"}		
+		
+		};
 
 	}
 
@@ -113,18 +128,24 @@ public class ScheduleActivityTests {
 		userSubscriptionRequest.getSubscriptionInfo().setPartnerId(partnerId);
 		userSubscriptionRequest.getActivityEvent().setPartnerId(partnerId);
 		userSubscriptionRequest.getActivityEvent().setProductId(productId);
-		Response response = sasHelper.userSubscription(userSubscriptionRequest);
 		Log4J.getLogger().info("user subscription API Called");
-		sasValidationHelper.validate_sms_api_response(response);
+		sasValidationHelper.validate_sms_api_response(sasHelper.userSubscription(userSubscriptionRequest));
 
-		//TODO put in validation heler
-		System.out.println(DBUtils.getRecord(tableEntry, "subscription_id = " + subscriptionId).toString());
+		System.out.println(DBUtils.getRecord(tableEntry, "subscription_id = " + subscriptionId).get(0).get("status").toString());
 
 		SchedulerRequest schedulerRequest = ObjectMapperUtils.readValue(
 				"src/test/resources/configurations/scheduled-activity-service/request/scheduler.json",
 				SchedulerRequest.class);
+		schedulerRequest.setPartnerId(partnerId);
+		schedulerRequest.setProductId(productId);
 		schedulerRequest.setActivityType(tableEntry.toUpperCase());
-		Response schedulerResponse = sasHelper.scheduler(schedulerRequest);
+		
+		
+		Log4J.getLogger().info("scheduler API Called");
+		sasValidationHelper.validate_sms_api_response(sasHelper.scheduler(schedulerRequest));
+		
+		System.out.println(DBUtils.getRecord("renewal", "subscription_id = " + subscriptionId).get(0).get("status").toString());
+		
 		//VALIDATION HELPER
 
 	}
