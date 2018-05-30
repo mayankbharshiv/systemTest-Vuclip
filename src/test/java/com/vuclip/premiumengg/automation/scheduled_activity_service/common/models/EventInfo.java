@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 public class EventInfo {
 
     @JsonProperty("logTime")
-    private Integer logTime;
+    private long logTime;
     @JsonProperty("eventId")
     private String eventId;
 
@@ -29,19 +29,19 @@ public class EventInfo {
      * @param eventId
      * @param logTime
      */
-    public EventInfo(Integer logTime, String eventId) {
+    public EventInfo(long logTime, String eventId) {
         super();
         this.logTime = logTime;
         this.eventId = eventId;
     }
 
     @JsonProperty("logTime")
-    public Integer getLogTime() {
+    public long getLogTime() {
         return logTime;
     }
 
     @JsonProperty("logTime")
-    public void setLogTime(Integer logTime) {
+    public void setLogTime(long logTime) {
         this.logTime = logTime;
     }
 

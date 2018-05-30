@@ -33,17 +33,17 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 public class SubscriptionInfo {
 
     @JsonProperty("subscriptionId")
-    private Integer subscriptionId;
+    private int subscriptionId;
     @JsonProperty("subscriptionStatus")
     private String subscriptionStatus;
     @JsonProperty("startDate")
-    private Integer startDate;
+    private long startDate;
     @JsonProperty("endDate")
-    private Integer endDate;
+    private long endDate;
     @JsonProperty("activationDate")
-    private Integer activationDate;
+    private long activationDate;
     @JsonProperty("deactivationDate")
-    private Integer deactivationDate;
+    private long deactivationDate;
     @JsonProperty("subscriptionBillingCode")
     private String subscriptionBillingCode;
     @JsonProperty("chargedBillingCode")
@@ -67,7 +67,7 @@ public class SubscriptionInfo {
     @JsonProperty("itemTypeId")
     private Integer itemTypeId;
     @JsonProperty("nextBillingDate")
-    private Integer nextBillingDate;
+    private long nextBillingDate;
     @JsonProperty("serviceId")
     private String serviceId;
     @JsonProperty("isDelayed")
@@ -109,7 +109,7 @@ public class SubscriptionInfo {
      * @param isDelayed
      * @param subscriptionStatus
      */
-    public SubscriptionInfo(Integer subscriptionId, String subscriptionStatus, Integer startDate, Integer endDate, Integer activationDate, Integer deactivationDate, String subscriptionBillingCode, String chargedBillingCode, Object fallbackBillingCode, String mode, Object circleCode, String customerTransactionId, Double chargedPrice, Integer partnerId, Integer productId, Integer itemId, Integer itemTypeId, Integer nextBillingDate, String serviceId, Boolean isDelayed, Boolean paid, String country) {
+    public SubscriptionInfo(int subscriptionId, String subscriptionStatus, long startDate, long endDate, long activationDate, long deactivationDate, String subscriptionBillingCode, String chargedBillingCode, Object fallbackBillingCode, String mode, Object circleCode, String customerTransactionId, Double chargedPrice, Integer partnerId, Integer productId, Integer itemId, Integer itemTypeId, long nextBillingDate, String serviceId, Boolean isDelayed, Boolean paid, String country) {
         super();
         this.subscriptionId = subscriptionId;
         this.subscriptionStatus = subscriptionStatus;
@@ -141,7 +141,7 @@ public class SubscriptionInfo {
     }
 
     @JsonProperty("subscriptionId")
-    public void setSubscriptionId(Integer subscriptionId) {
+    public void setSubscriptionId(int subscriptionId) {
         this.subscriptionId = subscriptionId;
     }
 
@@ -156,42 +156,42 @@ public class SubscriptionInfo {
     }
 
     @JsonProperty("startDate")
-    public Integer getStartDate() {
+    public long getStartDate() {
         return startDate;
     }
 
     @JsonProperty("startDate")
-    public void setStartDate(Integer startDate) {
+    public void setStartDate(long startDate) {
         this.startDate = startDate;
     }
 
     @JsonProperty("endDate")
-    public Integer getEndDate() {
+    public long getEndDate() {
         return endDate;
     }
 
     @JsonProperty("endDate")
-    public void setEndDate(Integer endDate) {
+    public void setEndDate(long endDate) {
         this.endDate = endDate;
     }
 
     @JsonProperty("activationDate")
-    public Integer getActivationDate() {
+    public long getActivationDate() {
         return activationDate;
     }
 
     @JsonProperty("activationDate")
-    public void setActivationDate(Integer activationDate) {
+    public void setActivationDate(long activationDate) {
         this.activationDate = activationDate;
     }
 
     @JsonProperty("deactivationDate")
-    public Integer getDeactivationDate() {
+    public long getDeactivationDate() {
         return deactivationDate;
     }
 
     @JsonProperty("deactivationDate")
-    public void setDeactivationDate(Integer deactivationDate) {
+    public void setDeactivationDate(long deactivationDate) {
         this.deactivationDate = deactivationDate;
     }
 
@@ -306,12 +306,12 @@ public class SubscriptionInfo {
     }
 
     @JsonProperty("nextBillingDate")
-    public Integer getNextBillingDate() {
+    public long getNextBillingDate() {
         return nextBillingDate;
     }
 
     @JsonProperty("nextBillingDate")
-    public void setNextBillingDate(Integer nextBillingDate) {
+    public void setNextBillingDate(long nextBillingDate) {
         this.nextBillingDate = nextBillingDate;
     }
 
