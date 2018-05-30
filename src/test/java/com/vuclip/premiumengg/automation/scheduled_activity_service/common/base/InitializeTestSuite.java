@@ -8,8 +8,9 @@ import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 
 import com.vuclip.premiumengg.automation.common.Configuration;
+import com.vuclip.premiumengg.automation.common.JDBCTemplate;
 import com.vuclip.premiumengg.automation.common.Log4J;
-import com.vuclip.premiumengg.automation.common.RabbitMQConnection;
+import com.vuclip.premiumengg.automation.utils.DBUtils;
 
 /**
  * @author Rahul Sahu
@@ -21,7 +22,7 @@ public class InitializeTestSuite {
 	 */
 	@BeforeSuite(alwaysRun = true)
 	public final void init() {
-		System.out.println("====== SettingUp scheduled-activity-service-tests execution ======");
+		Log4J.getLogger().info("====== SettingUp scheduled-activity-service-tests execution ======");
 		FileInputStream inputStream = null;
 		Properties properties = new Properties();
 		try {
@@ -42,13 +43,9 @@ public class InitializeTestSuite {
 			Configuration.rabbitMQPort = properties.getProperty("rabbitMQPort");
 			Configuration.rabbitMQUser = properties.getProperty("rabbitMQUser");
 			Configuration.rabbitMQPassword = properties.getProperty("rabbitMQPassword");
-
-			// initilize DB object
-			// new JDBCTemplate();
-			new RabbitMQConnection();
 			
-			// Log4J setup
-			new Log4J();
+			Log4J.getLogger().info("Cleanup Test Data");
+			cleanTestData();
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -57,6 +54,22 @@ public class InitializeTestSuite {
 
 	@AfterSuite(alwaysRun = true)
 	public void teardown() throws Exception {
-		// TODO
+		JDBCTemplate.closeAllConnections();
+	}
+
+	private void cleanTestData() {
+		DBUtils.cleanTable("job_config", null);
+		DBUtils.cleanTable("activation", null);
+		DBUtils.cleanTable("churn", null);
+		DBUtils.cleanTable("content_sms_user_info", null);
+		DBUtils.cleanTable("deactivation", null);
+		DBUtils.cleanTable("engagement_sms_user_info", null);
+		DBUtils.cleanTable("free_trail", null);
+		DBUtils.cleanTable("optout_sms_user_info", null);
+		DBUtils.cleanTable("prerenewal_sms_user_info", null);
+		DBUtils.cleanTable("product_partner_country_config", null);
+		DBUtils.cleanTable("renewal", null);
+		DBUtils.cleanTable("renewal_retry", null);
+		DBUtils.cleanTable("winback", null);
 	}
 }
