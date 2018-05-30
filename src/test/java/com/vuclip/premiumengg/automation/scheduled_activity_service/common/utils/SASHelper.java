@@ -28,7 +28,7 @@ public class SASHelper {
 	 */
 	public SASHelper() {
 
-		this.requestSpecification = with().baseUri(Configuration.smsServer);
+		this.requestSpecification = with().baseUri(Configuration.sasServer);
 	}
 
 	/**
