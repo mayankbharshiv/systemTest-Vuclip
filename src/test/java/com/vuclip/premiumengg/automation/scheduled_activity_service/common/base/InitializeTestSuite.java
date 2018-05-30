@@ -43,7 +43,9 @@ public class InitializeTestSuite {
 			Configuration.rabbitMQPort = properties.getProperty("rabbitMQPort");
 			Configuration.rabbitMQUser = properties.getProperty("rabbitMQUser");
 			Configuration.rabbitMQPassword = properties.getProperty("rabbitMQPassword");
-			SASDBHelper.cleanTestData(null);
+			
+			Log4J.getLogger().info("Cleanup Database Tables");
+			SASDBHelper.cleanAllTables(null);
 
 		} catch (Exception e) {
 			e.printStackTrace();
