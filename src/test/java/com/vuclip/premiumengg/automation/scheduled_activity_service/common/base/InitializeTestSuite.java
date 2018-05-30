@@ -10,7 +10,6 @@ import org.testng.annotations.BeforeSuite;
 import com.vuclip.premiumengg.automation.common.Configuration;
 import com.vuclip.premiumengg.automation.common.JDBCTemplate;
 import com.vuclip.premiumengg.automation.common.Log4J;
-import com.vuclip.premiumengg.automation.utils.DBUtils;
 
 /**
  * @author Rahul Sahu
@@ -44,9 +43,6 @@ public class InitializeTestSuite {
 			Configuration.rabbitMQUser = properties.getProperty("rabbitMQUser");
 			Configuration.rabbitMQPassword = properties.getProperty("rabbitMQPassword");
 			
-			Log4J.getLogger().info("Cleanup Test Data");
-			cleanTestData();
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -57,19 +53,4 @@ public class InitializeTestSuite {
 		JDBCTemplate.closeAllConnections();
 	}
 
-	private void cleanTestData() {
-		DBUtils.cleanTable("job_config", null);
-		DBUtils.cleanTable("activation", null);
-		DBUtils.cleanTable("churn", null);
-		DBUtils.cleanTable("content_sms_user_info", null);
-		DBUtils.cleanTable("deactivation", null);
-		DBUtils.cleanTable("engagement_sms_user_info", null);
-		DBUtils.cleanTable("free_trail", null);
-		DBUtils.cleanTable("optout_sms_user_info", null);
-		DBUtils.cleanTable("prerenewal_sms_user_info", null);
-		DBUtils.cleanTable("product_partner_country_config", null);
-		DBUtils.cleanTable("renewal", null);
-		DBUtils.cleanTable("renewal_retry", null);
-		DBUtils.cleanTable("winback", null);
-	}
 }

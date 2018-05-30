@@ -1,9 +1,9 @@
 package com.vuclip.premiumengg.automation.common;
 
+import java.sql.SQLException;
+
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-
-import java.sql.SQLException;
 
 public class JDBCTemplate {
 
@@ -16,7 +16,7 @@ public class JDBCTemplate {
 		if (jDBCTemplate == null) {
 			try {
 				String dbUrl = "jdbc:mysql://" + Configuration.dbServer + ":" + Configuration.dbPort + "/"
-						+ Configuration.dbName + "?useSSL=false";
+						+ Configuration.dbName + "";
 				System.out.println(dbUrl);
 				DriverManagerDataSource ds = new DriverManagerDataSource();
 				ds.setDriverClassName("com.mysql.jdbc.Driver");
