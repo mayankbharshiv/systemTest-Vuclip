@@ -10,6 +10,7 @@ import com.vuclip.premiumengg.automation.common.Log4J;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.ActivityType;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.PublishConfigRequest;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.UserSubscriptionRequest;
+import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASDBHelper;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASHelper;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASValidationHelper;
 import com.vuclip.premiumengg.automation.utils.ObjectMapperUtils;
@@ -33,10 +34,10 @@ public class ScheduleActivityTests {
 		sasHelper = new SASHelper();
 		sasValidationHelper = new SASValidationHelper();
 		rand = new Random();
-		productId = 1;//rand.nextInt(10);
+		productId = 1;// rand.nextInt(10);
 		partnerId = productId;
 		Log4J.getLogger().info("Cleanup Test Data");
-		sasHelper.cleanTestData("product_id=" + String.valueOf(productId));
+		SASDBHelper.cleanTestData("product_id=" + String.valueOf(productId));
 
 	}
 
@@ -78,7 +79,13 @@ public class ScheduleActivityTests {
 		sasValidationHelper.validate_sms_api_response(sasHelper.saveProduct(publishConfigRequest));
 	}
 
-	@Test(dependsOnMethods = "setupConfigJob", enabled = false)
+	@DataProvider(name = "testType")
+	public Object[][] testType() {
+		return new Object[][] { { "ACTIVATION", "ACT_INIT", "ACTIVATED", "SUCCESS", "CHARGING", "renewal", "OPEN" } };
+
+	}
+
+	@Test(dependsOnMethods = "setupConfigJob", enabled = false, dataProvider = "testType")
 	public void scheduleActivityTests() throws Exception {
 		UserSubscriptionRequest userSubscriptionRequest = ObjectMapperUtils.readValue(
 				"src/test/resources/configurations/scheduled-activity-service/request/userSubscription.json",
