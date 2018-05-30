@@ -10,6 +10,7 @@ import org.testng.annotations.BeforeSuite;
 import com.vuclip.premiumengg.automation.common.Configuration;
 import com.vuclip.premiumengg.automation.common.JDBCTemplate;
 import com.vuclip.premiumengg.automation.common.Log4J;
+import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASDBHelper;
 
 /**
  * @author Rahul Sahu
@@ -42,7 +43,8 @@ public class InitializeTestSuite {
 			Configuration.rabbitMQPort = properties.getProperty("rabbitMQPort");
 			Configuration.rabbitMQUser = properties.getProperty("rabbitMQUser");
 			Configuration.rabbitMQPassword = properties.getProperty("rabbitMQPassword");
-			
+			SASDBHelper.cleanTestData(null);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
