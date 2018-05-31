@@ -18,12 +18,16 @@ public class Log4J {
 	}
 
 	public static Logger getLogger() {
+		return getLogger(Log4J.class.toString());
+	}
+
+	public static Logger getLogger(String loggerName) {
 		if (logger == null) {
 			System.out.println("========== Creating LOG4J ============");
 			String currentDir = System.getProperty("user.dir");
 			File logFile = new File(currentDir + "/AutomationTestNG.log");
 
-			logger = Logger.getLogger(Log4J.class);
+			logger = Logger.getLogger(loggerName);
 			if (logFile.exists()) {
 				logFile.delete();
 			}
@@ -40,4 +44,5 @@ public class Log4J {
 		}
 		return logger;
 	}
+
 }

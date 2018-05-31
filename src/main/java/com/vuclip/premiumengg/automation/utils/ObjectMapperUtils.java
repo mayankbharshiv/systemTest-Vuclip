@@ -27,21 +27,21 @@ public class ObjectMapperUtils {
         Log4J.getLogger().debug("*** filepath: " + filepath);
         try {
             File f = new File(filepath);
-            System.out.println("Is File object is Null : " + (f == null) + "");
+            Log4J.getLogger().debug("Is File object is Null : " + (f == null) + "");
             return objectMapper.readValue(f, returnType);
         } catch (UnrecognizedPropertyException e) {
-            System.out.println("UnrecognizedPropertyException occurs : In JSON  ");
-            System.out.println(e.getMessage());
+            Log4J.getLogger().debug("UnrecognizedPropertyException occurs : In JSON  ");
+            Log4J.getLogger().debug(e.getMessage());
         } catch (JsonParseException e) {
-            System.out.println("JsonParseException occurs ");
-            System.out.println(e.getMessage());
+            Log4J.getLogger().debug("JsonParseException occurs ");
+            Log4J.getLogger().debug(e.getMessage());
         } catch (JsonMappingException e) {
-            System.out.println("JsonMappingException occurs ");
-            System.out.println(e.getMessage());
+            Log4J.getLogger().debug("JsonMappingException occurs ");
+            Log4J.getLogger().debug(e.getMessage());
         } catch (IOException e) {
 
-            System.out.println("IOException occurs ");
-            System.out.println(e.getMessage());
+            Log4J.getLogger().debug("IOException occurs ");
+            Log4J.getLogger().debug(e.getMessage());
         }
 
         return null;
@@ -57,18 +57,18 @@ public class ObjectMapperUtils {
         try {
             return objectMapper.readValue(jsonObject, returnType);
         } catch (UnrecognizedPropertyException e) {
-            System.out.println("UnrecognizedPropertyException occurs  in JSON " + jsonObject);
-            System.out.println(e.getMessage());
+            Log4J.getLogger().debug("UnrecognizedPropertyException occurs  in JSON " + jsonObject);
+            Log4J.getLogger().debug(e.getMessage());
         } catch (JsonParseException e) {
-            System.out.println("JsonParseException occurs In JSON " + jsonObject);
-            System.out.println(e.getMessage());
+            Log4J.getLogger().debug("JsonParseException occurs In JSON " + jsonObject);
+            Log4J.getLogger().debug(e.getMessage());
         } catch (JsonMappingException e) {
-            System.out.println("JsonMappingException occurs In JSON" + jsonObject);
-            System.out.println(e.getMessage());
+            Log4J.getLogger().debug("JsonMappingException occurs In JSON" + jsonObject);
+            Log4J.getLogger().debug(e.getMessage());
         } catch (IOException e) {
 
-            System.out.println("IOException occurs   " + jsonObject);
-            System.out.println(e.getMessage());
+            Log4J.getLogger().debug("IOException occurs   " + jsonObject);
+            Log4J.getLogger().debug(e.getMessage());
         }
 
         return null;
@@ -85,7 +85,7 @@ public class ObjectMapperUtils {
         try {
             s = objectMapper.writeValueAsString(value);
         } catch (JsonProcessingException e) {
-            System.out.println(e.getMessage());
+            Log4J.getLogger().debug(e.getMessage());
         }
         return s;
     }
@@ -99,13 +99,13 @@ public class ObjectMapperUtils {
 
         File f = new File(filepath);
 
-        System.out.println("Is File object is Null : " + (f == null) + "");
+        Log4J.getLogger().debug("Is File object is Null : " + (f == null) + "");
         try {
 
             objectMapper.writeValue(f, value);
             return true;
         } catch (JsonProcessingException e) {
-            System.out.println(e.getMessage());
+            Log4J.getLogger().debug(e.getMessage());
             return false;
         } catch (IOException e) {
             e.printStackTrace();
@@ -129,7 +129,7 @@ public class ObjectMapperUtils {
             jaxbMarshaller.marshal(obj, sw);
             output = sw.toString();
         } catch (JAXBException jb) {
-            System.out.println("Error occured while marshalling object to xml {}" + jb.getMessage());
+            Log4J.getLogger().debug("Error occured while marshalling object to xml {}" + jb.getMessage());
         }
 
         return output;

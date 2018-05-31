@@ -155,7 +155,7 @@
 			"productId": 1,
 			"partnerId": 1,
 			"countryCode": "IN",
-			"blackoutWindow": "5:20-7:40"
+			"blackoutWindow": "5:20-5:21"
 		}
 	]
 }

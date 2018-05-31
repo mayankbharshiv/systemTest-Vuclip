@@ -4,13 +4,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.Properties;
 
-import org.testng.annotations.AfterSuite;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.testng.annotations.BeforeSuite;
 
 import com.vuclip.premiumengg.automation.common.Configuration;
-import com.vuclip.premiumengg.automation.common.JDBCTemplate;
 import com.vuclip.premiumengg.automation.common.Log4J;
-import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASDBHelper;
+import com.vuclip.premiumengg.automation.common.RabbitMQConnection;
 
 /**
  * @author Rahul Sahu
@@ -43,18 +42,19 @@ public class InitializeTestSuite {
 			Configuration.rabbitMQPort = properties.getProperty("rabbitMQPort");
 			Configuration.rabbitMQUser = properties.getProperty("rabbitMQUser");
 			Configuration.rabbitMQPassword = properties.getProperty("rabbitMQPassword");
-			
-			Log4J.getLogger().info("Cleanup Database Tables");
-			//SASDBHelper.cleanTestData(null);
+
+			RabbitMQConnection.getRabbitTemplate().setMessageConverter(new Jackson2JsonMessageConverter());
+			// Log4J.getLogger().info("Cleanup Database Tables");
+			// SASDBHelper.cleanTestData(null);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-//	@AfterSuite(alwaysRun = true)
-//	public void teardown() throws Exception {
-//		JDBCTemplate.closeAllConnections();
-//	}
+	// @AfterSuite(alwaysRun = true)
+	// public void teardown() throws Exception {
+	// JDBCTemplate.closeAllConnections();
+	// }
 
 }

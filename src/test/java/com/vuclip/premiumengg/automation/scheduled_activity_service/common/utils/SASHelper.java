@@ -8,6 +8,7 @@ import com.vuclip.premiumengg.automation.scheduled_activity_service.common.model
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.SchedulerRequest;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.UserSubscriptionRequest;
 import com.vuclip.premiumengg.automation.utils.DBUtils;
+import com.vuclip.premiumengg.automation.utils.ObjectMapperUtils;
 
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
@@ -38,12 +39,11 @@ public class SASHelper {
 	 * @return response
 	 * @throws Exception
 	 */
-	public Response saveProduct(
-			PublishConfigRequest publishConfigRequest) throws Exception {
+	public Response saveProduct(PublishConfigRequest publishConfigRequest) throws Exception {
 
-		final Response response = given(requestSpecification).contentType(ContentType.JSON)
-				.body(publishConfigRequest).log().all().post(saveProductResource);
-		//response.prettyPrint();
+		final Response response = given(requestSpecification).contentType(ContentType.JSON).body(publishConfigRequest)
+				.post(saveProductResource);
+		// response.prettyPrint();
 		return response;
 	}
 
@@ -54,8 +54,8 @@ public class SASHelper {
 	 */
 	public Response userSubscription(UserSubscriptionRequest userSubscriptionRequest) throws Exception {
 		final Response response = given(requestSpecification).contentType(ContentType.JSON)
-				.body(userSubscriptionRequest).log().all().post(userSubscriptionResource);
-		//response.prettyPrint();
+				.body(userSubscriptionRequest).post(userSubscriptionResource);
+		// response.prettyPrint();
 		return response;
 	}
 
@@ -65,11 +65,10 @@ public class SASHelper {
 	 * @throws Exception
 	 */
 	public Response scheduler(SchedulerRequest schedulerRequest) throws Exception {
-		final Response response = given(requestSpecification).contentType(ContentType.JSON)
-				.body(schedulerRequest).log().all().post(schedulerResource);
-		//response.prettyPrint();
+		final Response response = given(requestSpecification).contentType(ContentType.JSON).body(schedulerRequest)
+				.post(schedulerResource);
+		// response.prettyPrint();
 		return response;
 	}
-
 
 }

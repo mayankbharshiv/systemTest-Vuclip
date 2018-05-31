@@ -10,11 +10,9 @@ import com.vuclip.premiumengg.automation.utils.DBUtils;
 public class SASDBHelper {
 
 	/**
-	 * after save product validation form these two table SELECT * FROM
-	 * scheduled_activity_service.product_partner_country_config; SELECT * FROM
-	 * scheduled_activity_service.job_config;
+	 * 
+	 * @param product_id
 	 */
-
 	public static void cleanTestData(String product_id) {
 		DBUtils.cleanTable("activation", product_id);
 		DBUtils.cleanTable("churn", product_id);
@@ -29,6 +27,10 @@ public class SASDBHelper {
 		DBUtils.cleanTable("winback", product_id);
 	}
 
+	/**
+	 * 
+	 * @param product_id
+	 */
 	public static void cleanAllTables(String product_id) {
 		DBUtils.cleanTable("job_config", product_id);
 		DBUtils.cleanTable("activation", product_id);
@@ -45,7 +47,12 @@ public class SASDBHelper {
 		DBUtils.cleanTable("winback", product_id);
 	}
 
-	public static void showAllTableData(String message, String subscriptionId) {
+	/**
+	 * 
+	 * @param message
+	 * @param subscriptionId
+	 */
+	public static void showAllActivityTableData(String message, String subscriptionId) {
 
 		try {
 			List<Map<String, Object>> record1 = DBUtils.getRecord("activation", "subscription_id = " + subscriptionId);
