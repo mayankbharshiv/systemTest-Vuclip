@@ -1,6 +1,5 @@
 package com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 

@@ -15,13 +15,14 @@ import io.restassured.response.Response;
 public class SASValidationHelper {
 	private static Logger logger = Log4J.getLogger("SASValidationHelper");
 
-	public static void validate_sms_api_response(Response smsApiResponse) throws Exception {
+	public static void validate_sas_api_response(Response smsApiResponse) throws Exception {
 		AppAssert.assertEqual(smsApiResponse.statusCode(), 200, "Vefiry that response status code is 200 ");
 	}
 
 	public static void validate_schedular_api_response(Response schedularApiResponse) throws Exception {
 
 		AppAssert.assertEqual(schedularApiResponse.statusCode(), 200, "Validate that response status code is 200 ");
+		AppAssert.assertEqual(schedularApiResponse.getBody().toString(), "SUCCESS","verify scheduler api call");
 	}
 
 	public static void validateQueueMessage(QueueResponse queueResponse, SchedulerRequest schedulerRequest,
@@ -44,5 +45,21 @@ public class SASValidationHelper {
 			AppAssert.assertEqual(actualrecord.get(key).toString().toLowerCase(), expectedRecord.get(key).toLowerCase(),
 					"Verify table fields");
 		}
+	}
+
+	public static void validateQueueMessage(QueueResponse queueResponse, int productId, int partnerId,
+			int subscriptionId, String countryCode, String activityType) {
+		logger.info("verification for RabbitMQ");
+
+		AppAssert.assertEqual(queueResponse.getProductId().toString().toUpperCase(),
+				String.valueOf(productId).toUpperCase(), "Verify product ID");
+		AppAssert.assertEqual(queueResponse.getPartnerId().toString().toUpperCase(),
+				String.valueOf(partnerId).toUpperCase(), "Verify partner ID");
+		AppAssert.assertEqual(queueResponse.getSubscriptionId().toString(), String.valueOf(subscriptionId),
+				"Verify subscription ID");
+		AppAssert.assertEqual(queueResponse.getCountryCode().toUpperCase(), countryCode.toUpperCase(),
+				"Verify country");
+		AppAssert.assertEqual(queueResponse.getActivitType().toString().toUpperCase(), activityType.toUpperCase(),
+				"Verify activity type");
 	}
 }
