@@ -3,7 +3,6 @@ package com.vuclip.premiumengg.automation.scheduled_activity_service.tests;
 import java.util.Random;
 
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -12,7 +11,6 @@ import com.vuclip.premiumengg.automation.scheduled_activity_service.common.model
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.PublishConfigRequest;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.SchedulerRequest;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.UserSubscriptionRequest;
-import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASDBHelper;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASHelper;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASValidationHelper;
 import com.vuclip.premiumengg.automation.utils.DBUtils;
@@ -24,7 +22,7 @@ import com.vuclip.premiumengg.automation.utils.ObjectMapperUtils;
  *
  */
 
-public class ScheduleActivityTests {
+public class ActivationRetryTests {
 
 	private SASHelper sasHelper;
 	private SASValidationHelper sasValidationHelper;
@@ -37,7 +35,7 @@ public class ScheduleActivityTests {
 		sasHelper = new SASHelper();
 		sasValidationHelper = new SASValidationHelper();
 		rand = new Random();
-		productId = rand.nextInt(10);
+		productId = rand.nextInt(10)+1;
 		partnerId = productId;
 	}
 	
@@ -90,25 +88,25 @@ public class ScheduleActivityTests {
 	@DataProvider(name = "testType")
 	public Object[][] testType() {
 		return new Object[][] {
-				//{ "ACTIVATION", "ACT_INIT", "ACTIVATED", "SUCCESS", "CHARGING", 101, "renewal", "OPEN"},
-				// no entry{ "ACTIVATION", "ACT_INIT", "ACTIVATED", "LOW_BALANCE", "CHARGING", 102, "renewal", "OPEN"},
-				// no enytry{ "ACTIVATION", "ACT_INIT", "ACTIVATED", "FAILURE", "CHARGING", 103, "renewal", "OPEN"},
-				//no entry{ "ACTIVATION", "ACT_INIT", "ACTIVATED", "ERROR", "CHARGING", 104, "renewal", "OPEN"},
-				//{ "ACTIVATION", "ACT_INIT", "ACT_INIT", "SUCCESS", "CHARGING", 105, "ACTIVATION", "OPEN"},
-				//{ "ACTIVATION", "ACT_INIT", "ACT_INIT", "LOW_BALANCE", "CHARGING", 106,"ACTIVATION", "OPEN"},
-				//{ "ACTIVATION", "ACT_INIT", "ACT_INIT", "FAILURE", "CHARGING", 107,"ACTIVATION", "OPEN"},
-			//	{ "ACTIVATION", "ACT_INIT", "ACT_INIT", "ERROR", "CHARGING", 108,"ACTIVATION", "OPEN"},
+				    { "ACTIVATION", "ACT_INIT", "ACTIVATED", "SUCCESS", "CHARGING", 101, "renewal", "OPEN"},
+					{ "ACTIVATION", "ACT_INIT", "ACT_INIT", "FAILURE", "CHARGING", 107,"activation", "OPEN"},
+					{ "ACTIVATION", "ACT_INIT", "ACT_INIT", "ERROR", "CHARGING", 108,"activation", "OPEN"},
+		  		    { "ACTIVATION", "ACT_INIT", "PARKING", "LOW_BALANCE", "CHARGING", 111, "winback", "OPEN"},
+				/*{ "ACTIVATION", "ACT_INIT", "ACTIVATED", "LOW_BALANCE", "CHARGING", 102, "renewal", "OPEN"},
+				{ "ACTIVATION", "ACT_INIT", "ACTIVATED", "FAILURE", "CHARGING", 103, "renewal", "OPEN"},
+				{ "ACTIVATION", "ACT_INIT", "ACTIVATED", "ERROR", "CHARGING", 104, "renewal", "OPEN"},
+				{ "ACTIVATION", "ACT_INIT", "ACT_INIT", "SUCCESS", "CHARGING", 105, "activation", "OPEN"},
+				{ "ACTIVATION", "ACT_INIT", "ACT_INIT", "LOW_BALANCE", "CHARGING", 106,"activation", "OPEN"},
 				{ "ACTIVATION", "ACT_INIT", "PARKING", "SUCCESS", "CHARGING", 109, "winback", "OPEN"},
 				{ "ACTIVATION", "ACT_INIT", "PARKING", "FAILURE", "CHARGING", 110, "winback", "OPEN"},
-				//{ "ACTIVATION", "ACT_INIT", "PARKING", "LOW_BALANCE", "CHARGING", 111, "winback", "OPEN"},
 				{ "ACTIVATION", "ACT_INIT", "PARKING", "ERROR", "CHARGING", 112, "winback", "OPEN"}		
-		
+		 no entry*/
 		};
 
 	}
 
 	@Test(dependsOnMethods = "setupConfigJob",dataProvider = "testType",groups="{tests}")
-	public void scheduleActivityTests(String activityType, String previousSubscriptionState,
+	public void activationRetryTests(String activityType, String previousSubscriptionState,
 			String currentSubscriptionState, String transactionState, String actionType, Integer  subscriptionId,
 			String tableEntry, String status) throws Exception {
 		UserSubscriptionRequest userSubscriptionRequest = ObjectMapperUtils.readValue(
