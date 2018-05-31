@@ -45,16 +45,16 @@ public class InitializeTestSuite {
 			Configuration.rabbitMQPassword = properties.getProperty("rabbitMQPassword");
 			
 			Log4J.getLogger().info("Cleanup Database Tables");
-			SASDBHelper.cleanAllTables(null);
+			//SASDBHelper.cleanTestData(null);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	@AfterSuite(alwaysRun = true)
-	public void teardown() throws Exception {
-		JDBCTemplate.closeAllConnections();
-	}
+//	@AfterSuite(alwaysRun = true)
+//	public void teardown() throws Exception {
+//		JDBCTemplate.closeAllConnections();
+//	}
 
 }

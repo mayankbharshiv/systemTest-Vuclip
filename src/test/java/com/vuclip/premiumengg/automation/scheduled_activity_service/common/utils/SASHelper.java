@@ -22,7 +22,7 @@ public class SASHelper {
 
 	final String saveProductResource = "/saveProduct";
 	final String userSubscriptionResource = "/event/userSubcription";
-	final String schedulerResource = "/scheduler";
+	final String schedulerResource = "/schedular";
 
 	/**
 	 * Default constructor. Initializes the request template.
@@ -43,7 +43,7 @@ public class SASHelper {
 
 		final Response response = given(requestSpecification).contentType(ContentType.JSON)
 				.body(publishConfigRequest).log().all().post(saveProductResource);
-		response.prettyPrint();
+		//response.prettyPrint();
 		return response;
 	}
 
@@ -55,7 +55,7 @@ public class SASHelper {
 	public Response userSubscription(UserSubscriptionRequest userSubscriptionRequest) throws Exception {
 		final Response response = given(requestSpecification).contentType(ContentType.JSON)
 				.body(userSubscriptionRequest).log().all().post(userSubscriptionResource);
-		response.prettyPrint();
+		//response.prettyPrint();
 		return response;
 	}
 
@@ -67,7 +67,7 @@ public class SASHelper {
 	public Response scheduler(SchedulerRequest schedulerRequest) throws Exception {
 		final Response response = given(requestSpecification).contentType(ContentType.JSON)
 				.body(schedulerRequest).log().all().post(schedulerResource);
-		response.prettyPrint();
+		//response.prettyPrint();
 		return response;
 	}
 
