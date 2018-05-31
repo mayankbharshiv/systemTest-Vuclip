@@ -15,11 +15,10 @@ import com.vuclip.premiumengg.automation.common.Log4J;
 import com.vuclip.premiumengg.automation.common.RabbitMQConnection;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.ActivityType;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.PublishConfigRequest;
-import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.SchedulerRequest;
-import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.UserSubscriptionRequest;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASHelper;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASUtils;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASValidationHelper;
+import com.vuclip.premiumengg.automation.utils.AppAssert;
 import com.vuclip.premiumengg.automation.utils.DBUtils;
 import com.vuclip.premiumengg.automation.utils.ObjectMapperUtils;
 
@@ -40,11 +39,13 @@ public class DeactivationRetryTest {
 	int partnerId;
 	PublishConfigRequest publishConfigRequest = null;
 
+	private String countryCode = "IN";
+
 	@BeforeClass(alwaysRun = true)
 	public void setup() throws Exception {
 
 		sasHelper = new SASHelper();
-		productId = RandomUtils.nextInt(2000, 3000);
+		productId = RandomUtils.nextInt(9000, 10000);
 		partnerId = productId;
 		logger.info("Cleanup Test Data");
 		// SASDBHelper.cleanTestData("product_id=" + productId);
@@ -62,114 +63,56 @@ public class DeactivationRetryTest {
 
 	@Test(dataProvider = "deactivationSetUpConfig")
 	public void createConfigData(String activityType) throws Exception {
-
-		// create job config for activity types( ex- Activation, deactivation)
-		publishConfigRequest = ObjectMapperUtils.readValue(
-				"src/test/resources/configurations/scheduled-activity-service/request/publishConfig.json",
-				PublishConfigRequest.class);
-
-		logger.info("Config JSON Body changed");
-		publishConfigRequest.getProduct().setProductId(productId);
-		publishConfigRequest.getProductPartnerMappings().get(0).setProductId(productId);
-		publishConfigRequest.getProductPartnerMappings().get(0).setPartnerId(partnerId);
-		publishConfigRequest.getProductCountryMapping().setProductId(productId);
-		publishConfigRequest.getAdNetworkNotifications().get(0).setPartnerId(partnerId);
-		publishConfigRequest.getAdNetworkNotifications().get(0).setProductId(productId);
-		publishConfigRequest.getActivityFlows().get(0).setPartnerId(partnerId);
-		publishConfigRequest.getActivityFlows().get(1).setPartnerId(partnerId);
-		publishConfigRequest.getActivityFlows().get(2).setPartnerId(partnerId);
-		publishConfigRequest.getPricePoints().get(0).setProductId(productId);
-		publishConfigRequest.getPricePoints().get(0).setPartnerId(partnerId);
-		publishConfigRequest.getRetry().get(0).setProductId(productId);
-		publishConfigRequest.getRetry().get(0).setPartnerId(partnerId);
-		publishConfigRequest.getBlackouts().get(0).setPartnerId(partnerId);
-		publishConfigRequest.getBlackouts().get(0).setProductId(productId);
-		publishConfigRequest.getRetry().get(0).setActivityType(activityType);
-		logger.info("Config API Called");
-		SASValidationHelper.validate_sms_api_response(sasHelper.saveProduct(publishConfigRequest));
+		
+		publishConfigRequest = SASUtils.generateSaveProductConfig(productId, partnerId, activityType);
+		SASValidationHelper.validate_sas_api_response(sasHelper.saveProduct(publishConfigRequest));
+		
 	}
 
 	@DataProvider(name = "testType")
 	public Object[][] testType() {
 		return new Object[][] {
-				// { "DEACTIVATION", "ACT_INIT", "DEACTIVATED", "SUCCESS", "DEACTIVATE_CONSENT",
-				// 111, "deactivation" },
-				// { "DEACTIVATION", "ACT_INIT", "DCT_INIT", "IN_PROGRESS",
-				// "DEACTIVATE_CONSENT", 555, "deactivation" },
 				{ "DEACTIVATION", "ACT_INIT", "DCT_INIT", "FAILURE", "DEACTIVATE_CONSENT", 123, "deactivation" },
 				{ "DEACTIVATION", "ACT_INIT", "DCT_INIT", "ERROR", "DEACTIVATE_CONSENT", 111, "deactivation" },
-				// { "DEACTIVATION", "SUSPEND", "DEACTIVATED", "SUCCESS", "DEACTIVATE_CONSENT",
-				// 111, "deactivation" },
-				// { "DEACTIVATION", "SUSPEND", "DCT_INIT", "IN_PROGRESS", "DEACTIVATE_CONSENT",
-				// 111, "deactivation" },
 				{ "DEACTIVATION", "SUSPEND", "DCT_INIT", "FAILURE", "DEACTIVATE_CONSENT", 111, "deactivation" },
 				{ "DEACTIVATION", "SUSPEND", "DCT_INIT", "ERROR", "DEACTIVATE_CONSENT", 111, "deactivation" },
-				// { "DEACTIVATION", "PARKING", "DEACTIVATED", "SUCCESS", "DEACTIVATE_CONSENT",
-				// 111, "deactivation" },
-				// { "DEACTIVATION", "PARKING", "DCT_INIT", "IN_PROGRESS", "DEACTIVATE_CONSENT",
-				// 111, "deactivation" },
 				{ "DEACTIVATION", "PARKING", "DCT_INIT", "FAILURE", "DEACTIVATE_CONSENT", 111, "deactivation" },
 				{ "DEACTIVATION", "PARKING", "DCT_INIT", "ERROR", "DEACTIVATE_CONSENT", 111, "deactivation" },
-				// { "DEACTIVATION", "ACTIVATED", "DEACTIVATED", "SUCCESS",
-				// "DEACTIVATE_CONSENT", 111, "deactivation" },
-				// { "DEACTIVATION", "ACTIVATED", "DCT_INIT", "IN_PROGRESS",
-				// "DEACTIVATE_CONSENT", 111, "deactivation" },
 				{ "DEACTIVATION", "ACTIVATED", "DCT_INIT", "FAILURE", "DEACTIVATE_CONSENT", 111, "deactivation" },
 				{ "DEACTIVATION", "ACTIVATED", "DCT_INIT", "ERROR", "DEACTIVATE_CONSENT", 111, "deactivation" },
-				//{ "DEACTIVATION", "DCT_INIT", "DEACTIVATED", "SUCCESS", "DEACTIVATE_CONSENT", 111, "deactivation" },
-				// { "DEACTIVATION", "DCT_INIT", "DCT_INIT", "ERROR", "DEACTIVATE_CONSENT", 111,
-				// "deactivation" },
-				{ "DEACTIVATION", "DCT_INIT", "DCT_INIT", "FAILURE", "DEACTIVATE_CONSENT", 111, "deactivation" }
-
-		};
+				{ "DEACTIVATION", "DCT_INIT", "DCT_INIT", "ERROR", "DEACTIVATE_CONSENT", 111, "deactivation" },
+				{ "DEACTIVATION", "DCT_INIT", "DCT_INIT", "FAILURE", "DEACTIVATE_CONSENT", 111, "deactivation" } };
 
 	}
 
-	@Test(dataProvider = "testType")
+	@Test(dataProvider = "testType", dependsOnMethods = "createConfigData")
 	public void deactivationRetryTest(String activityType, String previousSubscriptionState,
 			String currentSubscriptionState, String transactionState, String actionType, int subscriptionId,
 			String actionTable) {
 
-		subscriptionId = RandomUtils.nextInt(800, 990);
+		subscriptionId = RandomUtils.nextInt(2000, 3000);
 		String testMessage = subscriptionId + " " + activityType + " " + previousSubscriptionState + " "
 				+ currentSubscriptionState + " " + transactionState + " " + actionType;
-		logger.info("Starting test for " + testMessage);
+		logger.info("==================>Starting positive deactivation retry test  [ " + testMessage + " ]");
 
 		try {
-			UserSubscriptionRequest userSubscriptionRequest = SASUtils.loadJson("userSubscription.json",
-					UserSubscriptionRequest.class);
 
-			userSubscriptionRequest.getActivityInfo().setActivityType(activityType);
-			userSubscriptionRequest.getActivityInfo().setPreviousSubscriptionState(previousSubscriptionState);
-			userSubscriptionRequest.getActivityInfo().setCurrentSubscriptionState(currentSubscriptionState);
-			userSubscriptionRequest.getActivityEvent().setTransactionState(transactionState);
-			userSubscriptionRequest.getActivityInfo().setActionType(actionType);
-			userSubscriptionRequest.getSubscriptionInfo().setSubscriptionId(subscriptionId);
-			userSubscriptionRequest.getSubscriptionInfo().setProductId(productId);
-			userSubscriptionRequest.getSubscriptionInfo().setPartnerId(partnerId);
-			userSubscriptionRequest.getActivityEvent().setPartnerId(partnerId);
-			userSubscriptionRequest.getActivityEvent().setProductId(productId);
-			SASValidationHelper.validate_sms_api_response(sasHelper.userSubscription(userSubscriptionRequest));
+			SASValidationHelper.validate_sas_api_response(
+					sasHelper.userSubscription(SASUtils.generateUserSubscriptionRequest(productId, partnerId,
+							activityType, previousSubscriptionState,currentSubscriptionState, transactionState, actionType, subscriptionId)));
 
 			Map<String, String> expectedRecords = new HashMap<String, String>();
 			expectedRecords.put("status", "OPEN");
 			expectedRecords.put("product_id", String.valueOf(productId));
 			expectedRecords.put("partner_id", String.valueOf(partnerId));
 			expectedRecords.put("subscription_id", String.valueOf(subscriptionId));
-			expectedRecords.put("country_code",
-					publishConfigRequest.getProductCountryMapping().getCountries().get(0).getCountryCode());
+			expectedRecords.put("country_code", countryCode);
 
 			SASValidationHelper.validateTableRecord(DBUtils.getRecord(actionTable, "subscription_id = " + subscriptionId
 					+ " and product_id = " + productId + " and partner_id=" + partnerId).get(0), expectedRecords);
 
-			SchedulerRequest schedulerRequest = SASUtils.loadJson("scheduler.json", SchedulerRequest.class);
-
-			schedulerRequest.setActivityType(actionTable.toUpperCase());
-			schedulerRequest.setProductId(productId);
-			schedulerRequest.setPartnerId(partnerId);
-			Response schedulerResponse = sasHelper.scheduler(schedulerRequest);
-			SASValidationHelper.validate_schedular_api_response(schedulerResponse);
-			System.out.println(schedulerResponse.getStatusLine());
+			SASValidationHelper.validate_schedular_api_response(
+					sasHelper.scheduler(SASUtils.generateSchedulerRequest(productId, partnerId, actionTable)));
 
 			expectedRecords.put("status", "IN_PROGRESS");
 
@@ -180,7 +123,63 @@ public class DeactivationRetryTest {
 					.receive(productId + "_" + partnerId + "_" + actionTable.toUpperCase() + "_REQUEST_BACKEND", 25000);
 			SASValidationHelper.validateQueueMessage(
 					ObjectMapperUtils.readValueFromString(new String(message.getBody()), QueueResponse.class),
-					schedulerRequest, userSubscriptionRequest, activityType);
+					productId, partnerId, subscriptionId, countryCode, activityType);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@DataProvider(name = "neativeTestType")
+	public Object[][] neativeTestType() {
+		return new Object[][] {
+				{ "DEACTIVATION", "ACT_INIT", "DEACTIVATED", "SUCCESS", "DEACTIVATE_CONSENT", 111, "deactivation" },
+				{ "DEACTIVATION", "ACT_INIT", "DCT_INIT", "IN_PROGRESS", "DEACTIVATE_CONSENT", 555, "deactivation" },
+				{ "DEACTIVATION", "SUSPEND", "DEACTIVATED", "SUCCESS", "DEACTIVATE_CONSENT", 111, "deactivation" },
+				{ "DEACTIVATION", "SUSPEND", "DCT_INIT", "IN_PROGRESS", "DEACTIVATE_CONSENT", 111, "deactivation" },
+				{ "DEACTIVATION", "PARKING", "DEACTIVATED", "SUCCESS", "DEACTIVATE_CONSENT", 111, "deactivation" },
+				{ "DEACTIVATION", "PARKING", "DCT_INIT", "IN_PROGRESS", "DEACTIVATE_CONSENT", 111, "deactivation" },
+				{ "DEACTIVATION", "ACTIVATED", "DEACTIVATED", "SUCCESS", "DEACTIVATE_CONSENT", 111, "deactivation" },
+				{ "DEACTIVATION", "ACTIVATED", "DCT_INIT", "IN_PROGRESS", "DEACTIVATE_CONSENT", 111, "deactivation" },
+				{ "DEACTIVATION", "DCT_INIT", "DEACTIVATED", "SUCCESS", "DEACTIVATE_CONSENT", 111, "deactivation" },
+
+		};
+
+	}
+
+	@Test(dataProvider = "neativeTestType", dependsOnMethods = "createConfigData")
+	public void deactivationRetryNegativeTest(String activityType, String previousSubscriptionState,
+			String currentSubscriptionState, String transactionState, String actionType, int subscriptionId,
+			String actionTable) {
+
+		subscriptionId = RandomUtils.nextInt(3000, 4000);
+		String testMessage = subscriptionId + " " + activityType + " " + previousSubscriptionState + " "
+				+ currentSubscriptionState + " " + transactionState + " " + actionType;
+		logger.info("==================>Starting Negative deactivation retry test  [ " + testMessage + " ]");
+
+		try {
+			SASValidationHelper.validate_sas_api_response(
+					sasHelper.userSubscription(SASUtils.generateUserSubscriptionRequest(productId, partnerId,
+							activityType, previousSubscriptionState,currentSubscriptionState, transactionState, actionType, subscriptionId)));
+
+			AppAssert
+					.assertEqual(
+							DBUtils.getRecord(actionTable, "subscription_id = " + subscriptionId + " and product_id = "
+									+ productId + " and partner_id=" + partnerId).size(),
+							0, "Verify no record created");
+
+			Response schedulerResponse = sasHelper
+					.scheduler(SASUtils.generateSchedulerRequest(productId, partnerId, actionTable));
+			SASValidationHelper.validate_schedular_api_response(schedulerResponse);
+
+			AppAssert
+					.assertEqual(
+							DBUtils.getRecord(actionTable, "subscription_id = " + subscriptionId + " and product_id = "
+									+ productId + " and partner_id=" + partnerId).size(),
+							0, "Verify no record created");
+
+			Message message = RabbitMQConnection.getRabbitTemplate()
+					.receive(productId + "_" + partnerId + "_" + actionTable.toUpperCase() + "_REQUEST_BACKEND", 10000);
+			AppAssert.assertTrue(message == null, "Verify there is no record in queue for subscription");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -7,8 +7,6 @@ import com.vuclip.premiumengg.automation.common.Configuration;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.PublishConfigRequest;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.SchedulerRequest;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.UserSubscriptionRequest;
-import com.vuclip.premiumengg.automation.utils.DBUtils;
-import com.vuclip.premiumengg.automation.utils.ObjectMapperUtils;
 
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
@@ -54,8 +52,8 @@ public class SASHelper {
 	 */
 	public Response userSubscription(UserSubscriptionRequest userSubscriptionRequest) throws Exception {
 		final Response response = given(requestSpecification).contentType(ContentType.JSON)
-				.body(userSubscriptionRequest).post(userSubscriptionResource);
-		// response.prettyPrint();
+				.body(userSubscriptionRequest).log().all().post(userSubscriptionResource);
+		 response.prettyPrint();
 		return response;
 	}
 
@@ -67,7 +65,7 @@ public class SASHelper {
 	public Response scheduler(SchedulerRequest schedulerRequest) throws Exception {
 		final Response response = given(requestSpecification).contentType(ContentType.JSON).body(schedulerRequest)
 				.post(schedulerResource);
-		// response.prettyPrint();
+		 response.prettyPrint();
 		return response;
 	}
 
