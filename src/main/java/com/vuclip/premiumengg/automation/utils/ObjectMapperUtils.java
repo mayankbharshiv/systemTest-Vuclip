@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
+import com.vuclip.premiumengg.automation.common.Log4J;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -23,7 +24,7 @@ public class ObjectMapperUtils {
      * @return
      */
     public static <T> T readValue(String filepath, Class<T> returnType) {
-        System.out.println("*** filepath: " + filepath);
+        Log4J.getLogger().debug("*** filepath: " + filepath);
         try {
             File f = new File(filepath);
             System.out.println("Is File object is Null : " + (f == null) + "");
