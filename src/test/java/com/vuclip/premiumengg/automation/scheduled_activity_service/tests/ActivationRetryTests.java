@@ -1,9 +1,7 @@
 package com.vuclip.premiumengg.automation.scheduled_activity_service.tests;
 
-import java.util.Random;
-
+import org.apache.commons.lang3.RandomUtils;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -12,7 +10,6 @@ import com.vuclip.premiumengg.automation.scheduled_activity_service.common.model
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.PublishConfigRequest;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.SchedulerRequest;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.UserSubscriptionRequest;
-import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASDBHelper;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASHelper;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASValidationHelper;
 import com.vuclip.premiumengg.automation.utils.DBUtils;
@@ -24,11 +21,10 @@ import com.vuclip.premiumengg.automation.utils.ObjectMapperUtils;
  *
  */
 
-public class ScheduleActivityTests {
+public class ActivationRetryTests {
 
 	private SASHelper sasHelper;
 	private SASValidationHelper sasValidationHelper;
-	private Random rand;
 	int productId;
 	int partnerId;
 
@@ -36,19 +32,10 @@ public class ScheduleActivityTests {
 	public void setup() throws Exception {
 		sasHelper = new SASHelper();
 		sasValidationHelper = new SASValidationHelper();
-		rand = new Random();
-		productId = rand.nextInt(10);
+		productId = RandomUtils.nextInt(2000,3000);
 		partnerId = productId;
 	}
 	
-/*	@BeforeMethod
-	public void cleanTestData()
-	{
-		Log4J.getLogger().info("Cleanup Test Data");
-		SASDBHelper.cleanTestData("product_id=" + productId);
-	}
-*/
-
 	@DataProvider(name = "setupConfigJob")
 	public Object[][] activityType() {
 		return new Object[][] { { ActivityType.ACTIVATION_TYPE }, { ActivityType.ACTIVATION_RETRY_TYPE },
@@ -90,27 +77,32 @@ public class ScheduleActivityTests {
 	@DataProvider(name = "testType")
 	public Object[][] testType() {
 		return new Object[][] {
-				//{ "ACTIVATION", "ACT_INIT", "ACTIVATED", "SUCCESS", "CHARGING", 101, "renewal", "OPEN"},
-				// no entry{ "ACTIVATION", "ACT_INIT", "ACTIVATED", "LOW_BALANCE", "CHARGING", 102, "renewal", "OPEN"},
-				// no enytry{ "ACTIVATION", "ACT_INIT", "ACTIVATED", "FAILURE", "CHARGING", 103, "renewal", "OPEN"},
-				//no entry{ "ACTIVATION", "ACT_INIT", "ACTIVATED", "ERROR", "CHARGING", 104, "renewal", "OPEN"},
-				//{ "ACTIVATION", "ACT_INIT", "ACT_INIT", "SUCCESS", "CHARGING", 105, "ACTIVATION", "OPEN"},
-				//{ "ACTIVATION", "ACT_INIT", "ACT_INIT", "LOW_BALANCE", "CHARGING", 106,"ACTIVATION", "OPEN"},
-				//{ "ACTIVATION", "ACT_INIT", "ACT_INIT", "FAILURE", "CHARGING", 107,"ACTIVATION", "OPEN"},
-			//	{ "ACTIVATION", "ACT_INIT", "ACT_INIT", "ERROR", "CHARGING", 108,"ACTIVATION", "OPEN"},
+				 { "ACTIVATION", "ACT_INIT", "ACTIVATED", "SUCCESS", "CHARGING", 101, "renewal", "OPEN"},
+				 { "ACTIVATION", "ACT_INIT", "ACT_INIT", "FAILURE", "CHARGING", 107,"activation", "OPEN"},
+				 { "ACTIVATION", "ACT_INIT", "ACT_INIT", "ERROR", "CHARGING", 108,"activation", "OPEN"},
+		  		 { "ACTIVATION", "ACT_INIT", "PARKING", "LOW_BALANCE", "CHARGING", 111, "winback", "OPEN"},
+				/*{ "ACTIVATION", "ACT_INIT", "ACTIVATED", "LOW_BALANCE", "CHARGING", 102, "renewal", "OPEN"},
+				{ "ACTIVATION", "ACT_INIT", "ACTIVATED", "FAILURE", "CHARGING", 103, "renewal", "OPEN"},
+				{ "ACTIVATION", "ACT_INIT", "ACTIVATED", "ERROR", "CHARGING", 104, "renewal", "OPEN"},
+				{ "ACTIVATION", "ACT_INIT", "ACT_INIT", "SUCCESS", "CHARGING", 105, "activation", "OPEN"},
+				{ "ACTIVATION", "ACT_INIT", "ACT_INIT", "LOW_BALANCE", "CHARGING", 106,"activation", "OPEN"},
 				{ "ACTIVATION", "ACT_INIT", "PARKING", "SUCCESS", "CHARGING", 109, "winback", "OPEN"},
 				{ "ACTIVATION", "ACT_INIT", "PARKING", "FAILURE", "CHARGING", 110, "winback", "OPEN"},
-				//{ "ACTIVATION", "ACT_INIT", "PARKING", "LOW_BALANCE", "CHARGING", 111, "winback", "OPEN"},
 				{ "ACTIVATION", "ACT_INIT", "PARKING", "ERROR", "CHARGING", 112, "winback", "OPEN"}		
-		
+		 no entry*/
 		};
 
 	}
 
 	@Test(dependsOnMethods = "setupConfigJob",dataProvider = "testType",groups="{tests}")
-	public void scheduleActivityTests(String activityType, String previousSubscriptionState,
+	public void activationRetryTests(String activityType, String previousSubscriptionState,
 			String currentSubscriptionState, String transactionState, String actionType, Integer  subscriptionId,
 			String tableEntry, String status) throws Exception {
+		subscriptionId = RandomUtils.nextInt(400, 600);
+		Log4J.getLogger()
+				.info("Starting test for subscription Id " + subscriptionId + " " + activityType + " "
+						+ previousSubscriptionState + " " + currentSubscriptionState + " " + transactionState + " "
+						+ actionType);
 		UserSubscriptionRequest userSubscriptionRequest = ObjectMapperUtils.readValue(
 				"src/test/resources/configurations/scheduled-activity-service/request/userSubscription.json",
 				UserSubscriptionRequest.class);
@@ -143,7 +135,7 @@ public class ScheduleActivityTests {
 		Log4J.getLogger().info("scheduler API Called");
 		sasValidationHelper.validate_sms_api_response(sasHelper.scheduler(schedulerRequest));
 		
-		System.out.println("****************************"+DBUtils.getRecord("renewal", "subscription_id = " + subscriptionId).get(0).get("status").toString());
+		System.out.println("****************************"+DBUtils.getRecord(tableEntry, "subscription_id = " + subscriptionId).get(0).get("status").toString());
 		
 		//VALIDATION HELPER
 
