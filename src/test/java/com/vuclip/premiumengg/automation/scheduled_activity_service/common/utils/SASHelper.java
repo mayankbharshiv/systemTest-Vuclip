@@ -53,7 +53,7 @@ public class SASHelper {
 	public Response userSubscription(UserSubscriptionRequest userSubscriptionRequest) throws Exception {
 		final Response response = given(requestSpecification).contentType(ContentType.JSON)
 				.body(userSubscriptionRequest).post(userSubscriptionResource);
-		// response.prettyPrint();
+		 response.prettyPrint();
 		return response;
 	}
 

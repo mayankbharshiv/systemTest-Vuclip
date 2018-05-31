@@ -22,7 +22,7 @@ public class SASValidationHelper {
 	public static void validate_schedular_api_response(Response schedularApiResponse) throws Exception {
 
 		AppAssert.assertEqual(schedularApiResponse.statusCode(), 200, "Validate that response status code is 200 ");
-		AppAssert.assertEqual(schedularApiResponse.getBody().toString(), "SUCCESS","verify scheduler api call");
+		AppAssert.assertEqual(schedularApiResponse.getBody().asString(), "SUCCESS","verify scheduler api call");
 	}
 
 	public static void validateQueueMessage(QueueResponse queueResponse, SchedulerRequest schedulerRequest,
