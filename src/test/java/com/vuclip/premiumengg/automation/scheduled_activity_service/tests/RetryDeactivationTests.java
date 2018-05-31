@@ -31,7 +31,7 @@ import io.restassured.response.Response;
  *
  */
 
-public class ActivationRetryTests {
+public class RetryDeactivationTests {
 	private static Logger logger = Log4J.getLogger("ActivationRetryTests");
 	private SASHelper sasHelper;
 	int productId;
@@ -63,14 +63,13 @@ public class ActivationRetryTests {
 		SASValidationHelper.validate_sas_api_response(sasHelper.saveProduct(publishConfigRequest));
 	}
 
-	@DataProvider(name = "activationPostiveTestType")
-	public Object[][] activationPostiveTestType() {
+	@DataProvider(name = "deactivationRetryPositiveTestType")
+	public Object[][] deactivationRetryPositiveTestType() {
 		return new Object[][] {
-				{ "ACTIVATION", "ACT_INIT", "ACTIVATED", "SUCCESS", "CHARGING", 101, "renewal", "OPEN" },
-				{ "ACTIVATION", "ACT_INIT", "ACT_INIT", "FAILURE", "CHARGING", 107, "activation", "OPEN" },
-				{ "ACTIVATION", "ACT_INIT", "ACT_INIT", "ERROR", "CHARGING", 108, "activation", "OPEN" },
-				{ "ACTIVATION", "ACT_INIT", "PARKING", "LOW_BALANCE", "CHARGING", 111, "winback", "OPEN" }, };
-
+	{"DEACTIVATION_RETRY","DCT_INIT","DEACTIVATED","SUCCESS","DEACTIVATE_CONSENT","deactivation","OPEN"},
+	{"DEACTIVATION_RETRY","DCT_INIT","DCT_INIT","ERROR","DEACTIVATE_CONSENT","deactivation","OPEN"},
+	{"DEACTIVATION_RETRY","DCT_INIT","DCT_INIT","FAILURE","DEACTIVATE_CONSENT","deactivation","OPEN"}
+		};
 	}
 
 	@Test(dependsOnMethods = "createConfigData", dataProvider = "activationPostiveTestType")
@@ -83,7 +82,7 @@ public class ActivationRetryTests {
 		subscriptionId = RandomUtils.nextInt(2000, 3000);
 		String testMessage = subscriptionId + " " + activityType + " " + previousSubscriptionState + " "
 				+ currentSubscriptionState + " " + transactionState + " " + actionType;
-		logger.info("==================>Starting positive activation retry test  [ " + testMessage + " ]");
+		logger.info("==================>Starting positive Deactivation_Retry retry test  [ " + testMessage + " ]");
 
 		try {
 
@@ -120,20 +119,15 @@ public class ActivationRetryTests {
 		}
 	}
 
-	@DataProvider(name = "activationNegativeTestType")
-	public Object[][] activationNegativeTestType() {
+	@DataProvider(name = "deactivationRetryNegativeTestType")
+	public Object[][] deactivationRetryNegativeTestType() {
 		return new Object[][] {
-				{ "ACTIVATION", "ACT_INIT", "ACTIVATED", "LOW_BALANCE", "CHARGING", 102, "renewal", "OPEN" },
-				{ "ACTIVATION", "ACT_INIT", "ACTIVATED", "FAILURE", "CHARGING", 103, "renewal", "OPEN" },
-				{ "ACTIVATION", "ACT_INIT", "ACTIVATED", "ERROR", "CHARGING", 104, "renewal", "OPEN" },
-				{ "ACTIVATION", "ACT_INIT", "ACT_INIT", "SUCCESS", "CHARGING", 105, "activation", "OPEN" },
-				{ "ACTIVATION", "ACT_INIT", "ACT_INIT", "LOW_BALANCE", "CHARGING", 106, "activation", "OPEN" },
-				{ "ACTIVATION", "ACT_INIT", "PARKING", "SUCCESS", "CHARGING", 109, "winback", "OPEN" },
-				{ "ACTIVATION", "ACT_INIT", "PARKING", "FAILURE", "CHARGING", 110, "winback", "OPEN" },
-				{ "ACTIVATION", "ACT_INIT", "PARKING", "ERROR", "CHARGING", 112, "winback", "OPEN" }
-
+		{"DEACTIVATION_RETRY","DCT_INIT","DEACTIVATED","ERROR","DEACTIVATE_CONSENT","deactivation","OPEN"},
+	{"DEACTIVATION_RETRY","DCT_INIT","DEACTIVATED","FAILURE","DEACTIVATE_CONSENT","deactivation","OPEN"},
+	{"DEACTIVATION_RETRY","DCT_INIT","DCT_INIT","SUCCESS","DEACTIVATE_CONSENT","deactivation","OPEN"},
 		};
 	}
+
 
 	@Test(dependsOnMethods = "createConfigData", dataProvider = "activationNegativeTestType")
 	public void activationNegativeTestType(String activityType, String previousSubscriptionState,
@@ -143,7 +137,7 @@ public class ActivationRetryTests {
 		SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
 		String testMessage = subscriptionId + " " + activityType + " " + previousSubscriptionState + " "
 				+ currentSubscriptionState + " " + transactionState + " " + actionType;
-		logger.info("==================>Starting Negative activation retry test  [ " + testMessage + " ]");
+		logger.info("==================>Starting Negative RetryDeactivationTests retry test  [ " + testMessage + " ]");
 
 		try {
 			SASValidationHelper.validate_sas_api_response(
