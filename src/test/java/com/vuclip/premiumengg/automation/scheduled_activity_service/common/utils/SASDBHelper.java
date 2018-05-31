@@ -1,6 +1,5 @@
 package com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -11,40 +10,40 @@ public class SASDBHelper {
 
 	/**
 	 * 
-	 * @param product_id
+	 * @param whereClause
 	 */
-	public static void cleanTestData(String product_id) {
-		DBUtils.cleanTable("activation", product_id);
-		DBUtils.cleanTable("churn", product_id);
-		DBUtils.cleanTable("content_sms_user_info", product_id);
-		DBUtils.cleanTable("deactivation", product_id);
-		DBUtils.cleanTable("engagement_sms_user_info", product_id);
-		DBUtils.cleanTable("free_trail", product_id);
-		DBUtils.cleanTable("optout_sms_user_info", product_id);
-		DBUtils.cleanTable("prerenewal_sms_user_info", product_id);
-		DBUtils.cleanTable("renewal", product_id);
-		DBUtils.cleanTable("renewal_retry", product_id);
-		DBUtils.cleanTable("winback", product_id);
+	public static void cleanTestData(String whereClause) {
+		DBUtils.cleanTable("activation", whereClause);
+		DBUtils.cleanTable("churn", whereClause);
+		DBUtils.cleanTable("content_sms_user_info", whereClause);
+		DBUtils.cleanTable("deactivation", whereClause);
+		DBUtils.cleanTable("engagement_sms_user_info", whereClause);
+		DBUtils.cleanTable("free_trail", whereClause);
+		DBUtils.cleanTable("optout_sms_user_info", whereClause);
+		DBUtils.cleanTable("prerenewal_sms_user_info", whereClause);
+		DBUtils.cleanTable("renewal", whereClause);
+		DBUtils.cleanTable("renewal_retry", whereClause);
+		DBUtils.cleanTable("winback", whereClause);
 	}
 
 	/**
 	 * 
-	 * @param product_id
+	 * @param whereClause
 	 */
-	public static void cleanAllTables(String product_id) {
-		DBUtils.cleanTable("job_config", product_id);
-		DBUtils.cleanTable("activation", product_id);
-		DBUtils.cleanTable("churn", product_id);
-		DBUtils.cleanTable("content_sms_user_info", product_id);
-		DBUtils.cleanTable("deactivation", product_id);
-		DBUtils.cleanTable("engagement_sms_user_info", product_id);
-		DBUtils.cleanTable("free_trail", product_id);
-		DBUtils.cleanTable("optout_sms_user_info", product_id);
-		DBUtils.cleanTable("prerenewal_sms_user_info", product_id);
-		DBUtils.cleanTable("product_partner_country_config", product_id);
-		DBUtils.cleanTable("renewal", product_id);
-		DBUtils.cleanTable("renewal_retry", product_id);
-		DBUtils.cleanTable("winback", product_id);
+	public static void cleanAllTables(String whereClause) {
+		DBUtils.cleanTable("job_config", whereClause);
+		DBUtils.cleanTable("activation", whereClause);
+		DBUtils.cleanTable("churn", whereClause);
+		DBUtils.cleanTable("content_sms_user_info", whereClause);
+		DBUtils.cleanTable("deactivation", whereClause);
+		DBUtils.cleanTable("engagement_sms_user_info", whereClause);
+		DBUtils.cleanTable("free_trail", whereClause);
+		DBUtils.cleanTable("optout_sms_user_info", whereClause);
+		DBUtils.cleanTable("prerenewal_sms_user_info", whereClause);
+		DBUtils.cleanTable("product_partner_country_config", whereClause);
+		DBUtils.cleanTable("renewal", whereClause);
+		DBUtils.cleanTable("renewal_retry", whereClause);
+		DBUtils.cleanTable("winback", whereClause);
 	}
 
 	/**
