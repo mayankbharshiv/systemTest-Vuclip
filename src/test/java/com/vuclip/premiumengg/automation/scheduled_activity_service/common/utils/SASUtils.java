@@ -50,13 +50,13 @@ public class SASUtils {
 	}
 
 	public static UserSubscriptionRequest generateUserSubscriptionRequest(Integer productId, Integer partnerId, String activityType,
-			String previousSubscriptionState, String transactionState, String actionType, int subscriptionId) {
+			String previousSubscriptionState,String currentSubscriptionState, String transactionState, String actionType, int subscriptionId) {
 		UserSubscriptionRequest userSubscriptionRequest = loadJson("userSubscription.json",
 				UserSubscriptionRequest.class);
 
 		userSubscriptionRequest.getActivityInfo().setActivityType(activityType);
 		userSubscriptionRequest.getActivityInfo().setPreviousSubscriptionState(previousSubscriptionState);
-		userSubscriptionRequest.getActivityInfo().setCurrentSubscriptionState(previousSubscriptionState);
+		userSubscriptionRequest.getActivityInfo().setCurrentSubscriptionState(currentSubscriptionState);
 		userSubscriptionRequest.getActivityEvent().setTransactionState(transactionState);
 		userSubscriptionRequest.getActivityInfo().setActionType(actionType);
 		userSubscriptionRequest.getSubscriptionInfo().setSubscriptionId(subscriptionId);
