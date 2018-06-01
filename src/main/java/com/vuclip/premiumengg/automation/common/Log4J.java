@@ -18,7 +18,7 @@ public class Log4J {
 	}
 
 	public static Logger getLogger() {
-		return getLogger(Log4J.class.toString());
+		return getLogger("Log4JLogger");
 	}
 
 	public static Logger getLogger(String loggerName) {
@@ -37,7 +37,7 @@ public class Log4J {
 				// load log4j properties configuration file
 				logProperties.load(new FileInputStream("log4j.properties"));
 				PropertyConfigurator.configure(logProperties);
-				logger.info("Logging initialized.");
+				logger.debug("Logging initialized.");
 			} catch (IOException e) {
 				logger.error("Unable to load logging property :", e);
 			}
