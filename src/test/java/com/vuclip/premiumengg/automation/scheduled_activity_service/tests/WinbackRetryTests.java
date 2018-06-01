@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.log4j.Logger;
 import org.springframework.amqp.core.Message;
+import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -32,7 +33,7 @@ import io.restassured.response.Response;
  */
 
 public class WinbackRetryTests {
-	private static Logger logger = Log4J.getLogger("ActivationRetryTests");
+	private static Logger logger = Log4J.getLogger("WinbackRetryTests");
 	private SASHelper sasHelper;
 	int productId;
 	int partnerId;
@@ -66,14 +67,14 @@ public class WinbackRetryTests {
 	@DataProvider(name = "winbackPositiveTestType")
 	public Object[][] winbackPositiveTestType() {
 		return new Object[][] {
-	{"WINBACK","PARKING","ACTIVATED","SUCCESS","CHARGING","renewal","OPEN"},
-	{"WINBACK","PARKING","PARKING","LOW_BALANCE","CHARGING","winback","OPEN"},
-	{"WINBACK","PARKING","PARKING","ERROR","CHARGING","winback","OPEN"},
+	{"WINBACK","PARKING","ACTIVATED","SUCCESS","CHARGING",101,"renewal","OPEN"},
+	{"WINBACK","PARKING","PARKING","LOW_BALANCE","CHARGING",102,"winback","OPEN"},
+	{"WINBACK","PARKING","PARKING","ERROR","CHARGING",103,"winback","OPEN"},
 
 		};
 	}
 
-	@Test(dependsOnMethods = "createConfigData", dataProvider = "activationPostiveTestType")
+	@Test(dependsOnMethods = "createConfigData", dataProvider = "winbackPositiveTestType")
 	public void winbackPositiveRetryTests(String activityType, String previousSubscriptionState,
 			String currentSubscriptionState, String transactionState, String actionType, Integer subscriptionId,
 			String actionTable, String status) throws Exception {
@@ -114,27 +115,25 @@ public class WinbackRetryTests {
 					.receive(productId + "_" + partnerId + "_" + actionTable.toUpperCase() + "_REQUEST_BACKEND", 25000);
 			SASValidationHelper.validateQueueMessage(
 					ObjectMapperUtils.readValueFromString(new String(message.getBody()), QueueResponse.class),
-					productId, partnerId, subscriptionId, countryCode, actionTable.toUpperCase());
+					productId, partnerId, subscriptionId, countryCode, actionTable);
 		} catch (Exception e) {
-			e.printStackTrace();
+			Assert.fail(e.toString());
 		}
 	}
 
 	@DataProvider(name = "winbackNegativeTestType")
 	public Object[][] winbackNegativeTestType() {
 		return new Object[][] {
-			{"WINBACK","PARKING","ACTIVATED","LOW_BALANCE","CHARGING","renewal","OPEN"},
-	{"WINBACK","PARKING","ACTIVATED","ERROR","CHARGING","renewal","OPEN"},
-	{"WINBACK","PARKING","PARKING","SUCCESS","CHARGING","winback","OPEN"},
-	{"WINBACK","PARKING","PARKING","ERROR","CHARGING","winback","OPEN"},
-	{"WINBACK","PARKING","PARKING","SUCCESS","CHARGING","winback","OPEN"},
-	{"WINBACK","PARKING","PARKING","LOW_BALANCE","CHARGING","winback","OPEN"}
+			{"WINBACK","PARKING","ACTIVATED","LOW_BALANCE","CHARGING",104,"renewal","OPEN"},
+	{"WINBACK","PARKING","ACTIVATED","ERROR","CHARGING",105,"renewal","OPEN"},
+	{"WINBACK","PARKING","PARKING","SUCCESS","CHARGING",106,"winback","OPEN"},
+	
 		};
 	}
 
 
 
-	@Test(dependsOnMethods = "createConfigData", dataProvider = "activationNegativeTestType")
+	@Test(dependsOnMethods = "createConfigData", dataProvider = "winbackNegativeTestType")
 	public void winbackNegativeTestType(String activityType, String previousSubscriptionState,
 			String currentSubscriptionState, String transactionState, String actionType, Integer subscriptionId,
 			String actionTable, String status) throws Exception {
@@ -169,7 +168,7 @@ public class WinbackRetryTests {
 					.receive(productId + "_" + partnerId + "_" + actionTable.toUpperCase() + "_REQUEST_BACKEND", 10000);
 			AppAssert.assertTrue(message == null, "Verify there is no record in queue for subscription");
 		} catch (Exception e) {
-			e.printStackTrace();
+			Assert.fail(e.toString());
 		}
 
 	}

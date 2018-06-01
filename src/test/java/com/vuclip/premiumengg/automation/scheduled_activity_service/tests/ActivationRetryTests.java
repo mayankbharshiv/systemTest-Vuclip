@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.log4j.Logger;
 import org.springframework.amqp.core.Message;
+import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -116,7 +117,7 @@ public class ActivationRetryTests {
 					ObjectMapperUtils.readValueFromString(new String(message.getBody()), QueueResponse.class),
 					productId, partnerId, subscriptionId, countryCode, actionTable.toUpperCase());
 		} catch (Exception e) {
-			e.printStackTrace();
+			Assert.fail(e.toString());
 		}
 	}
 
@@ -170,7 +171,7 @@ public class ActivationRetryTests {
 					.receive(productId + "_" + partnerId + "_" + actionTable.toUpperCase() + "_REQUEST_BACKEND", 10000);
 			AppAssert.assertTrue(message == null, "Verify there is no record in queue for subscription");
 		} catch (Exception e) {
-			e.printStackTrace();
+			Assert.fail(e.toString());
 		}
 
 	}

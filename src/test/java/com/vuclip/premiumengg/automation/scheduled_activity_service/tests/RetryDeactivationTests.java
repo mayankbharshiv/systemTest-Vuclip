@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.log4j.Logger;
 import org.springframework.amqp.core.Message;
+import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -66,13 +67,12 @@ public class RetryDeactivationTests {
 	@DataProvider(name = "deactivationRetryPositiveTestType")
 	public Object[][] deactivationRetryPositiveTestType() {
 		return new Object[][] {
-	{"DEACTIVATION_RETRY","DCT_INIT","DEACTIVATED","SUCCESS","DEACTIVATE_CONSENT","deactivation","OPEN"},
-	{"DEACTIVATION_RETRY","DCT_INIT","DCT_INIT","ERROR","DEACTIVATE_CONSENT","deactivation","OPEN"},
-	{"DEACTIVATION_RETRY","DCT_INIT","DCT_INIT","FAILURE","DEACTIVATE_CONSENT","deactivation","OPEN"}
+	{"DEACTIVATION_RETRY","DCT_INIT","DCT_INIT","ERROR","DEACTIVATE_CONSENT",101,"deactivation","OPEN"},
+	{"DEACTIVATION_RETRY","DCT_INIT","DCT_INIT","FAILURE","DEACTIVATE_CONSENT",102,"deactivation","OPEN"}
 		};
 	}
 
-	@Test(dependsOnMethods = "createConfigData", dataProvider = "activationPostiveTestType")
+	@Test(dependsOnMethods = "createConfigData", dataProvider = "deactivationRetryPositiveTestType")
 	public void activationPositiveRetryTests(String activityType, String previousSubscriptionState,
 			String currentSubscriptionState, String transactionState, String actionType, Integer subscriptionId,
 			String actionTable, String status) throws Exception {
@@ -115,21 +115,21 @@ public class RetryDeactivationTests {
 					ObjectMapperUtils.readValueFromString(new String(message.getBody()), QueueResponse.class),
 					productId, partnerId, subscriptionId, countryCode, actionTable.toUpperCase());
 		} catch (Exception e) {
-			e.printStackTrace();
+			Assert.fail(e.toString());
 		}
 	}
 
 	@DataProvider(name = "deactivationRetryNegativeTestType")
 	public Object[][] deactivationRetryNegativeTestType() {
 		return new Object[][] {
-		{"DEACTIVATION_RETRY","DCT_INIT","DEACTIVATED","ERROR","DEACTIVATE_CONSENT","deactivation","OPEN"},
-	{"DEACTIVATION_RETRY","DCT_INIT","DEACTIVATED","FAILURE","DEACTIVATE_CONSENT","deactivation","OPEN"},
-	{"DEACTIVATION_RETRY","DCT_INIT","DCT_INIT","SUCCESS","DEACTIVATE_CONSENT","deactivation","OPEN"},
-		};
+		{"DEACTIVATION_RETRY","DCT_INIT","DEACTIVATED","ERROR","DEACTIVATE_CONSENT",104,"deactivation","OPEN"},
+	{"DEACTIVATION_RETRY","DCT_INIT","DEACTIVATED","FAILURE","DEACTIVATE_CONSENT",105,"deactivation","OPEN"},
+	{"DEACTIVATION_RETRY","DCT_INIT","DCT_INIT","SUCCESS","DEACTIVATE_CONSENT",106,"deactivation","OPEN"},
+	{"DEACTIVATION_RETRY","DCT_INIT","DEACTIVATED","SUCCESS","DEACTIVATE_CONSENT",103,"deactivation","OPEN"},};
 	}
 
 
-	@Test(dependsOnMethods = "createConfigData", dataProvider = "activationNegativeTestType")
+	@Test(dependsOnMethods = "createConfigData", dataProvider = "deactivationRetryNegativeTestType")
 	public void activationNegativeTestType(String activityType, String previousSubscriptionState,
 			String currentSubscriptionState, String transactionState, String actionType, Integer subscriptionId,
 			String actionTable, String status) throws Exception {
@@ -164,7 +164,7 @@ public class RetryDeactivationTests {
 					.receive(productId + "_" + partnerId + "_" + actionTable.toUpperCase() + "_REQUEST_BACKEND", 10000);
 			AppAssert.assertTrue(message == null, "Verify there is no record in queue for subscription");
 		} catch (Exception e) {
-			e.printStackTrace();
+			Assert.fail(e.toString());
 		}
 
 	}
