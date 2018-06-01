@@ -79,7 +79,6 @@ public class RetryDeactivationTests {
 
 		subscriptionId = RandomUtils.nextInt(100, 200);
 		SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
-		subscriptionId = RandomUtils.nextInt(2000, 3000);
 		String testMessage = subscriptionId + " " + activityType + " " + previousSubscriptionState + " "
 				+ currentSubscriptionState + " " + transactionState + " " + actionType;
 		logger.info("==================>Starting positive Deactivation_Retry retry test  [ " + testMessage + " ]");

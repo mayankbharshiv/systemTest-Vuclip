@@ -32,8 +32,8 @@ import io.restassured.response.Response;
  *
  */
 
-public class WinbackRetryTests {
-	private static Logger logger = Log4J.getLogger("WinbackRetryTests");
+public class FreeTrailRenewalRetryTests {
+	private static Logger logger = Log4J.getLogger("FreeTrailRenewalRetryTests");
 	private SASHelper sasHelper;
 	int productId;
 	int partnerId;
@@ -64,18 +64,28 @@ public class WinbackRetryTests {
 		SASValidationHelper.validate_sas_api_response(sasHelper.saveProduct(publishConfigRequest));
 	}
 
-	@DataProvider(name = "winbackPositiveTestType")
-	public Object[][] winbackPositiveTestType() {
+	@DataProvider(name = "freeTrailRenewalPostiveTestType")
+	public Object[][] freeTrailRenewalPostiveTestType() {
 		return new Object[][] {
-	{"WINBACK","PARKING","ACTIVATED","SUCCESS","CHARGING",101,"renewal","OPEN"},
-	{"WINBACK","PARKING","PARKING","LOW_BALANCE","CHARGING",102,"winback","OPEN"},
-	{"WINBACK","PARKING","PARKING","ERROR","CHARGING",103,"winback","OPEN"},
+			{"FREETRIAL_RENEWAL","ACTIVATED","SUSPEND","LOW_BALANCE","CHARGING",101,"free_trail","OPEN"},
+				{"FREETRIAL_RENEWAL","ACT_INIT","ACTIVATE","SUCCESS","CHARGING",102,"free_trail","OPEN"},
+				{"FREETRIAL_RENEWAL","ACT_INIT","SUSPEND","FAILURE","CHARGING",103,"free_trail","OPEN"},
+				{"FREETRIAL_RENEWAL","ACT_INIT","SUSPEND","LOW_BALANCE","CHARGING",104,"free_trail","OPEN"},
+				{"FREETRIAL_RENEWAL","ACT_INIT","ACT_INIT","ERROR",	"CHARGING",105,"free_trail","OPEN"},
+				{"FREETRIAL_RENEWAL","SUSPEND","ACTIVATED","SUCCESS","CHARGING",106,"free_trail","OPEN"},
+				{"FREETRIAL_RENEWAL","SUSPEND",	"SUSPEND",	"FAILURE","CHARGING",107,"free_trail","OPEN"},
+				{"FREETRIAL_RENEWAL","SUSPEND",	"SUSPEND",	"LOW_BALANCE",	"CHARGING",108,"free_trail","OPEN"},
+				{"FREETRIAL_RENEWAL","SUSPEND",	"SUSPEND",	"ERROR",	"CHARGING",109,"free_trail","OPEN"},
+				{"FREETRIAL_RENEWAL","ACTIVATED","ACTIVATED","SUCCESS","CHARGING",110,"free_trail","OPEN"},
+				{"FREETRIAL_RENEWAL","ACTIVATED","ACTIVATED","ERROR",	"CHARGING",111,"free_trail","OPEN"},
+				{"FREETRIAL_RENEWAL","ACTIVATED","SUSPEND","FAILURE","CHARGING",112,"free_trail","OPEN"}
+						
+						};
 
-		};
 	}
 
-	@Test(dependsOnMethods = "createConfigData", dataProvider = "winbackPositiveTestType")
-	public void winbackPositiveRetryTests(String activityType, String previousSubscriptionState,
+	@Test(dependsOnMethods = "createConfigData", dataProvider = "freeTrailRenewalPostiveTestType")
+	public void freeTrailRenewalPositiveRetryTests(String activityType, String previousSubscriptionState,
 			String currentSubscriptionState, String transactionState, String actionType, Integer subscriptionId,
 			String actionTable, String status) throws Exception {
 
@@ -83,7 +93,7 @@ public class WinbackRetryTests {
 		SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
 		String testMessage = subscriptionId + " " + activityType + " " + previousSubscriptionState + " "
 				+ currentSubscriptionState + " " + transactionState + " " + actionType;
-		logger.info("==================>Starting Winback activation retry test  [ " + testMessage + " ]");
+		logger.info("==================>Starting positive free trail renewal retry test  [ " + testMessage + " ]");
 
 		try {
 
@@ -91,56 +101,53 @@ public class WinbackRetryTests {
 					sasHelper.userSubscription(SASUtils.generateUserSubscriptionRequest(productId, partnerId,
 							activityType, previousSubscriptionState,currentSubscriptionState, transactionState, actionType, subscriptionId)));
 
+			AppAssert
+					.assertEqual(
+							DBUtils.getRecord(actionTable, "subscription_id = " + subscriptionId + " and product_id = "
+									+ productId + " and partner_id=" + partnerId).size(),
+							0, "Verify no record created");
 
-			Map<String, String> expectedRecords = new HashMap<String, String>();
-			expectedRecords.put("status", "OPEN");
-			expectedRecords.put("product_id", String.valueOf(productId));
-			expectedRecords.put("partner_id", String.valueOf(partnerId));
-			expectedRecords.put("subscription_id", String.valueOf(subscriptionId));
-			expectedRecords.put("country_code", countryCode);
+			Response schedulerResponse = sasHelper
+					.scheduler(SASUtils.generateSchedulerRequest(productId, partnerId, "FREETRIAL_RENEWAL"));
+			SASValidationHelper.validate_schedular_api_response(schedulerResponse);
 
-			SASValidationHelper.validateTableRecord(DBUtils.getRecord(actionTable, "subscription_id = " + subscriptionId
-					+ " and product_id = " + productId + " and partner_id=" + partnerId).get(0), expectedRecords);
-
-			SASValidationHelper.validate_schedular_api_response(
-					sasHelper.scheduler(SASUtils.generateSchedulerRequest(productId, partnerId, actionTable)));
-
-			expectedRecords.put("status", "IN_PROGRESS");
-
-			SASValidationHelper.validateTableRecord(DBUtils.getRecord(actionTable, "subscription_id = " + subscriptionId
-					+ " and product_id=" + productId + " and partner_id=" + partnerId).get(0), expectedRecords);
+			AppAssert
+					.assertEqual(
+							DBUtils.getRecord(actionTable, "subscription_id = " + subscriptionId + " and product_id = "
+									+ productId + " and partner_id=" + partnerId).size(),
+							0, "Verify no record created");
 
 			Message message = RabbitMQConnection.getRabbitTemplate()
-					.receive(productId + "_" + partnerId + "_" + actionTable.toUpperCase() + "_REQUEST_BACKEND", 25000);
-			SASValidationHelper.validateQueueMessage(
-					ObjectMapperUtils.readValueFromString(new String(message.getBody()), QueueResponse.class),
-					productId, partnerId, subscriptionId, countryCode, actionTable);
+					.receive(productId + "_" + partnerId + "_" + "FREETRIAL_RENEWAL" + "_REQUEST_BACKEND", 10000);
+			AppAssert.assertTrue(message == null, "Verify there is no record in queue for subscription");
 		} catch (Exception e) {
 			Assert.fail(e.toString());
 		}
 	}
 
-	@DataProvider(name = "winbackNegativeTestType")
-	public Object[][] winbackNegativeTestType() {
+	@DataProvider(name = "freeTrailRenewalNegativeTestType")
+	public Object[][] freeTrailRenewalNegativeTestType() {
 		return new Object[][] {
-			{"WINBACK","PARKING","ACTIVATED","LOW_BALANCE","CHARGING",104,"renewal","OPEN"},
-	{"WINBACK","PARKING","ACTIVATED","ERROR","CHARGING",105,"renewal","OPEN"},
-	{"WINBACK","PARKING","PARKING","SUCCESS","CHARGING",106,"winback","OPEN"},
-	
+				{ "ACTIVATION", "ACT_INIT", "ACTIVATED", "LOW_BALANCE", "CHARGING", 102, "renewal", "OPEN" },
+				{ "ACTIVATION", "ACT_INIT", "ACTIVATED", "FAILURE", "CHARGING", 103, "renewal", "OPEN" },
+				{ "ACTIVATION", "ACT_INIT", "ACTIVATED", "ERROR", "CHARGING", 104, "renewal", "OPEN" },
+				{ "ACTIVATION", "ACT_INIT", "ACT_INIT", "SUCCESS", "CHARGING", 105, "activation", "OPEN" },
+				{ "ACTIVATION", "ACT_INIT", "PARKING", "SUCCESS", "CHARGING", 109, "winback", "OPEN" },
+		        { "ACTIVATION", "ACT_INIT", "PARKING", "FAILURE", "CHARGING", 110, "winback", "OPEN" },
+				{ "ACTIVATION", "ACT_INIT", "PARKING", "ERROR", "CHARGING", 112, "winback", "OPEN" }
+
 		};
 	}
 
-
-
-	@Test(dependsOnMethods = "createConfigData", dataProvider = "winbackNegativeTestType")
-	public void winbackNegativeTestType(String activityType, String previousSubscriptionState,
+	@Test(dependsOnMethods = "createConfigData", dataProvider = "freeTrailRenewalNegativeTestType",enabled=false)
+	public void freeTrailRenewalNegativeTestType(String activityType, String previousSubscriptionState,
 			String currentSubscriptionState, String transactionState, String actionType, Integer subscriptionId,
 			String actionTable, String status) throws Exception {
 		subscriptionId = RandomUtils.nextInt(3000, 4000);
 		SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
 		String testMessage = subscriptionId + " " + activityType + " " + previousSubscriptionState + " "
 				+ currentSubscriptionState + " " + transactionState + " " + actionType;
-		logger.info("==================>Starting Winback activation retry test  [ " + testMessage + " ]");
+		logger.info("==================>Starting Negative free Trail Renewal retry test  [ " + testMessage + " ]");
 
 		try {
 			SASValidationHelper.validate_sas_api_response(
@@ -154,7 +161,7 @@ public class WinbackRetryTests {
 							0, "Verify no record created");
 
 			Response schedulerResponse = sasHelper
-					.scheduler(SASUtils.generateSchedulerRequest(productId, partnerId, actionTable));
+					.scheduler(SASUtils.generateSchedulerRequest(productId, partnerId, "FREETRIAL_RENEWAL"));
 			SASValidationHelper.validate_schedular_api_response(schedulerResponse);
 
 			AppAssert
@@ -164,7 +171,7 @@ public class WinbackRetryTests {
 							0, "Verify no record created");
 
 			Message message = RabbitMQConnection.getRabbitTemplate()
-					.receive(productId + "_" + partnerId + "_" + actionTable.toUpperCase() + "_REQUEST_BACKEND", 10000);
+					.receive(productId + "_" + partnerId + "_" + "FREETRIAL_RENEWAL" + "_REQUEST_BACKEND", 10000);
 			AppAssert.assertTrue(message == null, "Verify there is no record in queue for subscription");
 		} catch (Exception e) {
 			Assert.fail(e.toString());

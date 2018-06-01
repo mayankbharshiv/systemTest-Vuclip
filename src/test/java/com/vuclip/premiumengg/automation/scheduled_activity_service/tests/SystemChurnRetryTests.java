@@ -32,14 +32,14 @@ import io.restassured.response.Response;
  *
  */
 
-public class WinbackRetryTests {
-	private static Logger logger = Log4J.getLogger("WinbackRetryTests");
+public class SystemChurnRetryTests {
+	private static Logger logger = Log4J.getLogger("SystemChurnRetryTests");
 	private SASHelper sasHelper;
 	int productId;
 	int partnerId;
 	PublishConfigRequest publishConfigRequest = null;
 	private String countryCode = "IN";
-	
+
 	@BeforeClass(alwaysRun = true)
 	public void setup() throws Exception {
 		sasHelper = new SASHelper();
@@ -64,18 +64,28 @@ public class WinbackRetryTests {
 		SASValidationHelper.validate_sas_api_response(sasHelper.saveProduct(publishConfigRequest));
 	}
 
-	@DataProvider(name = "winbackPositiveTestType")
-	public Object[][] winbackPositiveTestType() {
+	@DataProvider(name = "churnPostiveTestType")
+	public Object[][] churnPostiveTestType() {
 		return new Object[][] {
-	{"WINBACK","PARKING","ACTIVATED","SUCCESS","CHARGING",101,"renewal","OPEN"},
-	{"WINBACK","PARKING","PARKING","LOW_BALANCE","CHARGING",102,"winback","OPEN"},
-	{"WINBACK","PARKING","PARKING","ERROR","CHARGING",103,"winback","OPEN"},
-
+				{ "SYSTEM_CHURN", "ACT_INIT", "DCT_INIT", "FAILURE", "DEACTIVATE_CONSENT", 101, "SYSTEM_CHURN", "OPEN" },
+				{ "SYSTEM_CHURN", "ACT_INIT", "DCT_INIT", "ERROR", "DEACTIVATE_CONSENT", 102, "SYSTEM_CHURN", "OPEN" },
+				{ "SYSTEM_CHURN", "SUSPEND", "DCT_INIT", "FAILURE", "DEACTIVATE_CONSENT", 103, "SYSTEM_CHURN", "OPEN" },
+				{ "SYSTEM_CHURN", "SUSPEND", "DCT_INIT", "ERROR", "DEACTIVATE_CONSENT", 104, "SYSTEM_CHURN", "OPEN" },
+				{ "SYSTEM_CHURN", "PARKING", "DCT_INIT", "FAILURE", "DEACTIVATE_CONSENT", 105, "SYSTEM_CHURN", "OPEN" },
+				{ "SYSTEM_CHURN", "PARKING", "DCT_INIT", "ERROR", "DEACTIVATE_CONSENT", 106, "SYSTEM_CHURN", "OPEN" },
+				{ "SYSTEM_CHURN", "ACTIVATED", "DCT_INIT", "FAILURE", "DEACTIVATE_CONSENT", 107, "SYSTEM_CHURN", "OPEN" },
+				{ "SYSTEM_CHURN", "ACTIVATED", "DCT_INIT", "ERROR", "DEACTIVATE_CONSENT", 108, "SYSTEM_CHURN", "OPEN" },
+				{ "SYSTEM_CHURN", "SUSPEND", "DCT_INIT", "IN_PROGRESS", "DEACTIVATE_CONSENT", 109, "SYSTEM_CHURN", "OPEN" },
+				{ "SYSTEM_CHURN", "ACT_INIT", "DCT_INIT", "IN_PROGRESS", "DEACTIVATE_CONSENT", 110, "SYSTEM_CHURN", "OPEN" },
+				{ "SYSTEM_CHURN", "PARKING", "DCT_INIT", "IN_PROGRESS", "DEACTIVATE_CONSENT", 111, "SYSTEM_CHURN", "OPEN" },
+				{ "SYSTEM_CHURN", "ACTIVATED", "DCT_INIT", "IN_PROGRESS", "DEACTIVATE_CONSENT", 112, "SYSTEM_CHURN", "OPEN" }
 		};
+	
+	
 	}
 
-	@Test(dependsOnMethods = "createConfigData", dataProvider = "winbackPositiveTestType")
-	public void winbackPositiveRetryTests(String activityType, String previousSubscriptionState,
+	@Test(dependsOnMethods = "createConfigData", dataProvider = "churnPostiveTestType")
+	public void churnPositiveRetryTests(String activityType, String previousSubscriptionState,
 			String currentSubscriptionState, String transactionState, String actionType, Integer subscriptionId,
 			String actionTable, String status) throws Exception {
 
@@ -83,14 +93,14 @@ public class WinbackRetryTests {
 		SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
 		String testMessage = subscriptionId + " " + activityType + " " + previousSubscriptionState + " "
 				+ currentSubscriptionState + " " + transactionState + " " + actionType;
-		logger.info("==================>Starting Winback activation retry test  [ " + testMessage + " ]");
+		logger.info("==================>Starting positive churn retry test  [ " + testMessage + " ]");
 
 		try {
 
 			SASValidationHelper.validate_sas_api_response(
 					sasHelper.userSubscription(SASUtils.generateUserSubscriptionRequest(productId, partnerId,
-							activityType, previousSubscriptionState,currentSubscriptionState, transactionState, actionType, subscriptionId)));
-
+							activityType, previousSubscriptionState, currentSubscriptionState, transactionState,
+							actionType, subscriptionId)));
 
 			Map<String, String> expectedRecords = new HashMap<String, String>();
 			expectedRecords.put("status", "OPEN");
@@ -99,7 +109,7 @@ public class WinbackRetryTests {
 			expectedRecords.put("subscription_id", String.valueOf(subscriptionId));
 			expectedRecords.put("country_code", countryCode);
 
-			SASValidationHelper.validateTableRecord(DBUtils.getRecord(actionTable, "subscription_id = " + subscriptionId
+			SASValidationHelper.validateTableRecord(DBUtils.getRecord(actionTable.substring(actionTable.indexOf("_")+1).toLowerCase(), "subscription_id = " + subscriptionId
 					+ " and product_id = " + productId + " and partner_id=" + partnerId).get(0), expectedRecords);
 
 			SASValidationHelper.validate_schedular_api_response(
@@ -107,11 +117,11 @@ public class WinbackRetryTests {
 
 			expectedRecords.put("status", "IN_PROGRESS");
 
-			SASValidationHelper.validateTableRecord(DBUtils.getRecord(actionTable, "subscription_id = " + subscriptionId
+			SASValidationHelper.validateTableRecord(DBUtils.getRecord(actionTable.substring(actionTable.indexOf("_")+1).toLowerCase(), "subscription_id = " + subscriptionId
 					+ " and product_id=" + productId + " and partner_id=" + partnerId).get(0), expectedRecords);
 
 			Message message = RabbitMQConnection.getRabbitTemplate()
-					.receive(productId + "_" + partnerId + "_" + actionTable.toUpperCase() + "_REQUEST_BACKEND", 25000);
+					.receive(productId + "_" + partnerId + "_" + actionTable + "_REQUEST_BACKEND", 25000);
 			SASValidationHelper.validateQueueMessage(
 					ObjectMapperUtils.readValueFromString(new String(message.getBody()), QueueResponse.class),
 					productId, partnerId, subscriptionId, countryCode, actionTable);
@@ -120,36 +130,42 @@ public class WinbackRetryTests {
 		}
 	}
 
-	@DataProvider(name = "winbackNegativeTestType")
-	public Object[][] winbackNegativeTestType() {
+	@DataProvider(name = "churnNegativeTestType")
+	public Object[][] churnNegativeTestType() {
 		return new Object[][] {
-			{"WINBACK","PARKING","ACTIVATED","LOW_BALANCE","CHARGING",104,"renewal","OPEN"},
-	{"WINBACK","PARKING","ACTIVATED","ERROR","CHARGING",105,"renewal","OPEN"},
-	{"WINBACK","PARKING","PARKING","SUCCESS","CHARGING",106,"winback","OPEN"},
-	
+			/*	{ "SYSTEM_CHURN", "SUSPEND", "DEACTIVATED", "SUCCESS", "DEACTIVATE_CONSENT", 113, "SYSTEM_CHURN", "OPEN" },
+				{ "SYSTEM_CHURN", "ACT_INIT", "DEACTIVATED", "SUCCESS", "DEACTIVATE_CONSENT", 114, "SYSTEM_CHURN", "OPEN" },
+				{ "SYSTEM_CHURN", "PARKING", "DEACTIVATED", "SUCCESS", "DEACTIVATE_CONSENT", 115, "SYSTEM_CHURN", "OPEN" },
+				{ "SYSTEM_CHURN", "ACTIVATED", "DEACTIVATED", "SUCCESS", "DEACTIVATE_CONSENT", 116, "SYSTEM_CHURN", "OPEN" },*/
+				
+
+				{ "SYSTEM_CHURN", "PARKING", "DEACTIVATED", "IN_PROGRESS", "DEACTIVATE_CONSENT", 117, "SYSTEM_CHURN", "OPEN" },
+				{ "SYSTEM_CHURN", "PARKING", "DEACTIVATED", "FAILURE", "DEACTIVATE_CONSENT", 118, "SYSTEM_CHURN", "OPEN" },
+				{ "SYSTEM_CHURN", "PARKING", "DEACTIVATED", "ERROR", "DEACTIVATE_CONSENT", 119, "SYSTEM_CHURN", "OPEN" },
+				{ "SYSTEM_CHURN", "PARKING", "DCT_INIT", "SUCCESS", "DEACTIVATE_CONSENT", 119, "SYSTEM_CHURN", "OPEN" },
+		
 		};
 	}
 
-
-
-	@Test(dependsOnMethods = "createConfigData", dataProvider = "winbackNegativeTestType")
-	public void winbackNegativeTestType(String activityType, String previousSubscriptionState,
+	@Test(dependsOnMethods = "createConfigData", dataProvider = "churnNegativeTestType")
+	public void activationNegativeTestType(String activityType, String previousSubscriptionState,
 			String currentSubscriptionState, String transactionState, String actionType, Integer subscriptionId,
 			String actionTable, String status) throws Exception {
 		subscriptionId = RandomUtils.nextInt(3000, 4000);
 		SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
 		String testMessage = subscriptionId + " " + activityType + " " + previousSubscriptionState + " "
 				+ currentSubscriptionState + " " + transactionState + " " + actionType;
-		logger.info("==================>Starting Winback activation retry test  [ " + testMessage + " ]");
+		logger.info("==================>Starting Negative churn retry test  [ " + testMessage + " ]");
 
 		try {
 			SASValidationHelper.validate_sas_api_response(
 					sasHelper.userSubscription(SASUtils.generateUserSubscriptionRequest(productId, partnerId,
-							activityType, previousSubscriptionState,currentSubscriptionState, transactionState, actionType, subscriptionId)));
+							activityType, previousSubscriptionState, currentSubscriptionState, transactionState,
+							actionType, subscriptionId)));
 
 			AppAssert
 					.assertEqual(
-							DBUtils.getRecord(actionTable, "subscription_id = " + subscriptionId + " and product_id = "
+							DBUtils.getRecord(actionTable.substring(actionTable.indexOf("_")+1).toLowerCase(), "subscription_id = " + subscriptionId + " and product_id = "
 									+ productId + " and partner_id=" + partnerId).size(),
 							0, "Verify no record created");
 
@@ -159,7 +175,7 @@ public class WinbackRetryTests {
 
 			AppAssert
 					.assertEqual(
-							DBUtils.getRecord(actionTable, "subscription_id = " + subscriptionId + " and product_id = "
+							DBUtils.getRecord(actionTable.substring(actionTable.indexOf("_")+1).toLowerCase(), "subscription_id = " + subscriptionId + " and product_id = "
 									+ productId + " and partner_id=" + partnerId).size(),
 							0, "Verify no record created");
 
