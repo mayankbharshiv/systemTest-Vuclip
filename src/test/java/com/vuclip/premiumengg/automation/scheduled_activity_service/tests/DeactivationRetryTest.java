@@ -123,7 +123,7 @@ public class DeactivationRetryTest {
 					.receive(productId + "_" + partnerId + "_" + actionTable.toUpperCase() + "_REQUEST_BACKEND", 25000);
 			SASValidationHelper.validateQueueMessage(
 					ObjectMapperUtils.readValueFromString(new String(message.getBody()), QueueResponse.class),
-					productId, partnerId, subscriptionId, countryCode, activityType);
+					productId, partnerId, subscriptionId, countryCode, actionTable);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

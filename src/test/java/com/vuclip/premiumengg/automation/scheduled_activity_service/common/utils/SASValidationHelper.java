@@ -48,7 +48,7 @@ public class SASValidationHelper {
 	}
 
 	public static void validateQueueMessage(QueueResponse queueResponse, int productId, int partnerId,
-			int subscriptionId, String countryCode, String activityType) {
+			int subscriptionId, String countryCode, String actionTable) {
 		logger.info("verification for RabbitMQ");
 
 		AppAssert.assertEqual(queueResponse.getProductId().toString().toUpperCase(),
@@ -59,7 +59,7 @@ public class SASValidationHelper {
 				"Verify subscription ID");
 		AppAssert.assertEqual(queueResponse.getCountryCode().toUpperCase(), countryCode.toUpperCase(),
 				"Verify country");
-		AppAssert.assertEqual(queueResponse.getActivitType().toString().toUpperCase(), activityType.toUpperCase(),
+		AppAssert.assertEqual(queueResponse.getActivitType().toString().toUpperCase(), actionTable.toUpperCase(),
 				"Verify activity type");
 	}
 }

@@ -23,7 +23,7 @@ public class DBUtils {
 			query += " where " + whereClause;
 		try {
 			Log4J.getLogger("DBLogger").info(query);
-			JDBCTemplate.getDbConnection().execute(query);
+			JDBCTemplate.getDbConnection().update(query);
 		} catch (Exception ex) {
 			System.out.println(ex.getMessage());
 		}
