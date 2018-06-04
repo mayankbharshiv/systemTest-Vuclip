@@ -39,7 +39,7 @@ public class WinbackRetryTests {
 	int partnerId;
 	PublishConfigRequest publishConfigRequest = null;
 	private String countryCode = "IN";
-	
+
 	@BeforeClass(alwaysRun = true)
 	public void setup() throws Exception {
 		sasHelper = new SASHelper();
@@ -66,10 +66,11 @@ public class WinbackRetryTests {
 
 	@DataProvider(name = "winbackPositiveTestType")
 	public Object[][] winbackPositiveTestType() {
-		return new Object[][] {
-	{"WINBACK","PARKING","ACTIVATED","SUCCESS","CHARGING",101,"renewal","OPEN"},
-	{"WINBACK","PARKING","PARKING","LOW_BALANCE","CHARGING",102,"winback","OPEN"},
-	{"WINBACK","PARKING","PARKING","ERROR","CHARGING",103,"winback","OPEN"},
+		return new Object[][] { { "WINBACK", "PARKING", "ACTIVATED", "SUCCESS", "CHARGING", 101, "renewal", "OPEN" },
+				{ "WINBACK", "PARKING", "PARKING", "LOW_BALANCE", "CHARGING", 102, "winback", "OPEN" },
+				{ "WINBACK", "PARKING", "PARKING", "ERROR", "CHARGING", 103, "winback", "OPEN" },
+				{ "WINBACK", "PARKING", "PARKING", "IN_PROGRESS", "CHARGING", 103, "winback", "OPEN" },
+				{ "WINBACK", "PARKING", "PARKING", "FAILURE", "CHARGING", 103, "winback", "OPEN" },
 
 		};
 	}
@@ -89,8 +90,8 @@ public class WinbackRetryTests {
 
 			SASValidationHelper.validate_sas_api_response(
 					sasHelper.userSubscription(SASUtils.generateUserSubscriptionRequest(productId, partnerId,
-							activityType, previousSubscriptionState,currentSubscriptionState, transactionState, actionType, subscriptionId)));
-
+							activityType, previousSubscriptionState, currentSubscriptionState, transactionState,
+							actionType, subscriptionId)));
 
 			Map<String, String> expectedRecords = new HashMap<String, String>();
 			expectedRecords.put("status", "OPEN");
@@ -123,14 +124,14 @@ public class WinbackRetryTests {
 	@DataProvider(name = "winbackNegativeTestType")
 	public Object[][] winbackNegativeTestType() {
 		return new Object[][] {
-			{"WINBACK","PARKING","ACTIVATED","LOW_BALANCE","CHARGING",104,"renewal","OPEN"},
-	{"WINBACK","PARKING","ACTIVATED","ERROR","CHARGING",105,"renewal","OPEN"},
-	{"WINBACK","PARKING","PARKING","SUCCESS","CHARGING",106,"winback","OPEN"},
-	
+				{ "WINBACK", "PARKING", "ACTIVATED", "LOW_BALANCE", "CHARGING", 104, "renewal", "OPEN" },
+				{ "WINBACK", "PARKING", "ACTIVATED", "ERROR", "CHARGING", 105, "renewal", "OPEN" },
+				{ "WINBACK", "PARKING", "ACTIVATED", "IN_PROGRESS", "CHARGING", 105, "renewal", "OPEN" },
+				{ "WINBACK", "PARKING", "ACTIVATED", "FAILURE", "CHARGING", 105, "renewal", "OPEN" },
+				{ "WINBACK", "PARKING", "PARKING", "SUCCESS", "CHARGING", 106, "winback", "OPEN" },
+
 		};
 	}
-
-
 
 	@Test(dependsOnMethods = "createConfigData", dataProvider = "winbackNegativeTestType")
 	public void winbackNegativeTestType(String activityType, String previousSubscriptionState,
@@ -145,7 +146,8 @@ public class WinbackRetryTests {
 		try {
 			SASValidationHelper.validate_sas_api_response(
 					sasHelper.userSubscription(SASUtils.generateUserSubscriptionRequest(productId, partnerId,
-							activityType, previousSubscriptionState,currentSubscriptionState, transactionState, actionType, subscriptionId)));
+							activityType, previousSubscriptionState, currentSubscriptionState, transactionState,
+							actionType, subscriptionId)));
 
 			AppAssert
 					.assertEqual(

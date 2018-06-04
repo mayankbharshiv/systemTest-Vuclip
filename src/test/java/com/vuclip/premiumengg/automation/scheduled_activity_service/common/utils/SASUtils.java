@@ -60,6 +60,7 @@ public class SASUtils {
 		userSubscriptionRequest.getActivityEvent().setTransactionState(transactionState);
 		userSubscriptionRequest.getActivityInfo().setActionType(actionType);
 		userSubscriptionRequest.getSubscriptionInfo().setSubscriptionId(subscriptionId);
+		userSubscriptionRequest.getActivityEvent().setSubscriptionId(subscriptionId);
 		userSubscriptionRequest.getSubscriptionInfo().setProductId(productId);
 		userSubscriptionRequest.getSubscriptionInfo().setPartnerId(partnerId);
 		userSubscriptionRequest.getActivityEvent().setPartnerId(partnerId);

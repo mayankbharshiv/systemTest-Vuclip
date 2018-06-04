@@ -71,7 +71,9 @@ public class ActivationRetryTests {
 				{ "ACTIVATION", "ACT_INIT", "ACT_INIT", "FAILURE", "CHARGING", 107, "activation", "OPEN" },
 				{ "ACTIVATION", "ACT_INIT", "ACT_INIT", "ERROR", "CHARGING", 108, "activation", "OPEN" },
 				{ "ACTIVATION", "ACT_INIT", "PARKING", "LOW_BALANCE", "CHARGING", 111, "winback", "OPEN" }, 
-				{ "ACTIVATION", "ACT_INIT", "ACT_INIT", "LOW_BALANCE", "CHARGING", 106, "winback", "OPEN" }};
+				{ "ACTIVATION", "ACT_INIT", "ACT_INIT", "LOW_BALANCE", "CHARGING", 106, "winback", "OPEN" },
+				{ "ACTIVATION", "ACT_INIT", "ACT_INIT", "IN_PROGRESS", "CHARGING", 106, "winback", "OPEN" },
+				{ "ACTIVATION", "ACT_INIT", "ACT_INIT", "NOTIFICATION_WAIT", "CHARGING", 106, "winback", "OPEN" }};
 
 	}
 

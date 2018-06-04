@@ -8,6 +8,7 @@ public class ActivityType {
 	public final static String ACTIVATION_RETRY_TYPE = "ACTIVATION_RETRY";
 	public final static String WINBACK_TYPE = "WINBACK";
 	public final static String RENEWAL_TYPE = "RENEWAL";
+	public final static String RENEWAL_RETRY_TYPE = "RENEWAL_RETRY";
 	public final static String FREETRIAL_RENEWAL_TYPE = "FREETRIAL_RENEWAL";
 	public final static String DEACTIVATION = "DEACTIVATION";
 	public final static String DEACTIVATION_RETRY_TYPE = "DEACTIVATION_RETRY";
