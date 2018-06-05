@@ -30,8 +30,8 @@ import io.restassured.response.Response;
  *
  */
 
-public class ActivationRetryTests {
-	private static Logger logger = Log4J.getLogger("ActivationRetryTests");
+public class SASWinbackTests {
+	private static Logger logger = Log4J.getLogger("WinbackRetryTests");
 	private SASHelper sasHelper;
 	int productId;
 	int partnerId;
@@ -60,21 +60,19 @@ public class ActivationRetryTests {
 		SASValidationHelper.validate_sas_api_response(sasHelper.saveProduct(publishConfigRequest));
 	}
 
-	@DataProvider(name = "activationPostiveTestType")
-	public Object[][] activationPostiveTestType() {
-		return new Object[][] {
-				{ "ACTIVATION", "ACT_INIT", "ACTIVATED", "SUCCESS", "CHARGING", 101, "renewal", "OPEN" },
-				{ "ACTIVATION", "ACT_INIT", "ACT_INIT", "FAILURE", "CHARGING", 107, "activation", "OPEN" },
-				{ "ACTIVATION", "ACT_INIT", "ACT_INIT", "ERROR", "CHARGING", 108, "activation", "OPEN" },
-				{ "ACTIVATION", "ACT_INIT", "PARKING", "LOW_BALANCE", "CHARGING", 111, "winback", "OPEN" },
-				{ "ACTIVATION", "ACT_INIT", "ACT_INIT", "LOW_BALANCE", "CHARGING", 106, "winback", "OPEN" },
-				{ "ACTIVATION", "ACT_INIT", "ACT_INIT", "IN_PROGRESS", "CHARGING", 106, "winback", "OPEN" },
-				{ "ACTIVATION", "ACT_INIT", "ACT_INIT", "NOTIFICATION_WAIT", "CHARGING", 106, "winback", "OPEN" } };
+	@DataProvider(name = "winbackPositiveTestType")
+	public Object[][] winbackPositiveTestType() {
+		return new Object[][] { { "WINBACK", "PARKING", "ACTIVATED", "SUCCESS", "CHARGING", 101, "renewal", "OPEN" },
+				{ "WINBACK", "PARKING", "PARKING", "LOW_BALANCE", "CHARGING", 102, "winback", "OPEN" },
+				{ "WINBACK", "PARKING", "PARKING", "ERROR", "CHARGING", 103, "winback", "OPEN" },
+				{ "WINBACK", "PARKING", "PARKING", "IN_PROGRESS", "CHARGING", 103, "winback", "OPEN" },
+				{ "WINBACK", "PARKING", "PARKING", "FAILURE", "CHARGING", 103, "winback", "OPEN" },
 
+		};
 	}
 
-	@Test(dependsOnMethods = "createConfigData", dataProvider = "activationPostiveTestType")
-	public void activationPositiveRetryTests(String activityType, String previousSubscriptionState,
+	@Test(dependsOnMethods = "createConfigData", dataProvider = "winbackPositiveTestType")
+	public void winbackPositiveRetryTests(String activityType, String previousSubscriptionState,
 			String currentSubscriptionState, String transactionState, String actionType, Integer subscriptionId,
 			String actionTable, String status) throws Exception {
 
@@ -82,7 +80,7 @@ public class ActivationRetryTests {
 		//SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
 		String testMessage = subscriptionId + " " + activityType + " " + previousSubscriptionState + " "
 				+ currentSubscriptionState + " " + transactionState + " " + actionType;
-		logger.info("==================>Starting positive activation retry test  [ " + testMessage + " ]");
+		logger.info("==================>Starting Winback activation retry test  [ " + testMessage + " ]");
 
 		try {
 
@@ -113,35 +111,33 @@ public class ActivationRetryTests {
 					.receive(productId + "_" + partnerId + "_" + actionTable.toUpperCase() + "_REQUEST_BACKEND", 25000);
 			SASValidationHelper.validateQueueMessage(
 					ObjectMapperUtils.readValueFromString(new String(message.getBody()), QueueResponse.class),
-					productId, partnerId, subscriptionId, countryCode, actionTable.toUpperCase());
+					productId, partnerId, subscriptionId, countryCode, actionTable);
 		} catch (Exception e) {
 			Assert.fail(e.toString());
 		}
 	}
 
-	@DataProvider(name = "activationNegativeTestType")
-	public Object[][] activationNegativeTestType() {
+	@DataProvider(name = "winbackNegativeTestType")
+	public Object[][] winbackNegativeTestType() {
 		return new Object[][] {
-				{ "ACTIVATION", "ACT_INIT", "ACTIVATED", "LOW_BALANCE", "CHARGING", 102, "renewal", "OPEN" },
-				{ "ACTIVATION", "ACT_INIT", "ACTIVATED", "FAILURE", "CHARGING", 103, "renewal", "OPEN" },
-				{ "ACTIVATION", "ACT_INIT", "ACTIVATED", "ERROR", "CHARGING", 104, "renewal", "OPEN" },
-				{ "ACTIVATION", "ACT_INIT", "ACT_INIT", "SUCCESS", "CHARGING", 105, "activation", "OPEN" },
-				{ "ACTIVATION", "ACT_INIT", "PARKING", "SUCCESS", "CHARGING", 109, "winback", "OPEN" },
-				{ "ACTIVATION", "ACT_INIT", "PARKING", "FAILURE", "CHARGING", 110, "winback", "OPEN" },
-				{ "ACTIVATION", "ACT_INIT", "PARKING", "ERROR", "CHARGING", 112, "winback", "OPEN" }
+				{ "WINBACK", "PARKING", "ACTIVATED", "LOW_BALANCE", "CHARGING", 104, "renewal", "OPEN" },
+				{ "WINBACK", "PARKING", "ACTIVATED", "ERROR", "CHARGING", 105, "renewal", "OPEN" },
+				{ "WINBACK", "PARKING", "ACTIVATED", "IN_PROGRESS", "CHARGING", 105, "renewal", "OPEN" },
+				{ "WINBACK", "PARKING", "ACTIVATED", "FAILURE", "CHARGING", 105, "renewal", "OPEN" },
+				{ "WINBACK", "PARKING", "PARKING", "SUCCESS", "CHARGING", 106, "winback", "OPEN" },
 
 		};
 	}
 
-	@Test(dependsOnMethods = "createConfigData", dataProvider = "activationNegativeTestType")
-	public void activationNegativeTestType(String activityType, String previousSubscriptionState,
+	@Test(dependsOnMethods = "createConfigData", dataProvider = "winbackNegativeTestType")
+	public void winbackNegativeTestType(String activityType, String previousSubscriptionState,
 			String currentSubscriptionState, String transactionState, String actionType, Integer subscriptionId,
 			String actionTable, String status) throws Exception {
 		subscriptionId = RandomUtils.nextInt(3000, 4000);
 		//SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
 		String testMessage = subscriptionId + " " + activityType + " " + previousSubscriptionState + " "
 				+ currentSubscriptionState + " " + transactionState + " " + actionType;
-		logger.info("==================>Starting Negative activation retry test  [ " + testMessage + " ]");
+		logger.info("==================>Starting Winback activation retry test  [ " + testMessage + " ]");
 
 		try {
 			SASValidationHelper.validate_sas_api_response(

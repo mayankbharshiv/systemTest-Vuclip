@@ -26,28 +26,23 @@ import io.restassured.response.Response;
 
 /**
  * 
- * @author rahul s
+ * @author mayank.bharshiv
  *
  */
 
-public class DeactivationRetryTest {
-
-	private static Logger logger = Log4J.getLogger("DeactivationRetryTest");
-
+public class SASSystemChurnTests {
+	private static Logger logger = Log4J.getLogger("SystemChurnRetryTests");
 	private SASHelper sasHelper;
 	int productId;
 	int partnerId;
 	PublishConfigRequest publishConfigRequest = null;
-
 	private String countryCode = "IN";
 
 	@BeforeClass(alwaysRun = true)
 	public void setup() throws Exception {
-
 		sasHelper = new SASHelper();
-		productId = RandomUtils.nextInt(9000, 10000);
+		productId = RandomUtils.nextInt(2000, 3000);
 		partnerId = productId;
-
 	}
 
 	@DataProvider(name = "getProductConfig")
@@ -63,28 +58,38 @@ public class DeactivationRetryTest {
 
 		publishConfigRequest = SASUtils.generateSaveProductConfig(productId, partnerId, activityType);
 		SASValidationHelper.validate_sas_api_response(sasHelper.saveProduct(publishConfigRequest));
-
 	}
 
-	@DataProvider(name = "testType")
-	public Object[][] testType() {
+	@DataProvider(name = "churnPostiveTestType")
+	public Object[][] churnPostiveTestType() {
 		return new Object[][] {
-				{ "DEACTIVATION", "ACT_INIT", "DCT_INIT", "FAILURE", "DEACTIVATE_CONSENT", 123, "deactivation" },
-				{ "DEACTIVATION", "ACT_INIT", "DCT_INIT", "ERROR", "DEACTIVATE_CONSENT", 111, "deactivation" },
-
+				{ "SYSTEM_CHURN", "ACT_INIT", "DCT_INIT", "FAILURE", "DEACTIVATE_CONSENT", 101, "SYSTEM_CHURN", "OPEN" },
+				{ "SYSTEM_CHURN", "ACT_INIT", "DCT_INIT", "ERROR", "DEACTIVATE_CONSENT", 102, "SYSTEM_CHURN", "OPEN" },
+				{ "SYSTEM_CHURN", "SUSPEND", "DCT_INIT", "FAILURE", "DEACTIVATE_CONSENT", 103, "SYSTEM_CHURN", "OPEN" },
+				{ "SYSTEM_CHURN", "SUSPEND", "DCT_INIT", "ERROR", "DEACTIVATE_CONSENT", 104, "SYSTEM_CHURN", "OPEN" },
+				{ "SYSTEM_CHURN", "PARKING", "DCT_INIT", "FAILURE", "DEACTIVATE_CONSENT", 105, "SYSTEM_CHURN", "OPEN" },
+				{ "SYSTEM_CHURN", "PARKING", "DCT_INIT", "ERROR", "DEACTIVATE_CONSENT", 106, "SYSTEM_CHURN", "OPEN" },
+				{ "SYSTEM_CHURN", "ACTIVATED", "DCT_INIT", "FAILURE", "DEACTIVATE_CONSENT", 107, "SYSTEM_CHURN", "OPEN" },
+				{ "SYSTEM_CHURN", "ACTIVATED", "DCT_INIT", "ERROR", "DEACTIVATE_CONSENT", 108, "SYSTEM_CHURN", "OPEN" },
+				{ "SYSTEM_CHURN", "SUSPEND", "DCT_INIT", "IN_PROGRESS", "DEACTIVATE_CONSENT", 109, "SYSTEM_CHURN", "OPEN" },
+				{ "SYSTEM_CHURN", "ACT_INIT", "DCT_INIT", "IN_PROGRESS", "DEACTIVATE_CONSENT", 110, "SYSTEM_CHURN", "OPEN" },
+				{ "SYSTEM_CHURN", "PARKING", "DCT_INIT", "IN_PROGRESS", "DEACTIVATE_CONSENT", 111, "SYSTEM_CHURN", "OPEN" },
+				{ "SYSTEM_CHURN", "ACTIVATED", "DCT_INIT", "IN_PROGRESS", "DEACTIVATE_CONSENT", 112, "SYSTEM_CHURN", "OPEN" }
 		};
-
+	
+	
 	}
 
-	@Test(dataProvider = "testType", dependsOnMethods = "createConfigData")
-	public void deactivationRetryTest(String activityType, String previousSubscriptionState,
-			String currentSubscriptionState, String transactionState, String actionType, int subscriptionId,
-			String actionTable) {
+	@Test(dependsOnMethods = "createConfigData", dataProvider = "churnPostiveTestType")
+	public void churnPositiveRetryTests(String activityType, String previousSubscriptionState,
+			String currentSubscriptionState, String transactionState, String actionType, Integer subscriptionId,
+			String actionTable, String status) throws Exception {
 
-		subscriptionId = RandomUtils.nextInt(2000, 3000);
+		subscriptionId = RandomUtils.nextInt(100, 200);
+		//SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
 		String testMessage = subscriptionId + " " + activityType + " " + previousSubscriptionState + " "
 				+ currentSubscriptionState + " " + transactionState + " " + actionType;
-		logger.info("==================>Starting positive deactivation retry test  [ " + testMessage + " ]");
+		logger.info("==================>Starting positive churn retry test  [ " + testMessage + " ]");
 
 		try {
 
@@ -100,7 +105,7 @@ public class DeactivationRetryTest {
 			expectedRecords.put("subscription_id", String.valueOf(subscriptionId));
 			expectedRecords.put("country_code", countryCode);
 
-			SASValidationHelper.validateTableRecord(DBUtils.getRecord(actionTable, "subscription_id = " + subscriptionId
+			SASValidationHelper.validateTableRecord(DBUtils.getRecord(actionTable.substring(actionTable.indexOf("_")+1).toLowerCase(), "subscription_id = " + subscriptionId
 					+ " and product_id = " + productId + " and partner_id=" + partnerId).get(0), expectedRecords);
 
 			SASValidationHelper.validate_schedular_api_response(
@@ -108,51 +113,45 @@ public class DeactivationRetryTest {
 
 			expectedRecords.put("status", "IN_PROGRESS");
 
-			SASValidationHelper.validateTableRecord(DBUtils.getRecord(actionTable, "subscription_id = " + subscriptionId
+			SASValidationHelper.validateTableRecord(DBUtils.getRecord(actionTable.substring(actionTable.indexOf("_")+1).toLowerCase(), "subscription_id = " + subscriptionId
 					+ " and product_id=" + productId + " and partner_id=" + partnerId).get(0), expectedRecords);
 
 			Message message = RabbitMQConnection.getRabbitTemplate()
-					.receive(productId + "_" + partnerId + "_" + actionTable.toUpperCase() + "_REQUEST_BACKEND", 25000);
+					.receive(productId + "_" + partnerId + "_" + actionTable + "_REQUEST_BACKEND", 25000);
 			SASValidationHelper.validateQueueMessage(
 					ObjectMapperUtils.readValueFromString(new String(message.getBody()), QueueResponse.class),
 					productId, partnerId, subscriptionId, countryCode, actionTable);
 		} catch (Exception e) {
-			Assert.fail("test case failed");
-			e.printStackTrace();
+			Assert.fail(e.toString());
 		}
 	}
 
-	@DataProvider(name = "neativeTestType")
-	public Object[][] neativeTestType() {
+	@DataProvider(name = "churnNegativeTestType")
+	public Object[][] churnNegativeTestType() {
 		return new Object[][] {
-				{ "DEACTIVATION", "SUSPEND", "DCT_INIT", "CONFIRMED", "DEACTIVATE_CONSENT", 111, "deactivation" },
-				{ "DEACTIVATION", "SUSPEND", "DCT_INIT", "IN_PROGRESS", "DEACTIVATE_CONSENT", 111, "deactivation" },
-				{ "DEACTIVATION", "PARKING", "DCT_INIT", "NOTIFICATION_WAIT", "DEACTIVATE_CONSENT", 111,
-						"deactivation" },
-				{ "DEACTIVATION", "PARKING", "DEACTIVATION", "SUCCESS", "DEACTIVATE_CONSENT", 111, "deactivation" },
+			/*	{ "SYSTEM_CHURN", "SUSPEND", "DEACTIVATED", "SUCCESS", "DEACTIVATE_CONSENT", 113, "SYSTEM_CHURN", "OPEN" },
+				{ "SYSTEM_CHURN", "ACT_INIT", "DEACTIVATED", "SUCCESS", "DEACTIVATE_CONSENT", 114, "SYSTEM_CHURN", "OPEN" },
+				{ "SYSTEM_CHURN", "PARKING", "DEACTIVATED", "SUCCESS", "DEACTIVATE_CONSENT", 115, "SYSTEM_CHURN", "OPEN" },
+				{ "SYSTEM_CHURN", "ACTIVATED", "DEACTIVATED", "SUCCESS", "DEACTIVATE_CONSENT", 116, "SYSTEM_CHURN", "OPEN" },*/
+				
 
-				{ "DEACTIVATION", "ACT_INIT", "DEACTIVATED", "FAILURE", "DEACTIVATE_CONSENT", 123, "deactivation" },
-				{ "DEACTIVATION", "ACT_INIT", "DEACTIVATED", "ERROR", "DEACTIVATE_CONSENT", 111, "deactivation" },
-				{ "DEACTIVATION", "SUSPEND", "DEACTIVATED", "CONFIRMED", "DEACTIVATE_CONSENT", 111, "deactivation" },
-				{ "DEACTIVATION", "SUSPEND", "DEACTIVATED", "IN_PROGRESS", "DEACTIVATE_CONSENT", 111, "deactivation" },
-				{ "DEACTIVATION", "PARKING", "DEACTIVATED", "NOTIFICATION_WAIT", "DEACTIVATE_CONSENT", 111,
-						"deactivation" },
-
-				{ "DEACTIVATION", "SUSPEND", "DCT_INIT", "SUCCESS", "DEACTIVATE_CONSENT", 111, "deactivation" },
-
+				{ "SYSTEM_CHURN", "PARKING", "DEACTIVATED", "IN_PROGRESS", "DEACTIVATE_CONSENT", 117, "SYSTEM_CHURN", "OPEN" },
+				{ "SYSTEM_CHURN", "PARKING", "DEACTIVATED", "FAILURE", "DEACTIVATE_CONSENT", 118, "SYSTEM_CHURN", "OPEN" },
+				{ "SYSTEM_CHURN", "PARKING", "DEACTIVATED", "ERROR", "DEACTIVATE_CONSENT", 119, "SYSTEM_CHURN", "OPEN" },
+				{ "SYSTEM_CHURN", "PARKING", "DCT_INIT", "SUCCESS", "DEACTIVATE_CONSENT", 119, "SYSTEM_CHURN", "OPEN" },
+		
 		};
-
 	}
 
-	@Test(dataProvider = "neativeTestType", dependsOnMethods = "createConfigData")
-	public void deactivationRetryNegativeTest(String activityType, String previousSubscriptionState,
-			String currentSubscriptionState, String transactionState, String actionType, int subscriptionId,
-			String actionTable) {
-
+	@Test(dependsOnMethods = "createConfigData", dataProvider = "churnNegativeTestType")
+	public void activationNegativeTestType(String activityType, String previousSubscriptionState,
+			String currentSubscriptionState, String transactionState, String actionType, Integer subscriptionId,
+			String actionTable, String status) throws Exception {
 		subscriptionId = RandomUtils.nextInt(3000, 4000);
+		//SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
 		String testMessage = subscriptionId + " " + activityType + " " + previousSubscriptionState + " "
 				+ currentSubscriptionState + " " + transactionState + " " + actionType;
-		logger.info("==================>Starting Negative deactivation retry test [ " + testMessage + " ]");
+		logger.info("==================>Starting Negative churn retry test  [ " + testMessage + " ]");
 
 		try {
 			SASValidationHelper.validate_sas_api_response(
@@ -162,7 +161,7 @@ public class DeactivationRetryTest {
 
 			AppAssert
 					.assertEqual(
-							DBUtils.getRecord(actionTable, "subscription_id = " + subscriptionId + " and product_id = "
+							DBUtils.getRecord(actionTable.substring(actionTable.indexOf("_")+1).toLowerCase(), "subscription_id = " + subscriptionId + " and product_id = "
 									+ productId + " and partner_id=" + partnerId).size(),
 							0, "Verify no record created");
 
@@ -172,16 +171,17 @@ public class DeactivationRetryTest {
 
 			AppAssert
 					.assertEqual(
-							DBUtils.getRecord(actionTable, "subscription_id = " + subscriptionId + " and product_id = "
+							DBUtils.getRecord(actionTable.substring(actionTable.indexOf("_")+1).toLowerCase(), "subscription_id = " + subscriptionId + " and product_id = "
 									+ productId + " and partner_id=" + partnerId).size(),
 							0, "Verify no record created");
 
 			Message message = RabbitMQConnection.getRabbitTemplate()
-					.receive(productId + "_" + partnerId + "_" + actionTable.toUpperCase() + "_REQUEST_BACKEND", 2000);
+					.receive(productId + "_" + partnerId + "_" + actionTable.toUpperCase() + "_REQUEST_BACKEND", 10000);
 			AppAssert.assertTrue(message == null, "Verify there is no record in queue for subscription");
 		} catch (Exception e) {
-			e.printStackTrace();
+			Assert.fail(e.toString());
 		}
+
 	}
 
 }

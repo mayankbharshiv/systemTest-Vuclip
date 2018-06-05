@@ -19,7 +19,7 @@ import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils
  *
  */
 
-public class Activation_RetrySASTests {
+public class SASActivation_RetryTests {
 	private static Logger logger = Log4J.getLogger("Activation_RetrySASTests");
 	private SASHelper sasHelper;
 	int productId;

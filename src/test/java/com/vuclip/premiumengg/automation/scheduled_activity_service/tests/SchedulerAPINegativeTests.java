@@ -23,7 +23,7 @@ import com.vuclip.premiumengg.automation.utils.DBUtils;
 import com.vuclip.premiumengg.automation.utils.JsonHelper;
 import com.vuclip.premiumengg.automation.utils.ObjectMapperUtils;
 
-public class SchedulerApiFieldsValidationTests {
+public class SchedulerAPINegativeTests {
 	private static Logger logger = Log4J.getLogger("SchedulerApiFieldsValidation");
 	private SASHelper sasHelper;
 	int productId;

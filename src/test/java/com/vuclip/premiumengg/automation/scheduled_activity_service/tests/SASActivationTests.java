@@ -30,8 +30,8 @@ import io.restassured.response.Response;
  *
  */
 
-public class SystemChurnRetryTests {
-	private static Logger logger = Log4J.getLogger("SystemChurnRetryTests");
+public class SASActivationTests {
+	private static Logger logger = Log4J.getLogger("ActivationRetryTests");
 	private SASHelper sasHelper;
 	int productId;
 	int partnerId;
@@ -60,28 +60,21 @@ public class SystemChurnRetryTests {
 		SASValidationHelper.validate_sas_api_response(sasHelper.saveProduct(publishConfigRequest));
 	}
 
-	@DataProvider(name = "churnPostiveTestType")
-	public Object[][] churnPostiveTestType() {
+	@DataProvider(name = "activationPostiveTestType")
+	public Object[][] activationPostiveTestType() {
 		return new Object[][] {
-				{ "SYSTEM_CHURN", "ACT_INIT", "DCT_INIT", "FAILURE", "DEACTIVATE_CONSENT", 101, "SYSTEM_CHURN", "OPEN" },
-				{ "SYSTEM_CHURN", "ACT_INIT", "DCT_INIT", "ERROR", "DEACTIVATE_CONSENT", 102, "SYSTEM_CHURN", "OPEN" },
-				{ "SYSTEM_CHURN", "SUSPEND", "DCT_INIT", "FAILURE", "DEACTIVATE_CONSENT", 103, "SYSTEM_CHURN", "OPEN" },
-				{ "SYSTEM_CHURN", "SUSPEND", "DCT_INIT", "ERROR", "DEACTIVATE_CONSENT", 104, "SYSTEM_CHURN", "OPEN" },
-				{ "SYSTEM_CHURN", "PARKING", "DCT_INIT", "FAILURE", "DEACTIVATE_CONSENT", 105, "SYSTEM_CHURN", "OPEN" },
-				{ "SYSTEM_CHURN", "PARKING", "DCT_INIT", "ERROR", "DEACTIVATE_CONSENT", 106, "SYSTEM_CHURN", "OPEN" },
-				{ "SYSTEM_CHURN", "ACTIVATED", "DCT_INIT", "FAILURE", "DEACTIVATE_CONSENT", 107, "SYSTEM_CHURN", "OPEN" },
-				{ "SYSTEM_CHURN", "ACTIVATED", "DCT_INIT", "ERROR", "DEACTIVATE_CONSENT", 108, "SYSTEM_CHURN", "OPEN" },
-				{ "SYSTEM_CHURN", "SUSPEND", "DCT_INIT", "IN_PROGRESS", "DEACTIVATE_CONSENT", 109, "SYSTEM_CHURN", "OPEN" },
-				{ "SYSTEM_CHURN", "ACT_INIT", "DCT_INIT", "IN_PROGRESS", "DEACTIVATE_CONSENT", 110, "SYSTEM_CHURN", "OPEN" },
-				{ "SYSTEM_CHURN", "PARKING", "DCT_INIT", "IN_PROGRESS", "DEACTIVATE_CONSENT", 111, "SYSTEM_CHURN", "OPEN" },
-				{ "SYSTEM_CHURN", "ACTIVATED", "DCT_INIT", "IN_PROGRESS", "DEACTIVATE_CONSENT", 112, "SYSTEM_CHURN", "OPEN" }
-		};
-	
-	
+				{ "ACTIVATION", "ACT_INIT", "ACTIVATED", "SUCCESS", "CHARGING", 101, "renewal", "OPEN" },
+				{ "ACTIVATION", "ACT_INIT", "ACT_INIT", "FAILURE", "CHARGING", 107, "activation", "OPEN" },
+				{ "ACTIVATION", "ACT_INIT", "ACT_INIT", "ERROR", "CHARGING", 108, "activation", "OPEN" },
+				{ "ACTIVATION", "ACT_INIT", "PARKING", "LOW_BALANCE", "CHARGING", 111, "winback", "OPEN" },
+				{ "ACTIVATION", "ACT_INIT", "ACT_INIT", "LOW_BALANCE", "CHARGING", 106, "winback", "OPEN" },
+				{ "ACTIVATION", "ACT_INIT", "ACT_INIT", "IN_PROGRESS", "CHARGING", 106, "winback", "OPEN" },
+				{ "ACTIVATION", "ACT_INIT", "ACT_INIT", "NOTIFICATION_WAIT", "CHARGING", 106, "winback", "OPEN" } };
+
 	}
 
-	@Test(dependsOnMethods = "createConfigData", dataProvider = "churnPostiveTestType")
-	public void churnPositiveRetryTests(String activityType, String previousSubscriptionState,
+	@Test(dependsOnMethods = "createConfigData", dataProvider = "activationPostiveTestType")
+	public void activationPositiveRetryTests(String activityType, String previousSubscriptionState,
 			String currentSubscriptionState, String transactionState, String actionType, Integer subscriptionId,
 			String actionTable, String status) throws Exception {
 
@@ -89,7 +82,7 @@ public class SystemChurnRetryTests {
 		//SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
 		String testMessage = subscriptionId + " " + activityType + " " + previousSubscriptionState + " "
 				+ currentSubscriptionState + " " + transactionState + " " + actionType;
-		logger.info("==================>Starting positive churn retry test  [ " + testMessage + " ]");
+		logger.info("==================>Starting positive activation retry test  [ " + testMessage + " ]");
 
 		try {
 
@@ -105,7 +98,7 @@ public class SystemChurnRetryTests {
 			expectedRecords.put("subscription_id", String.valueOf(subscriptionId));
 			expectedRecords.put("country_code", countryCode);
 
-			SASValidationHelper.validateTableRecord(DBUtils.getRecord(actionTable.substring(actionTable.indexOf("_")+1).toLowerCase(), "subscription_id = " + subscriptionId
+			SASValidationHelper.validateTableRecord(DBUtils.getRecord(actionTable, "subscription_id = " + subscriptionId
 					+ " and product_id = " + productId + " and partner_id=" + partnerId).get(0), expectedRecords);
 
 			SASValidationHelper.validate_schedular_api_response(
@@ -113,37 +106,34 @@ public class SystemChurnRetryTests {
 
 			expectedRecords.put("status", "IN_PROGRESS");
 
-			SASValidationHelper.validateTableRecord(DBUtils.getRecord(actionTable.substring(actionTable.indexOf("_")+1).toLowerCase(), "subscription_id = " + subscriptionId
+			SASValidationHelper.validateTableRecord(DBUtils.getRecord(actionTable, "subscription_id = " + subscriptionId
 					+ " and product_id=" + productId + " and partner_id=" + partnerId).get(0), expectedRecords);
 
 			Message message = RabbitMQConnection.getRabbitTemplate()
-					.receive(productId + "_" + partnerId + "_" + actionTable + "_REQUEST_BACKEND", 25000);
+					.receive(productId + "_" + partnerId + "_" + actionTable.toUpperCase() + "_REQUEST_BACKEND", 25000);
 			SASValidationHelper.validateQueueMessage(
 					ObjectMapperUtils.readValueFromString(new String(message.getBody()), QueueResponse.class),
-					productId, partnerId, subscriptionId, countryCode, actionTable);
+					productId, partnerId, subscriptionId, countryCode, actionTable.toUpperCase());
 		} catch (Exception e) {
 			Assert.fail(e.toString());
 		}
 	}
 
-	@DataProvider(name = "churnNegativeTestType")
-	public Object[][] churnNegativeTestType() {
+	@DataProvider(name = "activationNegativeTestType")
+	public Object[][] activationNegativeTestType() {
 		return new Object[][] {
-			/*	{ "SYSTEM_CHURN", "SUSPEND", "DEACTIVATED", "SUCCESS", "DEACTIVATE_CONSENT", 113, "SYSTEM_CHURN", "OPEN" },
-				{ "SYSTEM_CHURN", "ACT_INIT", "DEACTIVATED", "SUCCESS", "DEACTIVATE_CONSENT", 114, "SYSTEM_CHURN", "OPEN" },
-				{ "SYSTEM_CHURN", "PARKING", "DEACTIVATED", "SUCCESS", "DEACTIVATE_CONSENT", 115, "SYSTEM_CHURN", "OPEN" },
-				{ "SYSTEM_CHURN", "ACTIVATED", "DEACTIVATED", "SUCCESS", "DEACTIVATE_CONSENT", 116, "SYSTEM_CHURN", "OPEN" },*/
-				
+				{ "ACTIVATION", "ACT_INIT", "ACTIVATED", "LOW_BALANCE", "CHARGING", 102, "renewal", "OPEN" },
+				{ "ACTIVATION", "ACT_INIT", "ACTIVATED", "FAILURE", "CHARGING", 103, "renewal", "OPEN" },
+				{ "ACTIVATION", "ACT_INIT", "ACTIVATED", "ERROR", "CHARGING", 104, "renewal", "OPEN" },
+				{ "ACTIVATION", "ACT_INIT", "ACT_INIT", "SUCCESS", "CHARGING", 105, "activation", "OPEN" },
+				{ "ACTIVATION", "ACT_INIT", "PARKING", "SUCCESS", "CHARGING", 109, "winback", "OPEN" },
+				{ "ACTIVATION", "ACT_INIT", "PARKING", "FAILURE", "CHARGING", 110, "winback", "OPEN" },
+				{ "ACTIVATION", "ACT_INIT", "PARKING", "ERROR", "CHARGING", 112, "winback", "OPEN" }
 
-				{ "SYSTEM_CHURN", "PARKING", "DEACTIVATED", "IN_PROGRESS", "DEACTIVATE_CONSENT", 117, "SYSTEM_CHURN", "OPEN" },
-				{ "SYSTEM_CHURN", "PARKING", "DEACTIVATED", "FAILURE", "DEACTIVATE_CONSENT", 118, "SYSTEM_CHURN", "OPEN" },
-				{ "SYSTEM_CHURN", "PARKING", "DEACTIVATED", "ERROR", "DEACTIVATE_CONSENT", 119, "SYSTEM_CHURN", "OPEN" },
-				{ "SYSTEM_CHURN", "PARKING", "DCT_INIT", "SUCCESS", "DEACTIVATE_CONSENT", 119, "SYSTEM_CHURN", "OPEN" },
-		
 		};
 	}
 
-	@Test(dependsOnMethods = "createConfigData", dataProvider = "churnNegativeTestType")
+	@Test(dependsOnMethods = "createConfigData", dataProvider = "activationNegativeTestType")
 	public void activationNegativeTestType(String activityType, String previousSubscriptionState,
 			String currentSubscriptionState, String transactionState, String actionType, Integer subscriptionId,
 			String actionTable, String status) throws Exception {
@@ -151,7 +141,7 @@ public class SystemChurnRetryTests {
 		//SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
 		String testMessage = subscriptionId + " " + activityType + " " + previousSubscriptionState + " "
 				+ currentSubscriptionState + " " + transactionState + " " + actionType;
-		logger.info("==================>Starting Negative churn retry test  [ " + testMessage + " ]");
+		logger.info("==================>Starting Negative activation retry test  [ " + testMessage + " ]");
 
 		try {
 			SASValidationHelper.validate_sas_api_response(
@@ -161,7 +151,7 @@ public class SystemChurnRetryTests {
 
 			AppAssert
 					.assertEqual(
-							DBUtils.getRecord(actionTable.substring(actionTable.indexOf("_")+1).toLowerCase(), "subscription_id = " + subscriptionId + " and product_id = "
+							DBUtils.getRecord(actionTable, "subscription_id = " + subscriptionId + " and product_id = "
 									+ productId + " and partner_id=" + partnerId).size(),
 							0, "Verify no record created");
 
@@ -171,7 +161,7 @@ public class SystemChurnRetryTests {
 
 			AppAssert
 					.assertEqual(
-							DBUtils.getRecord(actionTable.substring(actionTable.indexOf("_")+1).toLowerCase(), "subscription_id = " + subscriptionId + " and product_id = "
+							DBUtils.getRecord(actionTable, "subscription_id = " + subscriptionId + " and product_id = "
 									+ productId + " and partner_id=" + partnerId).size(),
 							0, "Verify no record created");
 

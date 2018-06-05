@@ -30,8 +30,8 @@ import io.restassured.response.Response;
  *
  */
 
-public class WinbackRetryTests {
-	private static Logger logger = Log4J.getLogger("WinbackRetryTests");
+public class SASDeactivationRetryTests {
+	private static Logger logger = Log4J.getLogger("ActivationRetryTests");
 	private SASHelper sasHelper;
 	int productId;
 	int partnerId;
@@ -60,19 +60,17 @@ public class WinbackRetryTests {
 		SASValidationHelper.validate_sas_api_response(sasHelper.saveProduct(publishConfigRequest));
 	}
 
-	@DataProvider(name = "winbackPositiveTestType")
-	public Object[][] winbackPositiveTestType() {
-		return new Object[][] { { "WINBACK", "PARKING", "ACTIVATED", "SUCCESS", "CHARGING", 101, "renewal", "OPEN" },
-				{ "WINBACK", "PARKING", "PARKING", "LOW_BALANCE", "CHARGING", 102, "winback", "OPEN" },
-				{ "WINBACK", "PARKING", "PARKING", "ERROR", "CHARGING", 103, "winback", "OPEN" },
-				{ "WINBACK", "PARKING", "PARKING", "IN_PROGRESS", "CHARGING", 103, "winback", "OPEN" },
-				{ "WINBACK", "PARKING", "PARKING", "FAILURE", "CHARGING", 103, "winback", "OPEN" },
-
-		};
+	@DataProvider(name = "deactivationRetryPositiveTestType")
+	public Object[][] deactivationRetryPositiveTestType() {
+		return new Object[][] {
+				{ "DEACTIVATION_RETRY", "DCT_INIT", "DCT_INIT", "ERROR", "DEACTIVATE_CONSENT", 101, "deactivation",
+						"OPEN" },
+				{ "DEACTIVATION_RETRY", "DCT_INIT", "DCT_INIT", "FAILURE", "DEACTIVATE_CONSENT", 102, "deactivation",
+						"OPEN" } };
 	}
 
-	@Test(dependsOnMethods = "createConfigData", dataProvider = "winbackPositiveTestType")
-	public void winbackPositiveRetryTests(String activityType, String previousSubscriptionState,
+	@Test(dependsOnMethods = "createConfigData", dataProvider = "deactivationRetryPositiveTestType")
+	public void RetryDeactivationPositiveRetryTests(String activityType, String previousSubscriptionState,
 			String currentSubscriptionState, String transactionState, String actionType, Integer subscriptionId,
 			String actionTable, String status) throws Exception {
 
@@ -80,7 +78,7 @@ public class WinbackRetryTests {
 		//SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
 		String testMessage = subscriptionId + " " + activityType + " " + previousSubscriptionState + " "
 				+ currentSubscriptionState + " " + transactionState + " " + actionType;
-		logger.info("==================>Starting Winback activation retry test  [ " + testMessage + " ]");
+		logger.info("==================>Starting positive Deactivation_Retry retry test  [ " + testMessage + " ]");
 
 		try {
 
@@ -111,33 +109,35 @@ public class WinbackRetryTests {
 					.receive(productId + "_" + partnerId + "_" + actionTable.toUpperCase() + "_REQUEST_BACKEND", 25000);
 			SASValidationHelper.validateQueueMessage(
 					ObjectMapperUtils.readValueFromString(new String(message.getBody()), QueueResponse.class),
-					productId, partnerId, subscriptionId, countryCode, actionTable);
+					productId, partnerId, subscriptionId, countryCode, actionTable.toUpperCase());
 		} catch (Exception e) {
 			Assert.fail(e.toString());
 		}
 	}
 
-	@DataProvider(name = "winbackNegativeTestType")
-	public Object[][] winbackNegativeTestType() {
+	@DataProvider(name = "deactivationRetryNegativeTestType")
+	public Object[][] deactivationRetryNegativeTestType() {
 		return new Object[][] {
-				{ "WINBACK", "PARKING", "ACTIVATED", "LOW_BALANCE", "CHARGING", 104, "renewal", "OPEN" },
-				{ "WINBACK", "PARKING", "ACTIVATED", "ERROR", "CHARGING", 105, "renewal", "OPEN" },
-				{ "WINBACK", "PARKING", "ACTIVATED", "IN_PROGRESS", "CHARGING", 105, "renewal", "OPEN" },
-				{ "WINBACK", "PARKING", "ACTIVATED", "FAILURE", "CHARGING", 105, "renewal", "OPEN" },
-				{ "WINBACK", "PARKING", "PARKING", "SUCCESS", "CHARGING", 106, "winback", "OPEN" },
 
-		};
+				{ "DEACTIVATION_RETRY", "DCT_INIT", "DEACTIVATED", "SUCCESS", "DEACTIVATE_CONSENT", 103, "deactivation",
+						"OPEN" },
+				{ "DEACTIVATION_RETRY", "DCT_INIT", "DEACTIVATED", "ERROR", "DEACTIVATE_CONSENT", 104, "deactivation",
+						"OPEN" },
+				{ "DEACTIVATION_RETRY", "DCT_INIT", "DEACTIVATED", "FAILURE", "DEACTIVATE_CONSENT", 105, "deactivation",
+						"OPEN" },
+				{ "DEACTIVATION_RETRY", "DCT_INIT", "DCT_INIT", "SUCCESS", "DEACTIVATE_CONSENT", 106, "deactivation",
+						"OPEN" } };
 	}
 
-	@Test(dependsOnMethods = "createConfigData", dataProvider = "winbackNegativeTestType")
-	public void winbackNegativeTestType(String activityType, String previousSubscriptionState,
+	@Test(dependsOnMethods = "createConfigData", dataProvider = "deactivationRetryNegativeTestType")
+	public void RetryDeactivationNegativeTestType(String activityType, String previousSubscriptionState,
 			String currentSubscriptionState, String transactionState, String actionType, Integer subscriptionId,
 			String actionTable, String status) throws Exception {
 		subscriptionId = RandomUtils.nextInt(3000, 4000);
 		//SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
 		String testMessage = subscriptionId + " " + activityType + " " + previousSubscriptionState + " "
 				+ currentSubscriptionState + " " + transactionState + " " + actionType;
-		logger.info("==================>Starting Winback activation retry test  [ " + testMessage + " ]");
+		logger.info("==================>Starting Negative RetryDeactivationTests retry test  [ " + testMessage + " ]");
 
 		try {
 			SASValidationHelper.validate_sas_api_response(

@@ -20,7 +20,7 @@ import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils
  *
  */
 
-public class BlackoutWindowFieldsValidationTests {
+public class BlackoutTests {
 	private static Logger logger = Log4J.getLogger("BlackoutWindowTests");
 	private SASHelper sasHelper;
 	int productId;

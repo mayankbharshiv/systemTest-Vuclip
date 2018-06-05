@@ -16,7 +16,7 @@ import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils
 import com.vuclip.premiumengg.automation.utils.JsonHelper;
 import com.vuclip.premiumengg.automation.utils.ObjectMapperUtils;
 
-public class UserSubscriptionApiFieldsValidationTests {
+public class UserSubscriptionAPINegativeTests {
 
 	private static Logger logger = Log4J.getLogger("UserSubscriptionApiFieldsValidationTests");
 	private SASHelper sasHelper;
