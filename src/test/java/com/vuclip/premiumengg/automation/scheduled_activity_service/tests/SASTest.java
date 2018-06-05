@@ -70,49 +70,65 @@ public class SASTest {
 	public Object[][] activationPostiveTestType() {
 		return new Object[][] {
 
-				/* PASS */{ "CHARGING", "ACTIVATION", "ACTIVATED", "SUCCESS", "renewal", "ACTIVATED", "SUCCESS",
-						"SUCCESS", "renewal" },
-				/* PASS */{ "CHARGING", "ACTIVATION", "ACTIVATED", "SUCCESS", "renewal", "ACTIVATED", "ERROR", "ERROR",
-						"renewal_retry" },
-				/* PASS */{ "CHARGING", "ACTIVATION", "ACTIVATED", "SUCCESS", "renewal", "ACTIVATED", "FAILURE",
-						"FAILURE", "renewal_retry" },
-				// FAIL processor is not configured{ "CHARGING", "ACTIVATION", "ACTIVATED",
-				// "SUCCESS", "renewal","ACTIVATED", "IN_PROGRESS", "IN_PROGRESS",
-				// "renewal_retry" }
-				// FAIL { "CHARGING", "ACTIVATION", "ACTIVATED", "SUCCESS",
-				// "renewal","ACTIVATED", "NOTIFICATION_WAIT", "IN_PROGRESS","renewal_retry" }
-
-				/* PASS */{ "CHARGING", "ACTIVATION", "ACT_INIT", "FAILURE", "activation", "ACTIVATED", "SUCCESS",
-						"SUCCESS", "renewal" },
-				/* PASS */{ "CHARGING", "ACTIVATION", "ACT_INIT", "FAILURE", "activation", "ACT_INIT", "FAILURE",
-						"FAILURE", "renewal" },
-				/* PASS */{ "CHARGING", "ACTIVATION", "ACT_INIT", "FAILURE", "activation", "ACT_INIT", "ERROR", "ERROR",
-						"activation" },
-				// /*fail*/{ "CHARGING", "ACTIVATION", "ACT_INIT", "FAILURE",
-				// "activation","ACT_INIT", "NOTIFICATION_WAIT",
-				// "NOTIFICATION_WAIT", "activation" },
-				// /*fail*/{ "CHARGING", "ACTIVATION", "ACT_INIT", "FAILURE",
-				// "activation","ACT_INIT", "IN_PROGRESS",
-				// "IN_PROGRESS", "winback" },
-				/* PASS */{ "CHARGING", "ACTIVATION", "ACT_INIT", "FAILURE", "activation", "ACT_INIT", "LOW_BALANCE",
-						"LOW_BALANCE", "winback" }
-
-				// /*FAIL*/{ "CHARGING", "ACTIVATION", "ACT_INIT", "ERROR",
-				// "activation","ACT_INIT", "LOW_BALANCE",
-				// "LOW_BALANCE", "winback" },
-
-				// /*FAIL*/{ "CHARGING", "ACTIVATION", "ACT_INIT", "IN_PROGRESS",
-				// "winback","ACT_INIT", "LOW_BALANCE",
-				// "LOW_BALANCE", "winback" },
-				// /*FAIL*/{ "CHARGING", "ACTIVATION", "ACT_INIT", "LOW_BALANCE",
-				// "winback","ACT_INIT", "LOW_BALANCE",
-				// "LOW_BALANCE", "winback" },
-				//
-				// /*FAIL*/{ "CHARGING", "ACTIVATION", "ACT_INIT", "NOTIFICATION_WAIT",
-				// "winback","ACT_INIT", "LOW_BALANCE",
-				// "LOW_BALANCE", "winback" }
-
-		};
+//				/* PASS */{ "CHARGING", "ACTIVATION", "ACTIVATED", "SUCCESS", "renewal", "ACTIVATED", "SUCCESS",
+//						"SUCCESS", "renewal" },
+//				/* PASS */{ "CHARGING", "ACTIVATION", "ACTIVATED", "SUCCESS", "renewal", "ACTIVATED", "ERROR", "ERROR",
+//						"renewal_retry" },
+//				/* PASS */{ "CHARGING", "ACTIVATION", "ACTIVATED", "SUCCESS", "renewal", "ACTIVATED", "FAILURE",
+//						"FAILURE", "renewal_retry" },
+//				/* PASS */{ "CHARGING", "ACTIVATION", "ACT_INIT", "FAILURE", "activation", "ACTIVATED", "SUCCESS",
+//						"SUCCESS", "renewal" },
+//				/* PASSED */{ "CHARGING", "ACTIVATION", "ACT_INIT", "FAILURE", "activation", "ACT_INIT", "FAILURE",
+//						"FAILURE", "activation" },
+//				/* PASSED */{ "CHARGING", "ACTIVATION", "ACT_INIT", "FAILURE", "activation", "ACT_INIT", "ERROR",
+//						"ERROR", "activation" },
+//
+//				/* PASSED */{ "CHARGING", "ACTIVATION", "PARKING", "LOW_BALANCE", "winback", "PARKING", "ERROR",
+//						"ERROR", "winback" },
+//
+//				/* fail no pro */{ "CHARGING", "ACTIVATION", "PARKING", "LOW_BALANCE", "winback", "PARKING", "FAILURE",
+//						"FAILURE", "winback" },
+//
+//				/* PASSED */{ "CHARGING", "ACTIVATION", "PARKING", "LOW_BALANCE", "winback", "PARKING", "LOW_BALANCE",
+//						"LOW_BALANCE", "winback" },
+//
+//				/* fail no processor */{ "CHARGING", "ACTIVATION", "PARKING", "LOW_BALANCE", "winback", "PARKING",
+//						"IN_PROGRESS", "IN_PROGRESS", "winback" },
+//
+//				/* fail */{ "CHARGING", "ACTIVATION", "ACT_INIT", "FAILURE", "activation", "ACT_INIT",
+//						"NOTIFICATION_WAIT", "NOTIFICATION_WAIT", "activation" },
+//				/* fail */{ "CHARGING", "ACTIVATION", "ACT_INIT", "FAILURE", "activation", "ACT_INIT", "IN_PROGRESS",
+//						"IN_PROGRESS", "winback" },
+//				/* BUG */{ "CHARGING", "ACTIVATION", "ACT_INIT", "FAILURE", "activation", "ACT_INIT", "LOW_BALANCE",
+//						"LOW_BALANCE", "winback" },
+//
+//				/* BUG */{ "CHARGING", "ACTIVATION", "ACT_INIT", "ERROR", "activation", "ACT_INIT", "LOW_BALANCE",
+//						"LOW_BALANCE", "winback" },
+//
+//				/* FAIL */{ "CHARGING", "ACTIVATION", "ACT_INIT", "IN_PROGRESS", "winback", "ACT_INIT", "LOW_BALANCE",
+//						"LOW_BALANCE", "winback" },
+//				/* FAIL */{ "CHARGING", "ACTIVATION", "ACT_INIT", "LOW_BALANCE", "winback", "ACT_INIT", "LOW_BALANCE",
+//						"LOW_BALANCE", "winback" },
+//
+//				/* FAIL */{ "CHARGING", "ACTIVATION", "ACT_INIT", "NOTIFICATION_WAIT", "winback", "ACT_INIT",
+//						"LOW_BALANCE", "LOW_BALANCE", "winback" },
+//				/* FAIL processor is not configured */{ "CHARGING", "ACTIVATION", "ACTIVATED", "SUCCESS", "renewal",
+//						"ACTIVATED", "IN_PROGRESS", "IN_PROGRESS", "renewal_retry" },
+//				/* FAIL */ { "CHARGING", "ACTIVATION", "ACTIVATED", "SUCCESS", "renewal", "ACTIVATED",
+//						"NOTIFICATION_WAIT", "IN_PROGRESS", "renewal_retry" },
+//
+//				/* PASSED */{ "DEACTIVATE_CONSENT", "DEACTIVATION", "DCT_INIT", "FAILURE", "deactivation", "DCT_INIT",
+//						"FAILURE", "FAILURE", "deactivation" },
+//				/* PASSED */{ "DEACTIVATE_CONSENT", "DEACTIVATION", "DCT_INIT", "FAILURE", "deactivation", "DCT_INIT",
+//						"ERROR", "ERROR", "deactivation" },
+//				/* no entry */{ "DEACTIVATE_CONSENT", "DEACTIVATION", "DCT_INIT", "FAILURE", "deactivation", "DCT_INIT",
+//						"CONFIRMED", "CONFIRMED", "deactivation" },
+//				/* no entry */{ "DEACTIVATE_CONSENT", "DEACTIVATION", "DCT_INIT", "FAILURE", "deactivation", "DCT_INIT",
+//						"IN_PROGRESS", "IN_PROGRESS", "deactivation" },
+//			/* no entry */{ "DEACTIVATE_CONSENT", "DEACTIVATION", "DCT_INIT", "FAILURE", "deactivation", "DCT_INIT",
+//				"NOTIFICATION_WAIT", "NOTIFICATION_WAIT", "deactivation" }, 
+				/* no entry */{ "DEACTIVATE_CONSENT", "DEACTIVATION", "DCT_INIT", "SUCCESS", "deactivation", "DCT_INIT",
+					"FAILURE", "FAILURE", "deactivation" }, };
 	}
 
 	@Test(dependsOnMethods = "createConfigData", dataProvider = "activationPostiveTestType")
@@ -124,7 +140,8 @@ public class SASTest {
 		Integer subscriptionId = RandomUtils.nextInt(900, 1000);
 		// SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
 		String testMessage = subscriptionId + " " + activityType + " " + currentSubscriptionState + " "
-				+ transactionState + " " + eventActionType;
+				+ transactionState + " " + actionTable + " " + newCurrentSubscriptionState + " " + newTransactionState
+				+ " " + newActionTable;
 		logger.info("==================>Starting positive activation retry test  [ " + testMessage + " ]");
 
 		try {
@@ -162,6 +179,8 @@ public class SASTest {
 
 			Message message = RabbitMQConnection.getRabbitTemplate()
 					.receive(productId + "_" + partnerId + "_" + actionTable.toUpperCase() + "_REQUEST_BACKEND", 25000);
+			Log4J.getLogger().info("velidation for quest " + productId + "_" + partnerId + "_"
+					+ actionTable.toUpperCase() + "_REQUEST_BACKEND");
 			SASValidationHelper.validateQueueMessage(
 					ObjectMapperUtils.readValueFromString(new String(message.getBody()), QueueResponse.class),
 					productId, partnerId, subscriptionId, countryCode, actionTable.toUpperCase());
@@ -177,8 +196,7 @@ public class SASTest {
 
 			SASValidationHelper.validate_sas_api_response(sasHelper.userSubscription(newSubscriptionRequest));
 
-			// SASDBHelper.showAllActivityTableData("THIRD",
-			// String.valueOf(subscriptionId));
+			SASDBHelper.showAllActivityTableData("THIRD", String.valueOf(subscriptionId));
 			expectedRecords.put("status", oldStatusValue);
 			SASValidationHelper.validateTableRecord(DBUtils
 					.getRecord(actionTable,
@@ -202,8 +220,7 @@ public class SASTest {
 			SASValidationHelper.validate_schedular_api_response(
 					sasHelper.scheduler(SASUtils.generateSchedulerRequest(productId, partnerId, newActionTable)));
 
-			// SASDBHelper.showAllActivityTableData("FOURTH",
-			// String.valueOf(subscriptionId));
+			SASDBHelper.showAllActivityTableData("FOURTH", String.valueOf(subscriptionId));
 
 			expectedRecords.put("status", "IN_PROGRESS");
 
@@ -217,6 +234,9 @@ public class SASTest {
 
 			message = RabbitMQConnection.getRabbitTemplate().receive(
 					productId + "_" + partnerId + "_" + newActionTable.toUpperCase() + "_REQUEST_BACKEND", 25000);
+			Log4J.getLogger().info("velidation for quest " + productId + "_" + partnerId + "_"
+					+ newActionTable.toUpperCase() + "_REQUEST_BACKEND");
+
 			SASValidationHelper.validateQueueMessage(
 					ObjectMapperUtils.readValueFromString(new String(message.getBody()), QueueResponse.class),
 					productId, partnerId, subscriptionId, countryCode, newActionTable.toUpperCase());

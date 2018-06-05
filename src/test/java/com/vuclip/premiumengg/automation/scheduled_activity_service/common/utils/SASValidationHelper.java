@@ -22,7 +22,7 @@ public class SASValidationHelper {
 	public static void validate_schedular_api_response(Response schedularApiResponse) throws Exception {
 
 		AppAssert.assertEqual(schedularApiResponse.statusCode(), 200, "Validate that response status code is 200 ");
-		AppAssert.assertEqual(schedularApiResponse.getBody().asString(), "SUCCESS","verify scheduler api call");
+		AppAssert.assertEqual(schedularApiResponse.getBody().asString(), "SUCCESS", "verify scheduler api call");
 	}
 
 	public static void validateQueueMessage(QueueResponse queueResponse, SchedulerRequest schedulerRequest,
@@ -59,7 +59,11 @@ public class SASValidationHelper {
 				"Verify subscription ID");
 		AppAssert.assertEqual(queueResponse.getCountryCode().toUpperCase(), countryCode.toUpperCase(),
 				"Verify country");
-		AppAssert.assertEqual(queueResponse.getActivitType().toString().toUpperCase(), actionTable.toUpperCase(),
-				"Verify activity type");
+		if (actionTable.toUpperCase().equalsIgnoreCase("RENEWAL_RETRY"))
+			AppAssert.assertEqual(queueResponse.getActivitType().toString().toUpperCase(), "RENEWAL",
+					"Verify activity type");
+		else
+			AppAssert.assertEqual(queueResponse.getActivitType().toString().toUpperCase(), actionTable.toUpperCase(),
+					"Verify activity type");
 	}
 }

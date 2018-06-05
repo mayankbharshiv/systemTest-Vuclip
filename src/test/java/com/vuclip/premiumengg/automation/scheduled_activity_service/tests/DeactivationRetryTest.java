@@ -74,15 +74,14 @@ public class DeactivationRetryTest {
 		return new Object[][] {
 				{ "DEACTIVATION", "ACT_INIT", "DCT_INIT", "FAILURE", "DEACTIVATE_CONSENT", 123, "deactivation" },
 				{ "DEACTIVATION", "ACT_INIT", "DCT_INIT", "ERROR", "DEACTIVATE_CONSENT", 111, "deactivation" },
-				{ "DEACTIVATION", "SUSPEND", "DCT_INIT", "FAILURE", "DEACTIVATE_CONSENT", 111, "deactivation" },
-				{ "DEACTIVATION", "SUSPEND", "DCT_INIT", "ERROR", "DEACTIVATE_CONSENT", 111, "deactivation" },
-				{ "DEACTIVATION", "PARKING", "DCT_INIT", "FAILURE", "DEACTIVATE_CONSENT", 111, "deactivation" },
-				{ "DEACTIVATION", "PARKING", "DCT_INIT", "ERROR", "DEACTIVATE_CONSENT", 111, "deactivation" },
-				{ "DEACTIVATION", "ACTIVATED", "DCT_INIT", "FAILURE", "DEACTIVATE_CONSENT", 111, "deactivation" },
-				{ "DEACTIVATION", "ACTIVATED", "DCT_INIT", "ERROR", "DEACTIVATE_CONSENT", 111, "deactivation" },
-				{ "DEACTIVATION", "DCT_INIT", "DCT_INIT", "ERROR", "DEACTIVATE_CONSENT", 111, "deactivation" },
-				{ "DEACTIVATION", "DCT_INIT", "DCT_INIT", "FAILURE", "DEACTIVATE_CONSENT", 111, "deactivation" } };
-
+				{ "DEACTIVATION", "SUSPEND", "DCT_INIT", "CONFIRMED", "DEACTIVATE_CONSENT", 111, "deactivation" },
+				{ "DEACTIVATION", "SUSPEND", "DCT_INIT", "IN_PROGRESS", "DEACTIVATE_CONSENT", 111, "deactivation" },
+				{ "DEACTIVATION", "PARKING", "DCT_INIT", "NOTIFICATION_WAIT", "DEACTIVATE_CONSENT", 111, "deactivation" },
+				
+				{ "DEACTIVATION", "PARKING", "DEACTIVATION", "SUCCESS", "DEACTIVATE_CONSENT", 111, "deactivation" }
+				
+		};
+				
 	}
 
 	@Test(dataProvider = "testType", dependsOnMethods = "createConfigData")
@@ -132,15 +131,24 @@ public class DeactivationRetryTest {
 	@DataProvider(name = "neativeTestType")
 	public Object[][] neativeTestType() {
 		return new Object[][] {
-				{ "DEACTIVATION", "ACT_INIT", "DEACTIVATED", "SUCCESS", "DEACTIVATE_CONSENT", 111, "deactivation" },
-				{ "DEACTIVATION", "ACT_INIT", "DCT_INIT", "IN_PROGRESS", "DEACTIVATE_CONSENT", 555, "deactivation" },
-				{ "DEACTIVATION", "SUSPEND", "DEACTIVATED", "SUCCESS", "DEACTIVATE_CONSENT", 111, "deactivation" },
-				{ "DEACTIVATION", "SUSPEND", "DCT_INIT", "IN_PROGRESS", "DEACTIVATE_CONSENT", 111, "deactivation" },
-				{ "DEACTIVATION", "PARKING", "DEACTIVATED", "SUCCESS", "DEACTIVATE_CONSENT", 111, "deactivation" },
-				{ "DEACTIVATION", "PARKING", "DCT_INIT", "IN_PROGRESS", "DEACTIVATE_CONSENT", 111, "deactivation" },
-				{ "DEACTIVATION", "ACTIVATED", "DEACTIVATED", "SUCCESS", "DEACTIVATE_CONSENT", 111, "deactivation" },
-				{ "DEACTIVATION", "ACTIVATED", "DCT_INIT", "IN_PROGRESS", "DEACTIVATE_CONSENT", 111, "deactivation" },
-				{ "DEACTIVATION", "DCT_INIT", "DEACTIVATED", "SUCCESS", "DEACTIVATE_CONSENT", 111, "deactivation" },
+			
+			{ "DEACTIVATION", "ACT_INIT", "DEACTIVATED", "FAILURE", "DEACTIVATE_CONSENT", 123, "deactivation" },
+			{ "DEACTIVATION", "ACT_INIT", "DEACTIVATED", "ERROR", "DEACTIVATE_CONSENT", 111, "deactivation" },
+			{ "DEACTIVATION", "SUSPEND", "DEACTIVATED", "CONFIRMED", "DEACTIVATE_CONSENT", 111, "deactivation" },
+			{ "DEACTIVATION", "SUSPEND", "DEACTIVATED", "IN_PROGRESS", "DEACTIVATE_CONSENT", 111, "deactivation" },
+			{ "DEACTIVATION", "PARKING", "DEACTIVATED", "NOTIFICATION_WAIT", "DEACTIVATE_CONSENT", 111, "deactivation" },
+		
+			{ "DEACTIVATION", "SUSPEND", "DCT_INIT", "SUCCESS", "DEACTIVATE_CONSENT", 111, "deactivation" },
+
+//				{ "DEACTIVATION", "ACT_INIT", "DEACTIVATED", "SUCCESS", "DEACTIVATE_CONSENT", 111, "deactivation" },
+//				{ "DEACTIVATION", "ACT_INIT", "DCT_INIT", "IN_PROGRESS", "DEACTIVATE_CONSENT", 555, "deactivation" },
+//				{ "DEACTIVATION", "SUSPEND", "DEACTIVATED", "SUCCESS", "DEACTIVATE_CONSENT", 111, "deactivation" },
+//				{ "DEACTIVATION", "SUSPEND", "DCT_INIT", "IN_PROGRESS", "DEACTIVATE_CONSENT", 111, "deactivation" },
+//				{ "DEACTIVATION", "PARKING", "DEACTIVATED", "SUCCESS", "DEACTIVATE_CONSENT", 111, "deactivation" },
+//				{ "DEACTIVATION", "PARKING", "DCT_INIT", "IN_PROGRESS", "DEACTIVATE_CONSENT", 111, "deactivation" },
+//				{ "DEACTIVATION", "ACTIVATED", "DEACTIVATED", "SUCCESS", "DEACTIVATE_CONSENT", 111, "deactivation" },
+//				{ "DEACTIVATION", "ACTIVATED", "DCT_INIT", "IN_PROGRESS", "DEACTIVATE_CONSENT", 111, "deactivation" },
+//				{ "DEACTIVATION", "DCT_INIT", "DEACTIVATED", "SUCCESS", "DEACTIVATE_CONSENT", 111, "deactivation" },
 
 		};
 
