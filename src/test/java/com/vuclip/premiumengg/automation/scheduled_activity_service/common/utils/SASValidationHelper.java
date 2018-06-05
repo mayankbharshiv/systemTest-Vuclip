@@ -15,16 +15,25 @@ import io.restassured.response.Response;
 public class SASValidationHelper {
 	private static Logger logger = Log4J.getLogger("SASValidationHelper");
 
-	public static void validate_sas_api_response(Response smsApiResponse) throws Exception {
-		AppAssert.assertEqual(smsApiResponse.statusCode(), 200, "Vefiry that response status code is 200 ");
+	public static void validate_sas_api_response(Response sasApiResponse) throws Exception {
+		AppAssert.assertEqual(sasApiResponse.statusCode(), 200, "Vefiry that response status code is 200 ");
 	}
 
+	public static void validate_sas_invalid_api_response(Response sasApiResponse) throws Exception {
+		AppAssert.assertEqual(sasApiResponse.statusCode(), 500, "Vefiry that response status code is 500 ");
+	}
+	
 	public static void validate_schedular_api_response(Response schedularApiResponse) throws Exception {
 
 		AppAssert.assertEqual(schedularApiResponse.statusCode(), 200, "Validate that response status code is 200 ");
 		AppAssert.assertEqual(schedularApiResponse.getBody().asString(), "SUCCESS", "verify scheduler api call");
 	}
 
+	public static void validate_schedular_invalid_api_response(Response schedularApiResponse) throws Exception {
+
+		AppAssert.assertEqual(schedularApiResponse.statusCode(), 500, "Validate that response status code is 500 ");
+		AppAssert.assertEqual(schedularApiResponse.getBody().asString(), "FAILURE","verify scheduler api call");
+	}
 	public static void validateQueueMessage(QueueResponse queueResponse, SchedulerRequest schedulerRequest,
 			UserSubscriptionRequest userSubscriptionRequest, String activityType) {
 		logger.info("verification for RabbitMQ");

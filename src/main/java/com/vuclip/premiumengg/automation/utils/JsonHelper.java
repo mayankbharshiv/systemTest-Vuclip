@@ -17,7 +17,7 @@ public class JsonHelper {
         JsonParser jsonParser = new JsonParser();
         JsonObject jo = (JsonObject) jsonParser.parse(jObj);
         jo.remove(jsonElement);
-        return jo.getAsString();
+        return jo.toString();
     }
 
 }

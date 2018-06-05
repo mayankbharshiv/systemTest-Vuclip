@@ -46,6 +46,19 @@ public class SASHelper {
 	}
 
 	/**
+	 * 
+	 * @param publishConfigRequest
+	 * @return response
+	 * @throws Exception
+	 */
+	public Response saveProduct(String publishConfigRequest) throws Exception {
+
+		final Response response = given(requestSpecification).contentType(ContentType.JSON).body(publishConfigRequest)
+				.post(saveProductResource);
+		// response.prettyPrint();
+		return response;
+	}
+	/**
 	 * @param userSubscriptionRequest
 	 * @return
 	 * @throws Exception
@@ -63,7 +76,7 @@ public class SASHelper {
 	 * @throws Exception
 	 */
 	public Response scheduler(SchedulerRequest schedulerRequest) throws Exception {
-		final Response response = given(requestSpecification).contentType(ContentType.JSON).body(schedulerRequest)
+		final Response response = given(requestSpecification).contentType(ContentType.JSON).body(schedulerRequest).log().all()
 				.post(schedulerResource);
 		 response.prettyPrint();
 		return response;
