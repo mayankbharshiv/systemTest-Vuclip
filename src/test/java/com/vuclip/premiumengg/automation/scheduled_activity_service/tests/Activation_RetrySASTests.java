@@ -31,7 +31,7 @@ import io.restassured.response.Response;
  *
  */
 
-public class ActivationRenewalRetryTests {
+public class Activation_RetrySASTests {
 	private static Logger logger = Log4J.getLogger("ActivationRenewalRetryTests");
 	private SASHelper sasHelper;
 	int productId;
