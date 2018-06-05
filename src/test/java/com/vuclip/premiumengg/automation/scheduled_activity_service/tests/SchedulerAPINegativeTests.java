@@ -32,7 +32,7 @@ public class SchedulerAPINegativeTests {
 	@BeforeClass(alwaysRun = true)
 	public void setup() throws Exception {
 		sasHelper = new SASHelper();
-		productId = SASUtils.productId;//RandomUtils.nextInt(2000, 3000);
+		productId = RandomUtils.nextInt(77000, 77900);
 		partnerId = productId;
 	}
 
@@ -48,7 +48,7 @@ public class SchedulerAPINegativeTests {
 		};
 	}
 
-	@Test(dataProvider = "schedulerApiInvalidfieldValues")
+	@Test(dataProvider = "schedulerApiInvalidfieldValues",groups="negative")
 	public void schedulerApiInvalidFieldsValidation(Integer sproductId, Integer spartnerId, String scountryCode,
 			String sactivityType) throws Exception {
 		subscriptionId = RandomUtils.nextInt(100, 200);
@@ -85,7 +85,7 @@ public class SchedulerAPINegativeTests {
 		};
 	}
 
-	@Test(dataProvider = "schedulerApiMissingFields")
+	@Test(dataProvider = "schedulerApiMissingFields",groups="negative")
 	public void schedulerApiMissingFieldsValidation(String jsonElement) throws Exception {
 		subscriptionId = RandomUtils.nextInt(100, 200);
 		// SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);

@@ -25,7 +25,7 @@ public class UserSubscriptionAPINegativeTests {
 	@BeforeClass(alwaysRun = true)
 	public void setup() throws Exception {
 		sasHelper = new SASHelper();
-		productId = SASUtils.productId;// RandomUtils.nextInt(2000, 3000);
+		productId =  RandomUtils.nextInt(78000, 78900);
 		partnerId = productId;
 	}
 
@@ -44,7 +44,7 @@ public class UserSubscriptionAPINegativeTests {
 
 	}
 
-	@Test(dataProvider = "invalidUserSubscriptionFields")
+	@Test(dataProvider = "invalidUserSubscriptionFields",groups="negative")
 	public void invalidUserSubscriptionFieldsValidation(String activityType, String previousSubscriptionState,
 			String currentSubscriptionState, String transactionState, String actionType, Integer subscriptionId,
 			String actionTable, Integer userProductId, Integer userPartnerId) throws Exception {
@@ -76,7 +76,7 @@ public class UserSubscriptionAPINegativeTests {
 
 	}
 
-	@Test(dataProvider = "missingUserSubscriptionFields")
+	@Test(dataProvider = "missingUserSubscriptionFields",groups="negative")
 	public void missingUserSubscriptionFieldsValidation(String jsonElement) throws Exception {
 		String jsonString;
 		String activityType = "WINBACK";

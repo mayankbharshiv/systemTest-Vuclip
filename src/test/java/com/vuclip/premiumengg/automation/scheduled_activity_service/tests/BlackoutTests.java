@@ -37,7 +37,7 @@ public class BlackoutTests {
 	@BeforeClass(alwaysRun = true)
 	public void setup() throws Exception {
 		sasHelper = new SASHelper();
-		productId = SASUtils.productId;//RandomUtils.nextInt(2000, 3000);
+		productId = RandomUtils.nextInt(79000, 80000);
 		partnerId = productId;
 	}
 
