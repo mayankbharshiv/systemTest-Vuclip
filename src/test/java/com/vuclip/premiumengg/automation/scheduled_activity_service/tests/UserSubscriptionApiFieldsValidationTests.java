@@ -59,7 +59,7 @@ public class UserSubscriptionApiFieldsValidationTests {
 
 	}
 
-	@Test(dependsOnMethods = "createConfigData", dataProvider = "invalidUserSubscriptionFields",enabled=false)
+	@Test(dependsOnMethods = "createConfigData", dataProvider = "invalidUserSubscriptionFields", enabled = false)
 	public void invalidUserSubscriptionFieldsValidation(String activityType, String previousSubscriptionState,
 			String currentSubscriptionState, String transactionState, String actionType, Integer subscriptionId,
 			String actionTable, Integer userProductId, Integer userPartnerId) throws Exception {
@@ -84,13 +84,14 @@ public class UserSubscriptionApiFieldsValidationTests {
 
 	@DataProvider(name = "missingUserSubscriptionFields")
 	public Object[][] missingUserSubscriptionFields() {
-		return new Object[][] { { "activityType" }, /*{ "actionType" }, { "productId" }, { "partnerId" },
-				{ "transactionState" }*/ };
+		return new Object[][] { { "activityType" }, { "actionType" }, { "productId" }, { "partnerId" },
+				{ "transactionState" } };
 
 	}
 
 	@Test(dependsOnMethods = "createConfigData", dataProvider = "missingUserSubscriptionFields")
 	public void missingUserSubscriptionFieldsValidation(String jsonElement) throws Exception {
+		String jsonString;
 		String activityType = "WINBACK";
 		String previousSubscriptionState = "PARKING";
 		String currentSubscriptionState = "ACTIVATED";
@@ -103,11 +104,28 @@ public class UserSubscriptionApiFieldsValidationTests {
 		logger.info("==================>Starting user subscription missing values test  [ " + testMessage + " ]");
 
 		try {
+			UserSubscriptionRequest userSubscriptionRequest = SASUtils.generateUserSubscriptionRequest(productId,
+					partnerId, activityType, previousSubscriptionState, currentSubscriptionState, transactionState,
+					actionType, subscriptionId);
+			if (jsonElement == "productId" || jsonElement == "partnerId") {
+				jsonString = JsonHelper.remove(UserSubscriptionRequest.class, userSubscriptionRequest, "activityEvent",
+						jsonElement);
+				jsonString = JsonHelper.remove(UserSubscriptionRequest.class, userSubscriptionRequest, "subscriptionInfo",
+						jsonElement);
+				
+			}
+			else if (jsonElement == "transactionState") {
+				jsonString = JsonHelper.remove(UserSubscriptionRequest.class, userSubscriptionRequest, "activityEvent",
+						jsonElement);
+				
+			}
 
-			UserSubscriptionRequest userSubscriptionRequest = SASUtils.generateUserSubscriptionRequest(productId, partnerId, activityType, previousSubscriptionState, currentSubscriptionState, transactionState, actionType, subscriptionId);
-			String jsonString =JsonHelper.remove(UserSubscriptionRequest.class, userSubscriptionRequest, jsonElement);
-			System.out.println(jsonString);
-			userSubscriptionRequest= ObjectMapperUtils.readValueFromString(jsonString,UserSubscriptionRequest.class);
+			else {
+				jsonString = JsonHelper.remove(UserSubscriptionRequest.class, userSubscriptionRequest, "activityInfo",
+						jsonElement);
+			}
+
+			userSubscriptionRequest = ObjectMapperUtils.readValueFromString(jsonString, UserSubscriptionRequest.class);
 			SASValidationHelper.validate_sas_invalid_api_response(sasHelper.userSubscription(userSubscriptionRequest));
 
 		} catch (Exception e) {
