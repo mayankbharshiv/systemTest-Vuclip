@@ -14,7 +14,6 @@ import org.testng.annotations.Test;
 import com.vuclip.premiumengg.automation.billing_package_service.common.models.QueueResponse;
 import com.vuclip.premiumengg.automation.common.Log4J;
 import com.vuclip.premiumengg.automation.common.RabbitMQConnection;
-import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.PublishConfigRequest;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASHelper;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASUtils;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASValidationHelper;
@@ -34,7 +33,6 @@ public class SASDeactivationTest {
 	private SASHelper sasHelper;
 	int productId;
 	int partnerId;
-	PublishConfigRequest publishConfigRequest = null;
 
 	private String countryCode = "IN";
 
@@ -151,7 +149,7 @@ public class SASDeactivationTest {
 				+ currentSubscriptionState + " " + transactionState + " " + actionType;
 		logger.info("==================>Starting Negative deactivation retry test [ " + testMessage + " ]");
 
-		SASValidationHelper.negativeFlow(productId, activityType, currentSubscriptionState, transactionState,
+		SASValidationHelper.negativeFlow(productId,partnerId, activityType, currentSubscriptionState, transactionState,
 				actionType, subscriptionId);
 	}
 

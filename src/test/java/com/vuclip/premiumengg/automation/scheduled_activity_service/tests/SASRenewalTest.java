@@ -15,6 +15,7 @@ import com.vuclip.premiumengg.automation.billing_package_service.common.models.Q
 import com.vuclip.premiumengg.automation.common.Log4J;
 import com.vuclip.premiumengg.automation.common.RabbitMQConnection;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.PublishConfigRequest;
+import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASDBHelper;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASHelper;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASUtils;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASValidationHelper;
@@ -57,27 +58,32 @@ public class SASRenewalTest {
 		SASValidationHelper.validate_sas_api_response(sasHelper.saveProduct(publishConfigRequest));
 	}*/
 
-	@DataProvider(name = "activationPostiveTestType")
-	public Object[][] activationPostiveTestType() {
+	@DataProvider(name = "renewalPostiveTestType")
+	public Object[][] renewalPostiveTestType() {
 		return new Object[][] {
-				{ "ACTIVATION", "ACT_INIT", "ACTIVATED", "SUCCESS", "CHARGING", 101, "renewal", "OPEN" },
-				{ "ACTIVATION", "ACT_INIT", "ACT_INIT", "FAILURE", "CHARGING", 107, "activation", "OPEN" },
-				{ "ACTIVATION", "ACT_INIT", "ACT_INIT", "ERROR", "CHARGING", 108, "activation", "OPEN" },
-				{ "ACTIVATION", "ACT_INIT", "PARKING", "LOW_BALANCE", "CHARGING", 111, "winback", "OPEN" },
-				{ "ACTIVATION", "ACT_INIT", "ACT_INIT", "LOW_BALANCE", "CHARGING", 106, "winback", "OPEN" },
-				{ "ACTIVATION", "ACT_INIT", "ACT_INIT", "IN_PROGRESS", "CHARGING", 106, "winback", "OPEN" },
-				{ "ACTIVATION", "ACT_INIT", "ACT_INIT", "NOTIFICATION_WAIT", "CHARGING", 106, "winback", "OPEN" } };
+				{ "RENEWAL",  "ACTIVATED", "SUCCESS", "CHARGING",  "renewal", "OPEN" },
+				{ "RENEWAL",  "ACTIVATED", "FAILURE", "CHARGING",  "renewal_retry", "OPEN" },
+				{ "RENEWAL",  "ACTIVATED", "ERROR", "CHARGING",  "renewal_retry", "OPEN" },
+				//fail{ "RENEWAL",  "ACTIVATED", "IN_PROGRESS", "CHARGING",  "winback", "OPEN" },
+				//fail{ "RENEWAL",  "ACTIVATED", "NOTIFICATION_WAIT", "CHARGING",  "winback", "OPEN" } ,
+				
+				{ "RENEWAL",  "SUSPEND", "FAILURE", "CHARGING",  "renewal_retry", "OPEN" },
+				{ "RENEWAL",  "SUSPEND", "ERROR", "CHARGING",  "renewal_retry", "OPEN" },
+				//Fail{ "RENEWAL",  "SUSPEND", "NOTIFICATION_WAIT", "CHARGING",  "winback", "OPEN" } 	,
+				//Fail{ "RENEWAL",  "SUSPEND", "LOW_BALANCE", "CHARGING",  "winback", "OPEN" }
+
+		};
 
 	}
 
-	@Test(/**dependsOnMethods = "createConfigData",**/ dataProvider = "activationPostiveTestType")
-	public void activationPositiveRetryTests(String activityType, String previousSubscriptionState,
-			String currentSubscriptionState, String transactionState, String actionType, Integer subscriptionId,
+	@Test(/**dependsOnMethods = "createConfigData",**/ dataProvider = "renewalPostiveTestType")
+	public void renewalPositiveTests(String activityType,
+			String currentSubscriptionState, String transactionState, String actionType,
 			String actionTable, String status) throws Exception {
 
-		subscriptionId = RandomUtils.nextInt(31000, 32000);
+	int	subscriptionId = RandomUtils.nextInt(31000, 32000);
 		//SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
-		String testMessage = subscriptionId + " " + activityType + " " + previousSubscriptionState + " "
+		String testMessage = subscriptionId + " " + activityType  + " "
 				+ currentSubscriptionState + " " + transactionState + " " + actionType;
 		logger.info("==================>Starting positive activation retry test  [ " + testMessage + " ]");
 
@@ -85,7 +91,7 @@ public class SASRenewalTest {
 
 			SASValidationHelper.validate_sas_api_response(
 					sasHelper.userSubscription(SASUtils.generateUserSubscriptionRequest(productId, partnerId,
-							activityType, previousSubscriptionState, currentSubscriptionState, transactionState,
+							activityType, "", currentSubscriptionState, transactionState,
 							actionType, subscriptionId)));
 
 			Map<String, String> expectedRecords = new HashMap<String, String>();
@@ -95,17 +101,21 @@ public class SASRenewalTest {
 			expectedRecords.put("subscription_id", String.valueOf(subscriptionId));
 			expectedRecords.put("country_code", countryCode);
 
+			SASDBHelper.showAllActivityTableData(testMessage, String.valueOf(subscriptionId));
 			SASValidationHelper.validateTableRecord(DBUtils.getRecord(actionTable, "subscription_id = " + subscriptionId
 					+ " and product_id = " + productId + " and partner_id=" + partnerId).get(0), expectedRecords);
 
 			SASValidationHelper.validate_schedular_api_response(
 					sasHelper.scheduler(SASUtils.generateSchedulerRequest(productId, partnerId, actionTable)));
 
+			SASDBHelper.showAllActivityTableData(testMessage, String.valueOf(subscriptionId));
+
 			expectedRecords.put("status", "IN_PROGRESS");
 
 			SASValidationHelper.validateTableRecord(DBUtils.getRecord(actionTable, "subscription_id = " + subscriptionId
 					+ " and product_id=" + productId + " and partner_id=" + partnerId).get(0), expectedRecords);
 
+			System.out.println("QUEUE NAME : "+productId + "_" + partnerId + "_" + actionTable.toUpperCase() + "_REQUEST_BACKEND");
 			Message message = RabbitMQConnection.getRabbitTemplate()
 					.receive(productId + "_" + partnerId + "_" + actionTable.toUpperCase() + "_REQUEST_BACKEND", 25000);
 			SASValidationHelper.validateQueueMessage(
@@ -116,31 +126,26 @@ public class SASRenewalTest {
 		}
 	}
 
-	@DataProvider(name = "activationNegativeTestType")
-	public Object[][] activationNegativeTestType() {
+	@DataProvider(name = "renewalNegativeTestType")
+	public Object[][] renewalNegativeTestType() {
 		return new Object[][] {
-				{ "ACTIVATION", "ACT_INIT", "ACTIVATED", "LOW_BALANCE", "CHARGING", 102, "renewal", "OPEN" },
-				{ "ACTIVATION", "ACT_INIT", "ACTIVATED", "FAILURE", "CHARGING", 103, "renewal", "OPEN" },
-				{ "ACTIVATION", "ACT_INIT", "ACTIVATED", "ERROR", "CHARGING", 104, "renewal", "OPEN" },
-				{ "ACTIVATION", "ACT_INIT", "ACT_INIT", "SUCCESS", "CHARGING", 105, "activation", "OPEN" },
-				{ "ACTIVATION", "ACT_INIT", "PARKING", "SUCCESS", "CHARGING", 109, "winback", "OPEN" },
-				{ "ACTIVATION", "ACT_INIT", "PARKING", "FAILURE", "CHARGING", 110, "winback", "OPEN" },
-				{ "ACTIVATION", "ACT_INIT", "PARKING", "ERROR", "CHARGING", 112, "winback", "OPEN" }
+	{ "RENEWAL",  "SUSPEND", "IN_PROGRESS", "CHARGING",  "winback", "OPEN" },
+	{ "RENEWAL",  "SUSPEND", "SUCCESS", "CHARGING",  "activation", "OPEN" },
 
-		};
+						};
 	}
 
-	@Test(/**dependsOnMethods = "createConfigData",**/ dataProvider = "activationNegativeTestType")
-	public void activationNegativeTestType(String activityType, String previousSubscriptionState,
-			String currentSubscriptionState, String transactionState, String actionType, Integer subscriptionId,
-			String actionTable, String status) throws Exception {
-		subscriptionId = RandomUtils.nextInt(53000, 54000);
+	@Test(/**dependsOnMethods = "createConfigData",**/ dataProvider = "renewalNegativeTestType")
+	public void renewalNegativeTest(String activityType,
+			String currentSubscriptionState, String transactionState, String actionType,
+			String actionTable, String status)throws Exception {
+		int subscriptionId = RandomUtils.nextInt(53000, 54000);
 		//SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
-		String testMessage = subscriptionId + " " + activityType + " " + previousSubscriptionState + " "
+		String testMessage = subscriptionId + " " + activityType  + " "
 				+ currentSubscriptionState + " " + transactionState + " " + actionType;
 		logger.info("==================>Starting Negative activation retry test  [ " + testMessage + " ]");
 
-		SASValidationHelper.negativeFlow(productId, activityType, currentSubscriptionState, transactionState,
+		SASValidationHelper.negativeFlow(productId,partnerId, activityType, currentSubscriptionState, transactionState,
 				actionType, subscriptionId);
 
 	}

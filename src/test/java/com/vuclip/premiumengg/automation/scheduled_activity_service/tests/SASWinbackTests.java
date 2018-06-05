@@ -136,7 +136,7 @@ public class SASWinbackTests {
 				+ currentSubscriptionState + " " + transactionState + " " + actionType;
 		logger.info("==================>Starting Winback negative retry test  [ " + testMessage + " ]");
 
-		SASValidationHelper.negativeFlow(productId, activityType, currentSubscriptionState, transactionState,
+		SASValidationHelper.negativeFlow(productId,partnerId, activityType, currentSubscriptionState, transactionState,
 				actionType, subscriptionId);
 
 	}

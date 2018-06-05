@@ -67,7 +67,7 @@ public class SASDeactivationRetryTests {
 	}
 
 	@Test(/**dependsOnMethods = "createConfigData",**/ dataProvider = "deactivationRetryPositiveTestType")
-	public void RetryDeactivationPositiveRetryTests(String activityType, String previousSubscriptionState,
+	public void DeactivationRetryPositiveRetryTests(String activityType, String previousSubscriptionState,
 			String currentSubscriptionState, String transactionState, String actionType, Integer subscriptionId,
 			String actionTable, String status) throws Exception {
 
@@ -127,7 +127,7 @@ public class SASDeactivationRetryTests {
 	}
 
 	@Test(/**dependsOnMethods = "createConfigData",**/ dataProvider = "deactivationRetryNegativeTestType")
-	public void RetryDeactivationNegativeTestType(String activityType, String previousSubscriptionState,
+	public void DeactivationRetryNegativeTestType(String activityType, String previousSubscriptionState,
 			String currentSubscriptionState, String transactionState, String actionType, Integer subscriptionId,
 			String actionTable, String status) throws Exception {
 		subscriptionId = RandomUtils.nextInt(3000, 4000);
@@ -135,7 +135,7 @@ public class SASDeactivationRetryTests {
 		String testMessage = subscriptionId + " " + activityType + " " + previousSubscriptionState + " "
 				+ currentSubscriptionState + " " + transactionState + " " + actionType;
 		logger.info("==================>Starting Negative RetryDeactivationTests retry test  [ " + testMessage + " ]");
-		SASValidationHelper.negativeFlow(productId, activityType, currentSubscriptionState, transactionState,
+		SASValidationHelper.negativeFlow(productId,partnerId, activityType, currentSubscriptionState, transactionState,
 				actionType, subscriptionId);
 
 	}

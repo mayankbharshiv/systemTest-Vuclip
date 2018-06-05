@@ -16,7 +16,6 @@ import com.vuclip.premiumengg.automation.common.Log4J;
 import com.vuclip.premiumengg.automation.common.RabbitMQConnection;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.PublishConfigRequest;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.UserSubscriptionRequest;
-import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASDBHelper;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASHelper;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASUtils;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASValidationHelper;
@@ -25,7 +24,7 @@ import com.vuclip.premiumengg.automation.utils.ObjectMapperUtils;
 
 /**
  * 
- * @author mayank.bharshiv
+ * @author rahul.sahu
  *
  */
 
@@ -40,149 +39,184 @@ public class SASTest {
 	@BeforeClass(alwaysRun = true)
 	public void setup() throws Exception {
 		sasHelper = new SASHelper();
-		productId = SASUtils.productId;//RandomUtils.nextInt(2000, 3000);
+		productId = SASUtils.productId;// RandomUtils.nextInt(2000, 3000);
 		partnerId = productId;
 	}
-
-/*	@DataProvider(name = "getProductConfig")
-	public Object[][] getProductConfig() {
-		logger.info("========================Setting up config Data===========================");
-
-		return SASUtils.getALLActivityType();
-
-	}
-
-	@Test(dataProvider = "getProductConfig")
-	public void createConfigData(String activityType) throws Exception {
-
-		publishConfigRequest = SASUtils.generateSaveProductConfig(productId, partnerId, activityType);
-		SASValidationHelper.validate_sas_api_response(sasHelper.saveProduct(publishConfigRequest));
-	}*/
 
 	@DataProvider(name = "activationPostiveTestType")
 	public Object[][] activationPostiveTestType() {
 		return new Object[][] {
+				/*
+				 * FORMAT
+				 * { "eventActionType", "activityType", "currentSubscriptionState",
+				 * "transactionState", "actionTable", "beforeSchedularStatus",
+				 * "afterSchedularStatus", "afteNewEventStatus", "queueName",
+				 * "newEventActionType", "newActivityType", "newCurrentSubscriptionState",
+				 * "newTransactionState", "newActionTable", "newBeforeSchedularStatus",
+				 * "newAfterSchedularStatus", "newQueueName" },
+				 */
+				/* PASS */{ "CHARGING", "ACTIVATION", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS",
+						"SUCCESS", "RENEWAL", "CHARGING", "RENEWAL", "ACTIVATED", "SUCCESS", "renewal", "OPEN",
+						"IN_PROGRESS", "RENEWAL" },
 
-				/* PASS */{ "CHARGING", "ACTIVATION", "ACTIVATED", "SUCCESS", "renewal", "ACTIVATED", "SUCCESS",
-						"SUCCESS", "renewal" },
-				/* PASS */{ "CHARGING", "ACTIVATION", "ACTIVATED", "SUCCESS", "renewal", "ACTIVATED", "ERROR", "ERROR",
-						"renewal_retry" },
-				/* PASS */{ "CHARGING", "ACTIVATION", "ACTIVATED", "SUCCESS", "renewal", "ACTIVATED", "FAILURE",
-						"FAILURE", "renewal_retry" },
-				/* PASS */{ "CHARGING", "ACTIVATION", "ACT_INIT", "FAILURE", "activation", "ACTIVATED", "SUCCESS",
-						"SUCCESS", "renewal" },
-				/* PASSED */{ "CHARGING", "ACTIVATION", "ACT_INIT", "FAILURE", "activation", "ACT_INIT", "FAILURE",
-						"FAILURE", "activation" },
-				/* PASSED */{ "CHARGING", "ACTIVATION", "ACT_INIT", "FAILURE", "activation", "ACT_INIT", "ERROR",
-						"ERROR", "activation" },
+				/* PASS */{ "CHARGING", "ACTIVATION", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS", "ERROR",
+						"RENEWAL", "CHARGING", "RENEWAL", "ACTIVATED", "ERROR", "renewal_retry", "OPEN", "IN_PROGRESS",
+						"RENEWAL_RETRY" },
 
-				/* PASSED */{ "CHARGING", "ACTIVATION", "PARKING", "LOW_BALANCE", "winback", "PARKING", "ERROR",
-						"ERROR", "winback" },
-//
-//				/* fail no pro */{ "CHARGING", "ACTIVATION", "PARKING", "LOW_BALANCE", "winback", "PARKING", "FAILURE",
-//						"FAILURE", "winback" },
-//
-				/* PASSED */{ "CHARGING", "ACTIVATION", "PARKING", "LOW_BALANCE", "winback", "PARKING", "LOW_BALANCE",
-						"LOW_BALANCE", "winback" },
-//
-//				/* fail no processor */{ "CHARGING", "ACTIVATION", "PARKING", "LOW_BALANCE", "winback", "PARKING",
-//						"IN_PROGRESS", "IN_PROGRESS", "winback" },
-//
-//				/* fail */{ "CHARGING", "ACTIVATION", "ACT_INIT", "FAILURE", "activation", "ACT_INIT",
-//						"NOTIFICATION_WAIT", "NOTIFICATION_WAIT", "activation" },
-//				/* fail */{ "CHARGING", "ACTIVATION", "ACT_INIT", "FAILURE", "activation", "ACT_INIT", "IN_PROGRESS",
-//						"IN_PROGRESS", "winback" },
-//				/* BUG */{ "CHARGING", "ACTIVATION", "ACT_INIT", "FAILURE", "activation", "ACT_INIT", "LOW_BALANCE",
-//						"LOW_BALANCE", "winback" },
-//
-//				/* BUG */{ "CHARGING", "ACTIVATION", "ACT_INIT", "ERROR", "activation", "ACT_INIT", "LOW_BALANCE",
-//						"LOW_BALANCE", "winback" },
-//
-//				/* FAIL */{ "CHARGING", "ACTIVATION", "ACT_INIT", "IN_PROGRESS", "winback", "ACT_INIT", "LOW_BALANCE",
-//						"LOW_BALANCE", "winback" },
-//				/* FAIL */{ "CHARGING", "ACTIVATION", "ACT_INIT", "LOW_BALANCE", "winback", "ACT_INIT", "LOW_BALANCE",
-//						"LOW_BALANCE", "winback" },
-//
-//				/* FAIL */{ "CHARGING", "ACTIVATION", "ACT_INIT", "NOTIFICATION_WAIT", "winback", "ACT_INIT",
-//						"LOW_BALANCE", "LOW_BALANCE", "winback" },
-//				/* FAIL processor is not configured */{ "CHARGING", "ACTIVATION", "ACTIVATED", "SUCCESS", "renewal",
-//						"ACTIVATED", "IN_PROGRESS", "IN_PROGRESS", "renewal_retry" },
-//				/* FAIL */ { "CHARGING", "ACTIVATION", "ACTIVATED", "SUCCESS", "renewal", "ACTIVATED",
-//						"NOTIFICATION_WAIT", "IN_PROGRESS", "renewal_retry" },
-//
-				/* PASSED */{ "DEACTIVATE_CONSENT", "DEACTIVATION", "DCT_INIT", "FAILURE", "deactivation", "DCT_INIT",
-						"FAILURE", "FAILURE", "deactivation" },
-				/* PASSED */{ "DEACTIVATE_CONSENT", "DEACTIVATION", "DCT_INIT", "FAILURE", "deactivation", "DCT_INIT",
-						"ERROR", "ERROR", "deactivation" },
-//				/* no entry */{ "DEACTIVATE_CONSENT", "DEACTIVATION", "DCT_INIT", "FAILURE", "deactivation", "DCT_INIT",
-//						"CONFIRMED", "CONFIRMED", "deactivation" },
-//				/* no entry */{ "DEACTIVATE_CONSENT", "DEACTIVATION", "DCT_INIT", "FAILURE", "deactivation", "DCT_INIT",
-//						"IN_PROGRESS", "IN_PROGRESS", "deactivation" },
-//			/* no entry */{ "DEACTIVATE_CONSENT", "DEACTIVATION", "DCT_INIT", "FAILURE", "deactivation", "DCT_INIT",
-//				"NOTIFICATION_WAIT", "NOTIFICATION_WAIT", "deactivation" }, 
-//				/* no entry */{ "DEACTIVATE_CONSENT", "DEACTIVATION", "DCT_INIT", "SUCCESS", "deactivation", "DCT_INIT",
-//					"FAILURE", "FAILURE", "deactivation" }
-				};
+				/* PASS */{ "CHARGING", "ACTIVATION", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS",
+						"FAILURE", "RENEWAL", "CHARGING", "RENEWAL", "ACTIVATED", "FAILURE", "renewal_retry", "OPEN",
+						"IN_PROGRESS", "RENEWAL_RETRY" },
+
+				/* PASS */{ "CHARGING", "ACTIVATION", "ACT_INIT", "FAILURE", "activation", "OPEN", "IN_PROGRESS",
+						"SUCCESS", "ACTIVATION", "CHARGING", "ACTIVATION", "ACTIVATED", "SUCCESS", "renewal", "OPEN",
+						"IN_PROGRESS", "RENEWAL" },
+
+				/* PASSED */{ "CHARGING", "ACTIVATION", "ACT_INIT", "FAILURE", "activation", "OPEN", "IN_PROGRESS",
+						"FAILURE", "ACTIVATION", "CHARGING", "ACTIVATION", "ACT_INIT", "FAILURE", "activation", "OPEN",
+						"IN_PROGRESS", "ACTIVATION" },
+
+				/* PASSED */{ "CHARGING", "ACTIVATION", "ACT_INIT", "FAILURE", "activation", "OPEN", "IN_PROGRESS",
+						"ERROR", "ACTIVATION", "CHARGING", "ACTIVATION", "ACT_INIT", "ERROR", "activation", "OPEN",
+						"IN_PROGRESS", "ACTIVATION" },
+
+				/* PASSED */{ "CHARGING", "ACTIVATION", "PARKING", "LOW_BALANCE", "winback", "OPEN", "IN_PROGRESS",
+						"ERROR", "WINBACK", "CHARGING", "WINBACK", "PARKING", "ERROR", "winback", "OPEN", "IN_PROGRESS",
+						"WINBACK" },
+				// //
+				// // /* fail no pro */{ "CHARGING", "ACTIVATION", "PARKING", "LOW_BALANCE",
+				// // "winback", "PARKING", "FAILURE",
+				// // "FAILURE", "winback" },
+				// //
+				/* PASSED */{ "CHARGING", "ACTIVATION", "PARKING", "LOW_BALANCE", "winback", "OPEN", "IN_PROGRESS",
+						"LOW_BALANCE", "WINBACK", "CHARGING", "WINBACK", "PARKING", "LOW_BALANCE", "winback", "OPEN",
+						"IN_PROGRESS", "WINBACK" },
+				//
+				// /* fail no processor */{ "CHARGING", "ACTIVATION", "PARKING", "LOW_BALANCE",
+				// "winback", "PARKING",
+				// "IN_PROGRESS", "IN_PROGRESS", "winback" },
+				//
+				// /* fail */{ "CHARGING", "ACTIVATION", "ACT_INIT", "FAILURE", "activation",
+				// "ACT_INIT",
+				// "NOTIFICATION_WAIT", "NOTIFICATION_WAIT", "activation" },
+				// /* fail */{ "CHARGING", "ACTIVATION", "ACT_INIT", "FAILURE", "activation",
+				// "ACT_INIT", "IN_PROGRESS",
+				// "IN_PROGRESS", "winback" },
+				// /* BUG */{ "CHARGING", "ACTIVATION", "ACT_INIT", "FAILURE", "activation",
+				// "ACT_INIT", "LOW_BALANCE",
+				// "LOW_BALANCE", "winback" },
+				//
+				// /* BUG */{ "CHARGING", "ACTIVATION", "ACT_INIT", "ERROR", "activation",
+				// "ACT_INIT", "LOW_BALANCE",
+				// "LOW_BALANCE", "winback" },
+				//
+				// /* FAIL */{ "CHARGING", "ACTIVATION", "ACT_INIT", "IN_PROGRESS", "winback",
+				// "ACT_INIT", "LOW_BALANCE",
+				// "LOW_BALANCE", "winback" },
+				// /* FAIL */{ "CHARGING", "ACTIVATION", "ACT_INIT", "LOW_BALANCE", "winback",
+				// "ACT_INIT", "LOW_BALANCE",
+				// "LOW_BALANCE", "winback" },
+				//
+				// /* FAIL */{ "CHARGING", "ACTIVATION", "ACT_INIT", "NOTIFICATION_WAIT",
+				// "winback", "ACT_INIT",
+				// "LOW_BALANCE", "LOW_BALANCE", "winback" },
+				// /* FAIL processor is not configured */{ "CHARGING", "ACTIVATION",
+				// "ACTIVATED", "SUCCESS", "renewal",
+				// "ACTIVATED", "IN_PROGRESS", "IN_PROGRESS", "renewal_retry" },
+				// /* FAIL */ { "CHARGING", "ACTIVATION", "ACTIVATED", "SUCCESS", "renewal",
+				// "ACTIVATED",
+				// "NOTIFICATION_WAIT", "IN_PROGRESS", "renewal_retry" },
+				//
+				/* PASSED */{ "DEACTIVATE_CONSENT", "DEACTIVATION", "DCT_INIT", "FAILURE", "deactivation", "OPEN",
+						"IN_PROGRESS", "FAILURE", "DEACTIVATION", "DEACTIVATE_CONSENT", "DEACTIVATION", "DCT_INIT",
+						"FAILURE", "deactivation", "OPEN", "IN_PROGRESS", "DEACTIVATION" },
+				/* PASSED */{ "DEACTIVATE_CONSENT", "DEACTIVATION", "DCT_INIT", "FAILURE", "deactivation", "OPEN",
+						"IN_PROGRESS", "ERROR", "DEACTIVATION", "DEACTIVATE_CONSENT", "DEACTIVATION", "DCT_INIT",
+						"ERROR", "deactivation", "OPEN", "IN_PROGRESS", "DEACTIVATION" },
+				// /* no entry */{ "DEACTIVATE_CONSENT", "DEACTIVATION", "DCT_INIT", "FAILURE",
+				// "deactivation", "DCT_INIT",
+				// "CONFIRMED", "CONFIRMED", "deactivation" },
+				// /* no entry */{ "DEACTIVATE_CONSENT", "DEACTIVATION", "DCT_INIT", "FAILURE",
+				// "deactivation", "DCT_INIT",
+				// "IN_PROGRESS", "IN_PROGRESS", "deactivation" },
+				// /* no entry */{ "DEACTIVATE_CONSENT", "DEACTIVATION", "DCT_INIT", "FAILURE",
+				// "deactivation", "DCT_INIT",
+				// "NOTIFICATION_WAIT", "NOTIFICATION_WAIT", "deactivation" },
+				// /* no entry */{ "DEACTIVATE_CONSENT", "DEACTIVATION", "DCT_INIT", "SUCCESS",
+				// "deactivation", "DCT_INIT",
+				// "FAILURE", "FAILURE", "deactivation" }
+
+				// //RENEWAL E2E
+				// /* IN_Progress */{ "CHARGING", "RENEWAL", "ACTIVATED", "SUCCESS", "renewal",
+				// "ACTIVATED", "SUCCESS",
+				// "SUCCESS", "renewal" },
+				// /* IN_Progress */{ "CHARGING", "RENEWAL", "ACTIVATED", "SUCCESS", "renewal",
+				// "ACTIVATED", "FAILURE",
+				// "FAILURE", "renewal_retry" },
+				{ "CHARGING", "RENEWAL", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS", "SUCCESS", "RENEWAL",
+						"CHARGING", "RENEWAL", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS", "RENEWAL" }
+
+		};
 	}
 
-	@Test(/**dependsOnMethods = "createConfigData",**/ dataProvider = "activationPostiveTestType")
+	@Test(/** dependsOnMethods = "createConfigData", **/
+			dataProvider = "activationPostiveTestType")
 	public void activationPositiveRetryTests(String eventActionType, String activityType,
-			String currentSubscriptionState, String transactionState, String actionTable,
-			String newCurrentSubscriptionState, String newTransactionState, String oldStatusValue,
-			String newActionTable) throws Exception {
+			String currentSubscriptionState, String transactionState, String actionTable, String beforeSchedularStatus,
+			String afterSchedularStatus, String afteNewEventStatus, String queueName, String newEventActionType,
+			String newActivityType, String newCurrentSubscriptionState, String newTransactionState,
+			String newActionTable, String newBeforeSchedularStatus, String newAfterSchedularStatus, String newQueueName)
+			throws Exception {
 
 		Integer subscriptionId = RandomUtils.nextInt(900, 1000);
-		// //SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
 		String testMessage = subscriptionId + " " + activityType + " " + currentSubscriptionState + " "
 				+ transactionState + " " + actionTable + " " + newCurrentSubscriptionState + " " + newTransactionState
 				+ " " + newActionTable;
-		logger.info("==================>Starting positive activation retry test  [ " + testMessage + " ]");
+		logger.info("***************Starting positive activation retry test  [ " + testMessage + " ]");
 
 		try {
 
-			// First USE call
+			logger.info("=========>First time user subscription event getting trigger");
 			UserSubscriptionRequest uSRequest = SASUtils.generateUserSubscriptionRequest(productId, partnerId,
-					activityType, "ACT_INIT", currentSubscriptionState, transactionState, eventActionType,
-					subscriptionId);
+					activityType, "", currentSubscriptionState, transactionState, eventActionType, subscriptionId);
 			SASValidationHelper.validate_sas_api_response(sasHelper.userSubscription(uSRequest));
 
-			// // DB verification
 			// String expectedActivityType = SASDBHelper.showAllActivityTableData("FIRST ",
 			// String.valueOf(subscriptionId));
+			logger.info("=========>First event: Verify DB after event trigger");
 
 			Map<String, String> expectedRecords = new HashMap<String, String>();
-			expectedRecords.put("status", "OPEN");
+			expectedRecords.put("status", beforeSchedularStatus);
 			expectedRecords.put("product_id", String.valueOf(productId));
 			expectedRecords.put("partner_id", String.valueOf(partnerId));
 			expectedRecords.put("subscription_id", String.valueOf(subscriptionId));
 			expectedRecords.put("country_code", countryCode);
 			expectedRecords.put("date", String.valueOf(uSRequest.getSubscriptionInfo().getNextBillingDate()));
-			//
 			SASValidationHelper.validateTableRecord(DBUtils.getRecord(actionTable,
 					"subscription_id = " + subscriptionId + " and product_id = " + productId + " and partner_id="
 							+ partnerId + " and date=" + uSRequest.getSubscriptionInfo().getNextBillingDate())
 					.get(0), expectedRecords);
 
-			// scheduler call
+			logger.info("=========>First Event: scheduale call ");
 			SASValidationHelper.validate_schedular_api_response(
 					sasHelper.scheduler(SASUtils.generateSchedulerRequest(productId, partnerId, actionTable)));
 
-			expectedRecords.put("status", "IN_PROGRESS");
+			logger.info("=========>First Event: Vefiry DB After Schedular Call ");
+			expectedRecords.put("status", afterSchedularStatus);
 			SASValidationHelper.validateTableRecord(DBUtils.getRecord(actionTable, "subscription_id = " + subscriptionId
 					+ " and product_id=" + productId + " and partner_id=" + partnerId).get(0), expectedRecords);
 
+			logger.info("=========>First Event: Queue verification Name: " + productId + "_" + partnerId + "_"
+					+ queueName + "_REQUEST_BACKEND");
 			Message message = RabbitMQConnection.getRabbitTemplate()
-					.receive(productId + "_" + partnerId + "_" + actionTable.toUpperCase() + "_REQUEST_BACKEND", 25000);
-			Log4J.getLogger().info("velidation for quest " + productId + "_" + partnerId + "_"
-					+ actionTable.toUpperCase() + "_REQUEST_BACKEND");
+					.receive(productId + "_" + partnerId + "_" + queueName.toUpperCase() + "_REQUEST_BACKEND", 25000);
 			SASValidationHelper.validateQueueMessage(
 					ObjectMapperUtils.readValueFromString(new String(message.getBody()), QueueResponse.class),
 					productId, partnerId, subscriptionId, countryCode, actionTable.toUpperCase());
 
-			// new event call
+			logger.info("=========>Second time user subscription event getting trigger");
 			UserSubscriptionRequest newSubscriptionRequest = SASUtils.generateUserSubscriptionRequest(productId,
-					partnerId, actionTable.toUpperCase(), currentSubscriptionState, newCurrentSubscriptionState,
-					newTransactionState, eventActionType, subscriptionId);
+					partnerId, newActivityType.toUpperCase(), currentSubscriptionState, newCurrentSubscriptionState,
+					newTransactionState, newEventActionType, subscriptionId);
 			newSubscriptionRequest.getSubscriptionInfo()
 					.setNextBillingDate(newSubscriptionRequest.getSubscriptionInfo().getNextBillingDate() + 100);
 			newSubscriptionRequest.getActivityEvent()
@@ -190,18 +224,21 @@ public class SASTest {
 
 			SASValidationHelper.validate_sas_api_response(sasHelper.userSubscription(newSubscriptionRequest));
 
-			SASDBHelper.showAllActivityTableData("THIRD", String.valueOf(subscriptionId));
-			expectedRecords.put("status", oldStatusValue);
+			// SASDBHelper.showAllActivityTableData("THIRD",
+			// String.valueOf(subscriptionId));
+
+			logger.info("=========>Second event: previous Event's DB verification");
+			expectedRecords.put("status", afteNewEventStatus);
 			SASValidationHelper.validateTableRecord(DBUtils
 					.getRecord(actionTable,
 							"subscription_id = " + subscriptionId + " and product_id=" + productId + " and partner_id="
 									+ partnerId + " and date=" + uSRequest.getSubscriptionInfo().getNextBillingDate())
 					.get(0), expectedRecords);
 
-			expectedRecords.put("status", "OPEN");
+			logger.info("=========>Second event: DB verification before schedular call");
+			expectedRecords.put("status", newBeforeSchedularStatus);
 			expectedRecords.put("date",
 					String.valueOf(newSubscriptionRequest.getSubscriptionInfo().getNextBillingDate()));
-
 			SASValidationHelper.validateTableRecord(
 					DBUtils.getRecord(newActionTable,
 							"subscription_id = " + subscriptionId + " and product_id=" + productId + " and partner_id="
@@ -210,14 +247,15 @@ public class SASTest {
 							.get(0),
 					expectedRecords);
 
-			// scheduler call
+			logger.info("=========>Second event: Schedular call");
 			SASValidationHelper.validate_schedular_api_response(
 					sasHelper.scheduler(SASUtils.generateSchedulerRequest(productId, partnerId, newActionTable)));
 
-			SASDBHelper.showAllActivityTableData("FOURTH", String.valueOf(subscriptionId));
+			// SASDBHelper.showAllActivityTableData("FOURTH",
+			// String.valueOf(subscriptionId));
 
-			expectedRecords.put("status", "IN_PROGRESS");
-
+			logger.info("=========>Second event: DB verification after schedular call");
+			expectedRecords.put("status", newAfterSchedularStatus);
 			SASValidationHelper.validateTableRecord(
 					DBUtils.getRecord(newActionTable,
 							"subscription_id = " + subscriptionId + " and product_id=" + productId + " and partner_id="
@@ -226,16 +264,17 @@ public class SASTest {
 							.get(0),
 					expectedRecords);
 
+			logger.info("=========>Second event: Queue verification " + productId + "_" + partnerId + "_"
+					+ newQueueName.toUpperCase() + "_REQUEST_BACKEND");
 			message = RabbitMQConnection.getRabbitTemplate().receive(
-					productId + "_" + partnerId + "_" + newActionTable.toUpperCase() + "_REQUEST_BACKEND", 25000);
-			Log4J.getLogger().info("velidation for quest " + productId + "_" + partnerId + "_"
-					+ newActionTable.toUpperCase() + "_REQUEST_BACKEND");
-
+					productId + "_" + partnerId + "_" + newQueueName.toUpperCase() + "_REQUEST_BACKEND", 25000);
 			SASValidationHelper.validateQueueMessage(
 					ObjectMapperUtils.readValueFromString(new String(message.getBody()), QueueResponse.class),
 					productId, partnerId, subscriptionId, countryCode, newActionTable.toUpperCase());
 		} catch (Exception e) {
-			Assert.fail(e.toString());
+			logger.info("=========>ERROR due to exception");
+
+			Assert.fail(e.getMessage());
 		}
 	}
 

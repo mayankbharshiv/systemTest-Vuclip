@@ -140,7 +140,7 @@ public class SASFreeTrailRenewalTests {
 		String testMessage = subscriptionId + " " + activityType + " " + previousSubscriptionState + " "
 				+ currentSubscriptionState + " " + transactionState + " " + actionType;
 		logger.info("==================>Starting Negative free Trail Renewal retry test  [ " + testMessage + " ]");
-		SASValidationHelper.negativeFlow(productId, activityType, currentSubscriptionState, transactionState,
+		SASValidationHelper.negativeFlow(productId,partnerId, activityType, currentSubscriptionState, transactionState,
 				actionType, subscriptionId);
 
 	}

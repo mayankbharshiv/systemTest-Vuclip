@@ -31,7 +31,7 @@ public class SASDBHelper {
 	 * @param whereClause
 	 */
 	public static void cleanAllTables(String whereClause) {
-		DBUtils.cleanTable("job_config", whereClause);
+	//	DBUtils.cleanTable("job_config", whereClause);
 		DBUtils.cleanTable("activation", whereClause);
 		DBUtils.cleanTable("churn", whereClause);
 		DBUtils.cleanTable("content_sms_user_info", whereClause);
@@ -40,7 +40,7 @@ public class SASDBHelper {
 		DBUtils.cleanTable("free_trail", whereClause);
 		DBUtils.cleanTable("optout_sms_user_info", whereClause);
 		DBUtils.cleanTable("prerenewal_sms_user_info", whereClause);
-		DBUtils.cleanTable("product_partner_country_config", whereClause);
+		//DBUtils.cleanTable("product_partner_country_config", whereClause);
 		DBUtils.cleanTable("renewal", whereClause);
 		DBUtils.cleanTable("renewal_retry", whereClause);
 		DBUtils.cleanTable("winback", whereClause);

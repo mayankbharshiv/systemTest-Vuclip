@@ -42,21 +42,6 @@ public class SASActivation_RetryTests {
 		partnerId = productId;
 	}
 
-/*	@DataProvider(name = "getProductConfig")
-	public Object[][] getProductConfig() {
-		logger.info("========================Setting up config Data===========================");
-
-		return SASUtils.getALLActivityType();
-
-	}
-
-	@Test(dataProvider = "getProductConfig")
-	public void createConfigData(String activityType) throws Exception {
-
-		publishConfigRequest = SASUtils.generateSaveProductConfig(productId, partnerId, activityType);
-		SASValidationHelper.validate_sas_api_response(sasHelper.saveProduct(publishConfigRequest));
-	}*/
-
 	@DataProvider(name = "activationPostiveTestType")
 	public Object[][] activationPostiveTestType() {
 		return new Object[][] {
@@ -79,7 +64,7 @@ public class SASActivation_RetryTests {
 
 	}
 
-	@Test(/**dependsOnMethods = "createConfigData",**/ dataProvider = "activationPostiveTestType")
+	@Test(/**dependsOnMethods = "createConfigData",**/ dataProvider = "activationPostiveTestType",groups="P1")
 	public void activationRenewalPositiveRetryTests(String activityType, String currentSubscriptionState,
 			String transactionState, String actionType, String actionTable) throws Exception {
 
@@ -149,7 +134,7 @@ public class SASActivation_RetryTests {
 				+ transactionState + " " + actionType;
 		logger.info("==================>Starting Negative activation retry test [ " + testMessage + " ]");
 
-		SASValidationHelper.negativeFlow(productId, activityType, currentSubscriptionState, transactionState,
+		SASValidationHelper.negativeFlow(productId,partnerId, activityType, currentSubscriptionState, transactionState,
 				actionType, subscriptionId);
 
 	}

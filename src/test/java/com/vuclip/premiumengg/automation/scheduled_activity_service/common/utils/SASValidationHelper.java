@@ -20,7 +20,7 @@ import io.restassured.response.Response;
 
 public class SASValidationHelper {
 	private static Logger logger = Log4J.getLogger("SASValidationHelper");
-	private static Integer partnerId;
+//	private static Integer partnerId;
 
 	public static void validate_sas_api_response(Response sasApiResponse) {
 		AppAssert.assertEqual(sasApiResponse.statusCode(), 200, "Vefiry that response status code is 200 ");
@@ -102,7 +102,7 @@ public class SASValidationHelper {
 		}
 	}
 
-	public static void negativeFlow(Integer productId, String activityType, String currentSubscriptionState,
+	public static void negativeFlow(Integer productId,Integer partnerId, String activityType, String currentSubscriptionState,
 			String transactionState, String actionType, int subscriptionId) {
 		UserSubscriptionRequest request = SASUtils.generateUserSubscriptionRequest(productId, partnerId, activityType,
 				"", currentSubscriptionState, transactionState, actionType, subscriptionId);

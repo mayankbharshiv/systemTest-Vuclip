@@ -5,9 +5,8 @@
 		<classes>
 			<class
 				name="com.vuclip.premiumengg.automation.scheduled_activity_service.common.base.InitializeTestSuite"></class>
-
 			<class
-				name="com.vuclip.premiumengg.automation.scheduled_activity_service.tests.SASActivation_RetryTests"></class>
+				name="com.vuclip.premiumengg.automation.scheduled_activity_service.tests.SASDeactivationRetryTests"></class>
 			<class
 				name="com.vuclip.premiumengg.automation.scheduled_activity_service.tests.BlackoutTests"></class>
 			<class
