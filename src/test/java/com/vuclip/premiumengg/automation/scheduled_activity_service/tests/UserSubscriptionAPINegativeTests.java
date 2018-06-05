@@ -8,7 +8,6 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import com.vuclip.premiumengg.automation.common.Log4J;
-import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.PublishConfigRequest;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.UserSubscriptionRequest;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASHelper;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASUtils;
@@ -22,29 +21,13 @@ public class UserSubscriptionAPINegativeTests {
 	private SASHelper sasHelper;
 	int productId;
 	int partnerId;
-	PublishConfigRequest publishConfigRequest = null;
 
 	@BeforeClass(alwaysRun = true)
 	public void setup() throws Exception {
 		sasHelper = new SASHelper();
-		productId = SASUtils.productId;//RandomUtils.nextInt(2000, 3000);
+		productId = SASUtils.productId;// RandomUtils.nextInt(2000, 3000);
 		partnerId = productId;
 	}
-
-/*	@DataProvider(name = "getProductConfig")
-	public Object[][] getProductConfig() {
-		logger.info("========================Setting up config Data===========================");
-
-		return SASUtils.getALLActivityType();
-
-	}
-
-	@Test(dataProvider = "getProductConfig")
-	public void createConfigData(String activityType) throws Exception {
-
-		publishConfigRequest = SASUtils.generateSaveProductConfig(productId, partnerId, activityType);
-		SASValidationHelper.validate_sas_api_response(sasHelper.saveProduct(publishConfigRequest));
-	}*/
 
 	@DataProvider(name = "invalidUserSubscriptionFields")
 	public Object[][] invalidUserSubscriptionFields() {
@@ -54,17 +37,19 @@ public class UserSubscriptionAPINegativeTests {
 				{ null, "ACT_INIT", "ACT_INIT", "LOW_BALANCE", "CHARGING", 106, "winback", productId, partnerId },
 				{ "ACTIVATION", "ACT_INIT", "ACT_INIT", "LOW_BALANCE", "CHARGING", 106, "winback", 0, partnerId },
 				{ "ACTIVATION", "ACT_INIT", "ACT_INIT", "LOW_BALANCE", "CHARGING", 106, "winback", productId, 0 },
+				// bug exist{ "ACTIVATION", "ACT_INIT", null, "SUCCESS", "CHARGING", 108,
+				// "activation", productId, partnerId }
 
 		};
 
 	}
 
-	@Test(/**dependsOnMethods = "createConfigData",**/ dataProvider = "invalidUserSubscriptionFields", enabled = false)
+	@Test(dataProvider = "invalidUserSubscriptionFields")
 	public void invalidUserSubscriptionFieldsValidation(String activityType, String previousSubscriptionState,
 			String currentSubscriptionState, String transactionState, String actionType, Integer subscriptionId,
 			String actionTable, Integer userProductId, Integer userPartnerId) throws Exception {
 
-		subscriptionId = RandomUtils.nextInt(22000, 23000);
+		subscriptionId = RandomUtils.nextInt(100, 200);
 		// SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
 		String testMessage = subscriptionId + " " + activityType + " " + previousSubscriptionState + " "
 				+ currentSubscriptionState + " " + transactionState + " " + actionType;
@@ -85,11 +70,13 @@ public class UserSubscriptionAPINegativeTests {
 	@DataProvider(name = "missingUserSubscriptionFields")
 	public Object[][] missingUserSubscriptionFields() {
 		return new Object[][] { { "activityType" }, { "actionType" }, { "productId" }, { "partnerId" },
-				{ "transactionState" } };
+				{ "transactionState" },
+				// bug exist{"currentSubscriptionState"}
+		};
 
 	}
 
-	@Test(/**dependsOnMethods = "createConfigData",**/ dataProvider = "missingUserSubscriptionFields")
+	@Test(dataProvider = "missingUserSubscriptionFields")
 	public void missingUserSubscriptionFieldsValidation(String jsonElement) throws Exception {
 		String jsonString;
 		String activityType = "WINBACK";
@@ -97,7 +84,7 @@ public class UserSubscriptionAPINegativeTests {
 		String currentSubscriptionState = "ACTIVATED";
 		String transactionState = "SUCCESS";
 		String actionType = "CHARGING";
-		Integer subscriptionId = RandomUtils.nextInt(21000, 20000);
+		Integer subscriptionId = RandomUtils.nextInt(100, 200);
 		// SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
 		String testMessage = subscriptionId + " " + activityType + " " + previousSubscriptionState + " "
 				+ currentSubscriptionState + " " + transactionState + " " + actionType;
