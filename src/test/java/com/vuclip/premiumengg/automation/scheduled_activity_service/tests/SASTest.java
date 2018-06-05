@@ -14,18 +14,14 @@ import org.testng.annotations.Test;
 import com.vuclip.premiumengg.automation.billing_package_service.common.models.QueueResponse;
 import com.vuclip.premiumengg.automation.common.Log4J;
 import com.vuclip.premiumengg.automation.common.RabbitMQConnection;
-import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.ActivityType;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.PublishConfigRequest;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.UserSubscriptionRequest;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASDBHelper;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASHelper;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASUtils;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASValidationHelper;
-import com.vuclip.premiumengg.automation.utils.AppAssert;
 import com.vuclip.premiumengg.automation.utils.DBUtils;
 import com.vuclip.premiumengg.automation.utils.ObjectMapperUtils;
-
-import io.restassured.response.Response;
 
 /**
  * 
@@ -48,20 +44,17 @@ public class SASTest {
 		partnerId = productId;
 	}
 
-	@DataProvider(name = "activationSetupConfigJob")
-	public Object[][] activityType() {
-		return new Object[][] { { ActivityType.ACTIVATION_TYPE }, { ActivityType.ACTIVATION_RETRY_TYPE },
-				{ ActivityType.DEACTIVATION }, { ActivityType.DEACTIVATION_RETRY_TYPE },
-				{ ActivityType.FREETRIAL_RENEWAL_TYPE }, { ActivityType.RENEWAL_TYPE },
-				{ ActivityType.RENEWAL_RETRY_TYPE }, { ActivityType.SYSTEM_CHURN_TYPE },
-				{ ActivityType.WINBACK_TYPE } };
+	@DataProvider(name = "getProductConfig")
+	public Object[][] getProductConfig() {
+		logger.info("========================Setting up config Data===========================");
+
+		return SASUtils.getALLActivityType();
 
 	}
 
-	@Test(dataProvider = "activationSetupConfigJob")
+	@Test(dataProvider = "getProductConfig")
 	public void createConfigData(String activityType) throws Exception {
 
-		// create job config for activity types( ex- Activation, deactivation)
 		publishConfigRequest = SASUtils.generateSaveProductConfig(productId, partnerId, activityType);
 		SASValidationHelper.validate_sas_api_response(sasHelper.saveProduct(publishConfigRequest));
 	}
@@ -138,7 +131,7 @@ public class SASTest {
 			String newActionTable) throws Exception {
 
 		Integer subscriptionId = RandomUtils.nextInt(900, 1000);
-		// SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
+		// //SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
 		String testMessage = subscriptionId + " " + activityType + " " + currentSubscriptionState + " "
 				+ transactionState + " " + actionTable + " " + newCurrentSubscriptionState + " " + newTransactionState
 				+ " " + newActionTable;

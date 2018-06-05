@@ -8,10 +8,8 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import com.vuclip.premiumengg.automation.common.Log4J;
-import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.ActivityType;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.PublishConfigRequest;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.UserSubscriptionRequest;
-import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASDBHelper;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASHelper;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASUtils;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASValidationHelper;
@@ -33,19 +31,17 @@ public class UserSubscriptionApiFieldsValidationTests {
 		partnerId = productId;
 	}
 
-	@DataProvider(name = "setupConfigJob")
-	public Object[][] setupConfigJob() {
-		return new Object[][] { { ActivityType.ACTIVATION_TYPE }, { ActivityType.ACTIVATION_RETRY_TYPE },
-				{ ActivityType.DEACTIVATION }, { ActivityType.DEACTIVATION_RETRY_TYPE },
-				{ ActivityType.FREETRIAL_RENEWAL_TYPE }, { ActivityType.RENEWAL_TYPE },
-				{ ActivityType.SYSTEM_CHURN_TYPE }, { ActivityType.WINBACK_TYPE } };
+	@DataProvider(name = "getProductConfig")
+	public Object[][] getProductConfig() {
+		logger.info("========================Setting up config Data===========================");
+
+		return SASUtils.getALLActivityType();
 
 	}
 
-	@Test(dataProvider = "setupConfigJob")
+	@Test(dataProvider = "getProductConfig")
 	public void createConfigData(String activityType) throws Exception {
 
-		// create job config for activity types( ex- Activation, deactivation)
 		publishConfigRequest = SASUtils.generateSaveProductConfig(productId, partnerId, activityType);
 		SASValidationHelper.validate_sas_api_response(sasHelper.saveProduct(publishConfigRequest));
 	}
@@ -69,7 +65,7 @@ public class UserSubscriptionApiFieldsValidationTests {
 			String actionTable, Integer userProductId, Integer userPartnerId) throws Exception {
 
 		subscriptionId = RandomUtils.nextInt(100, 200);
-		SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
+		//SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
 		String testMessage = subscriptionId + " " + activityType + " " + previousSubscriptionState + " "
 				+ currentSubscriptionState + " " + transactionState + " " + actionType;
 		logger.info("==================>Starting user subscription invalid field values test  [ " + testMessage + " ]");
@@ -101,7 +97,7 @@ public class UserSubscriptionApiFieldsValidationTests {
 		String transactionState = "SUCCESS";
 		String actionType = "CHARGING";
 		Integer subscriptionId = RandomUtils.nextInt(100, 200);
-		SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
+		//SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
 		String testMessage = subscriptionId + " " + activityType + " " + previousSubscriptionState + " "
 				+ currentSubscriptionState + " " + transactionState + " " + actionType;
 		logger.info("==================>Starting user subscription missing values test  [ " + testMessage + " ]");

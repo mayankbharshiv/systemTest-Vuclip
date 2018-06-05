@@ -1,29 +1,17 @@
 package com.vuclip.premiumengg.automation.scheduled_activity_service.tests;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.log4j.Logger;
-import org.springframework.amqp.core.Message;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import com.vuclip.premiumengg.automation.billing_package_service.common.models.QueueResponse;
 import com.vuclip.premiumengg.automation.common.Log4J;
-import com.vuclip.premiumengg.automation.common.RabbitMQConnection;
-import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.ActivityType;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.PublishConfigRequest;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASDBHelper;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASHelper;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASUtils;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASValidationHelper;
-import com.vuclip.premiumengg.automation.utils.AppAssert;
-import com.vuclip.premiumengg.automation.utils.DBUtils;
-import com.vuclip.premiumengg.automation.utils.ObjectMapperUtils;
-
-import io.restassured.response.Response;
 
 /**
  * 
@@ -32,12 +20,12 @@ import io.restassured.response.Response;
  */
 
 public class Activation_RetrySASTests {
-	private static Logger logger = Log4J.getLogger("ActivationRenewalRetryTests");
+	private static Logger logger = Log4J.getLogger("Activation_RetrySASTests");
 	private SASHelper sasHelper;
 	int productId;
 	int partnerId;
 	PublishConfigRequest publishConfigRequest = null;
-	private String countryCode = "IN";
+//	private String countryCode = "IN";
 
 	@BeforeClass(alwaysRun = true)
 	public void setup() throws Exception {
@@ -46,19 +34,17 @@ public class Activation_RetrySASTests {
 		partnerId = productId;
 	}
 
-	@DataProvider(name = "activationSetupConfigJob")
-	public Object[][] activityType() {
-		return new Object[][] { { ActivityType.ACTIVATION_TYPE }, { ActivityType.ACTIVATION_RETRY_TYPE },
-				{ ActivityType.DEACTIVATION }, { ActivityType.DEACTIVATION_RETRY_TYPE },
-				{ ActivityType.FREETRIAL_RENEWAL_TYPE }, { ActivityType.RENEWAL_TYPE },
-				{ ActivityType.SYSTEM_CHURN_TYPE }, { ActivityType.WINBACK_TYPE }, { ActivityType.RENEWAL_TYPE }, };
+	@DataProvider(name = "getProductConfig")
+	public Object[][] getProductConfig() {
+		logger.info("========================Setting up config Data===========================");
+
+		return SASUtils.getALLActivityType();
 
 	}
 
-	@Test(dataProvider = "activationSetupConfigJob")
+	@Test(dataProvider = "getProductConfig")
 	public void createConfigData(String activityType) throws Exception {
 
-		// create job config for activity types( ex- Activation, deactivation)
 		publishConfigRequest = SASUtils.generateSaveProductConfig(productId, partnerId, activityType);
 		SASValidationHelper.validate_sas_api_response(sasHelper.saveProduct(publishConfigRequest));
 	}
@@ -67,30 +53,30 @@ public class Activation_RetrySASTests {
 	public Object[][] activationPostiveTestType() {
 		return new Object[][] {
 
-				{ "ACTIVATION", "ACT_INIT", "SUCCESS", "CHARGING" },
-				{ "ACTIVATION_RETRY", "ACTIVATED", "SUCCESS", "CHARGING" },
-				{ "ACTIVATION_RETRY", "ACTIVATED", "LOW_BALANCE", "CHARGING" },
-				{ "ACTIVATION_RETRY", "ACTIVATED", "FAILURE", "CHARGING" },
-				{ "ACTIVATION_RETRY", "ACTIVATED", "ERROR", "CHARGING" },
-				{ "ACTIVATION_RETRY", "ACTIVATED", "IN_PROGRESS", "CHARGING" },
+				{ "ACTIVATION", "ACT_INIT", "SUCCESS", "CHARGING", "activation" },
+				{ "ACTIVATION_RETRY", "ACTIVATED", "SUCCESS", "CHARGING", "activation" },
+				{ "ACTIVATION_RETRY", "ACTIVATED", "LOW_BALANCE", "CHARGING", "activation" },
+				{ "ACTIVATION_RETRY", "ACTIVATED", "FAILURE", "CHARGING", "activation" },
+				{ "ACTIVATION_RETRY", "ACTIVATED", "ERROR", "CHARGING", "activation" },
+				{ "ACTIVATION_RETRY", "ACTIVATED", "IN_PROGRESS", "CHARGING", "activation" },
 
-				{ "ACTIVATION_RETRY", "ACT_INIT", "LOW_BALANCE", "CHARGING" },
-				{ "ACTIVATION_RETRY", "ACT_INIT", "FAILURE", "CHARGING" },
-				{ "ACTIVATION_RETRY", "ACT_INIT", "ERROR", "CHARGING" },
-				{ "ACTIVATION_RETRY", "ACT_INIT", "IN_PROGRESS", "CHARGING" },
-				{ "ACTIVATION_RETRY", "ACT_INIT", "SUCCESS", "CHARGING" },
+				{ "ACTIVATION_RETRY", "ACT_INIT", "LOW_BALANCE", "CHARGING", "activation" },
+				{ "ACTIVATION_RETRY", "ACT_INIT", "FAILURE", "CHARGING", "activation" },
+				{ "ACTIVATION_RETRY", "ACT_INIT", "ERROR", "CHARGING", "activation" },
+				{ "ACTIVATION_RETRY", "ACT_INIT", "IN_PROGRESS", "CHARGING", "activation" },
+				{ "ACTIVATION_RETRY", "ACT_INIT", "SUCCESS", "CHARGING", "activation" },
 
-				{ "ACTIVATION_RETRY", "PARKING", "SUCCESS", "CHARGING" },
-				{ "ACTIVATION_RETRY", "PARKING", "LOW_BALANCE", "CHARGING" },
-				{ "ACTIVATION_RETRY", "PARKING", "FAILURE", "CHARGING" },
-				{ "ACTIVATION_RETRY", "PARKING", "ERROR", "CHARGING" },
-				{ "ACTIVATION_RETRY", "PARKING", "IN_PROGRESS", "CHARGING" },
+				{ "ACTIVATION_RETRY", "PARKING", "SUCCESS", "CHARGING", "activation" },
+				{ "ACTIVATION_RETRY", "PARKING", "LOW_BALANCE", "CHARGING", "activation" },
+				{ "ACTIVATION_RETRY", "PARKING", "FAILURE", "CHARGING", "activation" },
+				{ "ACTIVATION_RETRY", "PARKING", "ERROR", "CHARGING", "activation" },
+				{ "ACTIVATION_RETRY", "PARKING", "IN_PROGRESS", "CHARGING", "activation" },
 
-				{ "ACTIVATION_RETRY", "SUSPEND", "SUCCESS", "CHARGING" },
-				{ "ACTIVATION_RETRY", "SUSPEND", "LOW_BALANCE", "CHARGING" },
-				{ "ACTIVATION_RETRY", "SUSPEND", "FAILURE", "CHARGING" },
-				{ "ACTIVATION_RETRY", "SUSPEND", "ERROR", "CHARGING" },
-				{ "ACTIVATION_RETRY", "SUSPEND", "IN_PROGRESS", "CHARGING" },
+				{ "ACTIVATION_RETRY", "SUSPEND", "SUCCESS", "CHARGING", "activation" },
+				{ "ACTIVATION_RETRY", "SUSPEND", "LOW_BALANCE", "CHARGING", "activation" },
+				{ "ACTIVATION_RETRY", "SUSPEND", "FAILURE", "CHARGING", "activation" },
+				{ "ACTIVATION_RETRY", "SUSPEND", "ERROR", "CHARGING", "activation" },
+				{ "ACTIVATION_RETRY", "SUSPEND", "IN_PROGRESS", "CHARGING", "activation" },
 
 		};
 
@@ -98,10 +84,10 @@ public class Activation_RetrySASTests {
 
 	@Test(dependsOnMethods = "createConfigData", dataProvider = "activationPostiveTestType")
 	public void activationRenewalPositiveRetryTests(String activityType, String currentSubscriptionState,
-			String transactionState, String actionType) throws Exception {
+			String transactionState, String actionType,String tableName) throws Exception {
 
 		Integer subscriptionId = RandomUtils.nextInt(11000, 12000);
-		// SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
+		// //SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
 		String testMessage = "" + productId + " " + partnerId + " " + subscriptionId + " " + activityType + " "
 				 + " " + currentSubscriptionState + " " + transactionState + " "
 				+ actionType;
@@ -156,21 +142,21 @@ public class Activation_RetrySASTests {
 	// @DataProvider(name = "activationNegativeTestType")
 	// public Object[][] activationNegativeTestType() {
 	// return new Object[][] {
-	// { "ACTIVATION", "ACT_INIT", "ACTIVATED", "LOW_BALANCE", "CHARGING", 102,
+	// { "ACTIVATION", "ACT_INIT", "ACTIVATED", "LOW_BALANCE", "CHARGING", "activation", 102,
 	// "renewal", "OPEN" },
-	// { "ACTIVATION", "ACT_INIT", "ACTIVATED", "FAILURE", "CHARGING", 103,
+	// { "ACTIVATION", "ACT_INIT", "ACTIVATED", "FAILURE", "CHARGING", "activation", 103,
 	// "renewal", "OPEN" },
-	// { "ACTIVATION", "ACT_INIT", "ACTIVATED", "ERROR", "CHARGING", 104, "renewal",
+	// { "ACTIVATION", "ACT_INIT", "ACTIVATED", "ERROR", "CHARGING", "activation", 104, "renewal",
 	// "OPEN" },
-	// { "ACTIVATION", "ACT_INIT", "ACT_INIT", "SUCCESS", "CHARGING", 105,
+	// { "ACTIVATION", "ACT_INIT", "ACT_INIT", "SUCCESS", "CHARGING", "activation", 105,
 	// "activation", "OPEN" },
-	// { "ACTIVATION", "ACT_INIT", "ACT_INIT", "LOW_BALANCE", "CHARGING", 106,
+	// { "ACTIVATION", "ACT_INIT", "ACT_INIT", "LOW_BALANCE", "CHARGING", "activation", 106,
 	// "activation", "OPEN" },
-	// { "ACTIVATION", "ACT_INIT", "PARKING", "SUCCESS", "CHARGING", 109, "winback",
+	// { "ACTIVATION", "ACT_INIT", "PARKING", "SUCCESS", "CHARGING", "activation", 109, "winback",
 	// "OPEN" },
-	// { "ACTIVATION", "ACT_INIT", "PARKING", "FAILURE", "CHARGING", 110, "winback",
+	// { "ACTIVATION", "ACT_INIT", "PARKING", "FAILURE", "CHARGING", "activation", 110, "winback",
 	// "OPEN" },
-	// { "ACTIVATION", "ACT_INIT", "PARKING", "ERROR", "CHARGING", 112, "winback",
+	// { "ACTIVATION", "ACT_INIT", "PARKING", "ERROR", "CHARGING", "activation", 112, "winback",
 	// "OPEN" }
 	//
 	// };
@@ -184,7 +170,7 @@ public class Activation_RetrySASTests {
 	// Integer subscriptionId,
 	// String actionTable, String status) throws Exception {
 	// subscriptionId = RandomUtils.nextInt(3000, 4000);
-	// SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
+	// //SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
 	// String testMessage = subscriptionId + " " + activityType + " " +
 	// previousSubscriptionState + " "
 	// + currentSubscriptionState + " " + transactionState + " " + actionType;

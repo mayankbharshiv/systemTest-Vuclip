@@ -7,6 +7,7 @@ import java.util.Properties;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.Test;
 
 import com.vuclip.premiumengg.automation.common.Configuration;
 import com.vuclip.premiumengg.automation.common.JDBCTemplate;
@@ -16,6 +17,7 @@ import com.vuclip.premiumengg.automation.common.RabbitMQConnection;
 /**
  * @author Rahul Sahu
  */
+@Test
 public class InitializeTestSuite {
 
 	/**
@@ -47,8 +49,8 @@ public class InitializeTestSuite {
 
 			RabbitMQConnection.getRabbitTemplate().setMessageConverter(new Jackson2JsonMessageConverter());
 			// Log4J.getLogger().info("Cleanup Database Tables");
-			// SASDBHelper.cleanTestData(null);
-
+			// //SASDBHelper.cleanTestData(null);
+	
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.log4j.Logger;
 import org.springframework.amqp.core.Message;
+import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -13,7 +14,6 @@ import org.testng.annotations.Test;
 import com.vuclip.premiumengg.automation.billing_package_service.common.models.QueueResponse;
 import com.vuclip.premiumengg.automation.common.Log4J;
 import com.vuclip.premiumengg.automation.common.RabbitMQConnection;
-import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.ActivityType;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.PublishConfigRequest;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASHelper;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASUtils;
@@ -47,26 +47,23 @@ public class DeactivationRetryTest {
 		sasHelper = new SASHelper();
 		productId = RandomUtils.nextInt(9000, 10000);
 		partnerId = productId;
-		logger.info("Cleanup Test Data");
-		// SASDBHelper.cleanTestData("product_id=" + productId);
 
 	}
 
-	@DataProvider(name = "deactivationSetUpConfig")
-	public Object[][] activityType() {
-		return new Object[][] { { ActivityType.ACTIVATION_TYPE }, { ActivityType.ACTIVATION_RETRY_TYPE },
-				{ ActivityType.DEACTIVATION }, { ActivityType.DEACTIVATION_RETRY_TYPE },
-				{ ActivityType.FREETRIAL_RENEWAL_TYPE }, { ActivityType.RENEWAL_TYPE },
-				{ ActivityType.SYSTEM_CHURN_TYPE }, { ActivityType.WINBACK_TYPE } };
+	@DataProvider(name = "getProductConfig")
+	public Object[][] getProductConfig() {
+		logger.info("========================Setting up config Data===========================");
+
+		return SASUtils.getALLActivityType();
 
 	}
 
-	@Test(dataProvider = "deactivationSetUpConfig")
+	@Test(dataProvider = "getProductConfig")
 	public void createConfigData(String activityType) throws Exception {
-		
+
 		publishConfigRequest = SASUtils.generateSaveProductConfig(productId, partnerId, activityType);
 		SASValidationHelper.validate_sas_api_response(sasHelper.saveProduct(publishConfigRequest));
-		
+
 	}
 
 	@DataProvider(name = "testType")
@@ -74,14 +71,9 @@ public class DeactivationRetryTest {
 		return new Object[][] {
 				{ "DEACTIVATION", "ACT_INIT", "DCT_INIT", "FAILURE", "DEACTIVATE_CONSENT", 123, "deactivation" },
 				{ "DEACTIVATION", "ACT_INIT", "DCT_INIT", "ERROR", "DEACTIVATE_CONSENT", 111, "deactivation" },
-				{ "DEACTIVATION", "SUSPEND", "DCT_INIT", "CONFIRMED", "DEACTIVATE_CONSENT", 111, "deactivation" },
-				{ "DEACTIVATION", "SUSPEND", "DCT_INIT", "IN_PROGRESS", "DEACTIVATE_CONSENT", 111, "deactivation" },
-				{ "DEACTIVATION", "PARKING", "DCT_INIT", "NOTIFICATION_WAIT", "DEACTIVATE_CONSENT", 111, "deactivation" },
-				
-				{ "DEACTIVATION", "PARKING", "DEACTIVATION", "SUCCESS", "DEACTIVATE_CONSENT", 111, "deactivation" }
-				
+
 		};
-				
+
 	}
 
 	@Test(dataProvider = "testType", dependsOnMethods = "createConfigData")
@@ -98,7 +90,8 @@ public class DeactivationRetryTest {
 
 			SASValidationHelper.validate_sas_api_response(
 					sasHelper.userSubscription(SASUtils.generateUserSubscriptionRequest(productId, partnerId,
-							activityType, previousSubscriptionState,currentSubscriptionState, transactionState, actionType, subscriptionId)));
+							activityType, previousSubscriptionState, currentSubscriptionState, transactionState,
+							actionType, subscriptionId)));
 
 			Map<String, String> expectedRecords = new HashMap<String, String>();
 			expectedRecords.put("status", "OPEN");
@@ -124,6 +117,7 @@ public class DeactivationRetryTest {
 					ObjectMapperUtils.readValueFromString(new String(message.getBody()), QueueResponse.class),
 					productId, partnerId, subscriptionId, countryCode, actionTable);
 		} catch (Exception e) {
+			Assert.fail("test case failed");
 			e.printStackTrace();
 		}
 	}
@@ -131,24 +125,20 @@ public class DeactivationRetryTest {
 	@DataProvider(name = "neativeTestType")
 	public Object[][] neativeTestType() {
 		return new Object[][] {
-			
-			{ "DEACTIVATION", "ACT_INIT", "DEACTIVATED", "FAILURE", "DEACTIVATE_CONSENT", 123, "deactivation" },
-			{ "DEACTIVATION", "ACT_INIT", "DEACTIVATED", "ERROR", "DEACTIVATE_CONSENT", 111, "deactivation" },
-			{ "DEACTIVATION", "SUSPEND", "DEACTIVATED", "CONFIRMED", "DEACTIVATE_CONSENT", 111, "deactivation" },
-			{ "DEACTIVATION", "SUSPEND", "DEACTIVATED", "IN_PROGRESS", "DEACTIVATE_CONSENT", 111, "deactivation" },
-			{ "DEACTIVATION", "PARKING", "DEACTIVATED", "NOTIFICATION_WAIT", "DEACTIVATE_CONSENT", 111, "deactivation" },
-		
-			{ "DEACTIVATION", "SUSPEND", "DCT_INIT", "SUCCESS", "DEACTIVATE_CONSENT", 111, "deactivation" },
+				{ "DEACTIVATION", "SUSPEND", "DCT_INIT", "CONFIRMED", "DEACTIVATE_CONSENT", 111, "deactivation" },
+				{ "DEACTIVATION", "SUSPEND", "DCT_INIT", "IN_PROGRESS", "DEACTIVATE_CONSENT", 111, "deactivation" },
+				{ "DEACTIVATION", "PARKING", "DCT_INIT", "NOTIFICATION_WAIT", "DEACTIVATE_CONSENT", 111,
+						"deactivation" },
+				{ "DEACTIVATION", "PARKING", "DEACTIVATION", "SUCCESS", "DEACTIVATE_CONSENT", 111, "deactivation" },
 
-//				{ "DEACTIVATION", "ACT_INIT", "DEACTIVATED", "SUCCESS", "DEACTIVATE_CONSENT", 111, "deactivation" },
-//				{ "DEACTIVATION", "ACT_INIT", "DCT_INIT", "IN_PROGRESS", "DEACTIVATE_CONSENT", 555, "deactivation" },
-//				{ "DEACTIVATION", "SUSPEND", "DEACTIVATED", "SUCCESS", "DEACTIVATE_CONSENT", 111, "deactivation" },
-//				{ "DEACTIVATION", "SUSPEND", "DCT_INIT", "IN_PROGRESS", "DEACTIVATE_CONSENT", 111, "deactivation" },
-//				{ "DEACTIVATION", "PARKING", "DEACTIVATED", "SUCCESS", "DEACTIVATE_CONSENT", 111, "deactivation" },
-//				{ "DEACTIVATION", "PARKING", "DCT_INIT", "IN_PROGRESS", "DEACTIVATE_CONSENT", 111, "deactivation" },
-//				{ "DEACTIVATION", "ACTIVATED", "DEACTIVATED", "SUCCESS", "DEACTIVATE_CONSENT", 111, "deactivation" },
-//				{ "DEACTIVATION", "ACTIVATED", "DCT_INIT", "IN_PROGRESS", "DEACTIVATE_CONSENT", 111, "deactivation" },
-//				{ "DEACTIVATION", "DCT_INIT", "DEACTIVATED", "SUCCESS", "DEACTIVATE_CONSENT", 111, "deactivation" },
+				{ "DEACTIVATION", "ACT_INIT", "DEACTIVATED", "FAILURE", "DEACTIVATE_CONSENT", 123, "deactivation" },
+				{ "DEACTIVATION", "ACT_INIT", "DEACTIVATED", "ERROR", "DEACTIVATE_CONSENT", 111, "deactivation" },
+				{ "DEACTIVATION", "SUSPEND", "DEACTIVATED", "CONFIRMED", "DEACTIVATE_CONSENT", 111, "deactivation" },
+				{ "DEACTIVATION", "SUSPEND", "DEACTIVATED", "IN_PROGRESS", "DEACTIVATE_CONSENT", 111, "deactivation" },
+				{ "DEACTIVATION", "PARKING", "DEACTIVATED", "NOTIFICATION_WAIT", "DEACTIVATE_CONSENT", 111,
+						"deactivation" },
+
+				{ "DEACTIVATION", "SUSPEND", "DCT_INIT", "SUCCESS", "DEACTIVATE_CONSENT", 111, "deactivation" },
 
 		};
 
@@ -162,12 +152,13 @@ public class DeactivationRetryTest {
 		subscriptionId = RandomUtils.nextInt(3000, 4000);
 		String testMessage = subscriptionId + " " + activityType + " " + previousSubscriptionState + " "
 				+ currentSubscriptionState + " " + transactionState + " " + actionType;
-		logger.info("==================>Starting Negative deactivation retry test  [ " + testMessage + " ]");
+		logger.info("==================>Starting Negative deactivation retry test [ " + testMessage + " ]");
 
 		try {
 			SASValidationHelper.validate_sas_api_response(
 					sasHelper.userSubscription(SASUtils.generateUserSubscriptionRequest(productId, partnerId,
-							activityType, previousSubscriptionState,currentSubscriptionState, transactionState, actionType, subscriptionId)));
+							activityType, previousSubscriptionState, currentSubscriptionState, transactionState,
+							actionType, subscriptionId)));
 
 			AppAssert
 					.assertEqual(
@@ -186,7 +177,7 @@ public class DeactivationRetryTest {
 							0, "Verify no record created");
 
 			Message message = RabbitMQConnection.getRabbitTemplate()
-					.receive(productId + "_" + partnerId + "_" + actionTable.toUpperCase() + "_REQUEST_BACKEND", 10000);
+					.receive(productId + "_" + partnerId + "_" + actionTable.toUpperCase() + "_REQUEST_BACKEND", 2000);
 			AppAssert.assertTrue(message == null, "Verify there is no record in queue for subscription");
 		} catch (Exception e) {
 			e.printStackTrace();

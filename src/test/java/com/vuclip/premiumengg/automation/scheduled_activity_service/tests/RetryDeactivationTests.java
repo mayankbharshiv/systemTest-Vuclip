@@ -14,9 +14,7 @@ import org.testng.annotations.Test;
 import com.vuclip.premiumengg.automation.billing_package_service.common.models.QueueResponse;
 import com.vuclip.premiumengg.automation.common.Log4J;
 import com.vuclip.premiumengg.automation.common.RabbitMQConnection;
-import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.ActivityType;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.PublishConfigRequest;
-import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASDBHelper;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASHelper;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASUtils;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASValidationHelper;
@@ -39,7 +37,7 @@ public class RetryDeactivationTests {
 	int partnerId;
 	PublishConfigRequest publishConfigRequest = null;
 	private String countryCode = "IN";
-	
+
 	@BeforeClass(alwaysRun = true)
 	public void setup() throws Exception {
 		sasHelper = new SASHelper();
@@ -47,19 +45,17 @@ public class RetryDeactivationTests {
 		partnerId = productId;
 	}
 
-	@DataProvider(name = "activationSetupConfigJob")
-	public Object[][] activityType() {
-		return new Object[][] { { ActivityType.ACTIVATION_TYPE }, { ActivityType.ACTIVATION_RETRY_TYPE },
-				{ ActivityType.DEACTIVATION }, { ActivityType.DEACTIVATION_RETRY_TYPE },
-				{ ActivityType.FREETRIAL_RENEWAL_TYPE }, { ActivityType.RENEWAL_TYPE },
-				{ ActivityType.SYSTEM_CHURN_TYPE }, { ActivityType.WINBACK_TYPE } };
+	@DataProvider(name = "getProductConfig")
+	public Object[][] getProductConfig() {
+		logger.info("========================Setting up config Data===========================");
+
+		return SASUtils.getALLActivityType();
 
 	}
 
-	@Test(dataProvider = "activationSetupConfigJob")
+	@Test(dataProvider = "getProductConfig")
 	public void createConfigData(String activityType) throws Exception {
 
-		// create job config for activity types( ex- Activation, deactivation)
 		publishConfigRequest = SASUtils.generateSaveProductConfig(productId, partnerId, activityType);
 		SASValidationHelper.validate_sas_api_response(sasHelper.saveProduct(publishConfigRequest));
 	}
@@ -67,18 +63,19 @@ public class RetryDeactivationTests {
 	@DataProvider(name = "deactivationRetryPositiveTestType")
 	public Object[][] deactivationRetryPositiveTestType() {
 		return new Object[][] {
-	{"DEACTIVATION_RETRY","DCT_INIT","DCT_INIT","ERROR","DEACTIVATE_CONSENT",101,"deactivation","OPEN"},
-	{"DEACTIVATION_RETRY","DCT_INIT","DCT_INIT","FAILURE","DEACTIVATE_CONSENT",102,"deactivation","OPEN"}
-		};
+				{ "DEACTIVATION_RETRY", "DCT_INIT", "DCT_INIT", "ERROR", "DEACTIVATE_CONSENT", 101, "deactivation",
+						"OPEN" },
+				{ "DEACTIVATION_RETRY", "DCT_INIT", "DCT_INIT", "FAILURE", "DEACTIVATE_CONSENT", 102, "deactivation",
+						"OPEN" } };
 	}
 
 	@Test(dependsOnMethods = "createConfigData", dataProvider = "deactivationRetryPositiveTestType")
-	public void activationPositiveRetryTests(String activityType, String previousSubscriptionState,
+	public void RetryDeactivationPositiveRetryTests(String activityType, String previousSubscriptionState,
 			String currentSubscriptionState, String transactionState, String actionType, Integer subscriptionId,
 			String actionTable, String status) throws Exception {
 
 		subscriptionId = RandomUtils.nextInt(100, 200);
-		SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
+		//SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
 		String testMessage = subscriptionId + " " + activityType + " " + previousSubscriptionState + " "
 				+ currentSubscriptionState + " " + transactionState + " " + actionType;
 		logger.info("==================>Starting positive Deactivation_Retry retry test  [ " + testMessage + " ]");
@@ -87,8 +84,8 @@ public class RetryDeactivationTests {
 
 			SASValidationHelper.validate_sas_api_response(
 					sasHelper.userSubscription(SASUtils.generateUserSubscriptionRequest(productId, partnerId,
-							activityType, previousSubscriptionState,currentSubscriptionState, transactionState, actionType, subscriptionId)));
-
+							activityType, previousSubscriptionState, currentSubscriptionState, transactionState,
+							actionType, subscriptionId)));
 
 			Map<String, String> expectedRecords = new HashMap<String, String>();
 			expectedRecords.put("status", "OPEN");
@@ -121,19 +118,23 @@ public class RetryDeactivationTests {
 	@DataProvider(name = "deactivationRetryNegativeTestType")
 	public Object[][] deactivationRetryNegativeTestType() {
 		return new Object[][] {
-		{"DEACTIVATION_RETRY","DCT_INIT","DEACTIVATED","ERROR","DEACTIVATE_CONSENT",104,"deactivation","OPEN"},
-	{"DEACTIVATION_RETRY","DCT_INIT","DEACTIVATED","FAILURE","DEACTIVATE_CONSENT",105,"deactivation","OPEN"},
-	{"DEACTIVATION_RETRY","DCT_INIT","DCT_INIT","SUCCESS","DEACTIVATE_CONSENT",106,"deactivation","OPEN"},
-	{"DEACTIVATION_RETRY","DCT_INIT","DEACTIVATED","SUCCESS","DEACTIVATE_CONSENT",103,"deactivation","OPEN"},};
+
+				{ "DEACTIVATION_RETRY", "DCT_INIT", "DEACTIVATED", "SUCCESS", "DEACTIVATE_CONSENT", 103, "deactivation",
+						"OPEN" },
+				{ "DEACTIVATION_RETRY", "DCT_INIT", "DEACTIVATED", "ERROR", "DEACTIVATE_CONSENT", 104, "deactivation",
+						"OPEN" },
+				{ "DEACTIVATION_RETRY", "DCT_INIT", "DEACTIVATED", "FAILURE", "DEACTIVATE_CONSENT", 105, "deactivation",
+						"OPEN" },
+				{ "DEACTIVATION_RETRY", "DCT_INIT", "DCT_INIT", "SUCCESS", "DEACTIVATE_CONSENT", 106, "deactivation",
+						"OPEN" } };
 	}
 
-
 	@Test(dependsOnMethods = "createConfigData", dataProvider = "deactivationRetryNegativeTestType")
-	public void activationNegativeTestType(String activityType, String previousSubscriptionState,
+	public void RetryDeactivationNegativeTestType(String activityType, String previousSubscriptionState,
 			String currentSubscriptionState, String transactionState, String actionType, Integer subscriptionId,
 			String actionTable, String status) throws Exception {
 		subscriptionId = RandomUtils.nextInt(3000, 4000);
-		SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
+		//SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
 		String testMessage = subscriptionId + " " + activityType + " " + previousSubscriptionState + " "
 				+ currentSubscriptionState + " " + transactionState + " " + actionType;
 		logger.info("==================>Starting Negative RetryDeactivationTests retry test  [ " + testMessage + " ]");
@@ -141,7 +142,8 @@ public class RetryDeactivationTests {
 		try {
 			SASValidationHelper.validate_sas_api_response(
 					sasHelper.userSubscription(SASUtils.generateUserSubscriptionRequest(productId, partnerId,
-							activityType, previousSubscriptionState,currentSubscriptionState, transactionState, actionType, subscriptionId)));
+							activityType, previousSubscriptionState, currentSubscriptionState, transactionState,
+							actionType, subscriptionId)));
 
 			AppAssert
 					.assertEqual(

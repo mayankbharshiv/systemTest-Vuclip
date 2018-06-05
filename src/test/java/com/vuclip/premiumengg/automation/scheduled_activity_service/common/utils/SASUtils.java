@@ -1,5 +1,6 @@
 package com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils;
 
+import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.ActivityType;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.PublishConfigRequest;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.SchedulerRequest;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.UserSubscriptionRequest;
@@ -49,8 +50,9 @@ public class SASUtils {
 		return schedulerRequest;
 	}
 
-	public static UserSubscriptionRequest generateUserSubscriptionRequest(Integer productId, Integer partnerId, String activityType,
-			String previousSubscriptionState,String currentSubscriptionState, String transactionState, String actionType, int subscriptionId) {
+	public static UserSubscriptionRequest generateUserSubscriptionRequest(Integer productId, Integer partnerId,
+			String activityType, String previousSubscriptionState, String currentSubscriptionState,
+			String transactionState, String actionType, int subscriptionId) {
 		UserSubscriptionRequest userSubscriptionRequest = loadJson("userSubscription.json",
 				UserSubscriptionRequest.class);
 
@@ -66,5 +68,13 @@ public class SASUtils {
 		userSubscriptionRequest.getActivityEvent().setPartnerId(partnerId);
 		userSubscriptionRequest.getActivityEvent().setProductId(productId);
 		return userSubscriptionRequest;
+	}
+
+	public static Object[][] getALLActivityType() {
+		return new Object[][] { { ActivityType.ACTIVATION_TYPE }, { ActivityType.ACTIVATION_RETRY_TYPE },
+				{ ActivityType.DEACTIVATION }, { ActivityType.DEACTIVATION_RETRY_TYPE },
+				{ ActivityType.FREETRIAL_RENEWAL_TYPE }, { ActivityType.RENEWAL_TYPE },
+				{ ActivityType.SYSTEM_CHURN_TYPE }, { ActivityType.WINBACK_TYPE },
+				{ ActivityType.RENEWAL_RETRY_TYPE } };
 	}
 }
