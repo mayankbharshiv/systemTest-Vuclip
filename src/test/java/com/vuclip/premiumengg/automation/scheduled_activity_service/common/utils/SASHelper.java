@@ -40,8 +40,8 @@ public class SASHelper {
 	public Response saveProduct(PublishConfigRequest publishConfigRequest) throws Exception {
 
 		final Response response = given(requestSpecification).contentType(ContentType.JSON).body(publishConfigRequest)
-				.post(saveProductResource);
-		// response.prettyPrint();
+				.log().all().post(saveProductResource);
+		 response.prettyPrint();
 		return response;
 	}
 
@@ -65,7 +65,7 @@ public class SASHelper {
 	 */
 	public Response userSubscription(UserSubscriptionRequest userSubscriptionRequest) throws Exception {
 		final Response response = given(requestSpecification).contentType(ContentType.JSON)
-				.body(userSubscriptionRequest)/*.log().all()*/.post(userSubscriptionResource);
+				.body(userSubscriptionRequest).log().all().post(userSubscriptionResource);
 		 response.prettyPrint();
 		return response;
 	}

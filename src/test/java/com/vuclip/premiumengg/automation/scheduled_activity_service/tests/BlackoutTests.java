@@ -23,8 +23,8 @@ import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils
 public class BlackoutTests {
 	private static Logger logger = Log4J.getLogger("BlackoutWindowTests");
 	private SASHelper sasHelper;
-	int productId;
-	int partnerId;
+	private int productId=0;
+	private int partnerId=0;
 	PublishConfigRequest publishConfigRequest = null;
 	String activityType = "WINBACK";
 	String previousSubscriptionState = "PARKING";
@@ -37,7 +37,7 @@ public class BlackoutTests {
 	@BeforeClass(alwaysRun = true)
 	public void setup() throws Exception {
 		sasHelper = new SASHelper();
-		productId = RandomUtils.nextInt(2000, 3000);
+		productId = SASUtils.productId;//RandomUtils.nextInt(2000, 3000);
 		partnerId = productId;
 	}
 
@@ -61,8 +61,8 @@ public class BlackoutTests {
 	@Test(dependsOnMethods = "createBlackoutWindowConfigData")
 	public void invalidBlackoutWindowFieldValue() throws Exception {
 
-		subscriptionId = RandomUtils.nextInt(100, 200);
-		//SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
+		subscriptionId = RandomUtils.nextInt(24000, 25000);
+		// SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
 		String testMessage = subscriptionId + " " + activityType + " " + previousSubscriptionState + " "
 				+ currentSubscriptionState + " " + transactionState + " " + actionType;
 		logger.info("==================>Starting Invalid BlackOut Window Field Value test  [ " + testMessage + " ]");

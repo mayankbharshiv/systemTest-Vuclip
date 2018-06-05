@@ -18,11 +18,8 @@ import com.vuclip.premiumengg.automation.scheduled_activity_service.common.model
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASHelper;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASUtils;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASValidationHelper;
-import com.vuclip.premiumengg.automation.utils.AppAssert;
 import com.vuclip.premiumengg.automation.utils.DBUtils;
 import com.vuclip.premiumengg.automation.utils.ObjectMapperUtils;
-
-import io.restassured.response.Response;
 
 /**
  * 
@@ -45,12 +42,12 @@ public class SASDeactivationTest {
 	public void setup() throws Exception {
 
 		sasHelper = new SASHelper();
-		productId = RandomUtils.nextInt(9000, 10000);
+		productId = SASUtils.productId;//RandomUtils.nextInt(9000, 10000);
 		partnerId = productId;
 
 	}
 
-	@DataProvider(name = "getProductConfig")
+/*	@DataProvider(name = "getProductConfig")
 	public Object[][] getProductConfig() {
 		logger.info("========================Setting up config Data===========================");
 
@@ -64,7 +61,7 @@ public class SASDeactivationTest {
 		publishConfigRequest = SASUtils.generateSaveProductConfig(productId, partnerId, activityType);
 		SASValidationHelper.validate_sas_api_response(sasHelper.saveProduct(publishConfigRequest));
 
-	}
+	}*/
 
 	@DataProvider(name = "testType")
 	public Object[][] testType() {
@@ -76,12 +73,12 @@ public class SASDeactivationTest {
 
 	}
 
-	@Test(dataProvider = "testType", dependsOnMethods = "createConfigData")
+	@Test(dataProvider = "testType"/*, dependsOnMethods = "createConfigData"*/)
 	public void deactivationRetryTest(String activityType, String previousSubscriptionState,
 			String currentSubscriptionState, String transactionState, String actionType, int subscriptionId,
 			String actionTable) {
 
-		subscriptionId = RandomUtils.nextInt(2000, 3000);
+		subscriptionId = RandomUtils.nextInt(10000, 11000);
 		String testMessage = subscriptionId + " " + activityType + " " + previousSubscriptionState + " "
 				+ currentSubscriptionState + " " + transactionState + " " + actionType;
 		logger.info("==================>Starting positive deactivation retry test  [ " + testMessage + " ]");
@@ -144,44 +141,18 @@ public class SASDeactivationTest {
 
 	}
 
-	@Test(dataProvider = "neativeTestType", dependsOnMethods = "createConfigData")
+	@Test(dataProvider = "neativeTestType"/*, dependsOnMethods = "createConfigData"*/)
 	public void deactivationRetryNegativeTest(String activityType, String previousSubscriptionState,
 			String currentSubscriptionState, String transactionState, String actionType, int subscriptionId,
 			String actionTable) {
 
-		subscriptionId = RandomUtils.nextInt(3000, 4000);
+		subscriptionId = RandomUtils.nextInt(26000, 27000);
 		String testMessage = subscriptionId + " " + activityType + " " + previousSubscriptionState + " "
 				+ currentSubscriptionState + " " + transactionState + " " + actionType;
 		logger.info("==================>Starting Negative deactivation retry test [ " + testMessage + " ]");
 
-		try {
-			SASValidationHelper.validate_sas_api_response(
-					sasHelper.userSubscription(SASUtils.generateUserSubscriptionRequest(productId, partnerId,
-							activityType, previousSubscriptionState, currentSubscriptionState, transactionState,
-							actionType, subscriptionId)));
-
-			AppAssert
-					.assertEqual(
-							DBUtils.getRecord(actionTable, "subscription_id = " + subscriptionId + " and product_id = "
-									+ productId + " and partner_id=" + partnerId).size(),
-							0, "Verify no record created");
-
-			Response schedulerResponse = sasHelper
-					.scheduler(SASUtils.generateSchedulerRequest(productId, partnerId, actionTable));
-			SASValidationHelper.validate_schedular_api_response(schedulerResponse);
-
-			AppAssert
-					.assertEqual(
-							DBUtils.getRecord(actionTable, "subscription_id = " + subscriptionId + " and product_id = "
-									+ productId + " and partner_id=" + partnerId).size(),
-							0, "Verify no record created");
-
-			Message message = RabbitMQConnection.getRabbitTemplate()
-					.receive(productId + "_" + partnerId + "_" + actionTable.toUpperCase() + "_REQUEST_BACKEND", 2000);
-			AppAssert.assertTrue(message == null, "Verify there is no record in queue for subscription");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		SASValidationHelper.negativeFlow(productId, activityType, currentSubscriptionState, transactionState,
+				actionType, subscriptionId);
 	}
 
 }

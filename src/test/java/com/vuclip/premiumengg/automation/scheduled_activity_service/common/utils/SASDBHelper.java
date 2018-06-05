@@ -117,4 +117,5 @@ public class SASDBHelper {
 			Log4J.getLogger().info(map.get("date").toString() + "   " + map.get("status").toString());
 		}
 	}
+	
 }

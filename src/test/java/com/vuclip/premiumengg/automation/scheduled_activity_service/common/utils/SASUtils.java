@@ -7,6 +7,9 @@ import com.vuclip.premiumengg.automation.scheduled_activity_service.common.model
 import com.vuclip.premiumengg.automation.utils.ObjectMapperUtils;
 
 public class SASUtils {
+	public static int productId;
+	public static PublishConfigRequest productConfig = null;
+
 	/**
 	 * 
 	 * @param JsonFileName

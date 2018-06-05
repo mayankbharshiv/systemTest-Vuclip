@@ -40,11 +40,11 @@ public class SASTest {
 	@BeforeClass(alwaysRun = true)
 	public void setup() throws Exception {
 		sasHelper = new SASHelper();
-		productId = RandomUtils.nextInt(2000, 3000);
+		productId = SASUtils.productId;//RandomUtils.nextInt(2000, 3000);
 		partnerId = productId;
 	}
 
-	@DataProvider(name = "getProductConfig")
+/*	@DataProvider(name = "getProductConfig")
 	public Object[][] getProductConfig() {
 		logger.info("========================Setting up config Data===========================");
 
@@ -57,33 +57,33 @@ public class SASTest {
 
 		publishConfigRequest = SASUtils.generateSaveProductConfig(productId, partnerId, activityType);
 		SASValidationHelper.validate_sas_api_response(sasHelper.saveProduct(publishConfigRequest));
-	}
+	}*/
 
 	@DataProvider(name = "activationPostiveTestType")
 	public Object[][] activationPostiveTestType() {
 		return new Object[][] {
 
-//				/* PASS */{ "CHARGING", "ACTIVATION", "ACTIVATED", "SUCCESS", "renewal", "ACTIVATED", "SUCCESS",
-//						"SUCCESS", "renewal" },
-//				/* PASS */{ "CHARGING", "ACTIVATION", "ACTIVATED", "SUCCESS", "renewal", "ACTIVATED", "ERROR", "ERROR",
-//						"renewal_retry" },
-//				/* PASS */{ "CHARGING", "ACTIVATION", "ACTIVATED", "SUCCESS", "renewal", "ACTIVATED", "FAILURE",
-//						"FAILURE", "renewal_retry" },
-//				/* PASS */{ "CHARGING", "ACTIVATION", "ACT_INIT", "FAILURE", "activation", "ACTIVATED", "SUCCESS",
-//						"SUCCESS", "renewal" },
-//				/* PASSED */{ "CHARGING", "ACTIVATION", "ACT_INIT", "FAILURE", "activation", "ACT_INIT", "FAILURE",
-//						"FAILURE", "activation" },
-//				/* PASSED */{ "CHARGING", "ACTIVATION", "ACT_INIT", "FAILURE", "activation", "ACT_INIT", "ERROR",
-//						"ERROR", "activation" },
-//
-//				/* PASSED */{ "CHARGING", "ACTIVATION", "PARKING", "LOW_BALANCE", "winback", "PARKING", "ERROR",
-//						"ERROR", "winback" },
+				/* PASS */{ "CHARGING", "ACTIVATION", "ACTIVATED", "SUCCESS", "renewal", "ACTIVATED", "SUCCESS",
+						"SUCCESS", "renewal" },
+				/* PASS */{ "CHARGING", "ACTIVATION", "ACTIVATED", "SUCCESS", "renewal", "ACTIVATED", "ERROR", "ERROR",
+						"renewal_retry" },
+				/* PASS */{ "CHARGING", "ACTIVATION", "ACTIVATED", "SUCCESS", "renewal", "ACTIVATED", "FAILURE",
+						"FAILURE", "renewal_retry" },
+				/* PASS */{ "CHARGING", "ACTIVATION", "ACT_INIT", "FAILURE", "activation", "ACTIVATED", "SUCCESS",
+						"SUCCESS", "renewal" },
+				/* PASSED */{ "CHARGING", "ACTIVATION", "ACT_INIT", "FAILURE", "activation", "ACT_INIT", "FAILURE",
+						"FAILURE", "activation" },
+				/* PASSED */{ "CHARGING", "ACTIVATION", "ACT_INIT", "FAILURE", "activation", "ACT_INIT", "ERROR",
+						"ERROR", "activation" },
+
+				/* PASSED */{ "CHARGING", "ACTIVATION", "PARKING", "LOW_BALANCE", "winback", "PARKING", "ERROR",
+						"ERROR", "winback" },
 //
 //				/* fail no pro */{ "CHARGING", "ACTIVATION", "PARKING", "LOW_BALANCE", "winback", "PARKING", "FAILURE",
 //						"FAILURE", "winback" },
 //
-//				/* PASSED */{ "CHARGING", "ACTIVATION", "PARKING", "LOW_BALANCE", "winback", "PARKING", "LOW_BALANCE",
-//						"LOW_BALANCE", "winback" },
+				/* PASSED */{ "CHARGING", "ACTIVATION", "PARKING", "LOW_BALANCE", "winback", "PARKING", "LOW_BALANCE",
+						"LOW_BALANCE", "winback" },
 //
 //				/* fail no processor */{ "CHARGING", "ACTIVATION", "PARKING", "LOW_BALANCE", "winback", "PARKING",
 //						"IN_PROGRESS", "IN_PROGRESS", "winback" },
@@ -110,21 +110,22 @@ public class SASTest {
 //				/* FAIL */ { "CHARGING", "ACTIVATION", "ACTIVATED", "SUCCESS", "renewal", "ACTIVATED",
 //						"NOTIFICATION_WAIT", "IN_PROGRESS", "renewal_retry" },
 //
-//				/* PASSED */{ "DEACTIVATE_CONSENT", "DEACTIVATION", "DCT_INIT", "FAILURE", "deactivation", "DCT_INIT",
-//						"FAILURE", "FAILURE", "deactivation" },
-//				/* PASSED */{ "DEACTIVATE_CONSENT", "DEACTIVATION", "DCT_INIT", "FAILURE", "deactivation", "DCT_INIT",
-//						"ERROR", "ERROR", "deactivation" },
+				/* PASSED */{ "DEACTIVATE_CONSENT", "DEACTIVATION", "DCT_INIT", "FAILURE", "deactivation", "DCT_INIT",
+						"FAILURE", "FAILURE", "deactivation" },
+				/* PASSED */{ "DEACTIVATE_CONSENT", "DEACTIVATION", "DCT_INIT", "FAILURE", "deactivation", "DCT_INIT",
+						"ERROR", "ERROR", "deactivation" },
 //				/* no entry */{ "DEACTIVATE_CONSENT", "DEACTIVATION", "DCT_INIT", "FAILURE", "deactivation", "DCT_INIT",
 //						"CONFIRMED", "CONFIRMED", "deactivation" },
 //				/* no entry */{ "DEACTIVATE_CONSENT", "DEACTIVATION", "DCT_INIT", "FAILURE", "deactivation", "DCT_INIT",
 //						"IN_PROGRESS", "IN_PROGRESS", "deactivation" },
 //			/* no entry */{ "DEACTIVATE_CONSENT", "DEACTIVATION", "DCT_INIT", "FAILURE", "deactivation", "DCT_INIT",
 //				"NOTIFICATION_WAIT", "NOTIFICATION_WAIT", "deactivation" }, 
-				/* no entry */{ "DEACTIVATE_CONSENT", "DEACTIVATION", "DCT_INIT", "SUCCESS", "deactivation", "DCT_INIT",
-					"FAILURE", "FAILURE", "deactivation" }, };
+//				/* no entry */{ "DEACTIVATE_CONSENT", "DEACTIVATION", "DCT_INIT", "SUCCESS", "deactivation", "DCT_INIT",
+//					"FAILURE", "FAILURE", "deactivation" }
+				};
 	}
 
-	@Test(dependsOnMethods = "createConfigData", dataProvider = "activationPostiveTestType")
+	@Test(/**dependsOnMethods = "createConfigData",**/ dataProvider = "activationPostiveTestType")
 	public void activationPositiveRetryTests(String eventActionType, String activityType,
 			String currentSubscriptionState, String transactionState, String actionTable,
 			String newCurrentSubscriptionState, String newTransactionState, String oldStatusValue,

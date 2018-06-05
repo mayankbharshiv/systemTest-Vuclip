@@ -27,11 +27,11 @@ public class UserSubscriptionAPINegativeTests {
 	@BeforeClass(alwaysRun = true)
 	public void setup() throws Exception {
 		sasHelper = new SASHelper();
-		productId = RandomUtils.nextInt(2000, 3000);
+		productId = SASUtils.productId;//RandomUtils.nextInt(2000, 3000);
 		partnerId = productId;
 	}
 
-	@DataProvider(name = "getProductConfig")
+/*	@DataProvider(name = "getProductConfig")
 	public Object[][] getProductConfig() {
 		logger.info("========================Setting up config Data===========================");
 
@@ -44,7 +44,7 @@ public class UserSubscriptionAPINegativeTests {
 
 		publishConfigRequest = SASUtils.generateSaveProductConfig(productId, partnerId, activityType);
 		SASValidationHelper.validate_sas_api_response(sasHelper.saveProduct(publishConfigRequest));
-	}
+	}*/
 
 	@DataProvider(name = "invalidUserSubscriptionFields")
 	public Object[][] invalidUserSubscriptionFields() {
@@ -59,13 +59,13 @@ public class UserSubscriptionAPINegativeTests {
 
 	}
 
-	@Test(dependsOnMethods = "createConfigData", dataProvider = "invalidUserSubscriptionFields", enabled = false)
+	@Test(/**dependsOnMethods = "createConfigData",**/ dataProvider = "invalidUserSubscriptionFields", enabled = false)
 	public void invalidUserSubscriptionFieldsValidation(String activityType, String previousSubscriptionState,
 			String currentSubscriptionState, String transactionState, String actionType, Integer subscriptionId,
 			String actionTable, Integer userProductId, Integer userPartnerId) throws Exception {
 
-		subscriptionId = RandomUtils.nextInt(100, 200);
-		//SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
+		subscriptionId = RandomUtils.nextInt(22000, 23000);
+		// SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
 		String testMessage = subscriptionId + " " + activityType + " " + previousSubscriptionState + " "
 				+ currentSubscriptionState + " " + transactionState + " " + actionType;
 		logger.info("==================>Starting user subscription invalid field values test  [ " + testMessage + " ]");
@@ -89,7 +89,7 @@ public class UserSubscriptionAPINegativeTests {
 
 	}
 
-	@Test(dependsOnMethods = "createConfigData", dataProvider = "missingUserSubscriptionFields")
+	@Test(/**dependsOnMethods = "createConfigData",**/ dataProvider = "missingUserSubscriptionFields")
 	public void missingUserSubscriptionFieldsValidation(String jsonElement) throws Exception {
 		String jsonString;
 		String activityType = "WINBACK";
@@ -97,8 +97,8 @@ public class UserSubscriptionAPINegativeTests {
 		String currentSubscriptionState = "ACTIVATED";
 		String transactionState = "SUCCESS";
 		String actionType = "CHARGING";
-		Integer subscriptionId = RandomUtils.nextInt(100, 200);
-		//SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
+		Integer subscriptionId = RandomUtils.nextInt(21000, 20000);
+		// SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
 		String testMessage = subscriptionId + " " + activityType + " " + previousSubscriptionState + " "
 				+ currentSubscriptionState + " " + transactionState + " " + actionType;
 		logger.info("==================>Starting user subscription missing values test  [ " + testMessage + " ]");
@@ -110,14 +110,13 @@ public class UserSubscriptionAPINegativeTests {
 			if (jsonElement == "productId" || jsonElement == "partnerId") {
 				jsonString = JsonHelper.remove(UserSubscriptionRequest.class, userSubscriptionRequest, "activityEvent",
 						jsonElement);
-				jsonString = JsonHelper.remove(UserSubscriptionRequest.class, userSubscriptionRequest, "subscriptionInfo",
-						jsonElement);
-				
-			}
-			else if (jsonElement == "transactionState") {
+				jsonString = JsonHelper.remove(UserSubscriptionRequest.class, userSubscriptionRequest,
+						"subscriptionInfo", jsonElement);
+
+			} else if (jsonElement == "transactionState") {
 				jsonString = JsonHelper.remove(UserSubscriptionRequest.class, userSubscriptionRequest, "activityEvent",
 						jsonElement);
-				
+
 			}
 
 			else {

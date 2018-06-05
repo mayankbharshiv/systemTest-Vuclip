@@ -41,11 +41,11 @@ public class SchedulerAPINegativeTests {
 	@BeforeClass(alwaysRun = true)
 	public void setup() throws Exception {
 		sasHelper = new SASHelper();
-		productId = RandomUtils.nextInt(2000, 3000);
+		productId = SASUtils.productId;//RandomUtils.nextInt(2000, 3000);
 		partnerId = productId;
 	}
 
-	@DataProvider(name = "getProductConfig")
+/*	@DataProvider(name = "getProductConfig")
 	public Object[][] getProductConfig() {
 		logger.info("========================Setting up config Data===========================");
 
@@ -58,7 +58,7 @@ public class SchedulerAPINegativeTests {
 
 		publishConfigRequest = SASUtils.generateSaveProductConfig(productId, partnerId, activityType);
 		SASValidationHelper.validate_sas_api_response(sasHelper.saveProduct(publishConfigRequest));
-	}
+	}*/
 
 	@DataProvider(name = "schedulerApiInvalidfieldValues")
 	public Object[][] schedulerApiInvalidfieldValues() {
@@ -68,14 +68,15 @@ public class SchedulerAPINegativeTests {
 		};
 	}
 
-	@Test(dependsOnMethods = "createConfigData", dataProvider = "schedulerApiInvalidfieldValues",enabled=false)
+	@Test(/**dependsOnMethods = "createConfigData",**/ dataProvider = "schedulerApiInvalidfieldValues", enabled = false)
 	public void schedulerApiInvalidFieldsValidation(Integer sproductId, Integer spartnerId, String scountryCode)
 			throws Exception {
-		subscriptionId = RandomUtils.nextInt(100, 200);
-		//SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
+		subscriptionId = RandomUtils.nextInt(2000, 3000);
+		// SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
 		String testMessage = subscriptionId + " " + activityType + " " + previousSubscriptionState + " "
 				+ currentSubscriptionState + " " + transactionState + " " + actionType;
-		logger.info("==================>Starting scheduler api invalid fields validation test  [ " + testMessage + " ]");
+		logger.info(
+				"==================>Starting scheduler api invalid fields validation test  [ " + testMessage + " ]");
 
 		try {
 
@@ -112,16 +113,13 @@ public class SchedulerAPINegativeTests {
 
 	@DataProvider(name = "schedulerApiMissingFields")
 	public Object[][] schedulerApiMissingFields() {
-		return new Object[][] { 
-			{"productId"}, {"partnerId" }, {"country"}
-		};
+		return new Object[][] { { "productId" }, { "partnerId" }, { "country" } };
 	}
 
-	@Test(dependsOnMethods = "createConfigData", dataProvider = "schedulerApiMissingFields",enabled=false)
-	public void schedulerApiMissingFieldsValidation(String jsonElement)
-			throws Exception {
-		subscriptionId = RandomUtils.nextInt(100, 200);
-		//SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
+	@Test(/**dependsOnMethods = "createConfigData",**/ dataProvider = "schedulerApiMissingFields", enabled = false)
+	public void schedulerApiMissingFieldsValidation(String jsonElement) throws Exception {
+		subscriptionId = RandomUtils.nextInt(12000, 13000);
+		// SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
 		String testMessage = subscriptionId + " " + activityType + " " + previousSubscriptionState + " "
 				+ currentSubscriptionState + " " + transactionState + " " + actionType;
 		logger.info("==================>Starting scheduler api missing fields test  [ " + testMessage + " ]");
@@ -145,8 +143,8 @@ public class SchedulerAPINegativeTests {
 
 			SchedulerRequest generateSchedulerRequest = SASUtils.generateSchedulerRequest(productId, partnerId,
 					actionTable);
-			String jsonString =JsonHelper.remove(SchedulerRequest.class, generateSchedulerRequest, jsonElement);
-			generateSchedulerRequest= ObjectMapperUtils.readValueFromString(jsonString,SchedulerRequest.class);
+			String jsonString = JsonHelper.remove(SchedulerRequest.class, generateSchedulerRequest, jsonElement);
+			generateSchedulerRequest = ObjectMapperUtils.readValueFromString(jsonString, SchedulerRequest.class);
 			SASValidationHelper.validate_schedular_api_response(sasHelper.scheduler(generateSchedulerRequest));
 
 			SASValidationHelper.validateTableRecord(DBUtils.getRecord(actionTable, "subscription_id = " + subscriptionId
@@ -159,12 +157,11 @@ public class SchedulerAPINegativeTests {
 			Assert.fail(e.toString());
 		}
 	}
-	
 
-	@Test(dependsOnMethods = "createConfigData")
+	@Test(/*dependsOnMethods = "createConfigData"*/)
 	public void invalidActivityTypeFieldValue() throws Exception {
-		subscriptionId = RandomUtils.nextInt(100, 200);
-		//SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
+		subscriptionId = RandomUtils.nextInt(4000, 5000);
+		// SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
 		String testMessage = subscriptionId + " " + activityType + " " + previousSubscriptionState + " "
 				+ currentSubscriptionState + " " + transactionState + " " + actionType;
 		logger.info("==================>Starting Invalid Activity Type Field Value test  [ " + testMessage + " ]");
@@ -175,22 +172,22 @@ public class SchedulerAPINegativeTests {
 					sasHelper.userSubscription(SASUtils.generateUserSubscriptionRequest(productId, partnerId,
 							activityType, previousSubscriptionState, currentSubscriptionState, transactionState,
 							actionType, subscriptionId)));
-			
+
 			SchedulerRequest generateSchedulerRequest = SASUtils.generateSchedulerRequest(productId, partnerId,
 					actionTable);
 			generateSchedulerRequest.setActivityType(null);
 
-			SASValidationHelper.validate_schedular_invalid_api_response(
-					sasHelper.scheduler(generateSchedulerRequest));
+			SASValidationHelper.validate_schedular_invalid_api_response(sasHelper.scheduler(generateSchedulerRequest));
 
 		} catch (Exception e) {
 			Assert.fail(e.toString());
 		}
 	}
-	@Test(dependsOnMethods = "createConfigData")
+
+	@Test(/*dependsOnMethods = "createConfigData"*/)
 	public void missingActivityTypeFieldValue() throws Exception {
-		subscriptionId = RandomUtils.nextInt(100, 200);
-		//SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
+		subscriptionId = RandomUtils.nextInt(5000, 6000);
+		// SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
 		String testMessage = subscriptionId + " " + activityType + " " + previousSubscriptionState + " "
 				+ currentSubscriptionState + " " + transactionState + " " + actionType;
 		logger.info("==================>Starting Invalid BlackOut Window Field Value test  [ " + testMessage + " ]");
@@ -201,15 +198,14 @@ public class SchedulerAPINegativeTests {
 					sasHelper.userSubscription(SASUtils.generateUserSubscriptionRequest(productId, partnerId,
 							activityType, previousSubscriptionState, currentSubscriptionState, transactionState,
 							actionType, subscriptionId)));
-			
+
 			SchedulerRequest generateSchedulerRequest = SASUtils.generateSchedulerRequest(productId, partnerId,
 					actionTable);
-			String jsonString =JsonHelper.remove(SchedulerRequest.class, generateSchedulerRequest, "activityType");
-			generateSchedulerRequest= ObjectMapperUtils.readValueFromString(jsonString,SchedulerRequest.class);
+			String jsonString = JsonHelper.remove(SchedulerRequest.class, generateSchedulerRequest, "activityType");
+			generateSchedulerRequest = ObjectMapperUtils.readValueFromString(jsonString, SchedulerRequest.class);
 
-			SASValidationHelper.validate_schedular_invalid_api_response(
-					sasHelper.scheduler(generateSchedulerRequest));
-			
+			SASValidationHelper.validate_schedular_invalid_api_response(sasHelper.scheduler(generateSchedulerRequest));
+
 		} catch (Exception e) {
 			Assert.fail(e.toString());
 		}
