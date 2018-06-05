@@ -97,14 +97,13 @@ public class Activation_RetrySASTests {
 	}
 
 	@Test(dependsOnMethods = "createConfigData", dataProvider = "activationPostiveTestType")
-	public void activationRenewalPositiveRetryTests(String activityType, String previousSubscriptionState,
-			String currentSubscriptionState, String transactionState, String actionType, Integer subscriptionId,
-			String actionTable, String status) throws Exception {
+	public void activationRenewalPositiveRetryTests(String activityType, String currentSubscriptionState,
+			String transactionState, String actionType) throws Exception {
 
-		subscriptionId = RandomUtils.nextInt(11000, 12000);
+		Integer subscriptionId = RandomUtils.nextInt(11000, 12000);
 		// SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
 		String testMessage = "" + productId + " " + partnerId + " " + subscriptionId + " " + activityType + " "
-				+ previousSubscriptionState + " " + currentSubscriptionState + " " + transactionState + " "
+				 + " " + currentSubscriptionState + " " + transactionState + " "
 				+ actionType;
 		logger.info("==================>Starting positive activation retry test  [ " + testMessage + " ]");
 
@@ -112,7 +111,7 @@ public class Activation_RetrySASTests {
 
 			SASValidationHelper.validate_sas_api_response(
 					sasHelper.userSubscription(SASUtils.generateUserSubscriptionRequest(productId, partnerId,
-							activityType, previousSubscriptionState, currentSubscriptionState, transactionState,
+							activityType, "", currentSubscriptionState, transactionState,
 							actionType, subscriptionId)));
 
 			// Map<String, String> expectedRecords = new HashMap<String, String>();
