@@ -56,7 +56,7 @@ public class InitializeTestSuite {
 
 			RabbitMQConnection.getRabbitTemplate().setMessageConverter(new Jackson2JsonMessageConverter());
 			Log4J.getLogger().info("Cleanup Database Tables");
-			//SASDBHelper.cleanAllTables(null);
+			SASDBHelper.cleanAllTables(null);
 
 			SASUtils.productId = new Random().nextInt(3000);
 			SASUtils.productConfig = SASUtils.loadJson("publishConfigVO.json", PublishConfigRequest.class);
