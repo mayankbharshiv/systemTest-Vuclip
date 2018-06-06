@@ -135,135 +135,218 @@
 		}
 	],
 	"retry": [
-		{
-			"retryId": 1,
-			"productId": 1111,
-			"partnerId": 1111,
-			"countryCode": "IN",
-			"activityType": "ACTIVATION",
-			"maxRetryCount": 3,
-			"batchSize": 100,
-			"status": "active",
-			"retryIntervalInMinuntes": 1,
-			"attemptWindows": "testAttemptWindow",
-			"schedulingDays": "testSchedulingDays",
-			"exceutionWindow": "executionWindows"
-		},
-		{
-			"retryId": 1,
-			"productId": 1111,
-			"partnerId": 1111,
-			"countryCode": "IN",
-			"activityType": "ACTIVATION_RETRY",
-			"maxRetryCount": 3,
-			"batchSize": 100,
-			"status": "active",
-			"retryIntervalInMinuntes": 1,
-			"attemptWindows": "testAttemptWindow",
-			"schedulingDays": "testSchedulingDays",
-			"exceutionWindow": "executionWindows"
-		},
-		{
-			"retryId": 1,
-			"productId": 1111,
-			"partnerId": 1111,
-			"countryCode": "IN",
-			"activityType": "WINBACK",
-			"maxRetryCount": 3,
-			"batchSize": 100,
-			"status": "active",
-			"retryIntervalInMinuntes": 1,
-			"attemptWindows": "testAttemptWindow",
-			"schedulingDays": "testSchedulingDays",
-			"exceutionWindow": "executionWindows"
-		},
-		{
-			"retryId": 1,
-			"productId": 1111,
-			"partnerId": 1111,
-			"countryCode": "IN",
-			"activityType": "RENEWAL",
-			"maxRetryCount": 3,
-			"batchSize": 100,
-			"status": "active",
-			"retryIntervalInMinuntes": 1,
-			"attemptWindows": "testAttemptWindow",
-			"schedulingDays": "testSchedulingDays",
-			"exceutionWindow": "executionWindows"
-		},
-				{
-			"retryId": 1,
-			"productId": 1111,
-			"partnerId": 1111,
-			"countryCode": "IN",
-			"activityType": "RENEWAL_RETRY",
-			"maxRetryCount": 3,
-			"batchSize": 100,
-			"status": "active",
-			"retryIntervalInMinuntes": 1,
-			"attemptWindows": "testAttemptWindow",
-			"schedulingDays": "testSchedulingDays",
-			"exceutionWindow": "executionWindows"
-			
-		},
-		{
-			"retryId": 1,
-			"productId": 1111,
-			"partnerId": 1111,
-			"countryCode": "IN",
-			"activityType": "FREETRIAL_RENEWAL",
-			"maxRetryCount": 3,
-			"batchSize": 100,
-			"status": "active",
-			"retryIntervalInMinuntes": 1,
-			"attemptWindows": "testAttemptWindow",
-			"schedulingDays": "testSchedulingDays",
-			"exceutionWindow": "executionWindows"
-		},
-		{
-			"retryId": 1,
-			"productId": 1111,
-			"partnerId": 1111,
-			"countryCode": "IN",
-			"activityType": "DEACTIVATION",
-			"maxRetryCount": 3,
-			"batchSize": 100,
-			"status": "active",
-			"retryIntervalInMinuntes": 1,
-			"attemptWindows": "testAttemptWindow",
-			"schedulingDays": "testSchedulingDays",
-			"exceutionWindow": "executionWindows"
-		},
-		{
-			"retryId": 1,
-			"productId": 1111,
-			"partnerId": 1111,
-			"countryCode": "IN",
-			"activityType": "DEACTIVATION_RETRY",
-			"maxRetryCount": 3,
-			"batchSize": 100,
-			"status": "active",
-			"retryIntervalInMinuntes": 1,
-			"attemptWindows": "testAttemptWindow",
-			"schedulingDays": "testSchedulingDays",
-			"exceutionWindow": "executionWindows"
-		},
-		{
-			"retryId": 1,
-			"productId": 1111,
-			"partnerId": 1111,
-			"countryCode": "IN",
-			"activityType": "SYSTEM_CHURN",
-			"maxRetryCount": 3,
-			"batchSize": 100,
-			"status": "active",
-			"retryIntervalInMinuntes": 1,
-			"attemptWindows": "testAttemptWindow",
-			"schedulingDays": "testSchedulingDays",
-			"exceutionWindow": "executionWindows"
-		}
+	
+	      {
+	  	 "productId": 1111,
+		 "partnerId": 1111,
+         
+         
+         "countryCode":"IN",
+         "activityType":"ACTIVATION",
+         "maxRetryCount":10,	
+         "retryIntervalInMinutes":1,
+         "attemptWindow":"00:00AM-23:59PM",
+         "typeOfCycle":"DAY",
+         "batchSize":100,
+         "schedulingFrequencyInMinutes":100,
+         "schedulingDays":"TEST",
+         "executingTimeWindow":"testwindow",
+         "executingDays":"1101011",
+         "status":"active",
+         "actionDefaultEiligible":true,
+         "retryable":true
+      },
+	  
+      {
+	  	 "productId": 1111,
+		 "partnerId": 1111,
+         
+         
+         "countryCode":"IN",
+         "activityType":"ACTIVATION_RETRY",
+         "maxRetryCount":10,	
+         "retryIntervalInMinutes":1,
+         "attemptWindow":"00:00AM-23:59PM",
+         "typeOfCycle":"DAY",
+         "batchSize":100,
+         "schedulingFrequencyInMinutes":100,
+         "schedulingDays":"TEST",
+         "executingTimeWindow":"testwindow",
+         "executingDays":"1101011",
+         "status":"active",
+         "actionDefaultEiligible":true,
+         "retryable":true
+      },
+	  
+      {
+	  	 "productId": 1111,
+		 "partnerId": 1111,
+         
+         
+         "countryCode":"IN",
+         "activityType":"DEACTIVATION",
+         "maxRetryCount":10,	
+         "retryIntervalInMinutes":1,
+         "attemptWindow":"00:00AM-23:59PM",
+         "typeOfCycle":"DAY",
+         "batchSize":100,
+         "schedulingFrequencyInMinutes":100,
+         "schedulingDays":"TEST",
+         "executingTimeWindow":"testwindow",
+         "executingDays":"1101011",
+         "status":"active",
+         "actionDefaultEiligible":true,
+         "retryable":true
+      },
+	  
+      {
+	  	 "productId": 1111,
+		 "partnerId": 1111,
+         
+         
+         "countryCode":"IN",
+         "activityType":"DEACTIVATION_RETRY",
+         "maxRetryCount":10,	
+         "retryIntervalInMinutes":1,
+         "attemptWindow":"00:00AM-23:59PM",
+         "typeOfCycle":"DAY",
+         "batchSize":100,
+         "schedulingFrequencyInMinutes":100,
+         "schedulingDays":"TEST",
+         "executingTimeWindow":"testwindow",
+         "executingDays":"1101011",
+         "status":"active",
+         "actionDefaultEiligible":true,
+         "retryable":true
+      },
+	  
+      {
+	  	 "productId": 1111,
+		 "partnerId": 1111,
+         
+         
+         "countryCode":"IN",
+         "activityType":"RENEWAL",
+         "maxRetryCount":10,	
+         "retryIntervalInMinutes":1,
+         "attemptWindow":"00:00AM-23:59PM",
+         "typeOfCycle":"DAY",
+         "batchSize":100,
+         "schedulingFrequencyInMinutes":100,
+         "schedulingDays":"TEST",
+         "executingTimeWindow":"testwindow",
+         "executingDays":"1101011",
+         "status":"active",
+         "actionDefaultEiligible":true,
+         "retryable":true
+      },
+	  
+      {
+	  	 "productId": 1111,
+		 "partnerId": 1111,
+         
+         
+         "countryCode":"IN",
+         "activityType":"RENEWAL_RETRY",
+         "maxRetryCount":10,	
+         "retryIntervalInMinutes":1,
+         "attemptWindow":"00:00AM-23:59PM",
+         "typeOfCycle":"DAY",
+         "batchSize":100,
+         "schedulingFrequencyInMinutes":100,
+         "schedulingDays":"TEST",
+         "executingTimeWindow":"testwindow",
+         "executingDays":"1101011",
+         "status":"active",
+         "actionDefaultEiligible":true,
+         "retryable":true
+      },
+	  
+      {
+	  	 "productId": 1111,
+		 "partnerId": 1111,
+         
+         
+         "countryCode":"IN",
+         "activityType":"WINBACK",
+         "maxRetryCount":10,	
+         "retryIntervalInMinutes":1,
+         "attemptWindow":"00:00AM-23:59PM",
+         "typeOfCycle":"DAY",
+         "batchSize":100,
+         "schedulingFrequencyInMinutes":100,
+         "schedulingDays":"TEST",
+         "executingTimeWindow":"testwindow",
+         "executingDays":"1101011",
+         "status":"active",
+         "actionDefaultEiligible":true,
+         "retryable":true
+      },
+	  
+      {
+	  	 "productId": 1111,
+		 "partnerId": 1111,
+         
+         
+         "countryCode":"IN",
+         "activityType":"SYSTEM_CHURN",
+         "maxRetryCount":10,	
+         "retryIntervalInMinutes":1,
+         "attemptWindow":"00:00AM-23:59PM",
+         "typeOfCycle":"DAY",
+         "batchSize":100,
+         "schedulingFrequencyInMinutes":100,
+         "schedulingDays":"TEST",
+         "executingTimeWindow":"testwindow",
+         "executingDays":"1101011",
+         "status":"active",
+         "actionDefaultEiligible":true,
+         "retryable":true
+      },
+	  
+      {
+	  	 "productId": 1111,
+		 "partnerId": 1111,
+         
+         
+         "countryCode":"IN",
+         "activityType":"FREETRIAL_RENEWAL",
+         "maxRetryCount":10,	
+         "retryIntervalInMinutes":1,
+         "attemptWindow":"00:00AM-23:59PM",
+         "typeOfCycle":"DAY",
+         "batchSize":100,
+         "schedulingFrequencyInMinutes":100,
+         "schedulingDays":"TEST",
+         "executingTimeWindow":"testwindow",
+         "executingDays":"1101011",
+         "status":"active",
+         "actionDefaultEiligible":true,
+         "retryable":true
+      },
+	        {
+	  	 "productId": 1111,
+		 "partnerId": 1111,
+         
+         
+         "countryCode":"IN",
+         "activityType":"ACTIVATION",
+         "maxRetryCount":10,	
+         "retryIntervalInMinutes":1,
+         "attemptWindow":"00:00AM-23:59PM",
+         "typeOfCycle":"DAY",
+         "batchSize":100,
+         "schedulingFrequencyInMinutes":100,
+         "schedulingDays":"TEST",
+         "executingTimeWindow":"testwindow",
+         "executingDays":"1101011",
+         "status":"active",
+         "actionDefaultEiligible":true,
+         "retryable":true
+      }
+	  
 
-		
+
 	],
 	"blackouts": [
 		{
