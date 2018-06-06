@@ -85,7 +85,7 @@ public class SASTest {
 						"WINBACK" },
 											
 				{ "CHARGING", "ACTIVATION", "PARKING", "LOW_BALANCE", "winback", "OPEN", "IN_PROGRESS",
-							"SUCCESS", "WINBACK", "CHARGING", "WINBACK", "ACTIVATED", "SUCESS", "renewal", "OPEN", "IN_PROGRESS",
+							"SUCCESS", "WINBACK", "CHARGING", "WINBACK", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS",
 							"RENEWAL" },
 				// //
 				
