@@ -15,6 +15,7 @@
 			<class name="com.vuclip.premiumengg.automation.scheduled_activity_service.tests.SASWinbackTests"></class>
 			<class name="com.vuclip.premiumengg.automation.scheduled_activity_service.tests.SchedulerAPINegativeTests"></class>
 			<class name="com.vuclip.premiumengg.automation.scheduled_activity_service.tests.UserSubscriptionAPINegativeTests"></class>
+			<class name="com.vuclip.premiumengg.automation.scheduled_activity_service.tests.SASRenewal_RetryTests"></class>
 		</classes>
 	</test>
 </suite>
