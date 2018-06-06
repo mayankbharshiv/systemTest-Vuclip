@@ -38,39 +38,22 @@ public class SASSystemChurnTests {
 	@BeforeClass(alwaysRun = true)
 	public void setup() throws Exception {
 		sasHelper = new SASHelper();
-		productId = SASUtils.productId;//RandomUtils.nextInt(2000, 3000);
+		productId = SASUtils.productId;// RandomUtils.nextInt(2000, 3000);
 		partnerId = productId;
 	}
-
-/*	@DataProvider(name = "getProductConfig")
-	public Object[][] getProductConfig() {
-		logger.info("========================Setting up config Data===========================");
-
-		return SASUtils.getALLActivityType();
-
-	}
-
-	@Test(dataProvider = "getProductConfig")
-	public void createConfigData(String activityType) throws Exception {
-
-		publishConfigRequest = SASUtils.generateSaveProductConfig(productId, partnerId, activityType);
-		SASValidationHelper.validate_sas_api_response(sasHelper.saveProduct(publishConfigRequest));
-	}*/
 
 	@DataProvider(name = "churnPostiveTestType")
 	public Object[][] churnPostiveTestType() {
 		return new Object[][] {
-				{ "SYSTEM_CHURN", "ACT_INIT", "DCT_INIT", "FAILURE", "DEACTIVATE_CONSENT", 101, "SYSTEM_CHURN",
-						"OPEN" },
-				{ "SYSTEM_CHURN", "ACT_INIT", "DCT_INIT", "ERROR", "DEACTIVATE_CONSENT", 102, "SYSTEM_CHURN", "OPEN" },
-				{ "SYSTEM_CHURN", "SUSPEND", "DCT_INIT", "IN_PROGRESS", "DEACTIVATE_CONSENT", 109, "SYSTEM_CHURN",
-						"OPEN" },
-				{ "SYSTEM_CHURN", "ACTIVATED", "DEACTIVATED", "SUCCESS", "DEACTIVATE_CONSENT", 112, "SYSTEM_CHURN",
-						"OPEN" } };
-
+			{ "SYSTEM_CHURN", "ACT_INIT", "DCT_INIT", "FAILURE", "DEACTIVATE_CONSENT", 101, "SYSTEM_CHURN","OPEN" },
+			{ "SYSTEM_CHURN", "ACT_INIT", "DCT_INIT", "ERROR", "DEACTIVATE_CONSENT", 102, "SYSTEM_CHURN","OPEN" },
+			{ "SYSTEM_CHURN", "SUSPEND", "DCT_INIT", "IN_PROGRESS", "DEACTIVATE_CONSENT", 109, "SYSTEM_CHURN","OPEN" },
+			{ "SYSTEM_CHURN", "ACTIVATED", "DEACTIVATED", "SUCCESS", "DEACTIVATE_CONSENT", 112, "SYSTEM_CHURN","OPEN" }
+		};
 	}
 
-	@Test(/**dependsOnMethods = "createConfigData",**/ dataProvider = "churnPostiveTestType")
+	@Test(/** dependsOnMethods = "createConfigData", **/
+			dataProvider = "churnPostiveTestType")
 	public void churnPositiveRetryTests(String activityType, String previousSubscriptionState,
 			String currentSubscriptionState, String transactionState, String actionType, Integer subscriptionId,
 			String actionTable, String status) throws Exception {
@@ -95,26 +78,35 @@ public class SASSystemChurnTests {
 			expectedRecords.put("subscription_id", String.valueOf(subscriptionId));
 			expectedRecords.put("country_code", countryCode);
 
-			SASValidationHelper.validateTableRecord(DBUtils
-					.getRecord(actionTable.substring(actionTable.indexOf("_") + 1).toLowerCase(), "subscription_id = "
-							+ subscriptionId + " and product_id = " + productId + " and partner_id=" + partnerId)
-					.get(0), expectedRecords);
+			if(transactionState=="SUCCESS")
+			{
+				SASValidationHelper.negativeFlow(productId, partnerId, activityType, currentSubscriptionState, transactionState,
+						actionType, subscriptionId);
+			}
+			else
+			{
+				SASValidationHelper.validateTableRecord(DBUtils
+						.getRecord(actionTable.substring(actionTable.indexOf("_") + 1).toLowerCase(), "subscription_id = "
+								+ subscriptionId + " and product_id = " + productId + " and partner_id=" + partnerId)
+						.get(0), expectedRecords);
+	 
+				SASValidationHelper.validate_schedular_api_response(
+						sasHelper.scheduler(SASUtils.generateSchedulerRequest(productId, partnerId, actionTable)));
 
-			SASValidationHelper.validate_schedular_api_response(
-					sasHelper.scheduler(SASUtils.generateSchedulerRequest(productId, partnerId, actionTable)));
+				expectedRecords.put("status", "IN_PROGRESS");
 
-			expectedRecords.put("status", "IN_PROGRESS");
+				SASValidationHelper.validateTableRecord(DBUtils
+						.getRecord(actionTable.substring(actionTable.indexOf("_") + 1).toLowerCase(), "subscription_id = "
+								+ subscriptionId + " and product_id=" + productId + " and partner_id=" + partnerId)
+						.get(0), expectedRecords);
 
-			SASValidationHelper.validateTableRecord(DBUtils
-					.getRecord(actionTable.substring(actionTable.indexOf("_") + 1).toLowerCase(), "subscription_id = "
-							+ subscriptionId + " and product_id=" + productId + " and partner_id=" + partnerId)
-					.get(0), expectedRecords);
-
-			Message message = RabbitMQConnection.getRabbitTemplate()
-					.receive(productId + "_" + partnerId + "_" + actionTable + "_REQUEST_BACKEND", 25000);
-			SASValidationHelper.validateQueueMessage(
-					ObjectMapperUtils.readValueFromString(new String(message.getBody()), QueueResponse.class),
-					productId, partnerId, subscriptionId, countryCode, actionTable);
+				Message message = RabbitMQConnection.getRabbitTemplate()
+						.receive(productId + "_" + partnerId + "_" + actionTable + "_REQUEST_BACKEND", 25000);
+				SASValidationHelper.validateQueueMessage(
+						ObjectMapperUtils.readValueFromString(new String(message.getBody()), QueueResponse.class),
+						productId, partnerId, subscriptionId, countryCode, actionTable);
+			}
+		
 		} catch (Exception e) {
 			Assert.fail(e.toString());
 		}
@@ -135,7 +127,8 @@ public class SASSystemChurnTests {
 		};
 	}
 
-	@Test(/**dependsOnMethods = "createConfigData",**/ dataProvider = "churnNegativeTestType")
+	@Test(/** dependsOnMethods = "createConfigData", **/
+			dataProvider = "churnNegativeTestType")
 	public void activationNegativeTestType(String activityType, String previousSubscriptionState,
 			String currentSubscriptionState, String transactionState, String actionType, Integer subscriptionId,
 			String actionTable, String status) throws Exception {
@@ -145,7 +138,7 @@ public class SASSystemChurnTests {
 				+ currentSubscriptionState + " " + transactionState + " " + actionType;
 		logger.info("==================>Starting Negative churn retry test  [ " + testMessage + " ]");
 
-		SASValidationHelper.negativeFlow(productId, partnerId,activityType, currentSubscriptionState, transactionState,
+		SASValidationHelper.negativeFlow(productId, partnerId, activityType, currentSubscriptionState, transactionState,
 				actionType, subscriptionId);
 	}
 

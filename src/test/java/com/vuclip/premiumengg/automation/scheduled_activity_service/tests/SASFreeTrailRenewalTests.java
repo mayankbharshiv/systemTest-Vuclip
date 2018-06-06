@@ -46,12 +46,11 @@ public class SASFreeTrailRenewalTests {
 		return new Object[][] {
 
 				/*
-				 * { "FREETRIAL_RENEWAL", "ACTIVATED", "IN_PROGRESS", "CHARGING", 102, "zero",
-				 * "OPEN" }, { "FREETRIAL_RENEWAL", "SUSPEND", "IN_PROGRESS", "CHARGING", 103,
-				 * "zero", "OPEN" }, { "FREETRIAL_RENEWAL", "SUSPEND", "NOTIFICATION_WAIT",
-				 * "CHARGING", 104, "zero", "OPEN" }, { "FREETRIAL_RENEWAL", "ACTIVATED",
-				 * "NOTIFICATION_WAIT", "CHARGING", 105, "zero", "OPEN" },{ "FREETRIAL_RENEWAL",
-				 * "ACTIVATED", "FAILURE", "CHARGING", 110, "zero", "OPEN" }, failed
+				  { "FREETRIAL_RENEWAL", "ACTIVATED", "IN_PROGRESS", "CHARGING", 102, "zero","OPEN" }, 
+				  { "FREETRIAL_RENEWAL", "SUSPEND", "IN_PROGRESS", "CHARGING", 103,"zero","OPEN" }, 
+				  { "FREETRIAL_RENEWAL", "SUSPEND", "NOTIFICATION_WAIT","CHARGING", 104,"zero","OPEN" }, 
+				  { "FREETRIAL_RENEWAL", "ACTIVATED", "NOTIFICATION_WAIT", "CHARGING", 105,"zero","OPEN" },
+				  { "FREETRIAL_RENEWAL","ACTIVATED", "FAILURE", "CHARGING", 110, "zero", "OPEN" }, failed
 				 */
 				{ "FREETRIAL_RENEWAL", "SUSPEND", "LOW_BALANCE", "CHARGING", 101, "renewal_retry", "OPEN" },
 				{ "FREETRIAL_RENEWAL", "SUSPEND", "ERROR", "CHARGING", 109, "renewal_retry", "OPEN" },
@@ -63,7 +62,7 @@ public class SASFreeTrailRenewalTests {
 
 	}
 
-	@Test(dataProvider = "freeTrailRenewalPostiveTestType")
+	@Test(dataProvider = "freeTrailRenewalPostiveTestType",enabled=false)
 	public void freeTrailRenewalPositiveRetryTests(String activityType, String currentSubscriptionState,
 			String transactionState, String actionType, Integer subscriptionId, String actionTable, String status)
 			throws Exception {
@@ -131,24 +130,19 @@ public class SASFreeTrailRenewalTests {
 	@DataProvider(name = "freeTrailRenewalNegativeTestType")
 	public Object[][] freeTrailRenewalNegativeTestType() {
 		return new Object[][] {
-				{ "ACTIVATION", "ACT_INIT", "ACTIVATED", "LOW_BALANCE", "CHARGING", 102, "renewal", "OPEN" },
-				{ "ACTIVATION", "ACT_INIT", "ACTIVATED", "FAILURE", "CHARGING", 103, "renewal", "OPEN" },
-				{ "ACTIVATION", "ACT_INIT", "ACTIVATED", "ERROR", "CHARGING", 104, "renewal", "OPEN" },
-				{ "ACTIVATION", "ACT_INIT", "ACT_INIT", "SUCCESS", "CHARGING", 105, "activation", "OPEN" },
-				{ "ACTIVATION", "ACT_INIT", "PARKING", "SUCCESS", "CHARGING", 109, "winback", "OPEN" },
-				{ "ACTIVATION", "ACT_INIT", "PARKING", "FAILURE", "CHARGING", 110, "winback", "OPEN" },
-				{ "ACTIVATION", "ACT_INIT", "PARKING", "ERROR", "CHARGING", 112, "winback", "OPEN" }
+			{ "FREETRIAL_RENEWAL", "SUSPEND", "SUCCESS", "CHARGING", 110, "free_trail", "OPEN" },
+			{ "FREETRIAL_RENEWAL", "ACTIVATED", "LOW_BALANCE", "CHARGING", 112, "renewal_retry", "OPEN" }
 
 		};
 	}
 
-	@Test(/**dependsOnMethods = "createConfigData",**/ dataProvider = "freeTrailRenewalNegativeTestType", enabled = false)
-	public void freeTrailRenewalNegativeTestType(String activityType, String previousSubscriptionState,
+	@Test(/**dependsOnMethods = "createConfigData",**/ dataProvider = "freeTrailRenewalNegativeTestType")
+	public void freeTrailRenewalNegativeTestType(String activityType,
 			String currentSubscriptionState, String transactionState, String actionType, Integer subscriptionId,
 			String actionTable, String status) throws Exception {
 		subscriptionId = RandomUtils.nextInt(13000, 14000);
 		// SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
-		String testMessage = subscriptionId + " " + activityType + " " + previousSubscriptionState + " "
+		String testMessage = subscriptionId + " " + activityType + " " + " "
 				+ currentSubscriptionState + " " + transactionState + " " + actionType;
 		logger.info("==================>Starting Negative free Trail Renewal retry test  [ " + testMessage + " ]");
 		SASValidationHelper.negativeFlow(productId,partnerId, activityType, currentSubscriptionState, transactionState,
