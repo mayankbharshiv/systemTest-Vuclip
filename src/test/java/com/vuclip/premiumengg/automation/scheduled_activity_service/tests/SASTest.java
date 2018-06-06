@@ -43,6 +43,7 @@ public class SASTest {
 		partnerId = productId;
 	}
 
+	
 	@DataProvider(name = "activationPostiveTestType")
 	public Object[][] activationPostiveTestType() {
 		return new Object[][] {
@@ -82,7 +83,14 @@ public class SASTest {
 				/* PASSED */{ "CHARGING", "ACTIVATION", "PARKING", "LOW_BALANCE", "winback", "OPEN", "IN_PROGRESS",
 						"ERROR", "WINBACK", "CHARGING", "WINBACK", "PARKING", "ERROR", "winback", "OPEN", "IN_PROGRESS",
 						"WINBACK" },
+											
+				{ "CHARGING", "ACTIVATION", "PARKING", "LOW_BALANCE", "winback", "OPEN", "IN_PROGRESS",
+							"SUCCESS", "WINBACK", "CHARGING", "WINBACK", "ACTIVATED", "SUCESS", "renewal", "OPEN", "IN_PROGRESS",
+							"RENEWAL" },
 				// //
+				
+				
+				
 				// // /* fail no pro */{ "CHARGING", "ACTIVATION", "PARKING", "LOW_BALANCE",
 				// // "winback", "PARKING", "FAILURE",
 				// // "FAILURE", "winback" },
@@ -153,8 +161,27 @@ public class SASTest {
 				// "ACTIVATED", "FAILURE",
 				// "FAILURE", "renewal_retry" },
 				{ "CHARGING", "RENEWAL", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS", "SUCCESS", "RENEWAL",
-						"CHARGING", "RENEWAL", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS", "RENEWAL" }
-
+						"CHARGING", "RENEWAL", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS", "RENEWAL" },
+						
+			/*Passed*/{ "CHARGING", "WINBACK", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS","SUCCESS", "RENEWAL", "CHARGING", "RENEWAL", "ACTIVATED", "SUCCESS", "renewal", "OPEN","IN_PROGRESS", "RENEWAL" },
+				
+		/*Passed*/	{ "CHARGING", "WINBACK", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS","FAILURE", "RENEWAL", "CHARGING", "RENEWAL", "ACTIVATED", "FAILURE", "renewal_retry", "OPEN","IN_PROGRESS", "RENEWAL_RETRY" },
+			
+			/*Passed*/{ "CHARGING", "WINBACK", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS","ERROR", "RENEWAL", "CHARGING", "RENEWAL", "ACTIVATED", "ERROR", "renewal_retry", "OPEN","IN_PROGRESS", "RENEWAL_RETRY" },
+			
+			/*Passed*/{ "CHARGING", "WINBACK", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS","ERROR", "RENEWAL", "CHARGING", "RENEWAL", "SUSPEND", "ERROR", "renewal_retry", "OPEN","IN_PROGRESS", "RENEWAL_RETRY" },
+			
+			/*Passed*/	{ "CHARGING", "WINBACK", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS","FAILURE", "RENEWAL", "CHARGING", "RENEWAL", "SUSPEND", "FAILURE", "renewal_retry", "OPEN","IN_PROGRESS", "RENEWAL_RETRY" },
+			
+		/*Passed*/{ "CHARGING", "WINBACK", "PARKING", "LOW_BALANCE","winback", "OPEN","IN_PROGRESS","SUCCESS","WINBACK","CHARGING", "WINBACK",  "ACTIVATED", "SUCCESS","renewal", "OPEN","IN_PROGRESS","RENEWAL" },				
+						
+		/*Passed*/{ "CHARGING", "WINBACK", "PARKING", "LOW_BALANCE","winback", "OPEN","IN_PROGRESS","ERROR","WINBACK","CHARGING", "WINBACK",  "PARKING", "ERROR","winback", "OPEN","IN_PROGRESS","WINBACK" },							
+		
+	/*Passed*/{ "CHARGING", "WINBACK", "PARKING", "LOW_BALANCE","winback", "OPEN","IN_PROGRESS","LOW_BALANCE","WINBACK","CHARGING", "WINBACK", "PARKING", "LOW_BALANCE","winback", "OPEN","IN_PROGRESS","WINBACK" },			
+		
+        	/*Passed*/	{ "DEACTIVATE_CONSENT", "SYSTEM_CHURN", "DCT_INIT", "FAILURE", "churn", "OPEN", "IN_PROGRESS","FAILURE", "SYSTEM_CHURN", "DEACTIVATE_CONSENT", "SYSTEM_CHURN", "DCT_INIT", "FAILURE", "churn","OPEN", "IN_PROGRESS", "SYSTEM_CHURN" },
+				
+			/*Passed*/	{ "DEACTIVATE_CONSENT", "SYSTEM_CHURN", "DCT_INIT", "FAILURE", "churn", "OPEN", "IN_PROGRESS", "ERROR","SYSTEM_CHURN", "DEACTIVATE_CONSENT", "SYSTEM_CHURN", "DCT_INIT", "ERROR", "churn", "OPEN","IN_PROGRESS", "SYSTEM_CHURN" },
 		};
 	}
 
@@ -197,8 +224,13 @@ public class SASTest {
 					.get(0), expectedRecords);
 
 			logger.info("=========>First Event: scheduale call ");
-			SASValidationHelper.validate_schedular_api_response(
-					sasHelper.scheduler(SASUtils.generateSchedulerRequest(productId, partnerId, actionTable)));
+			if (actionTable == "churn") {
+				SASValidationHelper.validate_schedular_api_response(
+						sasHelper.scheduler(SASUtils.generateSchedulerRequest(productId, partnerId, activityType)));
+			} else {
+				SASValidationHelper.validate_schedular_api_response(
+						sasHelper.scheduler(SASUtils.generateSchedulerRequest(productId, partnerId, actionTable)));
+			}
 
 			logger.info("=========>First Event: Vefiry DB After Schedular Call ");
 			expectedRecords.put("status", afterSchedularStatus);
@@ -209,9 +241,15 @@ public class SASTest {
 					+ queueName + "_REQUEST_BACKEND");
 			Message message = RabbitMQConnection.getRabbitTemplate()
 					.receive(productId + "_" + partnerId + "_" + queueName.toUpperCase() + "_REQUEST_BACKEND", 25000);
-			SASValidationHelper.validateQueueMessage(
-					ObjectMapperUtils.readValueFromString(new String(message.getBody()), QueueResponse.class),
-					productId, partnerId, subscriptionId, countryCode, actionTable.toUpperCase());
+			if (actionTable == "churn") {
+				SASValidationHelper.validateQueueMessage(
+						ObjectMapperUtils.readValueFromString(new String(message.getBody()), QueueResponse.class),
+						productId, partnerId, subscriptionId, countryCode, activityType);
+			} else {
+				SASValidationHelper.validateQueueMessage(
+						ObjectMapperUtils.readValueFromString(new String(message.getBody()), QueueResponse.class),
+						productId, partnerId, subscriptionId, countryCode, actionTable.toUpperCase());
+			}
 
 			logger.info("=========>Second time user subscription event getting trigger");
 			UserSubscriptionRequest newSubscriptionRequest = SASUtils.generateUserSubscriptionRequest(productId,
@@ -248,8 +286,13 @@ public class SASTest {
 					expectedRecords);
 
 			logger.info("=========>Second event: Schedular call");
-			SASValidationHelper.validate_schedular_api_response(
-					sasHelper.scheduler(SASUtils.generateSchedulerRequest(productId, partnerId, newActionTable)));
+			if (newActionTable == "churn") {
+				SASValidationHelper.validate_schedular_api_response(
+						sasHelper.scheduler(SASUtils.generateSchedulerRequest(productId, partnerId, activityType)));
+			} else {
+				SASValidationHelper.validate_schedular_api_response(
+						sasHelper.scheduler(SASUtils.generateSchedulerRequest(productId, partnerId, newActionTable)));
+			}
 
 			// SASDBHelper.showAllActivityTableData("FOURTH",
 			// String.valueOf(subscriptionId));
@@ -268,9 +311,15 @@ public class SASTest {
 					+ newQueueName.toUpperCase() + "_REQUEST_BACKEND");
 			message = RabbitMQConnection.getRabbitTemplate().receive(
 					productId + "_" + partnerId + "_" + newQueueName.toUpperCase() + "_REQUEST_BACKEND", 25000);
-			SASValidationHelper.validateQueueMessage(
-					ObjectMapperUtils.readValueFromString(new String(message.getBody()), QueueResponse.class),
-					productId, partnerId, subscriptionId, countryCode, newActionTable.toUpperCase());
+			if (newActionTable == "churn") {
+				SASValidationHelper.validateQueueMessage(
+						ObjectMapperUtils.readValueFromString(new String(message.getBody()), QueueResponse.class),
+						productId, partnerId, subscriptionId, countryCode, newActivityType);
+			} else {
+				SASValidationHelper.validateQueueMessage(
+						ObjectMapperUtils.readValueFromString(new String(message.getBody()), QueueResponse.class),
+						productId, partnerId, subscriptionId, countryCode, newActionTable.toUpperCase());
+			}
 		} catch (Exception e) {
 			logger.info("=========>ERROR due to exception");
 
