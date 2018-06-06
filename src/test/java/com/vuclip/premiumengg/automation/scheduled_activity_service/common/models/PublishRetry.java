@@ -1,208 +1,251 @@
 
 package com.vuclip.premiumengg.automation.scheduled_activity_service.common.models;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-    "retryId",
-    "productId",
-    "partnerId",
-    "countryCode",
-    "activityType",
-    "maxRetryCount",
-    "batchSize",
-    "status",
-    "retryIntervalInMinuntes",
-    "attemptWindows",
-    "schedulingDays",
-    "exceutionWindow"
-})
+@JsonPropertyOrder({ "productId", "partnerId", "countryCode", "activityType", "maxRetryCount", "retryIntervalInMinutes",
+		"attemptWindow", "typeOfCycle", "batchSize", "schedulingFrequencyInMinutes", "schedulingDays",
+		"executingTimeWindow", "executingDays", "status", "actionDefaultEiligible", "retryable" })
 public class PublishRetry {
 
-    @JsonProperty("retryId")
-    private Integer retryId;
-    @JsonProperty("productId")
-    private Integer productId;
-    @JsonProperty("partnerId")
-    private Integer partnerId;
-    @JsonProperty("countryCode")
-    private String countryCode;
-    @JsonProperty("activityType")
-    private String activityType;
-    @JsonProperty("maxRetryCount")
-    private Integer maxRetryCount;
-    @JsonProperty("batchSize")
-    private Integer batchSize;
-    @JsonProperty("status")
-    private String status;
-    @JsonProperty("retryIntervalInMinuntes")
-    private Integer retryIntervalInMinuntes;
-    @JsonProperty("attemptWindows")
-    private String attemptWindows;
-    @JsonProperty("schedulingDays")
-    private String schedulingDays;
-    @JsonProperty("exceutionWindow")
-    private String exceutionWindow;
+	@JsonProperty("productId")
+	private Integer productId;
+	@JsonProperty("partnerId")
+	private Integer partnerId;
+	@JsonProperty("countryCode")
+	private String countryCode;
+	@JsonProperty("activityType")
+	private String activityType;
+	@JsonProperty("maxRetryCount")
+	private Integer maxRetryCount;
+	@JsonProperty("retryIntervalInMinutes")
+	private Integer retryIntervalInMinutes;
+	@JsonProperty("attemptWindow")
+	private String attemptWindow;
+	@JsonProperty("typeOfCycle")
+	private String typeOfCycle;
+	@JsonProperty("batchSize")
+	private Integer batchSize;
+	@JsonProperty("schedulingFrequencyInMinutes")
+	private Integer schedulingFrequencyInMinutes;
+	@JsonProperty("schedulingDays")
+	private String schedulingDays;
+	@JsonProperty("executingTimeWindow")
+	private String executingTimeWindow;
+	@JsonProperty("executingDays")
+	private String executingDays;
+	@JsonProperty("status")
+	private String status;
+	@JsonProperty("actionDefaultEiligible")
+	private Boolean actionDefaultEiligible;
+	@JsonProperty("retryable")
+	private Boolean retryable;
 
-    /**
-     * No args constructor for use in serialization
-     * 
-     */
-    public PublishRetry() {
-    }
+	@JsonProperty("productId")
+	public Integer getProductId() {
+		return productId;
+	}
 
-    /**
-     * 
-     * @param schedulingDays
-     * @param retryIntervalInMinuntes
-     * @param status
-     * @param maxRetryCount
-     * @param retryId
-     * @param attemptWindows
-     * @param countryCode
-     * @param partnerId
-     * @param batchSize
-     * @param exceutionWindow
-     * @param activityType
-     * @param productId
-     */
-    public PublishRetry(Integer retryId, Integer productId, Integer partnerId, String countryCode, String activityType, Integer maxRetryCount, Integer batchSize, String status, Integer retryIntervalInMinuntes, String attemptWindows, String schedulingDays, String exceutionWindow) {
-        super();
-        this.retryId = retryId;
-        this.productId = productId;
-        this.partnerId = partnerId;
-        this.countryCode = countryCode;
-        this.activityType = activityType;
-        this.maxRetryCount = maxRetryCount;
-        this.batchSize = batchSize;
-        this.status = status;
-        this.retryIntervalInMinuntes = retryIntervalInMinuntes;
-        this.attemptWindows = attemptWindows;
-        this.schedulingDays = schedulingDays;
-        this.exceutionWindow = exceutionWindow;
-    }
+	@JsonProperty("productId")
+	public void setProductId(Integer productId) {
+		this.productId = productId;
+	}
 
-    @JsonProperty("retryId")
-    public Integer getRetryId() {
-        return retryId;
-    }
+	@JsonProperty("partnerId")
+	public Integer getPartnerId() {
+		return partnerId;
+	}
 
-    @JsonProperty("retryId")
-    public void setRetryId(Integer retryId) {
-        this.retryId = retryId;
-    }
+	@JsonProperty("partnerId")
+	public void setPartnerId(Integer partnerId) {
+		this.partnerId = partnerId;
+	}
 
-    @JsonProperty("productId")
-    public Integer getProductId() {
-        return productId;
-    }
+	@JsonProperty("countryCode")
+	public String getCountryCode() {
+		return countryCode;
+	}
 
-    @JsonProperty("productId")
-    public void setProductId(Integer productId) {
-        this.productId = productId;
-    }
+	@JsonProperty("countryCode")
+	public void setCountryCode(String countryCode) {
+		this.countryCode = countryCode;
+	}
 
-    @JsonProperty("partnerId")
-    public Integer getPartnerId() {
-        return partnerId;
-    }
+	@JsonProperty("activityType")
+	public String getActivityType() {
+		return activityType;
+	}
 
-    @JsonProperty("partnerId")
-    public void setPartnerId(Integer partnerId) {
-        this.partnerId = partnerId;
-    }
+	@JsonProperty("activityType")
+	public void setActivityType(String activityType) {
+		this.activityType = activityType;
+	}
 
-    @JsonProperty("countryCode")
-    public String getCountryCode() {
-        return countryCode;
-    }
+	@JsonProperty("maxRetryCount")
+	public Integer getMaxRetryCount() {
+		return maxRetryCount;
+	}
 
-    @JsonProperty("countryCode")
-    public void setCountryCode(String countryCode) {
-        this.countryCode = countryCode;
-    }
+	@JsonProperty("maxRetryCount")
+	public void setMaxRetryCount(Integer maxRetryCount) {
+		this.maxRetryCount = maxRetryCount;
+	}
 
-    @JsonProperty("activityType")
-    public String getActivityType() {
-        return activityType;
-    }
+	@JsonProperty("retryIntervalInMinutes")
+	public Integer getRetryIntervalInMinutes() {
+		return retryIntervalInMinutes;
+	}
 
-    @JsonProperty("activityType")
-    public void setActivityType(String activityType) {
-        this.activityType = activityType;
-    }
+	@JsonProperty("retryIntervalInMinutes")
+	public void setRetryIntervalInMinutes(Integer retryIntervalInMinutes) {
+		this.retryIntervalInMinutes = retryIntervalInMinutes;
+	}
 
-    @JsonProperty("maxRetryCount")
-    public Integer getMaxRetryCount() {
-        return maxRetryCount;
-    }
+	@JsonProperty("attemptWindow")
+	public String getAttemptWindow() {
+		return attemptWindow;
+	}
 
-    @JsonProperty("maxRetryCount")
-    public void setMaxRetryCount(Integer maxRetryCount) {
-        this.maxRetryCount = maxRetryCount;
-    }
+	@JsonProperty("attemptWindow")
+	public void setAttemptWindow(String attemptWindow) {
+		this.attemptWindow = attemptWindow;
+	}
 
-    @JsonProperty("batchSize")
-    public Integer getBatchSize() {
-        return batchSize;
-    }
+	@JsonProperty("typeOfCycle")
+	public String getTypeOfCycle() {
+		return typeOfCycle;
+	}
 
-    @JsonProperty("batchSize")
-    public void setBatchSize(Integer batchSize) {
-        this.batchSize = batchSize;
-    }
+	@JsonProperty("typeOfCycle")
+	public void setTypeOfCycle(String typeOfCycle) {
+		this.typeOfCycle = typeOfCycle;
+	}
 
-    @JsonProperty("status")
-    public String getStatus() {
-        return status;
-    }
+	@JsonProperty("batchSize")
+	public Integer getBatchSize() {
+		return batchSize;
+	}
 
-    @JsonProperty("status")
-    public void setStatus(String status) {
-        this.status = status;
-    }
+	@JsonProperty("batchSize")
+	public void setBatchSize(Integer batchSize) {
+		this.batchSize = batchSize;
+	}
 
-    @JsonProperty("retryIntervalInMinuntes")
-    public Integer getRetryIntervalInMinuntes() {
-        return retryIntervalInMinuntes;
-    }
+	@JsonProperty("schedulingFrequencyInMinutes")
+	public Integer getSchedulingFrequencyInMinutes() {
+		return schedulingFrequencyInMinutes;
+	}
 
-    @JsonProperty("retryIntervalInMinuntes")
-    public void setRetryIntervalInMinuntes(Integer retryIntervalInMinuntes) {
-        this.retryIntervalInMinuntes = retryIntervalInMinuntes;
-    }
+	@JsonProperty("schedulingFrequencyInMinutes")
+	public void setSchedulingFrequencyInMinutes(Integer schedulingFrequencyInMinutes) {
+		this.schedulingFrequencyInMinutes = schedulingFrequencyInMinutes;
+	}
 
-    @JsonProperty("attemptWindows")
-    public String getAttemptWindows() {
-        return attemptWindows;
-    }
+	@JsonProperty("schedulingDays")
+	public String getSchedulingDays() {
+		return schedulingDays;
+	}
 
-    @JsonProperty("attemptWindows")
-    public void setAttemptWindows(String attemptWindows) {
-        this.attemptWindows = attemptWindows;
-    }
+	@JsonProperty("schedulingDays")
+	public void setSchedulingDays(String schedulingDays) {
+		this.schedulingDays = schedulingDays;
+	}
 
-    @JsonProperty("schedulingDays")
-    public String getSchedulingDays() {
-        return schedulingDays;
-    }
+	@JsonProperty("executingTimeWindow")
+	public String getExecutingTimeWindow() {
+		return executingTimeWindow;
+	}
 
-    @JsonProperty("schedulingDays")
-    public void setSchedulingDays(String schedulingDays) {
-        this.schedulingDays = schedulingDays;
-    }
+	@JsonProperty("executingTimeWindow")
+	public void setExecutingTimeWindow(String executingTimeWindow) {
+		this.executingTimeWindow = executingTimeWindow;
+	}
 
-    @JsonProperty("exceutionWindow")
-    public String getExceutionWindow() {
-        return exceutionWindow;
-    }
+	@JsonProperty("executingDays")
+	public String getExecutingDays() {
+		return executingDays;
+	}
 
-    @JsonProperty("exceutionWindow")
-    public void setExceutionWindow(String exceutionWindow) {
-        this.exceutionWindow = exceutionWindow;
-    }
+	@JsonProperty("executingDays")
+	public void setExecutingDays(String executingDays) {
+		this.executingDays = executingDays;
+	}
+
+	@JsonProperty("status")
+	public String getStatus() {
+		return status;
+	}
+
+	@JsonProperty("status")
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	@JsonProperty("actionDefaultEiligible")
+	public Boolean getActionDefaultEiligible() {
+		return actionDefaultEiligible;
+	}
+
+	@JsonProperty("actionDefaultEiligible")
+	public void setActionDefaultEiligible(Boolean actionDefaultEiligible) {
+		this.actionDefaultEiligible = actionDefaultEiligible;
+	}
+
+	@JsonProperty("retryable")
+	public Boolean getRetryable() {
+		return retryable;
+	}
+
+	@JsonProperty("retryable")
+	public void setRetryable(Boolean retryable) {
+		this.retryable = retryable;
+	}
+
+	@Override
+	public String toString() {
+		return new ToStringBuilder(this).append("productId", productId).append("partnerId", partnerId)
+				.append("countryCode", countryCode).append("activityType", activityType)
+				.append("maxRetryCount", maxRetryCount).append("retryIntervalInMinutes", retryIntervalInMinutes)
+				.append("attemptWindow", attemptWindow).append("typeOfCycle", typeOfCycle)
+				.append("batchSize", batchSize).append("schedulingFrequencyInMinutes", schedulingFrequencyInMinutes)
+				.append("schedulingDays", schedulingDays).append("executingTimeWindow", executingTimeWindow)
+				.append("executingDays", executingDays).append("status", status)
+				.append("actionDefaultEiligible", actionDefaultEiligible).append("retryable", retryable).toString();
+	}
+
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder().append(status).append(maxRetryCount).append(countryCode).append(partnerId)
+				.append(batchSize).append(productId).append(schedulingDays).append(attemptWindow)
+				.append(executingTimeWindow).append(schedulingFrequencyInMinutes).append(retryIntervalInMinutes)
+				.append(retryable).append(executingDays).append(actionDefaultEiligible).append(typeOfCycle)
+				.append(activityType).toHashCode();
+	}
+
+	@Override
+	public boolean equals(Object other) {
+		if (other == this) {
+			return true;
+		}
+		if ((other instanceof PublishRetry) == false) {
+			return false;
+		}
+		PublishRetry rhs = ((PublishRetry) other);
+		return new EqualsBuilder().append(status, rhs.status).append(maxRetryCount, rhs.maxRetryCount)
+				.append(countryCode, rhs.countryCode).append(partnerId, rhs.partnerId).append(batchSize, rhs.batchSize)
+				.append(productId, rhs.productId).append(schedulingDays, rhs.schedulingDays)
+				.append(attemptWindow, rhs.attemptWindow).append(executingTimeWindow, rhs.executingTimeWindow)
+				.append(schedulingFrequencyInMinutes, rhs.schedulingFrequencyInMinutes)
+				.append(retryIntervalInMinutes, rhs.retryIntervalInMinutes).append(retryable, rhs.retryable)
+				.append(executingDays, rhs.executingDays).append(actionDefaultEiligible, rhs.actionDefaultEiligible)
+				.append(typeOfCycle, rhs.typeOfCycle).append(activityType, rhs.activityType).isEquals();
+	}
 
 }

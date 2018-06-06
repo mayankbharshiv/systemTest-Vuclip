@@ -21,6 +21,8 @@ public class RabbitMQConnection {
 			connectionFactory.setPassword(Configuration.rabbitMQPassword);
 			connectionFactory.setPort(Integer.parseInt(Configuration.rabbitMQPort));
 			rabbitTemplate = new RabbitTemplate(connectionFactory);
+			System.out.println("========== Created Rabbit MQ Template ============");
+
 		}
 		return rabbitTemplate;
 	}
