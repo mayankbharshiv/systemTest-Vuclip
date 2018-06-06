@@ -135,20 +135,27 @@
 		}
 	],
 	"retry": [
+
 		{
-			"retryId": 1,
-			"productId": 1,
-			"partnerId": 1,
-			"countryCode": "IN",
-			"activityType": "RENEWAL",
-			"maxRetryCount": 3,
-			"batchSize": 100,
-			"status": "active",
-			"retryIntervalInMinuntes": 1,
-			"attemptWindows": "testAttemptWindow",
-			"schedulingDays": "testSchedulingDays",
-			"exceutionWindow": "executionWindows"
-		}
+	  	 "productId": 1111,
+		 "partnerId": 1111,
+         "countryCode":"IN",
+         "activityType":"ACTIVATION",
+         "maxRetryCount":10,	
+         "retryIntervalInMinutes":1,
+         "attemptWindow":"00:00AM-23:59PM",
+         "typeOfCycle":"DAY",
+         "batchSize":100,
+         "schedulingFrequencyInMinutes":100,
+         "schedulingDays":"TEST",
+         "executingTimeWindow":"testwindow",
+         "executingDays":"1101011",
+         "status":"active",
+         "actionDefaultEiligible":true,
+         "retryable":true
+      }
+		
+		
 	],
 	"blackouts": [
 		{
