@@ -61,17 +61,17 @@ public class SASDeactivationTest {
 
 	}*/
 
-	@DataProvider(name = "testType")
-	public Object[][] testType() {
+	@DataProvider(name = "positiveTestType")
+	public Object[][] positiveTestType() {
 		return new Object[][] {
-				{ "DEACTIVATION", "ACT_INIT", "DCT_INIT", "FAILURE", "DEACTIVATE_CONSENT", 123, "deactivation" },
-				{ "DEACTIVATION", "ACT_INIT", "DCT_INIT", "ERROR", "DEACTIVATE_CONSENT", 111, "deactivation" },
+				// covered in sasTest{ "DEACTIVATION", "ACT_INIT", "DCT_INIT", "FAILURE", "DEACTIVATE_CONSENT", 123, "deactivation" },
+			// covered in sasTest{ "DEACTIVATION", "ACT_INIT", "DCT_INIT", "ERROR", "DEACTIVATE_CONSENT", 111, "deactivation" },
 
 		};
 
 	}
 
-	@Test(dataProvider = "testType"/*, dependsOnMethods = "createConfigData"*/)
+	@Test(dataProvider = "positiveTestType"/*, dependsOnMethods = "createConfigData"*/)
 	public void deactivationRetryTest(String activityType, String previousSubscriptionState,
 			String currentSubscriptionState, String transactionState, String actionType, int subscriptionId,
 			String actionTable) {
