@@ -45,10 +45,13 @@ public class SASSystemChurnTests {
 	@DataProvider(name = "churnPostiveTestType")
 	public Object[][] churnPostiveTestType() {
 		return new Object[][] {
-			{ "SYSTEM_CHURN", "ACT_INIT", "DCT_INIT", "FAILURE", "DEACTIVATE_CONSENT", 101, "SYSTEM_CHURN","OPEN" },
-			{ "SYSTEM_CHURN", "ACT_INIT", "DCT_INIT", "ERROR", "DEACTIVATE_CONSENT", 102, "SYSTEM_CHURN","OPEN" },
-			{ "SYSTEM_CHURN", "SUSPEND", "DCT_INIT", "IN_PROGRESS", "DEACTIVATE_CONSENT", 109, "SYSTEM_CHURN","OPEN" },
-			{ "SYSTEM_CHURN", "ACTIVATED", "DEACTIVATED", "SUCCESS", "DEACTIVATE_CONSENT", 112, "SYSTEM_CHURN","OPEN" }
+				// covered in sasTest { "SYSTEM_CHURN", "ACT_INIT", "DCT_INIT", "FAILURE",
+				// "DEACTIVATE_CONSENT", 101, "SYSTEM_CHURN","OPEN" },
+				// covered in sasTest { "SYSTEM_CHURN", "ACT_INIT", "DCT_INIT", "ERROR",
+				// "DEACTIVATE_CONSENT", 102, "SYSTEM_CHURN","OPEN" },
+				{ "SYSTEM_CHURN", "SUSPEND", "DCT_INIT", "IN_PROGRESS", "DEACTIVATE_CONSENT", 109, "SYSTEM_CHURN",
+						"OPEN" },
+
 		};
 	}
 
@@ -78,35 +81,27 @@ public class SASSystemChurnTests {
 			expectedRecords.put("subscription_id", String.valueOf(subscriptionId));
 			expectedRecords.put("country_code", countryCode);
 
-			if(transactionState=="SUCCESS")
-			{
-				SASValidationHelper.negativeFlow(productId, partnerId, activityType, currentSubscriptionState, transactionState,
-						actionType, subscriptionId);
-			}
-			else
-			{
-				SASValidationHelper.validateTableRecord(DBUtils
-						.getRecord(actionTable.substring(actionTable.indexOf("_") + 1).toLowerCase(), "subscription_id = "
-								+ subscriptionId + " and product_id = " + productId + " and partner_id=" + partnerId)
-						.get(0), expectedRecords);
-	 
-				SASValidationHelper.validate_schedular_api_response(
-						sasHelper.scheduler(SASUtils.generateSchedulerRequest(productId, partnerId, actionTable)));
+			SASValidationHelper.validateTableRecord(DBUtils
+					.getRecord(actionTable.substring(actionTable.indexOf("_") + 1).toLowerCase(), "subscription_id = "
+							+ subscriptionId + " and product_id = " + productId + " and partner_id=" + partnerId)
+					.get(0), expectedRecords);
 
-				expectedRecords.put("status", "IN_PROGRESS");
+			SASValidationHelper.validate_schedular_api_response(
+					sasHelper.scheduler(SASUtils.generateSchedulerRequest(productId, partnerId, actionTable)));
 
-				SASValidationHelper.validateTableRecord(DBUtils
-						.getRecord(actionTable.substring(actionTable.indexOf("_") + 1).toLowerCase(), "subscription_id = "
-								+ subscriptionId + " and product_id=" + productId + " and partner_id=" + partnerId)
-						.get(0), expectedRecords);
+			expectedRecords.put("status", "IN_PROGRESS");
 
-				Message message = RabbitMQConnection.getRabbitTemplate()
-						.receive(productId + "_" + partnerId + "_" + actionTable + "_REQUEST_BACKEND", 25000);
-				SASValidationHelper.validateQueueMessage(
-						ObjectMapperUtils.readValueFromString(new String(message.getBody()), QueueResponse.class),
-						productId, partnerId, subscriptionId, countryCode, actionTable);
-			}
-		
+			SASValidationHelper.validateTableRecord(DBUtils
+					.getRecord(actionTable.substring(actionTable.indexOf("_") + 1).toLowerCase(), "subscription_id = "
+							+ subscriptionId + " and product_id=" + productId + " and partner_id=" + partnerId)
+					.get(0), expectedRecords);
+
+			Message message = RabbitMQConnection.getRabbitTemplate()
+					.receive(productId + "_" + partnerId + "_" + actionTable + "_REQUEST_BACKEND", 25000);
+			SASValidationHelper.validateQueueMessage(
+					ObjectMapperUtils.readValueFromString(new String(message.getBody()), QueueResponse.class),
+					productId, partnerId, subscriptionId, countryCode, actionTable);
+
 		} catch (Exception e) {
 			Assert.fail(e.toString());
 		}
@@ -124,7 +119,8 @@ public class SASSystemChurnTests {
 						"OPEN" },
 				{ "SYSTEM_CHURN", "PARKING", "DCT_INIT", "SUCCESS", "DEACTIVATE_CONSENT", 119, "SYSTEM_CHURN", "OPEN" },
 
-		};
+				{ "SYSTEM_CHURN", "ACTIVATED", "DEACTIVATED", "SUCCESS", "DEACTIVATE_CONSENT", 112, "SYSTEM_CHURN",
+						"OPEN" } };
 	}
 
 	@Test(/** dependsOnMethods = "createConfigData", **/

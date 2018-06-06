@@ -1,19 +1,24 @@
 package com.vuclip.premiumengg.automation.scheduled_activity_service.tests;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.log4j.Logger;
+import org.springframework.amqp.core.Message;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import com.vuclip.premiumengg.automation.billing_package_service.common.models.QueueResponse;
 import com.vuclip.premiumengg.automation.common.Log4J;
-import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.PublishConfigRequest;
-import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASDBHelper;
+import com.vuclip.premiumengg.automation.common.RabbitMQConnection;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASHelper;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASUtils;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASValidationHelper;
-
+import com.vuclip.premiumengg.automation.utils.DBUtils;
+import com.vuclip.premiumengg.automation.utils.ObjectMapperUtils;
 /**
  * 
  * @author mayank.bharshiv
@@ -25,7 +30,7 @@ public class SASWinbackTests {
 	private SASHelper sasHelper;
 	int productId;
 	int partnerId;
-	PublishConfigRequest publishConfigRequest = null;
+	private String countryCode = "IN";
 
 	@BeforeClass(alwaysRun = true)
 	public void setup() throws Exception {
@@ -55,10 +60,12 @@ public class SASWinbackTests {
 
 	@DataProvider(name = "winbackPositiveTestType")
 	public Object[][] winbackPositiveTestType() {
-		return new Object[][] { { "WINBACK", "PARKING", "ACTIVATED", "SUCCESS", "CHARGING", 101, "renewal", "OPEN" },
-				{ "WINBACK", "PARKING", "PARKING", "LOW_BALANCE", "CHARGING", 102, "winback", "OPEN" },
-				{ "WINBACK", "PARKING", "PARKING", "ERROR", "CHARGING", 103, "winback", "OPEN" },
-				/*will pass once env is updated with latest build*/ 
+		return new Object[][] {
+			 // covered in sasTest   { "WINBACK", "PARKING", "ACTIVATED", "SUCCESS", "CHARGING", 101, "renewal", "OPEN" },
+			// covered in sasTest  	{ "WINBACK", "PARKING", "PARKING", "LOW_BALANCE", "CHARGING", 102, "winback", "OPEN" },
+			// covered in sasTest  	{ "WINBACK", "PARKING", "PARKING", "ERROR", "CHARGING", 103, "winback", "OPEN" },
+				
+			/*will pass once env is updated with latest build*/ 
 				//{ "WINBACK", "PARKING", "PARKING", "IN_PROGRESS","CHARGING", 103, "winback", "OPEN" },
 				
 				 
@@ -83,37 +90,34 @@ public class SASWinbackTests {
 					sasHelper.userSubscription(SASUtils.generateUserSubscriptionRequest(productId, partnerId,
 							activityType, previousSubscriptionState, currentSubscriptionState, transactionState,
 							actionType, subscriptionId)));
-			/*
-			 * Map<String, String> expectedRecords = new HashMap<String, String>();
-			 * expectedRecords.put("status", "OPEN"); expectedRecords.put("product_id",
-			 * String.valueOf(productId)); expectedRecords.put("partner_id",
-			 * String.valueOf(partnerId)); expectedRecords.put("subscription_id",
-			 * String.valueOf(subscriptionId)); expectedRecords.put("country_code",
-			 * countryCode);
-			 * 
-			 * SASValidationHelper.validateTableRecord(DBUtils.getRecord(actionTable,
-			 * "subscription_id = " + subscriptionId + " and product_id = " + productId +
-			 * " and partner_id=" + partnerId).get(0), expectedRecords);
-			 * 
-			 * SASValidationHelper.validate_schedular_api_response(
-			 * sasHelper.scheduler(SASUtils.generateSchedulerRequest(productId, partnerId,
-			 * actionTable)));
-			 * 
-			 * expectedRecords.put("status", "IN_PROGRESS");
-			 * 
-			 * SASValidationHelper.validateTableRecord(DBUtils.getRecord(actionTable,
-			 * "subscription_id = " + subscriptionId + " and product_id=" + productId +
-			 * " and partner_id=" + partnerId).get(0), expectedRecords);
-			 * 
-			 * Message message = RabbitMQConnection.getRabbitTemplate() .receive(productId +
-			 * "_" + partnerId + "_" + actionTable.toUpperCase() + "_REQUEST_BACKEND",
-			 * 25000); SASValidationHelper.validateQueueMessage(
-			 * ObjectMapperUtils.readValueFromString(new String(message.getBody()),
-			 * QueueResponse.class), productId, partnerId, subscriptionId, countryCode,
-			 * actionTable);
-			 */
-
-			SASDBHelper.showAllActivityTableData("=============>>>>>", String.valueOf(subscriptionId));
+			
+			  Map<String, String> expectedRecords = new HashMap<String, String>();
+			  expectedRecords.put("status", "OPEN"); expectedRecords.put("product_id",
+			  String.valueOf(productId)); expectedRecords.put("partner_id",
+			  String.valueOf(partnerId)); expectedRecords.put("subscription_id",
+			  String.valueOf(subscriptionId)); expectedRecords.put("country_code",
+			  countryCode);
+			  
+			  SASValidationHelper.validateTableRecord(DBUtils.getRecord(actionTable,
+			  "subscription_id = " + subscriptionId + " and product_id = " + productId +
+			  " and partner_id=" + partnerId).get(0), expectedRecords);
+			  
+			  SASValidationHelper.validate_schedular_api_response(
+			  sasHelper.scheduler(SASUtils.generateSchedulerRequest(productId, partnerId,
+			  actionTable)));
+			  
+			  expectedRecords.put("status", "IN_PROGRESS");
+			  
+			  SASValidationHelper.validateTableRecord(DBUtils.getRecord(actionTable,
+			  "subscription_id = " + subscriptionId + " and product_id=" + productId +
+			  " and partner_id=" + partnerId).get(0), expectedRecords);
+			  
+			  Message message = RabbitMQConnection.getRabbitTemplate() .receive(productId +
+			  "_" + partnerId + "_" + actionTable.toUpperCase() + "_REQUEST_BACKEND",
+			  25000); SASValidationHelper.validateQueueMessage(
+			  ObjectMapperUtils.readValueFromString(new String(message.getBody()),
+			  QueueResponse.class), productId, partnerId, subscriptionId, countryCode,
+			  actionTable);
 		} catch (Exception e) {
 			Assert.fail(e.toString());
 		}
@@ -133,7 +137,7 @@ public class SASWinbackTests {
 	}
 
 	@Test(/** dependsOnMethods = "createConfigData", **/
-			dataProvider = "winbackNegativeTestType", groups = "negative", enabled = false)
+			dataProvider = "winbackNegativeTestType", groups = "negative")
 	public void winbackNegativeTestType(String activityType, String previousSubscriptionState,
 			String currentSubscriptionState, String transactionState, String actionType, Integer subscriptionId,
 			String actionTable, String status) throws Exception {

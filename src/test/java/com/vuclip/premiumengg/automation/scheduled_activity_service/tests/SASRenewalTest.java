@@ -61,14 +61,14 @@ public class SASRenewalTest {
 	@DataProvider(name = "renewalPostiveTestType")
 	public Object[][] renewalPostiveTestType() {
 		return new Object[][] {
-				{ "RENEWAL",  "ACTIVATED", "SUCCESS", "CHARGING",  "renewal", "OPEN" },
-				{ "RENEWAL",  "ACTIVATED", "FAILURE", "CHARGING",  "renewal_retry", "OPEN" },
-				{ "RENEWAL",  "ACTIVATED", "ERROR", "CHARGING",  "renewal_retry", "OPEN" },
+//covered in sasTest	{ "RENEWAL",  "ACTIVATED", "SUCCESS", "CHARGING",  "renewal", "OPEN" },
+			//covered in sasTest		{ "RENEWAL",  "ACTIVATED", "FAILURE", "CHARGING",  "renewal_retry", "OPEN" },
+			//covered in sasTest	{ "RENEWAL",  "ACTIVATED", "ERROR", "CHARGING",  "renewal_retry", "OPEN" },
 				//fail{ "RENEWAL",  "ACTIVATED", "IN_PROGRESS", "CHARGING",  "winback", "OPEN" },
 				//fail{ "RENEWAL",  "ACTIVATED", "NOTIFICATION_WAIT", "CHARGING",  "winback", "OPEN" } ,
 				
-				{ "RENEWAL",  "SUSPEND", "FAILURE", "CHARGING",  "renewal_retry", "OPEN" },
-				{ "RENEWAL",  "SUSPEND", "ERROR", "CHARGING",  "renewal_retry", "OPEN" },
+			//covered in sasTest	{ "RENEWAL",  "SUSPEND", "FAILURE", "CHARGING",  "renewal_retry", "OPEN" },
+			//covered in sasTest	{ "RENEWAL",  "SUSPEND", "ERROR", "CHARGING",  "renewal_retry", "OPEN" },
 				//Fail{ "RENEWAL",  "SUSPEND", "NOTIFICATION_WAIT", "CHARGING",  "winback", "OPEN" } 	,
 				//Fail{ "RENEWAL",  "SUSPEND", "LOW_BALANCE", "CHARGING",  "winback", "OPEN" }
 
