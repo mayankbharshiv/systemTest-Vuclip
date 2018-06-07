@@ -67,7 +67,6 @@ public class SASValidationHelper {
 	public static void validateQueueMessage(QueueResponse queueResponse, int productId, int partnerId,
 			int subscriptionId, String countryCode, String actionTable) throws InterruptedException {
 		logger.info("verification for RabbitMQ");
-		Thread.sleep(3000);
 		AppAssert.assertEqual(queueResponse.getProductId().toString().toUpperCase(),
 				String.valueOf(productId).toUpperCase(), "Verify product ID");
 		AppAssert.assertEqual(queueResponse.getPartnerId().toString().toUpperCase(),
