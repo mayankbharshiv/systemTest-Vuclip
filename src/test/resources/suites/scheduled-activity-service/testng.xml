@@ -2,7 +2,6 @@
 <suite name="sms-service" parallel="false" thread-count="1"
 	verbose="1" preserve-order="true" data-provider-thread-count="1">
 	<test name="sas-service" preserve-order="true">
-
 		<classes>
 			<class name="com.vuclip.premiumengg.automation.scheduled_activity_service.common.base.InitializeTestSuite"></class>
 			<class name="com.vuclip.premiumengg.automation.scheduled_activity_service.tests.BlackoutTests"></class>
@@ -13,13 +12,12 @@
 			<class name="com.vuclip.premiumengg.automation.scheduled_activity_service.tests.SASDeactivationTest"></class>
 			<class name="com.vuclip.premiumengg.automation.scheduled_activity_service.tests.SASFreeTrailRenewalTests"></class>
 			<class name="com.vuclip.premiumengg.automation.scheduled_activity_service.tests.SASRenewalTest"></class>
-			<class name="com.vuclip.premiumengg.automation.scheduled_activity_service.tests.SASRenewal_RetryTests"></class>
-			<class name="com.vuclip.premiumengg.automation.scheduled_activity_service.tests.SASSystemChurnTests"></class>
+<!-- 			<class name="com.vuclip.premiumengg.automation.scheduled_activity_service.tests.SASRenewal_RetryTests"></class>
+ -->			<class name="com.vuclip.premiumengg.automation.scheduled_activity_service.tests.SASSystemChurnTests"></class>
 			<class name="com.vuclip.premiumengg.automation.scheduled_activity_service.tests.SASTest"></class>
 			<class name="com.vuclip.premiumengg.automation.scheduled_activity_service.tests.SASWinbackTests"></class>
 			<class name="com.vuclip.premiumengg.automation.scheduled_activity_service.tests.SchedulerAPINegativeTests"></class>
 			<class name="com.vuclip.premiumengg.automation.scheduled_activity_service.tests.UserSubscriptionAPINegativeTests"></class>
-			
 		</classes>
 		
 	</test>
