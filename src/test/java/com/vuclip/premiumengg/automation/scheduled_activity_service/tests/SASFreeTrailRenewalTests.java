@@ -53,7 +53,7 @@ public class SASFreeTrailRenewalTests {
 				 				 
 				{ "FREETRIAL_RENEWAL", "SUSPEND", "LOW_BALANCE", "CHARGING", 101, "renewal_retry", "OPEN" },
 				{ "FREETRIAL_RENEWAL", "SUSPEND", "ERROR", "CHARGING", 109, "renewal_retry", "OPEN" },
-				//{ "FREETRIAL_RENEWAL", "ACTIVATED", "SUCCESS", "CHARGING", 110, "free_trail", "OPEN" },
+				{ "FREETRIAL_RENEWAL", "ACTIVATED", "SUCCESS", "CHARGING", 110, "free_trail", "OPEN" },
 				{ "FREETRIAL_RENEWAL", "ACTIVATED", "ERROR", "CHARGING", 111, "renewal_retry", "OPEN" },
 				{ "FREETRIAL_RENEWAL", "SUSPEND", "FAILURE", "CHARGING", 112, "renewal_retry", "OPEN" }
 
