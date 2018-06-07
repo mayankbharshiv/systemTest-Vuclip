@@ -44,7 +44,7 @@ public class UserSubscriptionAPINegativeTests {
 
 	}
 
-	@Test(dataProvider = "invalidUserSubscriptionFields",groups="negative")
+	@Test(dataProvider = "invalidUserSubscriptionFields",groups= {"positive"})
 	public void invalidUserSubscriptionFieldsValidation(String activityType, String previousSubscriptionState,
 			String currentSubscriptionState, String transactionState, String actionType, Integer subscriptionId,
 			String actionTable, Integer userProductId, Integer userPartnerId) throws Exception {
@@ -76,7 +76,7 @@ public class UserSubscriptionAPINegativeTests {
 
 	}
 
-	@Test(dataProvider = "missingUserSubscriptionFields",groups="negative")
+	@Test(dataProvider = "missingUserSubscriptionFields",groups= {"positive"})
 	public void missingUserSubscriptionFieldsValidation(String jsonElement) throws Exception {
 		String jsonString;
 		String activityType = "WINBACK";

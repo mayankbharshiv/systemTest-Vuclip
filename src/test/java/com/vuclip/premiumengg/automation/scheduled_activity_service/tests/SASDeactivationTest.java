@@ -71,7 +71,7 @@ public class SASDeactivationTest {
 
 	}
 
-	@Test(dataProvider = "positiveTestType"/*, dependsOnMethods = "createConfigData"*/)
+	@Test(dataProvider = "positiveTestType"/*, dependsOnMethods = "createConfigData"*/,groups = {"positive"})
 	public void deactivationRetryTest(String activityType, String previousSubscriptionState,
 			String currentSubscriptionState, String transactionState, String actionType, int subscriptionId,
 			String actionTable) {
@@ -139,7 +139,7 @@ public class SASDeactivationTest {
 
 	}
 
-	@Test(dataProvider = "neativeTestType"/*, dependsOnMethods = "createConfigData"*/)
+	@Test(dataProvider = "neativeTestType"/*, dependsOnMethods = "createConfigData"*/,groups= {"negative"})
 	public void deactivationRetryNegativeTest(String activityType, String previousSubscriptionState,
 			String currentSubscriptionState, String transactionState, String actionType, int subscriptionId,
 			String actionTable) {

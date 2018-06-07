@@ -23,9 +23,7 @@ import com.vuclip.premiumengg.automation.utils.DBUtils;
 import com.vuclip.premiumengg.automation.utils.ObjectMapperUtils;
 
 /**
- * 
  * @author rahul.s
- *
  */
 
 public class SASRenewal_RetryTests {
@@ -43,8 +41,8 @@ public class SASRenewal_RetryTests {
 		partnerId = productId;
 	}
 
-	@DataProvider(name = "activationPostiveTestType")
-	public Object[][] renewalPostiveTestType() {
+	@DataProvider(name = "renewalRetryPostiveTestType")
+	public Object[][] renewalRetryPostiveTestType() {
 		return new Object[][] {
 
 			{ "RENEWAL_RETRY", "ACTIVATED", "SUCCESS", "CHARGING", "renewal" },
@@ -53,7 +51,7 @@ public class SASRenewal_RetryTests {
 			
 			{ "RENEWAL_RETRY", "SUSPEND", "ERROR", "CHARGING", "renewal_retry" },
 			{ "RENEWAL_RETRY", "SUSPEND", "FAILURE", "CHARGING", "renewal_retry" },
-//	NOT IN DEVELOP BRANCH		{ "RENEWAL_RETRY", "SUSPEND", "NOTIFICATION_WAIT", "CHARGING", "renewal" },
+//	NOT IN DEVELOP BRANCH{ "RENEWAL_RETRY", "SUSPEND", "NOTIFICATION_WAIT", "CHARGING", "renewal" },
 			{ "RENEWAL_RETRY", "SUSPEND", "LOW_BALANCE", "CHARGING", "renewal_retry" },
 			{ "RENEWAL_RETRY", "SUSPEND", "IN_PROGRESS", "CHARGING", "renewal_retry" },
 				
@@ -61,7 +59,7 @@ public class SASRenewal_RetryTests {
 
 	}
 
-	@Test(/**dependsOnMethods = "createConfigData",**/ dataProvider = "activationPostiveTestType",groups="P1")
+	@Test(/**dependsOnMethods = "createConfigData",**/ dataProvider = "renewalRetryPostiveTestType",groups= {"positive"})
 	public void activationRenewalPositiveRetryTests(String activityType, String currentSubscriptionState,
 			String transactionState, String actionType, String actionTable) throws Exception {
 
@@ -77,7 +75,8 @@ public class SASRenewal_RetryTests {
 					sasHelper.userSubscription(SASUtils.generateUserSubscriptionRequest(productId, partnerId,
 							activityType, "", currentSubscriptionState, transactionState, actionType, subscriptionId)));
 
-			SASDBHelper.showAllActivityTableData("BEFORE ",String.valueOf(subscriptionId));
+			/*test */SASDBHelper.showAllActivityTableData("BEFORE ",String.valueOf(subscriptionId));
+			
 			Map<String, String> expectedRecords = new HashMap<String, String>();
 			expectedRecords.put("status", "OPEN");
 			expectedRecords.put("product_id", String.valueOf(productId));
@@ -106,35 +105,29 @@ public class SASRenewal_RetryTests {
 			e.printStackTrace();
 		}
 	}
+	
+	@DataProvider(name = "renewalRetryNegativeTestType")
+	public Object[][] renewalRetryNegativeTestType() {
+		return new Object[][] {
+		{ "RENEWAL_RETRY", "ACTIVATED", "LOW_BALANCE", "CHARGING", "renewal" },
+		{ "RENEWAL_RETRY", "ACTIVATED", "IN_PROGRESS", "CHARGING", "renewal" },
+		{ "RENEWAL_RETRY", "SUSPEND", "SUCCESS", "CHARGING", "renewal" },
 
-//	@DataProvider(name = "activation_RetryNegativeTestType")
-//	public Object[][] activation_Retry_NegativeTestType() {
-//		return new Object[][] { { "ACTIVATION_RETRY", "ACTIVATED", "LOW_BALANCE", "CHARGING", "renewal" },
-//				{ "ACTIVATION_RETRY", "ACTIVATED", "FAILURE", "CHARGING", "renewal" },
-//				{ "ACTIVATION_RETRY", "ACTIVATED", "ERROR", "CHARGING", "renewal" },
-//				{ "ACTIVATION_RETRY", "ACTIVATED", "IN_PROGRESS", "CHARGING", "renewal" },
-//
-//				{ "ACTIVATION_RETRY", "ACT_INIT", "LOW_BALANCE", "CHARGING", "renewal" },
-//				{ "ACTIVATION_RETRY", "ACT_INIT", "SUCCESS", "CHARGING", "activation" },
-//
-//				{ "ACTIVATION_RETRY", "PARKING", "SUCCESS", "CHARGING", "winback" },
-//				{ "ACTIVATION_RETRY", "PARKING", "FAILURE", "CHARGING", "winback" },
-//				{ "ACTIVATION_RETRY", "PARKING", "ERROR", "CHARGING", "winback" },
-//				{ "ACTIVATION_RETRY", "PARKING", "IN_PROGRESS", "CHARGING", "winback" } };
-//	}
-//
-//	@Test(/**dependsOnMethods = "createConfigData",**/ dataProvider = "activation_RetryNegativeTestType")
-//	public void renewalRetryNegativeTestType(String activityType, String currentSubscriptionState,
-//			String transactionState, String actionType, String actionTable) throws Exception {
-//		Integer subscriptionId = (RandomUtils.nextInt(3000, 4000));
-//
-//		String testMessage = subscriptionId + " " + activityType + " " + currentSubscriptionState + " "
-//				+ transactionState + " " + actionType;
-//		logger.info("==================>Starting Negative activation retry test [ " + testMessage + " ]");
-//
-//		SASValidationHelper.negativeFlow(productId,partnerId, activityType, currentSubscriptionState, transactionState,
-//				actionType, subscriptionId);
-//
-//	}
+		};
+	}
+
+	@Test(/**dependsOnMethods = "createConfigData",**/ dataProvider = "renewalRetryNegativeTestType",groups= {"negative"})
+	public void renewalRetryNegativeTestType(String activityType, String currentSubscriptionState, String transactionState, String actionType,
+			String actionTable) throws Exception {
+		Integer subscriptionId = RandomUtils.nextInt(13000, 14000);
+		// SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
+		String testMessage = subscriptionId + " " + activityType + " " + " "
+				+ currentSubscriptionState + " " + transactionState + " " + actionType;
+		logger.info("==================>Starting Negative free Trail Renewal retry test  [ " + testMessage + " ]");
+		SASValidationHelper.negativeFlow(productId,partnerId, activityType, currentSubscriptionState, transactionState,
+				actionType, subscriptionId);
+
+	}
+
 
 }

@@ -38,17 +38,17 @@ public class SchedulerAPINegativeTests {
 
 	@DataProvider(name = "schedulerApiInvalidfieldValues")
 	public Object[][] schedulerApiInvalidfieldValues() {
-		return new Object[][] { // { 0, 0, countryCode,"RENEWAL" },
+		return new Object[][] { // bug{ 0, 0, countryCode,"RENEWAL" },
 				{ 0, 0, null, null },
-				// { productId, 0, countryCode,"RENEWAL" },
+				// bug{ productId, 0, countryCode,"RENEWAL" },
 				{ partnerId, productId, countryCode, null },
-				// { 0, partnerId, countryCode,"RENEWAL" },
-				// { partnerId, productId, null,"RENEWAL" },
+				//bug { 0, partnerId, countryCode,"RENEWAL" },
+				//bug { partnerId, productId, null,"RENEWAL" },
 
 		};
 	}
 
-	@Test(dataProvider = "schedulerApiInvalidfieldValues",groups="negative")
+	@Test(dataProvider = "schedulerApiInvalidfieldValues",groups= {"positive"})
 	public void schedulerApiInvalidFieldsValidation(Integer sproductId, Integer spartnerId, String scountryCode,
 			String sactivityType) throws Exception {
 		subscriptionId = RandomUtils.nextInt(100, 200);
@@ -78,14 +78,14 @@ public class SchedulerAPINegativeTests {
 
 	@DataProvider(name = "schedulerApiMissingFields")
 	public Object[][] schedulerApiMissingFields() {
-		return new Object[][] { //{ "productId" },
-			//{ "partnerId" },
-			//{ "country" }
+		return new Object[][] { //bug{ "productId" },
+			//bug{ "partnerId" },
+			//bug{ "country" }
 			{ "activityType" }
 		};
 	}
 
-	@Test(dataProvider = "schedulerApiMissingFields",groups="negative")
+	@Test(dataProvider = "schedulerApiMissingFields",groups= {"positive"})
 	public void schedulerApiMissingFieldsValidation(String jsonElement) throws Exception {
 		subscriptionId = RandomUtils.nextInt(100, 200);
 		// SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
