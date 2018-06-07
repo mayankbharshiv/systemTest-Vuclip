@@ -43,26 +43,180 @@ public class SASTest {
 		partnerId = productId;
 	}
 
+
 	@DataProvider(name = "activationPostiveTestType")
 	public Object[][] activationPostiveTestType() {
 		return new Object[][] {
+				/*
+				 * FORMAT
+				 * { "eventActionType", "activityType", "currentSubscriptionState",
+				 * "transactionState", "actionTable", "beforeSchedularStatus",
+				 * "afterSchedularStatus", "afteNewEventStatus", "queueName",
+				 * "newEventActionType", "newActivityType", "newCurrentSubscriptionState",
+				 * "newTransactionState", "newActionTable", "newBeforeSchedularStatus",
+				 * "newAfterSchedularStatus", "newQueueName" },
+				 */
+				/* PASS */{ "CHARGING", "ACTIVATION", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS",
+						"SUCCESS", "RENEWAL", "CHARGING", "RENEWAL", "ACTIVATED", "SUCCESS", "renewal", "OPEN",
+						"IN_PROGRESS", "RENEWAL" },
+
+				/* PASS */{ "CHARGING", "ACTIVATION", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS", "ERROR",
+						"RENEWAL", "CHARGING", "RENEWAL", "ACTIVATED", "ERROR", "renewal_retry", "OPEN", "IN_PROGRESS",
+						"RENEWAL_RETRY" },
+
+				/* PASS */{ "CHARGING", "ACTIVATION", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS",
+						"FAILURE", "RENEWAL", "CHARGING", "RENEWAL", "ACTIVATED", "FAILURE", "renewal_retry", "OPEN",
+						"IN_PROGRESS", "RENEWAL_RETRY" },
+
+				/* PASS */{ "CHARGING", "ACTIVATION", "ACT_INIT", "FAILURE", "activation", "OPEN", "IN_PROGRESS",
+						"SUCCESS", "ACTIVATION", "CHARGING", "ACTIVATION", "ACTIVATED", "SUCCESS", "renewal", "OPEN",
+						"IN_PROGRESS", "RENEWAL" },
+
+				/* PASSED */{ "CHARGING", "ACTIVATION", "ACT_INIT", "FAILURE", "activation", "OPEN", "IN_PROGRESS",
+						"FAILURE", "ACTIVATION", "CHARGING", "ACTIVATION", "ACT_INIT", "FAILURE", "activation", "OPEN",
+						"IN_PROGRESS", "ACTIVATION" },
+
+				/* PASSED */{ "CHARGING", "ACTIVATION", "ACT_INIT", "FAILURE", "activation", "OPEN", "IN_PROGRESS",
+						"ERROR", "ACTIVATION", "CHARGING", "ACTIVATION", "ACT_INIT", "ERROR", "activation", "OPEN",
+						"IN_PROGRESS", "ACTIVATION" },
+
+				/* PASSED */{ "CHARGING", "ACTIVATION", "PARKING", "LOW_BALANCE", "winback", "OPEN", "IN_PROGRESS",
+						"ERROR", "WINBACK", "CHARGING", "WINBACK", "PARKING", "ERROR", "winback", "OPEN", "IN_PROGRESS",
+						"WINBACK" },
+											
+				{ "CHARGING", "ACTIVATION", "PARKING", "LOW_BALANCE", "winback", "OPEN", "IN_PROGRESS",
+							"SUCCESS", "WINBACK", "CHARGING", "WINBACK", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS",
+							"RENEWAL" },
+				// //
+				
+				
+				
+				// // /* fail no pro */{ "CHARGING", "ACTIVATION", "PARKING", "LOW_BALANCE",
+				// // "winback", "PARKING", "FAILURE",
+				// // "FAILURE", "winback" },
+				// //
+				/* PASSED */{ "CHARGING", "ACTIVATION", "PARKING", "LOW_BALANCE", "winback", "OPEN", "IN_PROGRESS",
+						"LOW_BALANCE", "WINBACK", "CHARGING", "WINBACK", "PARKING", "LOW_BALANCE", "winback", "OPEN",
+						"IN_PROGRESS", "WINBACK" },
+				//
+				// /* fail no processor */{ "CHARGING", "ACTIVATION", "PARKING", "LOW_BALANCE",
+				// "winback", "PARKING",
+				// "IN_PROGRESS", "IN_PROGRESS", "winback" },
+				//
+				// /* fail */{ "CHARGING", "ACTIVATION", "ACT_INIT", "FAILURE", "activation",
+				// "ACT_INIT",
+				// "NOTIFICATION_WAIT", "NOTIFICATION_WAIT", "activation" },
+				// /* fail */{ "CHARGING", "ACTIVATION", "ACT_INIT", "FAILURE", "activation",
+				// "ACT_INIT", "IN_PROGRESS",
+				// "IN_PROGRESS", "winback" },
+				// /* BUG */{ "CHARGING", "ACTIVATION", "ACT_INIT", "FAILURE", "activation",
+				// "ACT_INIT", "LOW_BALANCE",
+				// "LOW_BALANCE", "winback" },
+				//
+				// /* BUG */{ "CHARGING", "ACTIVATION", "ACT_INIT", "ERROR", "activation",
+				// "ACT_INIT", "LOW_BALANCE",
+				// "LOW_BALANCE", "winback" },
+				//
+				// /* FAIL */{ "CHARGING", "ACTIVATION", "ACT_INIT", "IN_PROGRESS", "winback",
+				// "ACT_INIT", "LOW_BALANCE",
+				// "LOW_BALANCE", "winback" },
+				// /* FAIL */{ "CHARGING", "ACTIVATION", "ACT_INIT", "LOW_BALANCE", "winback",
+				// "ACT_INIT", "LOW_BALANCE",
+				// "LOW_BALANCE", "winback" },
+				//
+				// /* FAIL */{ "CHARGING", "ACTIVATION", "ACT_INIT", "NOTIFICATION_WAIT",
+				// "winback", "ACT_INIT",
+				// "LOW_BALANCE", "LOW_BALANCE", "winback" },
+				// /* FAIL processor is not configured */{ "CHARGING", "ACTIVATION",
+				// "ACTIVATED", "SUCCESS", "renewal",
+				// "ACTIVATED", "IN_PROGRESS", "IN_PROGRESS", "renewal_retry" },
+				// /* FAIL */ { "CHARGING", "ACTIVATION", "ACTIVATED", "SUCCESS", "renewal",
+				// "ACTIVATED",
+				// "NOTIFICATION_WAIT", "IN_PROGRESS", "renewal_retry" },
+				//
+				/* PASSED */{ "DEACTIVATE_CONSENT", "DEACTIVATION", "DCT_INIT", "FAILURE", "deactivation", "OPEN",
+						"IN_PROGRESS", "FAILURE", "DEACTIVATION", "DEACTIVATE_CONSENT", "DEACTIVATION", "DCT_INIT",
+						"FAILURE", "deactivation", "OPEN", "IN_PROGRESS", "DEACTIVATION" },
+				/* PASSED */{ "DEACTIVATE_CONSENT", "DEACTIVATION", "DCT_INIT", "FAILURE", "deactivation", "OPEN",
+						"IN_PROGRESS", "ERROR", "DEACTIVATION", "DEACTIVATE_CONSENT", "DEACTIVATION", "DCT_INIT",
+						"ERROR", "deactivation", "OPEN", "IN_PROGRESS", "DEACTIVATION" },
+				// /* no entry */{ "DEACTIVATE_CONSENT", "DEACTIVATION", "DCT_INIT", "FAILURE",
+				// "deactivation", "DCT_INIT",
+				// "CONFIRMED", "CONFIRMED", "deactivation" },
+				// /* no entry */{ "DEACTIVATE_CONSENT", "DEACTIVATION", "DCT_INIT", "FAILURE",
+				// "deactivation", "DCT_INIT",
+				// "IN_PROGRESS", "IN_PROGRESS", "deactivation" },
+				// /* no entry */{ "DEACTIVATE_CONSENT", "DEACTIVATION", "DCT_INIT", "FAILURE",
+				// "deactivation", "DCT_INIT",
+				// "NOTIFICATION_WAIT", "NOTIFICATION_WAIT", "deactivation" },
+				// /* no entry */{ "DEACTIVATE_CONSENT", "DEACTIVATION", "DCT_INIT", "SUCCESS",
+				// "deactivation", "DCT_INIT",
+				// "FAILURE", "FAILURE", "deactivation" }
+
+				// //RENEWAL E2E
+				// /* IN_Progress */{ "CHARGING", "RENEWAL", "ACTIVATED", "SUCCESS", "renewal",
+				// "ACTIVATED", "SUCCESS",
+				// "SUCCESS", "renewal" },
+				// /* IN_Progress */{ "CHARGING", "RENEWAL", "ACTIVATED", "SUCCESS", "renewal",
+				// "ACTIVATED", "FAILURE",
+				// "FAILURE", "renewal_retry" },
+				{ "CHARGING", "RENEWAL", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS", "SUCCESS", "RENEWAL",
+						"CHARGING", "RENEWAL", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS", "RENEWAL" },
+						
+			/*Passed*/{ "CHARGING", "WINBACK", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS","SUCCESS", "RENEWAL", "CHARGING", "RENEWAL", "ACTIVATED", "SUCCESS", "renewal", "OPEN","IN_PROGRESS", "RENEWAL" },
+				
+		/*Passed*/	{ "CHARGING", "WINBACK", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS","FAILURE", "RENEWAL", "CHARGING", "RENEWAL", "ACTIVATED", "FAILURE", "renewal_retry", "OPEN","IN_PROGRESS", "RENEWAL_RETRY" },
 			
-			 { "CHARGING", "FREETRIAL_RENEWAL", "ACTIVATED", "SUCCESS", "free_trail", "OPEN", "IN_PROGRESS","LOW_BALANCE", "FREETRIAL_RENEWAL", "CHARGING", "FREETRIAL_RENEWAL", "SUSPEND", "LOW_BALANCE", "renewal_retry", "OPEN","IN_PROGRESS", "RENEWAL_RETRY" },
+			/*Passed*/{ "CHARGING", "WINBACK", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS","ERROR", "RENEWAL", "CHARGING", "RENEWAL", "ACTIVATED", "ERROR", "renewal_retry", "OPEN","IN_PROGRESS", "RENEWAL_RETRY" },
+			
+			/*Passed*/{ "CHARGING", "WINBACK", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS","ERROR", "RENEWAL", "CHARGING", "RENEWAL", "SUSPEND", "ERROR", "renewal_retry", "OPEN","IN_PROGRESS", "RENEWAL_RETRY" },
+			
+			/*Passed*/	{ "CHARGING", "WINBACK", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS","FAILURE", "RENEWAL", "CHARGING", "RENEWAL", "SUSPEND", "FAILURE", "renewal_retry", "OPEN","IN_PROGRESS", "RENEWAL_RETRY" },
+			
+		/*Passed*/{ "CHARGING", "WINBACK", "PARKING", "LOW_BALANCE","winback", "OPEN","IN_PROGRESS","SUCCESS","WINBACK","CHARGING", "WINBACK",  "ACTIVATED", "SUCCESS","renewal", "OPEN","IN_PROGRESS","RENEWAL" },				
+						
+		/*Passed*/{ "CHARGING", "WINBACK", "PARKING", "LOW_BALANCE","winback", "OPEN","IN_PROGRESS","ERROR","WINBACK","CHARGING", "WINBACK",  "PARKING", "ERROR","winback", "OPEN","IN_PROGRESS","WINBACK" },							
+		
+	/*Passed*/{ "CHARGING", "WINBACK", "PARKING", "LOW_BALANCE","winback", "OPEN","IN_PROGRESS","LOW_BALANCE","WINBACK","CHARGING", "WINBACK", "PARKING", "LOW_BALANCE","winback", "OPEN","IN_PROGRESS","WINBACK" },			
+		
+        	/*Passed*/	{ "DEACTIVATE_CONSENT", "SYSTEM_CHURN", "DCT_INIT", "FAILURE", "churn", "OPEN", "IN_PROGRESS","FAILURE", "SYSTEM_CHURN", "DEACTIVATE_CONSENT", "SYSTEM_CHURN", "DCT_INIT", "FAILURE", "churn","OPEN", "IN_PROGRESS", "SYSTEM_CHURN" },
+				
+			/*Passed*/	{ "DEACTIVATE_CONSENT", "SYSTEM_CHURN", "DCT_INIT", "FAILURE", "churn", "OPEN", "IN_PROGRESS", "ERROR","SYSTEM_CHURN", "DEACTIVATE_CONSENT", "SYSTEM_CHURN", "DCT_INIT", "ERROR", "churn", "OPEN","IN_PROGRESS", "SYSTEM_CHURN" },
+			
+			/*Passed*/ { "DEACTIVATE_CONSENT", "SYSTEM_CHURN", "DCT_INIT", "IN_PROGRESS", "churn", "OPEN", "IN_PROGRESS", "FAILURE","SYSTEM_CHURN", "DEACTIVATE_CONSENT", "SYSTEM_CHURN", "DCT_INIT", "FAILURE", "churn", "OPEN","IN_PROGRESS", "SYSTEM_CHURN" },
+			
+			/*Passed*/	{ "DEACTIVATE_CONSENT", "SYSTEM_CHURN", "DCT_INIT", "IN_PROGRESS", "churn", "OPEN", "IN_PROGRESS", "ERROR","SYSTEM_CHURN", "DEACTIVATE_CONSENT", "SYSTEM_CHURN", "DCT_INIT", "ERROR", "churn", "OPEN","IN_PROGRESS", "SYSTEM_CHURN" },
+			
+			// To DO test { "CHARGING", "RENEWAL_RETRY", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS","SUCCESS", "RENEWAL", "CHARGING", "RENEWAL", "ACTIVATED", "SUCCESS", "renewal", "OPEN","IN_PROGRESS", "RENEWAL" },
 
-			 { "CHARGING", "FREETRIAL_RENEWAL", "ACTIVATED", "SUCCESS", "free_trail", "OPEN", "IN_PROGRESS","ERROR", "FREETRIAL_RENEWAL", "CHARGING", "FREETRIAL_RENEWAL", "SUSPEND", "ERROR", "renewal_retry", "OPEN","IN_PROGRESS", "RENEWAL_RETRY" },
+			// To DO test { "CHARGING", "RENEWAL_RETRY", "ACTIVATED", "ERROR", "renewal_retry", "OPEN", "IN_PROGRESS","FAILURE", "RENEWAL_RETRY", "CHARGING", "RENEWAL_RETRY", "ACTIVATED", "FAILURE", "renewal_retry", "OPEN","IN_PROGRESS", "RENEWAL_RETRY" },
 
-			 { "CHARGING", "FREETRIAL_RENEWAL", "ACTIVATED", "SUCCESS", "free_trail", "OPEN", "IN_PROGRESS","FAILURE", "FREETRIAL_RENEWAL", "CHARGING", "FREETRIAL_RENEWAL", "SUSPEND", "FAILURE", "renewal_retry", "OPEN","IN_PROGRESS", "RENEWAL_RETRY" },
+			// To DO test { "CHARGING", "RENEWAL_RETRY", "ACTIVATED", "ERROR", "renewal_retry", "OPEN", "IN_PROGRESS","SUCCESS", "RENEWAL_RETRY", "CHARGING", "RENEWAL_RETRY", "ACTIVATED", "SUCCESS", "renewal", "OPEN","IN_PROGRESS", "RENEWAL" },
 
-			 { "CHARGING", "FREETRIAL_RENEWAL", "ACTIVATED", "SUCCESS", "free_trail", "OPEN", "IN_PROGRESS","ERROR", "FREETRIAL_RENEWAL", "CHARGING", "FREETRIAL_RENEWAL", "ACTIVATED", "ERROR", "renewal_retry", "OPEN","IN_PROGRESS", "RENEWAL_RETRY" },
+			// To DO test { "CHARGING", "RENEWAL_RETRY", "ACTIVATED", "ERROR", "renewal_retry", "OPEN", "IN_PROGRESS","ERROR", "RENEWAL_RETRY", "CHARGING", "RENEWAL_RETRY", "SUSPEND", "ERROR", "renewal", "OPEN","IN_PROGRESS", "RENEWAL_RETRY" },
 
-			 { "CHARGING", "FREETRIAL_RENEWAL", "SUSPEND", "LOW_BALANCE", "renewal_retry", "OPEN", "IN_PROGRESS","FAILURE", "RENEWAL_RETRY", "CHARGING", "RENEWAL_RETRY", "ACTIVATED", "FAILURE", "renewal_retry", "OPEN","IN_PROGRESS", "RENEWAL_RETRY" },
+			// To DO test { "CHARGING", "RENEWAL_RETRY", "ACTIVATED", "ERROR", "renewal_retry", "OPEN", "IN_PROGRESS","FAILURE", "RENEWAL_RETRY", "CHARGING", "RENEWAL_RETRY", "SUSPEND", "FAILURE", "renewal", "OPEN","IN_PROGRESS", "RENEWAL_RETRY" },
 
-			{ "CHARGING", "FREETRIAL_RENEWAL", "SUSPEND", "ERROR", "renewal_retry", "OPEN", "IN_PROGRESS","SUCCESS", "RENEWAL_RETRY", "CHARGING", "RENEWAL_RETRY", "ACTIVATED", "SUCCESS", "renewal", "OPEN","IN_PROGRESS", "RENEWAL" },
+			// To DO test { "CHARGING", "RENEWAL_RETRY", "ACTIVATED", "ERROR", "renewal_retry", "OPEN", "IN_PROGRESS","LOW_BALANCE", "RENEWAL_RETRY", "CHARGING", "RENEWAL_RETRY", "SUSPEND", "LOW_BALANCE", "renewal", "OPEN","IN_PROGRESS", "RENEWAL_RETRY" },
+
+			// To DO test { "CHARGING", "RENEWAL_RETRY", "ACTIVATED", "ERROR", "renewal_retry", "OPEN", "IN_PROGRESS","IN_PROGRESS", "RENEWAL_RETRY", "CHARGING", "RENEWAL_RETRY", "SUSPEND", "IN_PROGRESS", "renewal", "OPEN","IN_PROGRESS", "RENEWAL_RETRY" },
+
+			// To DO test{ "CHARGING", "RENEWAL_RETRY", "ACTIVATED", "FAILURE", "renewal_retry", "OPEN", "IN_PROGRESS","ERROR", "RENEWAL_RETRY", "CHARGING", "RENEWAL_RETRY", "ACTIVATED", "ERROR", "renewal_retry", "OPEN","IN_PROGRESS", "RENEWAL_RETRY" },
+			
+			// TO Do { "CHARGING", "FREETRIAL_RENEWAL", "ACTIVATED", "SUCCESS", "free_trail", "OPEN", "IN_PROGRESS","LOW_BALANCE", "FREETRIAL_RENEWAL", "CHARGING", "FREETRIAL_RENEWAL", "SUSPEND", "LOW_BALANCE", "renewal_retry", "OPEN","IN_PROGRESS", "RENEWAL_RETRY" },
+
+			//TO Do  { "CHARGING", "FREETRIAL_RENEWAL", "ACTIVATED", "SUCCESS", "free_trail", "OPEN", "IN_PROGRESS","ERROR", "FREETRIAL_RENEWAL", "CHARGING", "FREETRIAL_RENEWAL", "SUSPEND", "ERROR", "renewal_retry", "OPEN","IN_PROGRESS", "RENEWAL_RETRY" },
+
+			// To Do { "CHARGING", "FREETRIAL_RENEWAL", "ACTIVATED", "SUCCESS", "free_trail", "OPEN", "IN_PROGRESS","FAILURE", "FREETRIAL_RENEWAL", "CHARGING", "FREETRIAL_RENEWAL", "SUSPEND", "FAILURE", "renewal_retry", "OPEN","IN_PROGRESS", "RENEWAL_RETRY" },
+
+			// To Do { "CHARGING", "FREETRIAL_RENEWAL", "ACTIVATED", "SUCCESS", "free_trail", "OPEN", "IN_PROGRESS","ERROR", "FREETRIAL_RENEWAL", "CHARGING", "FREETRIAL_RENEWAL", "ACTIVATED", "ERROR", "renewal_retry", "OPEN","IN_PROGRESS", "RENEWAL_RETRY" },
+
+			// TO DO { "CHARGING", "FREETRIAL_RENEWAL", "SUSPEND", "LOW_BALANCE", "renewal_retry", "OPEN", "IN_PROGRESS","FAILURE", "RENEWAL_RETRY", "CHARGING", "RENEWAL_RETRY", "ACTIVATED", "FAILURE", "renewal_retry", "OPEN","IN_PROGRESS", "RENEWAL_RETRY" },
+
+		// TO DO	{ "CHARGING", "FREETRIAL_RENEWAL", "SUSPEND", "ERROR", "renewal_retry", "OPEN", "IN_PROGRESS","SUCCESS", "RENEWAL_RETRY", "CHARGING", "RENEWAL_RETRY", "ACTIVATED", "SUCCESS", "renewal", "OPEN","IN_PROGRESS", "RENEWAL" },
 
 		};
 	}
-
-
 		@Test(/** dependsOnMethods = "createConfigData", **/dataProvider = "activationPostiveTestType",groups = {"positive"})
 	public void activationPositiveRetryTests(String eventActionType, String activityType,
 			String currentSubscriptionState, String transactionState, String actionTable, String beforeSchedularStatus,
