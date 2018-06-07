@@ -43,13 +43,11 @@ public class SASTest {
 		partnerId = productId;
 	}
 
-
 	@DataProvider(name = "activationPostiveTestType")
 	public Object[][] activationPostiveTestType() {
 		return new Object[][] {
 				/*
-				 * FORMAT
-				 * { "eventActionType", "activityType", "currentSubscriptionState",
+				 * FORMAT { "eventActionType", "activityType", "currentSubscriptionState",
 				 * "transactionState", "actionTable", "beforeSchedularStatus",
 				 * "afterSchedularStatus", "afteNewEventStatus", "queueName",
 				 * "newEventActionType", "newActivityType", "newCurrentSubscriptionState",
@@ -83,14 +81,12 @@ public class SASTest {
 				/* PASSED */{ "CHARGING", "ACTIVATION", "PARKING", "LOW_BALANCE", "winback", "OPEN", "IN_PROGRESS",
 						"ERROR", "WINBACK", "CHARGING", "WINBACK", "PARKING", "ERROR", "winback", "OPEN", "IN_PROGRESS",
 						"WINBACK" },
-											
-				{ "CHARGING", "ACTIVATION", "PARKING", "LOW_BALANCE", "winback", "OPEN", "IN_PROGRESS",
-							"SUCCESS", "WINBACK", "CHARGING", "WINBACK", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS",
-							"RENEWAL" },
+
+				{ "CHARGING", "ACTIVATION", "PARKING", "LOW_BALANCE", "winback", "OPEN", "IN_PROGRESS", "SUCCESS",
+						"WINBACK", "CHARGING", "WINBACK", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS",
+						"RENEWAL" },
 				// //
-				
-				
-				
+
 				// // /* fail no pro */{ "CHARGING", "ACTIVATION", "PARKING", "LOW_BALANCE",
 				// // "winback", "PARKING", "FAILURE",
 				// // "FAILURE", "winback" },
@@ -162,62 +158,129 @@ public class SASTest {
 				// "FAILURE", "renewal_retry" },
 				{ "CHARGING", "RENEWAL", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS", "SUCCESS", "RENEWAL",
 						"CHARGING", "RENEWAL", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS", "RENEWAL" },
-						
-			/*Passed*/{ "CHARGING", "WINBACK", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS","SUCCESS", "RENEWAL", "CHARGING", "RENEWAL", "ACTIVATED", "SUCCESS", "renewal", "OPEN","IN_PROGRESS", "RENEWAL" },
-				
-		/*Passed*/	{ "CHARGING", "WINBACK", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS","FAILURE", "RENEWAL", "CHARGING", "RENEWAL", "ACTIVATED", "FAILURE", "renewal_retry", "OPEN","IN_PROGRESS", "RENEWAL_RETRY" },
-			
-			/*Passed*/{ "CHARGING", "WINBACK", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS","ERROR", "RENEWAL", "CHARGING", "RENEWAL", "ACTIVATED", "ERROR", "renewal_retry", "OPEN","IN_PROGRESS", "RENEWAL_RETRY" },
-			
-			/*Passed*/{ "CHARGING", "WINBACK", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS","ERROR", "RENEWAL", "CHARGING", "RENEWAL", "SUSPEND", "ERROR", "renewal_retry", "OPEN","IN_PROGRESS", "RENEWAL_RETRY" },
-			
-			/*Passed*/	{ "CHARGING", "WINBACK", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS","FAILURE", "RENEWAL", "CHARGING", "RENEWAL", "SUSPEND", "FAILURE", "renewal_retry", "OPEN","IN_PROGRESS", "RENEWAL_RETRY" },
-			
-		/*Passed*/{ "CHARGING", "WINBACK", "PARKING", "LOW_BALANCE","winback", "OPEN","IN_PROGRESS","SUCCESS","WINBACK","CHARGING", "WINBACK",  "ACTIVATED", "SUCCESS","renewal", "OPEN","IN_PROGRESS","RENEWAL" },				
-						
-		/*Passed*/{ "CHARGING", "WINBACK", "PARKING", "LOW_BALANCE","winback", "OPEN","IN_PROGRESS","ERROR","WINBACK","CHARGING", "WINBACK",  "PARKING", "ERROR","winback", "OPEN","IN_PROGRESS","WINBACK" },							
-		
-	/*Passed*/{ "CHARGING", "WINBACK", "PARKING", "LOW_BALANCE","winback", "OPEN","IN_PROGRESS","LOW_BALANCE","WINBACK","CHARGING", "WINBACK", "PARKING", "LOW_BALANCE","winback", "OPEN","IN_PROGRESS","WINBACK" },			
-		
-        	/*Passed*/	{ "DEACTIVATE_CONSENT", "SYSTEM_CHURN", "DCT_INIT", "FAILURE", "churn", "OPEN", "IN_PROGRESS","FAILURE", "SYSTEM_CHURN", "DEACTIVATE_CONSENT", "SYSTEM_CHURN", "DCT_INIT", "FAILURE", "churn","OPEN", "IN_PROGRESS", "SYSTEM_CHURN" },
-				
-			/*Passed*/	{ "DEACTIVATE_CONSENT", "SYSTEM_CHURN", "DCT_INIT", "FAILURE", "churn", "OPEN", "IN_PROGRESS", "ERROR","SYSTEM_CHURN", "DEACTIVATE_CONSENT", "SYSTEM_CHURN", "DCT_INIT", "ERROR", "churn", "OPEN","IN_PROGRESS", "SYSTEM_CHURN" },
-			
-			/*Passed*/ { "DEACTIVATE_CONSENT", "SYSTEM_CHURN", "DCT_INIT", "IN_PROGRESS", "churn", "OPEN", "IN_PROGRESS", "FAILURE","SYSTEM_CHURN", "DEACTIVATE_CONSENT", "SYSTEM_CHURN", "DCT_INIT", "FAILURE", "churn", "OPEN","IN_PROGRESS", "SYSTEM_CHURN" },
-			
-			/*Passed*/	{ "DEACTIVATE_CONSENT", "SYSTEM_CHURN", "DCT_INIT", "IN_PROGRESS", "churn", "OPEN", "IN_PROGRESS", "ERROR","SYSTEM_CHURN", "DEACTIVATE_CONSENT", "SYSTEM_CHURN", "DCT_INIT", "ERROR", "churn", "OPEN","IN_PROGRESS", "SYSTEM_CHURN" },
-			
-			// To DO test { "CHARGING", "RENEWAL_RETRY", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS","SUCCESS", "RENEWAL", "CHARGING", "RENEWAL", "ACTIVATED", "SUCCESS", "renewal", "OPEN","IN_PROGRESS", "RENEWAL" },
 
-			// To DO test { "CHARGING", "RENEWAL_RETRY", "ACTIVATED", "ERROR", "renewal_retry", "OPEN", "IN_PROGRESS","FAILURE", "RENEWAL_RETRY", "CHARGING", "RENEWAL_RETRY", "ACTIVATED", "FAILURE", "renewal_retry", "OPEN","IN_PROGRESS", "RENEWAL_RETRY" },
+				/* Passed */{ "CHARGING", "WINBACK", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS",
+						"SUCCESS", "RENEWAL", "CHARGING", "RENEWAL", "ACTIVATED", "SUCCESS", "renewal", "OPEN",
+						"IN_PROGRESS", "RENEWAL" },
 
-			// To DO test { "CHARGING", "RENEWAL_RETRY", "ACTIVATED", "ERROR", "renewal_retry", "OPEN", "IN_PROGRESS","SUCCESS", "RENEWAL_RETRY", "CHARGING", "RENEWAL_RETRY", "ACTIVATED", "SUCCESS", "renewal", "OPEN","IN_PROGRESS", "RENEWAL" },
+				/* Passed */ { "CHARGING", "WINBACK", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS",
+						"FAILURE", "RENEWAL", "CHARGING", "RENEWAL", "ACTIVATED", "FAILURE", "renewal_retry", "OPEN",
+						"IN_PROGRESS", "RENEWAL_RETRY" },
 
-			// To DO test { "CHARGING", "RENEWAL_RETRY", "ACTIVATED", "ERROR", "renewal_retry", "OPEN", "IN_PROGRESS","ERROR", "RENEWAL_RETRY", "CHARGING", "RENEWAL_RETRY", "SUSPEND", "ERROR", "renewal", "OPEN","IN_PROGRESS", "RENEWAL_RETRY" },
+				/* Passed */{ "CHARGING", "WINBACK", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS", "ERROR",
+						"RENEWAL", "CHARGING", "RENEWAL", "ACTIVATED", "ERROR", "renewal_retry", "OPEN", "IN_PROGRESS",
+						"RENEWAL_RETRY" },
 
-			// To DO test { "CHARGING", "RENEWAL_RETRY", "ACTIVATED", "ERROR", "renewal_retry", "OPEN", "IN_PROGRESS","FAILURE", "RENEWAL_RETRY", "CHARGING", "RENEWAL_RETRY", "SUSPEND", "FAILURE", "renewal", "OPEN","IN_PROGRESS", "RENEWAL_RETRY" },
+				/* Passed */{ "CHARGING", "WINBACK", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS", "ERROR",
+						"RENEWAL", "CHARGING", "RENEWAL", "SUSPEND", "ERROR", "renewal_retry", "OPEN", "IN_PROGRESS",
+						"RENEWAL_RETRY" },
 
-			// To DO test { "CHARGING", "RENEWAL_RETRY", "ACTIVATED", "ERROR", "renewal_retry", "OPEN", "IN_PROGRESS","LOW_BALANCE", "RENEWAL_RETRY", "CHARGING", "RENEWAL_RETRY", "SUSPEND", "LOW_BALANCE", "renewal", "OPEN","IN_PROGRESS", "RENEWAL_RETRY" },
+				/* Passed */ { "CHARGING", "WINBACK", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS",
+						"FAILURE", "RENEWAL", "CHARGING", "RENEWAL", "SUSPEND", "FAILURE", "renewal_retry", "OPEN",
+						"IN_PROGRESS", "RENEWAL_RETRY" },
 
-			// To DO test { "CHARGING", "RENEWAL_RETRY", "ACTIVATED", "ERROR", "renewal_retry", "OPEN", "IN_PROGRESS","IN_PROGRESS", "RENEWAL_RETRY", "CHARGING", "RENEWAL_RETRY", "SUSPEND", "IN_PROGRESS", "renewal", "OPEN","IN_PROGRESS", "RENEWAL_RETRY" },
+				/* Passed */{ "CHARGING", "WINBACK", "PARKING", "LOW_BALANCE", "winback", "OPEN", "IN_PROGRESS",
+						"SUCCESS", "WINBACK", "CHARGING", "WINBACK", "ACTIVATED", "SUCCESS", "renewal", "OPEN",
+						"IN_PROGRESS", "RENEWAL" },
 
-			// To DO test{ "CHARGING", "RENEWAL_RETRY", "ACTIVATED", "FAILURE", "renewal_retry", "OPEN", "IN_PROGRESS","ERROR", "RENEWAL_RETRY", "CHARGING", "RENEWAL_RETRY", "ACTIVATED", "ERROR", "renewal_retry", "OPEN","IN_PROGRESS", "RENEWAL_RETRY" },
-			
-			// TO Do { "CHARGING", "FREETRIAL_RENEWAL", "ACTIVATED", "SUCCESS", "free_trail", "OPEN", "IN_PROGRESS","LOW_BALANCE", "FREETRIAL_RENEWAL", "CHARGING", "FREETRIAL_RENEWAL", "SUSPEND", "LOW_BALANCE", "renewal_retry", "OPEN","IN_PROGRESS", "RENEWAL_RETRY" },
+				/* Passed */{ "CHARGING", "WINBACK", "PARKING", "LOW_BALANCE", "winback", "OPEN", "IN_PROGRESS",
+						"ERROR", "WINBACK", "CHARGING", "WINBACK", "PARKING", "ERROR", "winback", "OPEN", "IN_PROGRESS",
+						"WINBACK" },
 
-			//TO Do  { "CHARGING", "FREETRIAL_RENEWAL", "ACTIVATED", "SUCCESS", "free_trail", "OPEN", "IN_PROGRESS","ERROR", "FREETRIAL_RENEWAL", "CHARGING", "FREETRIAL_RENEWAL", "SUSPEND", "ERROR", "renewal_retry", "OPEN","IN_PROGRESS", "RENEWAL_RETRY" },
+				/* Passed */{ "CHARGING", "WINBACK", "PARKING", "LOW_BALANCE", "winback", "OPEN", "IN_PROGRESS",
+						"LOW_BALANCE", "WINBACK", "CHARGING", "WINBACK", "PARKING", "LOW_BALANCE", "winback", "OPEN",
+						"IN_PROGRESS", "WINBACK" },
 
-			// To Do { "CHARGING", "FREETRIAL_RENEWAL", "ACTIVATED", "SUCCESS", "free_trail", "OPEN", "IN_PROGRESS","FAILURE", "FREETRIAL_RENEWAL", "CHARGING", "FREETRIAL_RENEWAL", "SUSPEND", "FAILURE", "renewal_retry", "OPEN","IN_PROGRESS", "RENEWAL_RETRY" },
+				/* Passed */ { "DEACTIVATE_CONSENT", "SYSTEM_CHURN", "DCT_INIT", "FAILURE", "churn", "OPEN",
+						"IN_PROGRESS", "FAILURE", "SYSTEM_CHURN", "DEACTIVATE_CONSENT", "SYSTEM_CHURN", "DCT_INIT",
+						"FAILURE", "churn", "OPEN", "IN_PROGRESS", "SYSTEM_CHURN" },
 
-			// To Do { "CHARGING", "FREETRIAL_RENEWAL", "ACTIVATED", "SUCCESS", "free_trail", "OPEN", "IN_PROGRESS","ERROR", "FREETRIAL_RENEWAL", "CHARGING", "FREETRIAL_RENEWAL", "ACTIVATED", "ERROR", "renewal_retry", "OPEN","IN_PROGRESS", "RENEWAL_RETRY" },
+				/* Passed */ { "DEACTIVATE_CONSENT", "SYSTEM_CHURN", "DCT_INIT", "FAILURE", "churn", "OPEN",
+						"IN_PROGRESS", "ERROR", "SYSTEM_CHURN", "DEACTIVATE_CONSENT", "SYSTEM_CHURN", "DCT_INIT",
+						"ERROR", "churn", "OPEN", "IN_PROGRESS", "SYSTEM_CHURN" },
 
-			// TO DO { "CHARGING", "FREETRIAL_RENEWAL", "SUSPEND", "LOW_BALANCE", "renewal_retry", "OPEN", "IN_PROGRESS","FAILURE", "RENEWAL_RETRY", "CHARGING", "RENEWAL_RETRY", "ACTIVATED", "FAILURE", "renewal_retry", "OPEN","IN_PROGRESS", "RENEWAL_RETRY" },
+				/* Passed */ { "DEACTIVATE_CONSENT", "SYSTEM_CHURN", "DCT_INIT", "IN_PROGRESS", "churn", "OPEN",
+						"IN_PROGRESS", "FAILURE", "SYSTEM_CHURN", "DEACTIVATE_CONSENT", "SYSTEM_CHURN", "DCT_INIT",
+						"FAILURE", "churn", "OPEN", "IN_PROGRESS", "SYSTEM_CHURN" },
 
-		// TO DO	{ "CHARGING", "FREETRIAL_RENEWAL", "SUSPEND", "ERROR", "renewal_retry", "OPEN", "IN_PROGRESS","SUCCESS", "RENEWAL_RETRY", "CHARGING", "RENEWAL_RETRY", "ACTIVATED", "SUCCESS", "renewal", "OPEN","IN_PROGRESS", "RENEWAL" },
+				/* Passed */ { "DEACTIVATE_CONSENT", "SYSTEM_CHURN", "DCT_INIT", "IN_PROGRESS", "churn", "OPEN",
+						"IN_PROGRESS", "ERROR", "SYSTEM_CHURN", "DEACTIVATE_CONSENT", "SYSTEM_CHURN", "DCT_INIT",
+						"ERROR", "churn", "OPEN", "IN_PROGRESS", "SYSTEM_CHURN" },
+
+				// To DO test { "CHARGING", "RENEWAL_RETRY", "ACTIVATED", "SUCCESS", "renewal",
+				// "OPEN", "IN_PROGRESS","SUCCESS", "RENEWAL", "CHARGING", "RENEWAL",
+				// "ACTIVATED", "SUCCESS", "renewal", "OPEN","IN_PROGRESS", "RENEWAL" },
+
+				// To DO test { "CHARGING", "RENEWAL_RETRY", "ACTIVATED", "ERROR",
+				// "renewal_retry", "OPEN", "IN_PROGRESS","FAILURE", "RENEWAL_RETRY",
+				// "CHARGING", "RENEWAL_RETRY", "ACTIVATED", "FAILURE", "renewal_retry",
+				// "OPEN","IN_PROGRESS", "RENEWAL_RETRY" },
+
+				// To DO test { "CHARGING", "RENEWAL_RETRY", "ACTIVATED", "ERROR",
+				// "renewal_retry", "OPEN", "IN_PROGRESS","SUCCESS", "RENEWAL_RETRY",
+				// "CHARGING", "RENEWAL_RETRY", "ACTIVATED", "SUCCESS", "renewal",
+				// "OPEN","IN_PROGRESS", "RENEWAL" },
+
+				// To DO test { "CHARGING", "RENEWAL_RETRY", "ACTIVATED", "ERROR",
+				// "renewal_retry", "OPEN", "IN_PROGRESS","ERROR", "RENEWAL_RETRY", "CHARGING",
+				// "RENEWAL_RETRY", "SUSPEND", "ERROR", "renewal", "OPEN","IN_PROGRESS",
+				// "RENEWAL_RETRY" },
+
+				// To DO test { "CHARGING", "RENEWAL_RETRY", "ACTIVATED", "ERROR",
+				// "renewal_retry", "OPEN", "IN_PROGRESS","FAILURE", "RENEWAL_RETRY",
+				// "CHARGING", "RENEWAL_RETRY", "SUSPEND", "FAILURE", "renewal",
+				// "OPEN","IN_PROGRESS", "RENEWAL_RETRY" },
+
+				// To DO test { "CHARGING", "RENEWAL_RETRY", "ACTIVATED", "ERROR",
+				// "renewal_retry", "OPEN", "IN_PROGRESS","LOW_BALANCE", "RENEWAL_RETRY",
+				// "CHARGING", "RENEWAL_RETRY", "SUSPEND", "LOW_BALANCE", "renewal",
+				// "OPEN","IN_PROGRESS", "RENEWAL_RETRY" },
+
+				// To DO test { "CHARGING", "RENEWAL_RETRY", "ACTIVATED", "ERROR",
+				// "renewal_retry", "OPEN", "IN_PROGRESS","IN_PROGRESS", "RENEWAL_RETRY",
+				// "CHARGING", "RENEWAL_RETRY", "SUSPEND", "IN_PROGRESS", "renewal",
+				// "OPEN","IN_PROGRESS", "RENEWAL_RETRY" },
+
+				// To DO test{ "CHARGING", "RENEWAL_RETRY", "ACTIVATED", "FAILURE",
+				// "renewal_retry", "OPEN", "IN_PROGRESS","ERROR", "RENEWAL_RETRY", "CHARGING",
+				// "RENEWAL_RETRY", "ACTIVATED", "ERROR", "renewal_retry", "OPEN","IN_PROGRESS",
+				// "RENEWAL_RETRY" },
+
+				// TO Do { "CHARGING", "FREETRIAL_RENEWAL", "ACTIVATED", "SUCCESS",
+				// "free_trail", "OPEN", "IN_PROGRESS","LOW_BALANCE", "FREETRIAL_RENEWAL",
+				// "CHARGING", "FREETRIAL_RENEWAL", "SUSPEND", "LOW_BALANCE", "renewal_retry",
+				// "OPEN","IN_PROGRESS", "RENEWAL_RETRY" },
+
+				// TO Do { "CHARGING", "FREETRIAL_RENEWAL", "ACTIVATED", "SUCCESS",
+				// "free_trail", "OPEN", "IN_PROGRESS","ERROR", "FREETRIAL_RENEWAL", "CHARGING",
+				// "FREETRIAL_RENEWAL", "SUSPEND", "ERROR", "renewal_retry",
+				// "OPEN","IN_PROGRESS", "RENEWAL_RETRY" },
+
+				// To Do { "CHARGING", "FREETRIAL_RENEWAL", "ACTIVATED", "SUCCESS",
+				// "free_trail", "OPEN", "IN_PROGRESS","FAILURE", "FREETRIAL_RENEWAL",
+				// "CHARGING", "FREETRIAL_RENEWAL", "SUSPEND", "FAILURE", "renewal_retry",
+				// "OPEN","IN_PROGRESS", "RENEWAL_RETRY" },
+
+				// To Do { "CHARGING", "FREETRIAL_RENEWAL", "ACTIVATED", "SUCCESS",
+				// "free_trail", "OPEN", "IN_PROGRESS","ERROR", "FREETRIAL_RENEWAL", "CHARGING",
+				// "FREETRIAL_RENEWAL", "ACTIVATED", "ERROR", "renewal_retry",
+				// "OPEN","IN_PROGRESS", "RENEWAL_RETRY" },
+
+				// TO DO { "CHARGING", "FREETRIAL_RENEWAL", "SUSPEND", "LOW_BALANCE",
+				// "renewal_retry", "OPEN", "IN_PROGRESS","FAILURE", "RENEWAL_RETRY",
+				// "CHARGING", "RENEWAL_RETRY", "ACTIVATED", "FAILURE", "renewal_retry",
+				// "OPEN","IN_PROGRESS", "RENEWAL_RETRY" },
+
+				// TO DO { "CHARGING", "FREETRIAL_RENEWAL", "SUSPEND", "ERROR", "renewal_retry",
+				// "OPEN", "IN_PROGRESS","SUCCESS", "RENEWAL_RETRY", "CHARGING",
+				// "RENEWAL_RETRY", "ACTIVATED", "SUCCESS", "renewal", "OPEN","IN_PROGRESS",
+				// "RENEWAL" },
 
 		};
 	}
-		@Test(/** dependsOnMethods = "createConfigData", **/dataProvider = "activationPostiveTestType",groups = {"positive"})
+
+	@Test(/** dependsOnMethods = "createConfigData", **/
+			dataProvider = "activationPostiveTestType", groups = { "positive" })
 	public void activationPositiveRetryTests(String eventActionType, String activityType,
 			String currentSubscriptionState, String transactionState, String actionTable, String beforeSchedularStatus,
 			String afterSchedularStatus, String afteNewEventStatus, String queueName, String newEventActionType,
@@ -225,8 +288,8 @@ public class SASTest {
 			String newActionTable, String newBeforeSchedularStatus, String newAfterSchedularStatus, String newQueueName)
 			throws Exception {
 
-		UserSubscriptionRequest uSRequest =null;
-		UserSubscriptionRequest newSubscriptionRequest=null;
+		UserSubscriptionRequest uSRequest = null;
+		UserSubscriptionRequest newSubscriptionRequest = null;
 		Integer subscriptionId = RandomUtils.nextInt(900, 1000);
 		String testMessage = subscriptionId + " " + activityType + " " + currentSubscriptionState + " "
 				+ transactionState + " " + actionTable + " " + newCurrentSubscriptionState + " " + newTransactionState
@@ -236,21 +299,15 @@ public class SASTest {
 		try {
 
 			logger.info("=========>First time user subscription event getting trigger");
-		if(activityType=="FREETRIAL_RENEWAL"){
-			 uSRequest = SASUtils.generateUserSubscriptionRequest(productId,
-					partnerId, activityType, "", currentSubscriptionState, transactionState, eventActionType,
-					subscriptionId);
-			uSRequest.getUserInfo().setFreeTrialUser(true);
-			SASValidationHelper.validate_sas_api_response(sasHelper.userSubscription(uSRequest));
 
-		}
-		else
-		{
-			 uSRequest = SASUtils.generateUserSubscriptionRequest(productId, partnerId,
-					activityType, "", currentSubscriptionState, transactionState, eventActionType, subscriptionId);
+			uSRequest = SASUtils.generateUserSubscriptionRequest(productId, partnerId, activityType, "",
+					currentSubscriptionState, transactionState, eventActionType, subscriptionId);
+
+			if (activityType == "FREETRIAL_RENEWAL") {
+				uSRequest.getUserInfo().setFreeTrialUser(true);
+			}
+
 			SASValidationHelper.validate_sas_api_response(sasHelper.userSubscription(uSRequest));
-		}
-	
 
 			// String expectedActivityType = SASDBHelper.showAllActivityTableData("FIRST ",
 			// String.valueOf(subscriptionId));
@@ -269,20 +326,14 @@ public class SASTest {
 					.get(0), expectedRecords);
 
 			logger.info("=========>First Event: scheduale call ");
-			if (actionTable == "churn") {
-				SASValidationHelper.validate_schedular_api_response(
-						sasHelper.scheduler(SASUtils.generateSchedulerRequest(productId, partnerId, activityType)));
+
+			String activityTypeValue = actionTable;
+			if (actionTable == "churn" || actionTable == "free_trail") {
+				activityTypeValue = activityType;
 			}
-				
-				else if (actionTable == "free_trail") {
-					SASValidationHelper.validate_schedular_api_response(
-							sasHelper.scheduler(SASUtils.generateSchedulerRequest(productId, partnerId, activityType)));
-			} 
-				else
-				{
-				SASValidationHelper.validate_schedular_api_response(
-						sasHelper.scheduler(SASUtils.generateSchedulerRequest(productId, partnerId, actionTable)));
-			}
+
+			SASValidationHelper.validate_schedular_api_response(
+					sasHelper.scheduler(SASUtils.generateSchedulerRequest(productId, partnerId, activityTypeValue)));
 
 			logger.info("=========>First Event: Vefiry DB After Schedular Call ");
 			expectedRecords.put("status", afterSchedularStatus);
@@ -293,42 +344,20 @@ public class SASTest {
 					+ queueName + "_REQUEST_BACKEND");
 			Message message = RabbitMQConnection.getRabbitTemplate()
 					.receive(productId + "_" + partnerId + "_" + queueName.toUpperCase() + "_REQUEST_BACKEND", 30000);
-			
-			if (actionTable == "churn") {
-				SASValidationHelper.validateQueueMessage(
-						ObjectMapperUtils.readValueFromString(new String(message.getBody()), QueueResponse.class),
-						productId, partnerId, subscriptionId, countryCode, activityType);
-			} 
-			else if (actionTable == "free_trail") {
-				SASValidationHelper.validateQueueMessage(
-						ObjectMapperUtils.readValueFromString(new String(message.getBody()), QueueResponse.class),
-						productId, partnerId, subscriptionId, countryCode, activityType);
-			} 
-			
-			else {
-				SASValidationHelper.validateQueueMessage(
-						ObjectMapperUtils.readValueFromString(new String(message.getBody()), QueueResponse.class),
-						productId, partnerId, subscriptionId, countryCode, actionTable.toUpperCase());
-			}
+
+			SASValidationHelper.validateQueueMessage(
+					ObjectMapperUtils.readValueFromString(new String(message.getBody()), QueueResponse.class),
+					productId, partnerId, subscriptionId, countryCode, activityTypeValue.toUpperCase());
 
 			logger.info("=========>Second time user subscription event getting trigger");
-			
-			
-			if(activityType=="FREETRIAL_RENEWAL"){
-				newSubscriptionRequest = SASUtils.generateUserSubscriptionRequest(productId,
-						partnerId, activityType, "", currentSubscriptionState, transactionState, eventActionType,
-						subscriptionId);
+
+			newSubscriptionRequest = SASUtils.generateUserSubscriptionRequest(productId, partnerId, activityType, "",
+					currentSubscriptionState, transactionState, eventActionType, subscriptionId);
+			if (activityType == "FREETRIAL_RENEWAL") {
 				uSRequest.getUserInfo().setFreeTrialUser(true);
-				SASValidationHelper.validate_sas_api_response(sasHelper.userSubscription(uSRequest));
 
 			}
-			else
-			{
-				newSubscriptionRequest = SASUtils.generateUserSubscriptionRequest(productId, partnerId,
-						activityType, "", currentSubscriptionState, transactionState, eventActionType, subscriptionId);
-				SASValidationHelper.validate_sas_api_response(sasHelper.userSubscription(uSRequest));
-			}
-			
+
 			newSubscriptionRequest.getSubscriptionInfo()
 					.setNextBillingDate(newSubscriptionRequest.getSubscriptionInfo().getNextBillingDate() + 100);
 			newSubscriptionRequest.getActivityEvent()
@@ -360,19 +389,13 @@ public class SASTest {
 					expectedRecords);
 
 			logger.info("=========>Second event: Schedular call");
-			if (newActionTable == "churn") {
-				SASValidationHelper.validate_schedular_api_response(
-						sasHelper.scheduler(SASUtils.generateSchedulerRequest(productId, partnerId, newActivityType)));
-			} 
-			
-			else if (newActionTable == "free_trail") {
-				SASValidationHelper.validate_schedular_api_response(
-						sasHelper.scheduler(SASUtils.generateSchedulerRequest(productId, partnerId, newActivityType)));
+			String newActionTableValue = newActionTable;
+			if (newActionTable == "churn" || newActionTable == "free_trail") {
+				newActionTableValue = newActivityType;
 			}
-			else {
-				SASValidationHelper.validate_schedular_api_response(
-						sasHelper.scheduler(SASUtils.generateSchedulerRequest(productId, partnerId, newActionTable)));
-			}
+
+			SASValidationHelper.validate_schedular_api_response(
+					sasHelper.scheduler(SASUtils.generateSchedulerRequest(productId, partnerId, newActionTableValue)));
 
 			// SASDBHelper.showAllActivityTableData("FOURTH",
 			// String.valueOf(subscriptionId));
@@ -391,21 +414,11 @@ public class SASTest {
 					+ newQueueName.toUpperCase() + "_REQUEST_BACKEND");
 			message = RabbitMQConnection.getRabbitTemplate().receive(
 					productId + "_" + partnerId + "_" + newQueueName.toUpperCase() + "_REQUEST_BACKEND", 25000);
-			if (newActionTable == "churn") {
-				SASValidationHelper.validateQueueMessage(
-						ObjectMapperUtils.readValueFromString(new String(message.getBody()), QueueResponse.class),
-						productId, partnerId, subscriptionId, countryCode, newActivityType);
-			}
-			else if (newActionTable == "free_trail") {
-				SASValidationHelper.validateQueueMessage(
-						ObjectMapperUtils.readValueFromString(new String(message.getBody()), QueueResponse.class),
-						productId, partnerId, subscriptionId, countryCode, newActivityType);
-			}
-			else {
-				SASValidationHelper.validateQueueMessage(
-						ObjectMapperUtils.readValueFromString(new String(message.getBody()), QueueResponse.class),
-						productId, partnerId, subscriptionId, countryCode, newActionTable.toUpperCase());
-			}
+
+			SASValidationHelper.validateQueueMessage(
+					ObjectMapperUtils.readValueFromString(new String(message.getBody()), QueueResponse.class),
+					productId, partnerId, subscriptionId, countryCode, newActionTableValue.toUpperCase());
+
 		} catch (Exception e) {
 			logger.info("=========>ERROR due to exception");
 
