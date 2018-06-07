@@ -49,7 +49,7 @@ public class BlackoutTests {
 
 	}
 
-	@Test(dataProvider = "setupBlackoutWindowConfig")
+	@Test(dataProvider = "setupBlackoutWindowConfig",groups= {"positive"})
 	public void createBlackoutWindowConfigData(String activityType, String blackoutWindow) throws Exception {
 
 		publishConfigRequest = SASUtils.generateSaveProductConfig(productId, partnerId, activityType);
@@ -58,7 +58,7 @@ public class BlackoutTests {
 
 	}
 
-	@Test(dependsOnMethods = "createBlackoutWindowConfigData")
+	@Test(dependsOnMethods = "createBlackoutWindowConfigData",groups= {"positive"})
 	public void invalidBlackoutWindowFieldValue() throws Exception {
 
 		subscriptionId = RandomUtils.nextInt(24000, 25000);

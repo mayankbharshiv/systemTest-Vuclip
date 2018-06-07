@@ -73,7 +73,7 @@ public class SASWinbackTests {
 	}
 
 	@Test(/** dependsOnMethods = "createConfigData", **/
-			dataProvider = "winbackPositiveTestType", groups = "negative")
+			dataProvider = "winbackPositiveTestType", groups = {"positive"})
 	public void winbackPositiveRetryTests(String activityType, String previousSubscriptionState,
 			String currentSubscriptionState, String transactionState, String actionType, Integer subscriptionId,
 			String actionTable, String status) throws Exception {
@@ -137,7 +137,7 @@ public class SASWinbackTests {
 	}
 
 	@Test(/** dependsOnMethods = "createConfigData", **/
-			dataProvider = "winbackNegativeTestType", groups = "negative")
+			dataProvider = "winbackNegativeTestType", groups = {"negative"})
 	public void winbackNegativeTestType(String activityType, String previousSubscriptionState,
 			String currentSubscriptionState, String transactionState, String actionType, Integer subscriptionId,
 			String actionTable, String status) throws Exception {

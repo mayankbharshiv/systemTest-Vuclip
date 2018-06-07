@@ -64,7 +64,7 @@ public class SASActivation_RetryTests {
 
 	}
 
-	@Test(/**dependsOnMethods = "createConfigData",**/ dataProvider = "activationPostiveTestType",groups="P1")
+	@Test(/**dependsOnMethods = "createConfigData",**/ dataProvider = "activationPostiveTestType",groups= {"positive"})
 	public void activationRenewalPositiveRetryTests(String activityType, String currentSubscriptionState,
 			String transactionState, String actionType, String actionTable) throws Exception {
 
@@ -125,7 +125,7 @@ public class SASActivation_RetryTests {
 				{ "ACTIVATION_RETRY", "PARKING", "IN_PROGRESS", "CHARGING", "winback" } };
 	}
 
-	@Test(/**dependsOnMethods = "createConfigData",**/ dataProvider = "activation_RetryNegativeTestType")
+	@Test(/**dependsOnMethods = "createConfigData",**/ dataProvider = "activation_RetryNegativeTestType",groups= {"negative"})
 	public void activation_Retry_NegativeTestType(String activityType, String currentSubscriptionState,
 			String transactionState, String actionType, String actionTable) throws Exception {
 		Integer subscriptionId = (RandomUtils.nextInt(3000, 4000));

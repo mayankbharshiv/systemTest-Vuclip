@@ -45,18 +45,14 @@ public class SASSystemChurnTests {
 	@DataProvider(name = "churnPostiveTestType")
 	public Object[][] churnPostiveTestType() {
 		return new Object[][] {
-				// covered in sasTest { "SYSTEM_CHURN", "ACT_INIT", "DCT_INIT", "FAILURE",
-				// "DEACTIVATE_CONSENT", 101, "SYSTEM_CHURN","OPEN" },
-				// covered in sasTest { "SYSTEM_CHURN", "ACT_INIT", "DCT_INIT", "ERROR",
-				// "DEACTIVATE_CONSENT", 102, "SYSTEM_CHURN","OPEN" },
-				{ "SYSTEM_CHURN", "SUSPEND", "DCT_INIT", "IN_PROGRESS", "DEACTIVATE_CONSENT", 109, "SYSTEM_CHURN",
-						"OPEN" },
+				// covered in sasTest { "SYSTEM_CHURN", "ACT_INIT", "DCT_INIT", "FAILURE","DEACTIVATE_CONSENT", 101, "SYSTEM_CHURN","OPEN" },
+				// covered in sasTest { "SYSTEM_CHURN", "ACT_INIT", "DCT_INIT", "ERROR","DEACTIVATE_CONSENT", 102, "SYSTEM_CHURN","OPEN" },
+			// covered in sasTest { "SYSTEM_CHURN", "SUSPEND", "DCT_INIT", "IN_PROGRESS", "DEACTIVATE_CONSENT", 109, "SYSTEM_CHURN","OPEN" },
 
 		};
 	}
 
-	@Test(/** dependsOnMethods = "createConfigData", **/
-			dataProvider = "churnPostiveTestType")
+	@Test(/** dependsOnMethods = "createConfigData", **/dataProvider = "churnPostiveTestType",groups = {"positive"})
 	public void churnPositiveRetryTests(String activityType, String previousSubscriptionState,
 			String currentSubscriptionState, String transactionState, String actionType, Integer subscriptionId,
 			String actionTable, String status) throws Exception {
@@ -123,8 +119,7 @@ public class SASSystemChurnTests {
 						"OPEN" } };
 	}
 
-	@Test(/** dependsOnMethods = "createConfigData", **/
-			dataProvider = "churnNegativeTestType")
+	@Test(/** dependsOnMethods = "createConfigData", **/dataProvider = "churnNegativeTestType",groups= {"negative"})
 	public void activationNegativeTestType(String activityType, String previousSubscriptionState,
 			String currentSubscriptionState, String transactionState, String actionType, Integer subscriptionId,
 			String actionTable, String status) throws Exception {

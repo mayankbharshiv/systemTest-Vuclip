@@ -71,7 +71,7 @@ public class SASActivationTests {
 
 	}
 
-	@Test(/**dependsOnMethods = "createConfigData",**/ dataProvider = "activationPostiveTestType",groups="P1")
+	@Test(/**dependsOnMethods = "createConfigData",**/ dataProvider = "activationPostiveTestType",groups= {"positive"})
 	public void activationPositiveTest(String activityType, String previousSubscriptionState,
 			String currentSubscriptionState, String transactionState, String actionType, Integer subscriptionId,
 			String actionTable, String status) throws Exception {
@@ -131,7 +131,7 @@ public class SASActivationTests {
 		};
 	}
 
-	@Test(/**dependsOnMethods = "createConfigData",**/ dataProvider = "activationNegativeTestType")
+	@Test(/**dependsOnMethods = "createConfigData",**/ dataProvider = "activationNegativeTestType",groups= {"negative"})
 	public void activationNegativeTest(String activityType, String previousSubscriptionState,
 			String currentSubscriptionState, String transactionState, String actionType, Integer subscriptionId,
 			String actionTable, String status) throws Exception {

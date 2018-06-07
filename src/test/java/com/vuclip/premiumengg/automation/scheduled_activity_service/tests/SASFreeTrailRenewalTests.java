@@ -45,16 +45,15 @@ public class SASFreeTrailRenewalTests {
 	public Object[][] freeTrailRenewalPostiveTestType() {
 		return new Object[][] {
 
-				/*
-				  { "FREETRIAL_RENEWAL", "ACTIVATED", "IN_PROGRESS", "CHARGING", 102, "zero","OPEN" }, 
-				  { "FREETRIAL_RENEWAL", "SUSPEND", "IN_PROGRESS", "CHARGING", 103,"zero","OPEN" }, 
-				  { "FREETRIAL_RENEWAL", "SUSPEND", "NOTIFICATION_WAIT","CHARGING", 104,"zero","OPEN" }, 
-				  { "FREETRIAL_RENEWAL", "ACTIVATED", "NOTIFICATION_WAIT", "CHARGING", 105,"zero","OPEN" },
-				  { "FREETRIAL_RENEWAL","ACTIVATED", "FAILURE", "CHARGING", 110, "zero", "OPEN" }, failed
-				 */
+				
+				// not in develop branch  { "FREETRIAL_RENEWAL", "ACTIVATED", "IN_PROGRESS", "CHARGING", 102, "zero","OPEN" }, 
+			// not in develop branch  { "FREETRIAL_RENEWAL", "SUSPEND", "IN_PROGRESS", "CHARGING", 103,"zero","OPEN" }, 
+			// not in develop branch  { "FREETRIAL_RENEWAL", "SUSPEND", "NOTIFICATION_WAIT","CHARGING", 104,"zero","OPEN" }, 
+			// not in develop branch  { "FREETRIAL_RENEWAL", "ACTIVATED", "NOTIFICATION_WAIT", "CHARGING", 105,"zero","OPEN" },
+				 				 
 				{ "FREETRIAL_RENEWAL", "SUSPEND", "LOW_BALANCE", "CHARGING", 101, "renewal_retry", "OPEN" },
 				{ "FREETRIAL_RENEWAL", "SUSPEND", "ERROR", "CHARGING", 109, "renewal_retry", "OPEN" },
-				{ "FREETRIAL_RENEWAL", "ACTIVATED", "SUCCESS", "CHARGING", 110, "free_trail", "OPEN" },
+				//{ "FREETRIAL_RENEWAL", "ACTIVATED", "SUCCESS", "CHARGING", 110, "free_trail", "OPEN" },
 				{ "FREETRIAL_RENEWAL", "ACTIVATED", "ERROR", "CHARGING", 111, "renewal_retry", "OPEN" },
 				{ "FREETRIAL_RENEWAL", "SUSPEND", "FAILURE", "CHARGING", 112, "renewal_retry", "OPEN" }
 
@@ -62,7 +61,7 @@ public class SASFreeTrailRenewalTests {
 
 	}
 
-	@Test(dataProvider = "freeTrailRenewalPostiveTestType",enabled=false)
+	@Test(dataProvider = "freeTrailRenewalPostiveTestType",groups = {"positive"})
 	public void freeTrailRenewalPositiveRetryTests(String activityType, String currentSubscriptionState,
 			String transactionState, String actionType, Integer subscriptionId, String actionTable, String status)
 			throws Exception {
@@ -131,12 +130,14 @@ public class SASFreeTrailRenewalTests {
 	public Object[][] freeTrailRenewalNegativeTestType() {
 		return new Object[][] {
 			{ "FREETRIAL_RENEWAL", "SUSPEND", "SUCCESS", "CHARGING", 110, "free_trail", "OPEN" },
-			{ "FREETRIAL_RENEWAL", "ACTIVATED", "LOW_BALANCE", "CHARGING", 112, "renewal_retry", "OPEN" }
+			{ "FREETRIAL_RENEWAL", "ACTIVATED", "LOW_BALANCE", "CHARGING", 112, "renewal_retry", "OPEN" },
+			{ "FREETRIAL_RENEWAL","ACTIVATED", "FAILURE", "CHARGING",110,"renewal_retry","OPEN"}, 
+
 
 		};
 	}
 
-	@Test(/**dependsOnMethods = "createConfigData",**/ dataProvider = "freeTrailRenewalNegativeTestType")
+	@Test(/**dependsOnMethods = "createConfigData",**/ dataProvider = "freeTrailRenewalNegativeTestType",groups= {"negative"})
 	public void freeTrailRenewalNegativeTestType(String activityType,
 			String currentSubscriptionState, String transactionState, String actionType, Integer subscriptionId,
 			String actionTable, String status) throws Exception {

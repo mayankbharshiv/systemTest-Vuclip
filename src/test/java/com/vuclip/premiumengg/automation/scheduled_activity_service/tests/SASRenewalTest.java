@@ -76,7 +76,7 @@ public class SASRenewalTest {
 
 	}
 
-	@Test(/**dependsOnMethods = "createConfigData",**/ dataProvider = "renewalPostiveTestType")
+	@Test(/**dependsOnMethods = "createConfigData",**/ dataProvider = "renewalPostiveTestType",groups = {"positive"})
 	public void renewalPositiveTests(String activityType,
 			String currentSubscriptionState, String transactionState, String actionType,
 			String actionTable, String status) throws Exception {
@@ -135,7 +135,7 @@ public class SASRenewalTest {
 						};
 	}
 
-	@Test(/**dependsOnMethods = "createConfigData",**/ dataProvider = "renewalNegativeTestType")
+	@Test(/**dependsOnMethods = "createConfigData",**/ dataProvider = "renewalNegativeTestType",groups= {"negative"})
 	public void renewalNegativeTest(String activityType,
 			String currentSubscriptionState, String transactionState, String actionType,
 			String actionTable, String status)throws Exception {

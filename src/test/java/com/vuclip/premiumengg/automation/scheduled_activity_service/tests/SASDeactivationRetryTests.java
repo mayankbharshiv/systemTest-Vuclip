@@ -66,7 +66,7 @@ public class SASDeactivationRetryTests {
 						"OPEN" } };
 	}
 
-	@Test(/**dependsOnMethods = "createConfigData",**/ dataProvider = "deactivationRetryPositiveTestType")
+	@Test(/**dependsOnMethods = "createConfigData",**/ dataProvider = "deactivationRetryPositiveTestType",groups = {"positive"})
 	public void DeactivationRetryPositiveRetryTests(String activityType, String previousSubscriptionState,
 			String currentSubscriptionState, String transactionState, String actionType, Integer subscriptionId,
 			String actionTable, String status) throws Exception {
@@ -126,7 +126,7 @@ public class SASDeactivationRetryTests {
 						"OPEN" } };
 	}
 
-	@Test(/**dependsOnMethods = "createConfigData",**/ dataProvider = "deactivationRetryNegativeTestType")
+	@Test(/**dependsOnMethods = "createConfigData",**/ dataProvider = "deactivationRetryNegativeTestType",groups= {"negative"})
 	public void DeactivationRetryNegativeTestType(String activityType, String previousSubscriptionState,
 			String currentSubscriptionState, String transactionState, String actionType, Integer subscriptionId,
 			String actionTable, String status) throws Exception {
