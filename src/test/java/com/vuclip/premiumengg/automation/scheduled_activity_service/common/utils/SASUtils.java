@@ -80,4 +80,26 @@ public class SASUtils {
 				{ ActivityType.SYSTEM_CHURN_TYPE }, { ActivityType.WINBACK_TYPE },
 				{ ActivityType.RENEWAL_RETRY_TYPE } };
 	}
+
+	public static PublishConfigRequest changeBatchSize(PublishConfigRequest publishConfigRequest, int batchSize) {
+		for (int i = 0; i < publishConfigRequest.getRetry().size(); i++) {
+			publishConfigRequest.getRetry().get(i).setBatchSize(batchSize);
+		}
+		return publishConfigRequest;
+	}
+
+	public static PublishConfigRequest changeActionDefaultEiligible(PublishConfigRequest publishConfigRequest,
+			Boolean isActionDefaultEiligible) {
+		for (int i = 0; i < publishConfigRequest.getRetry().size(); i++) {
+			publishConfigRequest.getRetry().get(i).setActionDefaultEiligible(isActionDefaultEiligible);
+		}
+		return publishConfigRequest;
+	}
+
+	public static PublishConfigRequest changeRetryCount(PublishConfigRequest publishConfigRequest, int maxRetryCount) {
+		for (int i = 0; i < publishConfigRequest.getRetry().size(); i++) {
+			publishConfigRequest.getRetry().get(i).setMaxRetryCount(maxRetryCount);
+		}
+		return publishConfigRequest;
+	}
 }
