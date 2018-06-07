@@ -59,7 +59,7 @@ public class SASRenewal_RetryTests {
 
 	}
 
-	@Test(/**dependsOnMethods = "createConfigData",**/ dataProvider = "renewalRetryPostiveTestType",groups= {"positive"})
+	@Test(/**dependsOnMethods = "createConfigData",**/ dataProvider = "renewalRetryPostiveTestType",groups= {"pending"})
 	public void activationRenewalPositiveRetryTests(String activityType, String currentSubscriptionState,
 			String transactionState, String actionType, String actionTable) throws Exception {
 
