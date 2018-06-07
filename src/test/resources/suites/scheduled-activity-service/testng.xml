@@ -11,7 +11,7 @@
 			<class name="com.vuclip.premiumengg.automation.scheduled_activity_service.tests.SASDeactivationRetryTests"></class>
 			<class name="com.vuclip.premiumengg.automation.scheduled_activity_service.tests.SASDeactivationTest"></class>
 			<class name="com.vuclip.premiumengg.automation.scheduled_activity_service.tests.SASFreeTrailRenewalTests"></class>
-			<class name="com.vuclip.premiumengg.automation.scheduled_activity_service.tests.SASRenewalTests"></class>
+			<class name="com.vuclip.premiumengg.automation.scheduled_activity_service.tests.SASRenewalTest"></class>
 			<class name="com.vuclip.premiumengg.automation.scheduled_activity_service.tests.SASRenewal_RetryTests"></class>
 			<class name="com.vuclip.premiumengg.automation.scheduled_activity_service.tests.SASSystemChurnTests"></class>
 			<class name="com.vuclip.premiumengg.automation.scheduled_activity_service.tests.SASTest"></class>
