@@ -191,90 +191,8 @@ public class SASTest {
 						"LOW_BALANCE", "WINBACK", "CHARGING", "WINBACK", "PARKING", "LOW_BALANCE", "winback", "OPEN",
 						"IN_PROGRESS", "WINBACK" },
 
-				/* Passed */ { "DEACTIVATE_CONSENT", "SYSTEM_CHURN", "DCT_INIT", "FAILURE", "churn", "OPEN",
-						"IN_PROGRESS", "FAILURE", "SYSTEM_CHURN", "DEACTIVATE_CONSENT", "SYSTEM_CHURN", "DCT_INIT",
-						"FAILURE", "churn", "OPEN", "IN_PROGRESS", "SYSTEM_CHURN" },
 
-				/* Passed */ { "DEACTIVATE_CONSENT", "SYSTEM_CHURN", "DCT_INIT", "FAILURE", "churn", "OPEN",
-						"IN_PROGRESS", "ERROR", "SYSTEM_CHURN", "DEACTIVATE_CONSENT", "SYSTEM_CHURN", "DCT_INIT",
-						"ERROR", "churn", "OPEN", "IN_PROGRESS", "SYSTEM_CHURN" },
-
-				/* Passed */ { "DEACTIVATE_CONSENT", "SYSTEM_CHURN", "DCT_INIT", "IN_PROGRESS", "churn", "OPEN",
-						"IN_PROGRESS", "FAILURE", "SYSTEM_CHURN", "DEACTIVATE_CONSENT", "SYSTEM_CHURN", "DCT_INIT",
-						"FAILURE", "churn", "OPEN", "IN_PROGRESS", "SYSTEM_CHURN" },
-
-				/* Passed */ { "DEACTIVATE_CONSENT", "SYSTEM_CHURN", "DCT_INIT", "IN_PROGRESS", "churn", "OPEN",
-						"IN_PROGRESS", "ERROR", "SYSTEM_CHURN", "DEACTIVATE_CONSENT", "SYSTEM_CHURN", "DCT_INIT",
-						"ERROR", "churn", "OPEN", "IN_PROGRESS", "SYSTEM_CHURN" },
-
-				// To DO test { "CHARGING", "RENEWAL_RETRY", "ACTIVATED", "SUCCESS", "renewal",
-				// "OPEN", "IN_PROGRESS","SUCCESS", "RENEWAL", "CHARGING", "RENEWAL",
-				// "ACTIVATED", "SUCCESS", "renewal", "OPEN","IN_PROGRESS", "RENEWAL" },
-
-				// To DO test { "CHARGING", "RENEWAL_RETRY", "ACTIVATED", "ERROR",
-				// "renewal_retry", "OPEN", "IN_PROGRESS","FAILURE", "RENEWAL_RETRY",
-				// "CHARGING", "RENEWAL_RETRY", "ACTIVATED", "FAILURE", "renewal_retry",
-				// "OPEN","IN_PROGRESS", "RENEWAL_RETRY" },
-
-				// To DO test { "CHARGING", "RENEWAL_RETRY", "ACTIVATED", "ERROR",
-				// "renewal_retry", "OPEN", "IN_PROGRESS","SUCCESS", "RENEWAL_RETRY",
-				// "CHARGING", "RENEWAL_RETRY", "ACTIVATED", "SUCCESS", "renewal",
-				// "OPEN","IN_PROGRESS", "RENEWAL" },
-
-				// To DO test { "CHARGING", "RENEWAL_RETRY", "ACTIVATED", "ERROR",
-				// "renewal_retry", "OPEN", "IN_PROGRESS","ERROR", "RENEWAL_RETRY", "CHARGING",
-				// "RENEWAL_RETRY", "SUSPEND", "ERROR", "renewal", "OPEN","IN_PROGRESS",
-				// "RENEWAL_RETRY" },
-
-				// To DO test { "CHARGING", "RENEWAL_RETRY", "ACTIVATED", "ERROR",
-				// "renewal_retry", "OPEN", "IN_PROGRESS","FAILURE", "RENEWAL_RETRY",
-				// "CHARGING", "RENEWAL_RETRY", "SUSPEND", "FAILURE", "renewal",
-				// "OPEN","IN_PROGRESS", "RENEWAL_RETRY" },
-
-				// To DO test { "CHARGING", "RENEWAL_RETRY", "ACTIVATED", "ERROR",
-				// "renewal_retry", "OPEN", "IN_PROGRESS","LOW_BALANCE", "RENEWAL_RETRY",
-				// "CHARGING", "RENEWAL_RETRY", "SUSPEND", "LOW_BALANCE", "renewal",
-				// "OPEN","IN_PROGRESS", "RENEWAL_RETRY" },
-
-				// To DO test { "CHARGING", "RENEWAL_RETRY", "ACTIVATED", "ERROR",
-				// "renewal_retry", "OPEN", "IN_PROGRESS","IN_PROGRESS", "RENEWAL_RETRY",
-				// "CHARGING", "RENEWAL_RETRY", "SUSPEND", "IN_PROGRESS", "renewal",
-				// "OPEN","IN_PROGRESS", "RENEWAL_RETRY" },
-
-				// To DO test{ "CHARGING", "RENEWAL_RETRY", "ACTIVATED", "FAILURE",
-				// "renewal_retry", "OPEN", "IN_PROGRESS","ERROR", "RENEWAL_RETRY", "CHARGING",
-				// "RENEWAL_RETRY", "ACTIVATED", "ERROR", "renewal_retry", "OPEN","IN_PROGRESS",
-				// "RENEWAL_RETRY" },
-
-				// TO Do { "CHARGING", "FREETRIAL_RENEWAL", "ACTIVATED", "SUCCESS",
-				// "free_trail", "OPEN", "IN_PROGRESS","LOW_BALANCE", "FREETRIAL_RENEWAL",
-				// "CHARGING", "FREETRIAL_RENEWAL", "SUSPEND", "LOW_BALANCE", "renewal_retry",
-				// "OPEN","IN_PROGRESS", "RENEWAL_RETRY" },
-
-				// TO Do { "CHARGING", "FREETRIAL_RENEWAL", "ACTIVATED", "SUCCESS",
-				// "free_trail", "OPEN", "IN_PROGRESS","ERROR", "FREETRIAL_RENEWAL", "CHARGING",
-				// "FREETRIAL_RENEWAL", "SUSPEND", "ERROR", "renewal_retry",
-				// "OPEN","IN_PROGRESS", "RENEWAL_RETRY" },
-
-				// To Do { "CHARGING", "FREETRIAL_RENEWAL", "ACTIVATED", "SUCCESS",
-				// "free_trail", "OPEN", "IN_PROGRESS","FAILURE", "FREETRIAL_RENEWAL",
-				// "CHARGING", "FREETRIAL_RENEWAL", "SUSPEND", "FAILURE", "renewal_retry",
-				// "OPEN","IN_PROGRESS", "RENEWAL_RETRY" },
-
-				// To Do { "CHARGING", "FREETRIAL_RENEWAL", "ACTIVATED", "SUCCESS",
-				// "free_trail", "OPEN", "IN_PROGRESS","ERROR", "FREETRIAL_RENEWAL", "CHARGING",
-				// "FREETRIAL_RENEWAL", "ACTIVATED", "ERROR", "renewal_retry",
-				// "OPEN","IN_PROGRESS", "RENEWAL_RETRY" },
-
-				// TO DO { "CHARGING", "FREETRIAL_RENEWAL", "SUSPEND", "LOW_BALANCE",
-				// "renewal_retry", "OPEN", "IN_PROGRESS","FAILURE", "RENEWAL_RETRY",
-				// "CHARGING", "RENEWAL_RETRY", "ACTIVATED", "FAILURE", "renewal_retry",
-				// "OPEN","IN_PROGRESS", "RENEWAL_RETRY" },
-
-				// TO DO { "CHARGING", "FREETRIAL_RENEWAL", "SUSPEND", "ERROR", "renewal_retry",
-				// "OPEN", "IN_PROGRESS","SUCCESS", "RENEWAL_RETRY", "CHARGING",
-				// "RENEWAL_RETRY", "ACTIVATED", "SUCCESS", "renewal", "OPEN","IN_PROGRESS",
-				// "RENEWAL" },
+				
 
 		};
 	}
@@ -286,27 +204,19 @@ public class SASTest {
 			String afterSchedularStatus, String afteNewEventStatus, String queueName, String newEventActionType,
 			String newActivityType, String newCurrentSubscriptionState, String newTransactionState,
 			String newActionTable, String newBeforeSchedularStatus, String newAfterSchedularStatus, String newQueueName)
-			throws Exception {
+			 {
 
-		UserSubscriptionRequest uSRequest = null;
-		UserSubscriptionRequest newSubscriptionRequest = null;
-		Integer subscriptionId = RandomUtils.nextInt(900, 1000);
+		Integer subscriptionId = RandomUtils.nextInt(58000, 59000);
 		String testMessage = subscriptionId + " " + activityType + " " + currentSubscriptionState + " "
 				+ transactionState + " " + actionTable + " " + newCurrentSubscriptionState + " " + newTransactionState
 				+ " " + newActionTable;
 		logger.info("***************Starting positive activation retry test  [ " + testMessage + " ]");
 
 		try {
-
+			
 			logger.info("=========>First time user subscription event getting trigger");
-
-			uSRequest = SASUtils.generateUserSubscriptionRequest(productId, partnerId, activityType, "",
-					currentSubscriptionState, transactionState, eventActionType, subscriptionId);
-
-			if (activityType == "FREETRIAL_RENEWAL") {
-				uSRequest.getUserInfo().setFreeTrialUser(true);
-			}
-
+			UserSubscriptionRequest uSRequest = SASUtils.generateUserSubscriptionRequest(productId, partnerId,
+					activityType, "", currentSubscriptionState, transactionState, eventActionType, subscriptionId);
 			SASValidationHelper.validate_sas_api_response(sasHelper.userSubscription(uSRequest));
 
 			// String expectedActivityType = SASDBHelper.showAllActivityTableData("FIRST ",
@@ -326,14 +236,8 @@ public class SASTest {
 					.get(0), expectedRecords);
 
 			logger.info("=========>First Event: scheduale call ");
-
-			String activityTypeValue = actionTable;
-			if (actionTable == "churn" || actionTable == "free_trail") {
-				activityTypeValue = activityType;
-			}
-
 			SASValidationHelper.validate_schedular_api_response(
-					sasHelper.scheduler(SASUtils.generateSchedulerRequest(productId, partnerId, activityTypeValue)));
+					sasHelper.scheduler(SASUtils.generateSchedulerRequest(productId, partnerId, actionTable)));
 
 			logger.info("=========>First Event: Vefiry DB After Schedular Call ");
 			expectedRecords.put("status", afterSchedularStatus);
@@ -342,22 +246,18 @@ public class SASTest {
 
 			logger.info("=========>First Event: Queue verification Name: " + productId + "_" + partnerId + "_"
 					+ queueName + "_REQUEST_BACKEND");
-			Message message = RabbitMQConnection.getRabbitTemplate()
-					.receive(productId + "_" + partnerId + "_" + queueName.toUpperCase() + "_REQUEST_BACKEND", 30000);
+			Thread.sleep(1000);
 
+			Message message = RabbitMQConnection.getRabbitTemplate()
+					.receive(productId + "_" + partnerId + "_" + queueName.toUpperCase() + "_REQUEST_BACKEND", 25000);
 			SASValidationHelper.validateQueueMessage(
 					ObjectMapperUtils.readValueFromString(new String(message.getBody()), QueueResponse.class),
-					productId, partnerId, subscriptionId, countryCode, activityTypeValue.toUpperCase());
+					productId, partnerId, subscriptionId, countryCode, actionTable.toUpperCase());
 
 			logger.info("=========>Second time user subscription event getting trigger");
-
-			newSubscriptionRequest = SASUtils.generateUserSubscriptionRequest(productId, partnerId, activityType, "",
-					currentSubscriptionState, transactionState, eventActionType, subscriptionId);
-			if (activityType == "FREETRIAL_RENEWAL") {
-				uSRequest.getUserInfo().setFreeTrialUser(true);
-
-			}
-
+			UserSubscriptionRequest newSubscriptionRequest = SASUtils.generateUserSubscriptionRequest(productId,
+					partnerId, newActivityType.toUpperCase(), currentSubscriptionState, newCurrentSubscriptionState,
+					newTransactionState, newEventActionType, subscriptionId);
 			newSubscriptionRequest.getSubscriptionInfo()
 					.setNextBillingDate(newSubscriptionRequest.getSubscriptionInfo().getNextBillingDate() + 100);
 			newSubscriptionRequest.getActivityEvent()
@@ -389,13 +289,8 @@ public class SASTest {
 					expectedRecords);
 
 			logger.info("=========>Second event: Schedular call");
-			String newActionTableValue = newActionTable;
-			if (newActionTable == "churn" || newActionTable == "free_trail") {
-				newActionTableValue = newActivityType;
-			}
-
 			SASValidationHelper.validate_schedular_api_response(
-					sasHelper.scheduler(SASUtils.generateSchedulerRequest(productId, partnerId, newActionTableValue)));
+					sasHelper.scheduler(SASUtils.generateSchedulerRequest(productId, partnerId, newActionTable)));
 
 			// SASDBHelper.showAllActivityTableData("FOURTH",
 			// String.valueOf(subscriptionId));
@@ -412,14 +307,12 @@ public class SASTest {
 
 			logger.info("=========>Second event: Queue verification " + productId + "_" + partnerId + "_"
 					+ newQueueName.toUpperCase() + "_REQUEST_BACKEND");
+			Thread.sleep(1000);
 			message = RabbitMQConnection.getRabbitTemplate().receive(
 					productId + "_" + partnerId + "_" + newQueueName.toUpperCase() + "_REQUEST_BACKEND", 25000);
-
 			SASValidationHelper.validateQueueMessage(
 					ObjectMapperUtils.readValueFromString(new String(message.getBody()), QueueResponse.class),
-					productId, partnerId, subscriptionId, countryCode, newActionTableValue.toUpperCase());
-
-		} catch (Exception e) {
+					productId, partnerId, subscriptionId, countryCode, newActionTable.toUpperCase());		} catch (Exception e) {
 			logger.info("=========>ERROR due to exception");
 
 			Assert.fail(e.getMessage());

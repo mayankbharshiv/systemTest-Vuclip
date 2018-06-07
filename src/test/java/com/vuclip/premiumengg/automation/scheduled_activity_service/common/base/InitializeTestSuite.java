@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.util.Properties;
 import java.util.Random;
 
+import org.apache.commons.lang3.RandomUtils;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
@@ -58,7 +59,7 @@ public class InitializeTestSuite {
 			Log4J.getLogger().info("Cleanup Database Tables");
 			//SASDBHelper.cleanAllTables(null);
 
-			SASUtils.productId = new Random().nextInt(3000);
+			SASUtils.productId = RandomUtils.nextInt(100000, 200000);
 			SASUtils.productConfig = SASUtils.loadJson("publishConfigVO.json", PublishConfigRequest.class);
 			String jsonString = ObjectMapperUtils.writeValueAsString(SASUtils.productConfig);
 			jsonString=jsonString.replaceAll("1111", String.valueOf(SASUtils.productId));
