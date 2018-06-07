@@ -246,7 +246,6 @@ public class SASTest {
 
 			logger.info("=========>First Event: Queue verification Name: " + productId + "_" + partnerId + "_"
 					+ queueName + "_REQUEST_BACKEND");
-			Thread.sleep(1000);
 
 			Message message = RabbitMQConnection.getRabbitTemplate()
 					.receive(productId + "_" + partnerId + "_" + queueName.toUpperCase() + "_REQUEST_BACKEND", 25000);
@@ -307,7 +306,6 @@ public class SASTest {
 
 			logger.info("=========>Second event: Queue verification " + productId + "_" + partnerId + "_"
 					+ newQueueName.toUpperCase() + "_REQUEST_BACKEND");
-			Thread.sleep(1000);
 			message = RabbitMQConnection.getRabbitTemplate().receive(
 					productId + "_" + partnerId + "_" + newQueueName.toUpperCase() + "_REQUEST_BACKEND", 25000);
 			SASValidationHelper.validateQueueMessage(
