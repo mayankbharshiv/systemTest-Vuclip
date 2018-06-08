@@ -28,7 +28,7 @@ import com.vuclip.premiumengg.automation.utils.ObjectMapperUtils;
  */
 
 public class SASSystemChurnTests {
-	private static Logger logger = Log4J.getLogger("SystemChurnRetryTests");
+	private static Logger logger = Log4J.getLogger("SystemChurnTests");
 	private SASHelper sasHelper;
 	int productId;
 	int partnerId;
@@ -38,30 +38,32 @@ public class SASSystemChurnTests {
 	@BeforeClass(alwaysRun = true)
 	public void setup() throws Exception {
 		sasHelper = new SASHelper();
-		productId = SASUtils.productId;// RandomUtils.nextInt(2000, 3000);
+		productId = SASUtils.productId;
 		partnerId = productId;
 	}
 
-	@DataProvider(name = "churnPostiveTestType")
-	public Object[][] churnPostiveTestType() {
+	@DataProvider(name = "systemChurnPostiveDataProvider")
+	public Object[][] systemChurnPostiveDataProvider() {
 		return new Object[][] {
-				// covered in sasTest { "SYSTEM_CHURN", "ACT_INIT", "DCT_INIT", "FAILURE","DEACTIVATE_CONSENT", 101, "SYSTEM_CHURN","OPEN" },
-				// covered in sasTest { "SYSTEM_CHURN", "ACT_INIT", "DCT_INIT", "ERROR","DEACTIVATE_CONSENT", 102, "SYSTEM_CHURN","OPEN" },
-			// covered in sasTest { "SYSTEM_CHURN", "SUSPEND", "DCT_INIT", "IN_PROGRESS", "DEACTIVATE_CONSENT", 109, "SYSTEM_CHURN","OPEN" },
+				// covered in sasTest { "SYSTEM_CHURN", "ACT_INIT", "DCT_INIT",
+				// "FAILURE","DEACTIVATE_CONSENT", 101, "SYSTEM_CHURN","OPEN" },
+				// covered in sasTest { "SYSTEM_CHURN", "ACT_INIT", "DCT_INIT",
+				// "ERROR","DEACTIVATE_CONSENT", 102, "SYSTEM_CHURN","OPEN" },
+				// covered in sasTest { "SYSTEM_CHURN", "SUSPEND", "DCT_INIT", "IN_PROGRESS",
+				// "DEACTIVATE_CONSENT", 109, "SYSTEM_CHURN","OPEN" },
 
 		};
 	}
 
-	@Test(/** dependsOnMethods = "createConfigData", **/dataProvider = "churnPostiveTestType",groups = {"positive"})
-	public void churnPositiveRetryTests(String activityType, String previousSubscriptionState,
+	@Test(dataProvider = "systemChurnPostiveDataProvider", groups = { "positive" })
+	public void systemChurnPostiveTests(String activityType, String previousSubscriptionState,
 			String currentSubscriptionState, String transactionState, String actionType, Integer subscriptionId,
 			String actionTable, String status) throws Exception {
 
 		subscriptionId = RandomUtils.nextInt(17000, 18000);
-		// SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
 		String testMessage = subscriptionId + " " + activityType + " " + previousSubscriptionState + " "
 				+ currentSubscriptionState + " " + transactionState + " " + actionType;
-		logger.info("==================>Starting positive churn retry test  [ " + testMessage + " ]");
+		logger.info("==================>Starting System Churn Positive Retry test  [ " + testMessage + " ]");
 
 		try {
 
@@ -103,8 +105,8 @@ public class SASSystemChurnTests {
 		}
 	}
 
-	@DataProvider(name = "churnNegativeTestType")
-	public Object[][] churnNegativeTestType() {
+	@DataProvider(name = "systemChurnNegativeDataProvider")
+	public Object[][] systemChurnNegativeDataProvider() {
 		return new Object[][] {
 
 				{ "SYSTEM_CHURN", "PARKING", "DEACTIVATED", "IN_PROGRESS", "DEACTIVATE_CONSENT", 117, "SYSTEM_CHURN",
@@ -119,15 +121,14 @@ public class SASSystemChurnTests {
 						"OPEN" } };
 	}
 
-	@Test(/** dependsOnMethods = "createConfigData", **/dataProvider = "churnNegativeTestType",groups= {"negative"})
-	public void activationNegativeTestType(String activityType, String previousSubscriptionState,
+	@Test(dataProvider = "systemChurnNegativeDataProvider", groups = { "negative" })
+	public void systemChurnNegativeTest(String activityType, String previousSubscriptionState,
 			String currentSubscriptionState, String transactionState, String actionType, Integer subscriptionId,
 			String actionTable, String status) throws Exception {
 		subscriptionId = RandomUtils.nextInt(33000, 34000);
-		// SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
 		String testMessage = subscriptionId + " " + activityType + " " + previousSubscriptionState + " "
 				+ currentSubscriptionState + " " + transactionState + " " + actionType;
-		logger.info("==================>Starting Negative churn retry test  [ " + testMessage + " ]");
+		logger.info("==================>Starting System Churn Negative Retry test  [ " + testMessage + " ]");
 
 		SASValidationHelper.negativeFlow(productId, partnerId, activityType, currentSubscriptionState, transactionState,
 				actionType, subscriptionId);

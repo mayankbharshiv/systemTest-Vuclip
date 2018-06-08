@@ -27,7 +27,7 @@ import com.vuclip.premiumengg.automation.utils.ObjectMapperUtils;
  */
 
 public class SASRenewal_RetryTests {
-	private static Logger logger = Log4J.getLogger("Activation_RetrySASTests");
+	private static Logger logger = Log4J.getLogger("RenewalRetryTests");
 	private SASHelper sasHelper;
 	int productId;
 	int partnerId;
@@ -37,37 +37,35 @@ public class SASRenewal_RetryTests {
 	@BeforeClass(alwaysRun = true)
 	public void setup() throws Exception {
 		sasHelper = new SASHelper();
-		productId = SASUtils.productId;//RandomUtils.nextInt(6000, 7000);
+		productId = SASUtils.productId;
 		partnerId = productId;
 	}
 
-	@DataProvider(name = "renewalRetryPostiveTestType")
-	public Object[][] renewalRetryPostiveTestType() {
+	@DataProvider(name = "renewalRetryPostiveDataProvider")
+	public Object[][] renewalRetryPostiveDataProvider() {
 		return new Object[][] {
 
-			{ "RENEWAL_RETRY", "ACTIVATED", "SUCCESS", "CHARGING", "renewal" },
-			{ "RENEWAL_RETRY", "ACTIVATED", "ERROR", "CHARGING", "renewal_retry" },
-			{ "RENEWAL_RETRY", "ACTIVATED", "FAILURE", "CHARGING", "renewal_retry" },
-			
-			{ "RENEWAL_RETRY", "SUSPEND", "ERROR", "CHARGING", "renewal_retry" },
-			{ "RENEWAL_RETRY", "SUSPEND", "FAILURE", "CHARGING", "renewal_retry" },
-//	NOT IN DEVELOP BRANCH{ "RENEWAL_RETRY", "SUSPEND", "NOTIFICATION_WAIT", "CHARGING", "renewal" },
-			{ "RENEWAL_RETRY", "SUSPEND", "LOW_BALANCE", "CHARGING", "renewal_retry" },
-			{ "RENEWAL_RETRY", "SUSPEND", "IN_PROGRESS", "CHARGING", "renewal_retry" },
-				
-		};
+				{ "RENEWAL_RETRY", "ACTIVATED", "SUCCESS", "CHARGING", "renewal" },
+				{ "RENEWAL_RETRY", "ACTIVATED", "ERROR", "CHARGING", "renewal_retry" },
+				{ "RENEWAL_RETRY", "ACTIVATED", "FAILURE", "CHARGING", "renewal_retry" },
+				{ "RENEWAL_RETRY", "SUSPEND", "ERROR", "CHARGING", "renewal_retry" },
+				{ "RENEWAL_RETRY", "SUSPEND", "FAILURE", "CHARGING", "renewal_retry" },
+				{ "RENEWAL_RETRY", "SUSPEND", "LOW_BALANCE", "CHARGING", "renewal_retry" },
+				{ "RENEWAL_RETRY", "SUSPEND", "IN_PROGRESS", "CHARGING", "renewal_retry" },
 
+				// NOT IN DEVELOP BRANCH{ "RENEWAL_RETRY", "SUSPEND", "NOTIFICATION_WAIT",
+				// "CHARGING", "renewal" },
+		};
 	}
 
-	@Test(/**dependsOnMethods = "createConfigData",**/ dataProvider = "renewalRetryPostiveTestType",groups= {"pending"})
-	public void activationRenewalPositiveRetryTests(String activityType, String currentSubscriptionState,
-			String transactionState, String actionType, String actionTable) throws Exception {
+	@Test(dataProvider = "renewalRetryPostiveDataProvider", groups = { "pending" })
+	public void renewalRetryPostiveTests(String activityType, String currentSubscriptionState, String transactionState,
+			String actionType, String actionTable) throws Exception {
 
 		Integer subscriptionId = RandomUtils.nextInt(1000, 2000);
-		// //SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
 		String testMessage = "" + productId + " " + partnerId + " " + subscriptionId + " " + activityType + " " + " "
 				+ currentSubscriptionState + " " + transactionState + " " + actionType;
-		logger.info("==================>Starting positive activation retry test  [ " + testMessage + " ]");
+		logger.info("==================>Starting Renewal Retry Positive test  [ " + testMessage + " ]");
 
 		try {
 
@@ -75,8 +73,8 @@ public class SASRenewal_RetryTests {
 					sasHelper.userSubscription(SASUtils.generateUserSubscriptionRequest(productId, partnerId,
 							activityType, "", currentSubscriptionState, transactionState, actionType, subscriptionId)));
 
-			/*test */SASDBHelper.showAllActivityTableData("BEFORE ",String.valueOf(subscriptionId));
-			
+			/* test */SASDBHelper.showAllActivityTableData("BEFORE ", String.valueOf(subscriptionId));
+
 			Map<String, String> expectedRecords = new HashMap<String, String>();
 			expectedRecords.put("status", "OPEN");
 			expectedRecords.put("product_id", String.valueOf(productId));
@@ -105,29 +103,26 @@ public class SASRenewal_RetryTests {
 			e.printStackTrace();
 		}
 	}
-	
-	@DataProvider(name = "renewalRetryNegativeTestType")
-	public Object[][] renewalRetryNegativeTestType() {
-		return new Object[][] {
-		{ "RENEWAL_RETRY", "ACTIVATED", "LOW_BALANCE", "CHARGING", "renewal" },
-		{ "RENEWAL_RETRY", "ACTIVATED", "IN_PROGRESS", "CHARGING", "renewal" },
-		{ "RENEWAL_RETRY", "SUSPEND", "SUCCESS", "CHARGING", "renewal" },
+
+	@DataProvider(name = "renewalRetryNegativeDataProvider")
+	public Object[][] renewalRetryNegativeDataProvider() {
+		return new Object[][] { { "RENEWAL_RETRY", "ACTIVATED", "LOW_BALANCE", "CHARGING", "renewal" },
+				{ "RENEWAL_RETRY", "ACTIVATED", "IN_PROGRESS", "CHARGING", "renewal" },
+				{ "RENEWAL_RETRY", "SUSPEND", "SUCCESS", "CHARGING", "renewal" },
 
 		};
 	}
 
-	@Test(/**dependsOnMethods = "createConfigData",**/ dataProvider = "renewalRetryNegativeTestType",groups= {"negative"})
-	public void renewalRetryNegativeTestType(String activityType, String currentSubscriptionState, String transactionState, String actionType,
-			String actionTable) throws Exception {
+	@Test(dataProvider = "renewalRetryNegativeDataProvider", groups = { "negative" })
+	public void renewalRetryNegativeTestType(String activityType, String currentSubscriptionState,
+			String transactionState, String actionType, String actionTable) throws Exception {
 		Integer subscriptionId = RandomUtils.nextInt(13000, 14000);
-		// SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
-		String testMessage = subscriptionId + " " + activityType + " " + " "
-				+ currentSubscriptionState + " " + transactionState + " " + actionType;
-		logger.info("==================>Starting Negative free Trail Renewal retry test  [ " + testMessage + " ]");
-		SASValidationHelper.negativeFlow(productId,partnerId, activityType, currentSubscriptionState, transactionState,
+		String testMessage = subscriptionId + " " + activityType + " " + " " + currentSubscriptionState + " "
+				+ transactionState + " " + actionType;
+		logger.info("==================>Starting Renewal Retry Negative Retry test  [ " + testMessage + " ]");
+		SASValidationHelper.negativeFlow(productId, partnerId, activityType, currentSubscriptionState, transactionState,
 				actionType, subscriptionId);
 
 	}
-
 
 }

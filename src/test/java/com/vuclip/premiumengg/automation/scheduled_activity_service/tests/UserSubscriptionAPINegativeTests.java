@@ -17,7 +17,7 @@ import com.vuclip.premiumengg.automation.utils.ObjectMapperUtils;
 
 public class UserSubscriptionAPINegativeTests {
 
-	private static Logger logger = Log4J.getLogger("UserSubscriptionApiFieldsValidationTests");
+	private static Logger logger = Log4J.getLogger("UserSubscriptionApiTests");
 	private SASHelper sasHelper;
 	int productId;
 	int partnerId;
@@ -25,12 +25,12 @@ public class UserSubscriptionAPINegativeTests {
 	@BeforeClass(alwaysRun = true)
 	public void setup() throws Exception {
 		sasHelper = new SASHelper();
-		productId =  RandomUtils.nextInt(78000, 78900);
+		productId = RandomUtils.nextInt(78000, 78900);
 		partnerId = productId;
 	}
 
-	@DataProvider(name = "invalidUserSubscriptionFields")
-	public Object[][] invalidUserSubscriptionFields() {
+	@DataProvider(name = "userSubscriptionInvaildValuesDataProvider")
+	public Object[][] userSubscriptionInvaildValuesDataProvider() {
 		return new Object[][] {
 				{ "ACTIVATION", "ACT_INIT", "ACT_INIT", null, "CHARGING", 108, "activation", productId, partnerId },
 				{ "ACTIVATION", "ACT_INIT", "PARKING", "LOW_BALANCE", null, 111, "winback", productId, partnerId },
@@ -44,16 +44,15 @@ public class UserSubscriptionAPINegativeTests {
 
 	}
 
-	@Test(dataProvider = "invalidUserSubscriptionFields",groups= {"positive"})
-	public void invalidUserSubscriptionFieldsValidation(String activityType, String previousSubscriptionState,
+	@Test(dataProvider = "userSubscriptionInvaildValuesDataProvider", groups = { "positive" })
+	public void userSubscriptionInvaildValuesTest(String activityType, String previousSubscriptionState,
 			String currentSubscriptionState, String transactionState, String actionType, Integer subscriptionId,
 			String actionTable, Integer userProductId, Integer userPartnerId) throws Exception {
 
 		subscriptionId = RandomUtils.nextInt(100, 200);
-		// SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
 		String testMessage = subscriptionId + " " + activityType + " " + previousSubscriptionState + " "
 				+ currentSubscriptionState + " " + transactionState + " " + actionType;
-		logger.info("==================>Starting user subscription invalid field values test  [ " + testMessage + " ]");
+		logger.info("==================>Starting user subscription invalid values test  [ " + testMessage + " ]");
 
 		try {
 
@@ -67,8 +66,8 @@ public class UserSubscriptionAPINegativeTests {
 		}
 	}
 
-	@DataProvider(name = "missingUserSubscriptionFields")
-	public Object[][] missingUserSubscriptionFields() {
+	@DataProvider(name = "userSubscriptionMissingFieldsDataProvider")
+	public Object[][] userSubscriptionMissingFieldsDataProvider() {
 		return new Object[][] { { "activityType" }, { "actionType" }, { "productId" }, { "partnerId" },
 				{ "transactionState" },
 				// bug exist{"currentSubscriptionState"}
@@ -76,8 +75,8 @@ public class UserSubscriptionAPINegativeTests {
 
 	}
 
-	@Test(dataProvider = "missingUserSubscriptionFields",groups= {"positive"})
-	public void missingUserSubscriptionFieldsValidation(String jsonElement) throws Exception {
+	@Test(dataProvider = "userSubscriptionMissingFieldsDataProvider", groups = { "positive" })
+	public void userSubscriptionMissingFieldsTest(String jsonElement) throws Exception {
 		String jsonString;
 		String activityType = "WINBACK";
 		String previousSubscriptionState = "PARKING";
@@ -85,24 +84,23 @@ public class UserSubscriptionAPINegativeTests {
 		String transactionState = "SUCCESS";
 		String actionType = "CHARGING";
 		Integer subscriptionId = RandomUtils.nextInt(100, 200);
-		// SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
 		String testMessage = subscriptionId + " " + activityType + " " + previousSubscriptionState + " "
 				+ currentSubscriptionState + " " + transactionState + " " + actionType;
-		logger.info("==================>Starting user subscription missing values test  [ " + testMessage + " ]");
+		logger.info("==================>Starting user subscription missing fields tests  [ " + testMessage + " ]");
 
 		try {
 			UserSubscriptionRequest userSubscriptionRequest = SASUtils.generateUserSubscriptionRequest(productId,
 					partnerId, activityType, previousSubscriptionState, currentSubscriptionState, transactionState,
 					actionType, subscriptionId);
-			if (jsonElement == "productId" || jsonElement == "partnerId") {
-				jsonString = JsonHelper.remove(UserSubscriptionRequest.class, userSubscriptionRequest, "activityEvent",
-						jsonElement);
-				jsonString = JsonHelper.remove(UserSubscriptionRequest.class, userSubscriptionRequest,
-						"subscriptionInfo", jsonElement);
 
-			} else if (jsonElement == "transactionState") {
+			if (jsonElement.equals("productId") || jsonElement.equals("partnerId")
+					|| (jsonElement.equals("transactionState"))) {
 				jsonString = JsonHelper.remove(UserSubscriptionRequest.class, userSubscriptionRequest, "activityEvent",
 						jsonElement);
+				if (jsonElement.equals("productId") || jsonElement.equals("partnerId")) {
+					jsonString = JsonHelper.remove(UserSubscriptionRequest.class, userSubscriptionRequest,
+							"subscriptionInfo", jsonElement);
+				}
 
 			}
 
