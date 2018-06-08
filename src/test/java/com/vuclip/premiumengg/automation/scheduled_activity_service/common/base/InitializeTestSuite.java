@@ -59,7 +59,7 @@ public class InitializeTestSuite {
 			Log4J.getLogger().info("Cleanup Database Tables");
 			//SASDBHelper.cleanAllTables(null);
 
-			SASUtils.productId = RandomUtils.nextInt(100000, 200000);
+			SASUtils.productId = RandomUtils.nextInt(200000, 201000);
 			SASUtils.productConfig = SASUtils.loadJson("publishConfigVO.json", PublishConfigRequest.class);
 			String jsonString = ObjectMapperUtils.writeValueAsString(SASUtils.productConfig);
 			jsonString=jsonString.replaceAll("1111", String.valueOf(SASUtils.productId));
