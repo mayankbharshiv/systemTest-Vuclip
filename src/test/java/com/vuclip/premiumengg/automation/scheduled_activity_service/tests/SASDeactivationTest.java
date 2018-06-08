@@ -60,7 +60,7 @@ public class SASDeactivationTest {
 
 		try {
 			String schedulerActivity = actionTable;
-			String queueName = actionTable;
+			String queueName = actionTable.toUpperCase();
 			SASUtils.executeActivityFlow(productId, partnerId, subscriptionId, countryCode, eventActionType,
 					activityType, currentSubscriptionState, transactionState, actionTable, schedulerActivity, "OPEN",
 					"IN_PROGRESS", queueName);
