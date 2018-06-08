@@ -16,7 +16,7 @@ import com.vuclip.premiumengg.automation.utils.JsonHelper;
 import com.vuclip.premiumengg.automation.utils.ObjectMapperUtils;
 
 public class SchedulerAPINegativeTests {
-	private static Logger logger = Log4J.getLogger("SchedulerApiFieldsValidation");
+	private static Logger logger = Log4J.getLogger("SchedulerApiTest");
 	private SASHelper sasHelper;
 	int productId;
 	int partnerId;
@@ -36,27 +36,26 @@ public class SchedulerAPINegativeTests {
 		partnerId = productId;
 	}
 
-	@DataProvider(name = "schedulerApiInvalidfieldValues")
-	public Object[][] schedulerApiInvalidfieldValues() {
-		return new Object[][] { // bug{ 0, 0, countryCode,"RENEWAL" },
+	@DataProvider(name = "schedulerApiInvalidFieldValuesDataProvider")
+	public Object[][] schedulerApiInvalidFieldValuesDataProvider() {
+		return new Object[][] {
+				// bug{ 0, 0, countryCode,"RENEWAL" },
 				{ 0, 0, null, null },
 				// bug{ productId, 0, countryCode,"RENEWAL" },
 				{ partnerId, productId, countryCode, null },
-				//bug { 0, partnerId, countryCode,"RENEWAL" },
-				//bug { partnerId, productId, null,"RENEWAL" },
+				// bug { 0, partnerId, countryCode,"RENEWAL" },
+				// bug { partnerId, productId, null,"RENEWAL" },
 
 		};
 	}
 
-	@Test(dataProvider = "schedulerApiInvalidfieldValues",groups= {"positive"})
-	public void schedulerApiInvalidFieldsValidation(Integer sproductId, Integer spartnerId, String scountryCode,
+	@Test(dataProvider = "schedulerApiInvalidFieldValuesDataProvider", groups = { "positive" })
+	public void schedulerApiInvalidFieldValuesTest(Integer sproductId, Integer spartnerId, String scountryCode,
 			String sactivityType) throws Exception {
 		subscriptionId = RandomUtils.nextInt(100, 200);
-		// SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
 		String testMessage = subscriptionId + " " + activityType + " " + previousSubscriptionState + " "
 				+ currentSubscriptionState + " " + transactionState + " " + actionType;
-		logger.info(
-				"==================>Starting scheduler api invalid fields validation test  [ " + testMessage + " ]");
+		logger.info("==================>Starting scheduler api invalid fields values test  [ " + testMessage + " ]");
 
 		try {
 
@@ -76,19 +75,18 @@ public class SchedulerAPINegativeTests {
 		}
 	}
 
-	@DataProvider(name = "schedulerApiMissingFields")
-	public Object[][] schedulerApiMissingFields() {
-		return new Object[][] { //bug{ "productId" },
-			//bug{ "partnerId" },
-			//bug{ "country" }
-			{ "activityType" }
-		};
+	@DataProvider(name = "schedulerApiMissingFieldsDataProvider")
+	public Object[][] schedulerApiMissingFieldsDataProvider() {
+		return new Object[][] {
+				// bug{ "productId" },
+				// bug{ "partnerId" },
+				// bug{ "country" }
+				{ "activityType" } };
 	}
 
-	@Test(dataProvider = "schedulerApiMissingFields",groups= {"positive"})
+	@Test(dataProvider = "schedulerApiMissingFieldsDataProvider", groups = { "positive" })
 	public void schedulerApiMissingFieldsValidation(String jsonElement) throws Exception {
 		subscriptionId = RandomUtils.nextInt(100, 200);
-		// SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
 		String testMessage = subscriptionId + " " + activityType + " " + previousSubscriptionState + " "
 				+ currentSubscriptionState + " " + transactionState + " " + actionType;
 		logger.info("==================>Starting scheduler api missing fields test  [ " + testMessage + " ]");
@@ -107,5 +105,5 @@ public class SchedulerAPINegativeTests {
 		} catch (Exception e) {
 			Assert.fail(e.toString());
 		}
-	}}
-
+	}
+}

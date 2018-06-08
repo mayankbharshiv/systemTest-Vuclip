@@ -24,12 +24,11 @@ import com.vuclip.premiumengg.automation.utils.ObjectMapperUtils;
 
 /**
  * 
- * @author rahul.sahu
+ * @author mayank.bharshiv
  *
  */
-
 public class SASSystemChurnSuccessTest {
-	private static Logger logger = Log4J.getLogger("SASTest ETE");
+	private static Logger logger = Log4J.getLogger("SystemChurnSuccessTest");
 	private SASHelper sasHelper;
 	int productId;
 	int partnerId;
@@ -39,38 +38,35 @@ public class SASSystemChurnSuccessTest {
 	@BeforeClass(alwaysRun = true)
 	public void setup() throws Exception {
 		sasHelper = new SASHelper();
-		productId = SASUtils.productId;// RandomUtils.nextInt(2000, 3000);
+		productId = SASUtils.productId;
 		partnerId = productId;
 	}
 
-
-	@DataProvider(name = "activationPostiveTestType")
-	public Object[][] activationPostiveTestType() {
+	@DataProvider(name = "systemChurnSuccessPositiveDataProvider")
+	public Object[][] systemChurnSuccessPositiveDataProvider() {
 		return new Object[][] {
-				/*
-				 * FORMAT
-				 * { "eventActionType", "activityType", "currentSubscriptionState",
-				 * "transactionState", "actionTable", "beforeSchedularStatus",
-				 * "afterSchedularStatus", "afteNewEventStatus", "queueName",
-				 * "newEventActionType", "newActivityType", "newCurrentSubscriptionState",
-				 * "newTransactionState", "newActionTable", "newBeforeSchedularStatus",
-				 * "newAfterSchedularStatus", "newQueueName" },
-				 */
 
-        	/*Passed*/	{ "DEACTIVATE_CONSENT", "SYSTEM_CHURN", "DCT_INIT", "FAILURE", "churn", "OPEN", "IN_PROGRESS","FAILURE", "SYSTEM_CHURN", "DEACTIVATE_CONSENT", "SYSTEM_CHURN", "DCT_INIT", "FAILURE", "churn","OPEN", "IN_PROGRESS", "SYSTEM_CHURN" },
-				
-			/*Passed*/	{ "DEACTIVATE_CONSENT", "SYSTEM_CHURN", "DCT_INIT", "FAILURE", "churn", "OPEN", "IN_PROGRESS", "ERROR","SYSTEM_CHURN", "DEACTIVATE_CONSENT", "SYSTEM_CHURN", "DCT_INIT", "ERROR", "churn", "OPEN","IN_PROGRESS", "SYSTEM_CHURN" },
-			
-			/*Passed*/ { "DEACTIVATE_CONSENT", "SYSTEM_CHURN", "DCT_INIT", "IN_PROGRESS", "churn", "OPEN", "IN_PROGRESS", "FAILURE","SYSTEM_CHURN", "DEACTIVATE_CONSENT", "SYSTEM_CHURN", "DCT_INIT", "FAILURE", "churn", "OPEN","IN_PROGRESS", "SYSTEM_CHURN" },
-			
-			/*Passed*/	{ "DEACTIVATE_CONSENT", "SYSTEM_CHURN", "DCT_INIT", "IN_PROGRESS", "churn", "OPEN", "IN_PROGRESS", "ERROR","SYSTEM_CHURN", "DEACTIVATE_CONSENT", "SYSTEM_CHURN", "DCT_INIT", "ERROR", "churn", "OPEN","IN_PROGRESS", "SYSTEM_CHURN" },
-		
+				/* Passed */ { "DEACTIVATE_CONSENT", "SYSTEM_CHURN", "DCT_INIT", "FAILURE", "churn", "OPEN",
+						"IN_PROGRESS", "FAILURE", "SYSTEM_CHURN", "DEACTIVATE_CONSENT", "SYSTEM_CHURN", "DCT_INIT",
+						"FAILURE", "churn", "OPEN", "IN_PROGRESS", "SYSTEM_CHURN" },
+
+				/* Passed */ { "DEACTIVATE_CONSENT", "SYSTEM_CHURN", "DCT_INIT", "FAILURE", "churn", "OPEN",
+						"IN_PROGRESS", "ERROR", "SYSTEM_CHURN", "DEACTIVATE_CONSENT", "SYSTEM_CHURN", "DCT_INIT",
+						"ERROR", "churn", "OPEN", "IN_PROGRESS", "SYSTEM_CHURN" },
+
+				/* Passed */ { "DEACTIVATE_CONSENT", "SYSTEM_CHURN", "DCT_INIT", "IN_PROGRESS", "churn", "OPEN",
+						"IN_PROGRESS", "FAILURE", "SYSTEM_CHURN", "DEACTIVATE_CONSENT", "SYSTEM_CHURN", "DCT_INIT",
+						"FAILURE", "churn", "OPEN", "IN_PROGRESS", "SYSTEM_CHURN" },
+
+				/* Passed */ { "DEACTIVATE_CONSENT", "SYSTEM_CHURN", "DCT_INIT", "IN_PROGRESS", "churn", "OPEN",
+						"IN_PROGRESS", "ERROR", "SYSTEM_CHURN", "DEACTIVATE_CONSENT", "SYSTEM_CHURN", "DCT_INIT",
+						"ERROR", "churn", "OPEN", "IN_PROGRESS", "SYSTEM_CHURN" },
+
 		};
 	}
 
-
-		@Test(/** dependsOnMethods = "createConfigData", **/dataProvider = "activationPostiveTestType",groups = {"positive"})
-	public void activationPositiveRetryTests(String eventActionType, String activityType,
+	@Test(dataProvider = "systemChurnSuccessPositiveDataProvider", groups = { "positive" })
+	public void systemChurnSuccessPositiveTests(String eventActionType, String activityType,
 			String currentSubscriptionState, String transactionState, String actionTable, String beforeSchedularStatus,
 			String afterSchedularStatus, String afteNewEventStatus, String queueName, String newEventActionType,
 			String newActivityType, String newCurrentSubscriptionState, String newTransactionState,
@@ -81,7 +77,7 @@ public class SASSystemChurnSuccessTest {
 		String testMessage = subscriptionId + " " + activityType + " " + currentSubscriptionState + " "
 				+ transactionState + " " + actionTable + " " + newCurrentSubscriptionState + " " + newTransactionState
 				+ " " + newActionTable;
-		logger.info("***************Starting positive activation retry test  [ " + testMessage + " ]");
+		logger.info("***************Starting System Churn Two Flows Positive Retry test  [ " + testMessage + " ]");
 
 		try {
 
@@ -90,8 +86,6 @@ public class SASSystemChurnSuccessTest {
 					activityType, "", currentSubscriptionState, transactionState, eventActionType, subscriptionId);
 			SASValidationHelper.validate_sas_api_response(sasHelper.userSubscription(uSRequest));
 
-			// String expectedActivityType = SASDBHelper.showAllActivityTableData("FIRST ",
-			// String.valueOf(subscriptionId));
 			logger.info("=========>First event: Verify DB after event trigger");
 
 			Map<String, String> expectedRecords = new HashMap<String, String>();
@@ -101,17 +95,16 @@ public class SASSystemChurnSuccessTest {
 			expectedRecords.put("subscription_id", String.valueOf(subscriptionId));
 			expectedRecords.put("country_code", countryCode);
 			expectedRecords.put("date", String.valueOf(uSRequest.getSubscriptionInfo().getNextBillingDate()));
-			
+
 			SASValidationHelper.validateTableRecord(DBUtils.getRecord(actionTable,
 					"subscription_id = " + subscriptionId + " and product_id = " + productId + " and partner_id="
 							+ partnerId + " and date=" + uSRequest.getSubscriptionInfo().getNextBillingDate())
 					.get(0), expectedRecords);
 
-			logger.info("=========>First Event: scheduale call ");
-			
-				SASValidationHelper.validate_schedular_api_response(
-						sasHelper.scheduler(SASUtils.generateSchedulerRequest(productId, partnerId, activityType)));
-			
+			logger.info("=========>First Event: schedular call ");
+
+			SASValidationHelper.validate_schedular_api_response(
+					sasHelper.scheduler(SASUtils.generateSchedulerRequest(productId, partnerId, activityType)));
 
 			logger.info("=========>First Event: Vefiry DB After Schedular Call ");
 			expectedRecords.put("status", afterSchedularStatus);
@@ -122,11 +115,10 @@ public class SASSystemChurnSuccessTest {
 					+ queueName + "_REQUEST_BACKEND");
 			Message message = RabbitMQConnection.getRabbitTemplate()
 					.receive(productId + "_" + partnerId + "_" + queueName.toUpperCase() + "_REQUEST_BACKEND", 25000);
-			
-				SASValidationHelper.validateQueueMessage(
-						ObjectMapperUtils.readValueFromString(new String(message.getBody()), QueueResponse.class),
-						productId, partnerId, subscriptionId, countryCode, activityType);
-			
+
+			SASValidationHelper.validateQueueMessage(
+					ObjectMapperUtils.readValueFromString(new String(message.getBody()), QueueResponse.class),
+					productId, partnerId, subscriptionId, countryCode, activityType);
 
 			logger.info("=========>Second time user subscription event getting trigger");
 			UserSubscriptionRequest newSubscriptionRequest = SASUtils.generateUserSubscriptionRequest(productId,
@@ -138,9 +130,6 @@ public class SASSystemChurnSuccessTest {
 					.setNextBillingDate(newSubscriptionRequest.getActivityEvent().getNextBillingDate() + 100);
 
 			SASValidationHelper.validate_sas_api_response(sasHelper.userSubscription(newSubscriptionRequest));
-
-			// SASDBHelper.showAllActivityTableData("THIRD",
-			// String.valueOf(subscriptionId));
 
 			logger.info("=========>Second event: previous Event's DB verification");
 			expectedRecords.put("status", afteNewEventStatus);
@@ -163,12 +152,9 @@ public class SASSystemChurnSuccessTest {
 					expectedRecords);
 
 			logger.info("=========>Second event: Schedular call");
-			
-				SASValidationHelper.validate_schedular_api_response(
-						sasHelper.scheduler(SASUtils.generateSchedulerRequest(productId, partnerId, activityType)));
-	
-			// SASDBHelper.showAllActivityTableData("FOURTH",
-			// String.valueOf(subscriptionId));
+
+			SASValidationHelper.validate_schedular_api_response(
+					sasHelper.scheduler(SASUtils.generateSchedulerRequest(productId, partnerId, activityType)));
 
 			logger.info("=========>Second event: DB verification after schedular call");
 			expectedRecords.put("status", newAfterSchedularStatus);
@@ -184,10 +170,10 @@ public class SASSystemChurnSuccessTest {
 					+ newQueueName.toUpperCase() + "_REQUEST_BACKEND");
 			message = RabbitMQConnection.getRabbitTemplate().receive(
 					productId + "_" + partnerId + "_" + newQueueName.toUpperCase() + "_REQUEST_BACKEND", 25000);
-			
-				SASValidationHelper.validateQueueMessage(
-						ObjectMapperUtils.readValueFromString(new String(message.getBody()), QueueResponse.class),
-						productId, partnerId, subscriptionId, countryCode, newActivityType);
+
+			SASValidationHelper.validateQueueMessage(
+					ObjectMapperUtils.readValueFromString(new String(message.getBody()), QueueResponse.class),
+					productId, partnerId, subscriptionId, countryCode, newActivityType);
 		} catch (Exception e) {
 			logger.info("=========>ERROR due to exception");
 
