@@ -12,6 +12,7 @@
         <parallelType>methods</parallelType>
         <threads>1</threads>
         <serviceName>billing-package-service</serviceName>
+        <profileName>ci</profileName>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
@@ -197,7 +198,7 @@
                         </propertiesFile>
                     </systemPropertyVariables>
                     <suiteXmlFiles>
-                        <file>src/test/resources/suites/${serviceName}/testng.xml</file>
+                        <file>src/test/resources/suites/${serviceName}/testng-${profileName}.xml</file>
                     </suiteXmlFiles>
                     <properties>
                         <property>
