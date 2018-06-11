@@ -1,4 +1,3 @@
-
 package com.vuclip.premiumengg.automation.scheduled_activity_service.common.models;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -7,8 +6,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "action",
-    "flowType"
+        "action",
+        "flowType"
 })
 public class PublishAction {
 
@@ -19,13 +18,11 @@ public class PublishAction {
 
     /**
      * No args constructor for use in serialization
-     * 
      */
     public PublishAction() {
     }
 
     /**
-     * 
      * @param flowType
      * @param action
      */

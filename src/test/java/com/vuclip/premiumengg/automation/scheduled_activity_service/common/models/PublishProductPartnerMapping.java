@@ -1,4 +1,3 @@
-
 package com.vuclip.premiumengg.automation.scheduled_activity_service.common.models;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -7,21 +6,21 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "productId",
-    "partnerId",
-    "chargingDependOnSmsDelivery",
-    "optOutSmsEnabled",
-    "preRenewalSmsEnabled",
-    "partnerConsentParserEndpoint",
-    "partnerConsentUrlGenerationEndpoint",
-    "dateFormat",
-    "validityFromPartner",
-    "blacklistValidity",
-    "cooldownApplicable",
-    "cooldownValidity",
-    "timeUnit",
-    "stepUpChargingApplicable",
-    "allowedFreeTrialCount"
+        "productId",
+        "partnerId",
+        "chargingDependOnSmsDelivery",
+        "optOutSmsEnabled",
+        "preRenewalSmsEnabled",
+        "partnerConsentParserEndpoint",
+        "partnerConsentUrlGenerationEndpoint",
+        "dateFormat",
+        "validityFromPartner",
+        "blacklistValidity",
+        "cooldownApplicable",
+        "cooldownValidity",
+        "timeUnit",
+        "stepUpChargingApplicable",
+        "allowedFreeTrialCount"
 })
 public class PublishProductPartnerMapping {
 
@@ -58,13 +57,11 @@ public class PublishProductPartnerMapping {
 
     /**
      * No args constructor for use in serialization
-     * 
      */
     public PublishProductPartnerMapping() {
     }
 
     /**
-     * 
      * @param partnerConsentParserEndpoint
      * @param partnerId
      * @param chargingDependOnSmsDelivery

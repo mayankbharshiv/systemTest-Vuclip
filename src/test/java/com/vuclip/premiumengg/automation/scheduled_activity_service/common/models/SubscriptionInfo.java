@@ -1,36 +1,35 @@
-
 package com.vuclip.premiumengg.automation.scheduled_activity_service.common.models;
-
-import java.math.BigInteger;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+import java.math.BigInteger;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "subscriptionId",
-    "subscriptionStatus",
-    "startDate",
-    "endDate",
-    "activationDate",
-    "deactivationDate",
-    "subscriptionBillingCode",
-    "chargedBillingCode",
-    "fallbackBillingCode",
-    "mode",
-    "circleCode",
-    "customerTransactionId",
-    "chargedPrice",
-    "partnerId",
-    "productId",
-    "itemId",
-    "itemTypeId",
-    "nextBillingDate",
-    "serviceId",
-    "isDelayed",
-    "paid",
-    "country"
+        "subscriptionId",
+        "subscriptionStatus",
+        "startDate",
+        "endDate",
+        "activationDate",
+        "deactivationDate",
+        "subscriptionBillingCode",
+        "chargedBillingCode",
+        "fallbackBillingCode",
+        "mode",
+        "circleCode",
+        "customerTransactionId",
+        "chargedPrice",
+        "partnerId",
+        "productId",
+        "itemId",
+        "itemTypeId",
+        "nextBillingDate",
+        "serviceId",
+        "isDelayed",
+        "paid",
+        "country"
 })
 public class SubscriptionInfo {
 
@@ -81,13 +80,11 @@ public class SubscriptionInfo {
 
     /**
      * No args constructor for use in serialization
-     * 
      */
     public SubscriptionInfo() {
     }
 
     /**
-     * 
      * @param chargedPrice
      * @param startDate
      * @param partnerId

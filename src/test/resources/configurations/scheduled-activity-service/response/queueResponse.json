@@ -1,8 +1,8 @@
 {
-	"productId": null,
-	"partnerId": null,
-	"countryCode": "",
-	"activitType": "",
-	"subscriptionId": null,
-	"attemptNumber": null
+  "productId": null,
+  "partnerId": null,
+  "countryCode": "",
+  "activitType": "",
+  "subscriptionId": null,
+  "attemptNumber": null
 }

@@ -1,4 +1,3 @@
-
 package com.vuclip.premiumengg.automation.scheduled_activity_service.common.models;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -7,11 +6,11 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "eventInfo",
-    "userInfo",
-    "activityInfo",
-    "subscriptionInfo",
-    "activityEvent"
+        "eventInfo",
+        "userInfo",
+        "activityInfo",
+        "subscriptionInfo",
+        "activityEvent"
 })
 public class UserSubscriptionRequest {
 
@@ -28,13 +27,11 @@ public class UserSubscriptionRequest {
 
     /**
      * No args constructor for use in serialization
-     * 
      */
     public UserSubscriptionRequest() {
     }
 
     /**
-     * 
      * @param activityInfo
      * @param eventInfo
      * @param subscriptionInfo

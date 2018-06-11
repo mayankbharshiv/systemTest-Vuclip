@@ -1,15 +1,15 @@
-
 package com.vuclip.premiumengg.automation.scheduled_activity_service.common.models;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+import java.util.List;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "productId",
-    "countries"
+        "productId",
+        "countries"
 })
 public class PublishProductCountryMapping {
 
@@ -20,13 +20,11 @@ public class PublishProductCountryMapping {
 
     /**
      * No args constructor for use in serialization
-     * 
      */
     public PublishProductCountryMapping() {
     }
 
     /**
-     * 
      * @param countries
      * @param productId
      */

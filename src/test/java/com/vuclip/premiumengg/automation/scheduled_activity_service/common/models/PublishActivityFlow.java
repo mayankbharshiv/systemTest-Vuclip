@@ -1,18 +1,18 @@
-
 package com.vuclip.premiumengg.automation.scheduled_activity_service.common.models;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+import java.util.List;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "name",
-    "billingPackageId",
-    "partnerId",
-    "mode",
-    "actions"
+        "name",
+        "billingPackageId",
+        "partnerId",
+        "mode",
+        "actions"
 })
 public class PublishActivityFlow {
 
@@ -29,13 +29,11 @@ public class PublishActivityFlow {
 
     /**
      * No args constructor for use in serialization
-     * 
      */
     public PublishActivityFlow() {
     }
 
     /**
-     * 
      * @param billingPackageId
      * @param name
      * @param partnerId

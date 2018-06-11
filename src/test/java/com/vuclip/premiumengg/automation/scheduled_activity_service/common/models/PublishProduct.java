@@ -1,4 +1,3 @@
-
 package com.vuclip.premiumengg.automation.scheduled_activity_service.common.models;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -7,19 +6,19 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "productId",
-    "productName",
-    "productType",
-    "url",
-    "context",
-    "cassId",
-    "encryptionEnable",
-    "encryptionValidityInMinutes",
-    "callbackUrl",
-    "consentCancelUrl",
-    "errorUrl",
-    "description",
-    "status"
+        "productId",
+        "productName",
+        "productType",
+        "url",
+        "context",
+        "cassId",
+        "encryptionEnable",
+        "encryptionValidityInMinutes",
+        "callbackUrl",
+        "consentCancelUrl",
+        "errorUrl",
+        "description",
+        "status"
 })
 public class PublishProduct {
 
@@ -52,13 +51,11 @@ public class PublishProduct {
 
     /**
      * No args constructor for use in serialization
-     * 
      */
     public PublishProduct() {
     }
 
     /**
-     * 
      * @param callbackUrl
      * @param status
      * @param description

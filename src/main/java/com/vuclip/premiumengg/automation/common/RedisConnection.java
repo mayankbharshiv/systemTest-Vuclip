@@ -11,25 +11,25 @@ import java.util.Set;
  */
 public class RedisConnection {
 
-	private static JedisCluster redisConnection;
+    private static JedisCluster redisConnection;
 
-	private RedisConnection() {
-	}
+    private RedisConnection() {
+    }
 
-	public static JedisCluster getRedisConnection() {
-		if (redisConnection == null) {
-			String redisHosts = Configuration.redisServers;
-			System.out.println("Redis Hosts: " + redisHosts);
-			String[] servers = redisHosts.split(",");
-			Set<HostAndPort> jedisClusterNodes = new HashSet<HostAndPort>();
-			for (String server : servers) {
-				String[] hosts = server.split(":");
-				String host = hosts[0];
-				String port = hosts[1];
-				jedisClusterNodes.add(new HostAndPort(host, Integer.parseInt(port)));
-			}
-			RedisConnection.redisConnection = new JedisCluster(jedisClusterNodes);
-		}
-		return redisConnection;
-	}
+    public static JedisCluster getRedisConnection() {
+        if (redisConnection == null) {
+            String redisHosts = Configuration.redisServers;
+            System.out.println("Redis Hosts: " + redisHosts);
+            String[] servers = redisHosts.split(",");
+            Set<HostAndPort> jedisClusterNodes = new HashSet<HostAndPort>();
+            for (String server : servers) {
+                String[] hosts = server.split(":");
+                String host = hosts[0];
+                String port = hosts[1];
+                jedisClusterNodes.add(new HostAndPort(host, Integer.parseInt(port)));
+            }
+            RedisConnection.redisConnection = new JedisCluster(jedisClusterNodes);
+        }
+        return redisConnection;
+    }
 }

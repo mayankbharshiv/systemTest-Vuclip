@@ -20,9 +20,9 @@ public class JsonHelper {
 
         return jo.toString();
     }
-    
-    
-    public static <T> String remove(Class<T> type, T jsonObject,String objName, String jsonElement) {
+
+
+    public static <T> String remove(Class<T> type, T jsonObject, String objName, String jsonElement) {
 
         String jObj = new GsonBuilder().create().toJson(jsonObject, type);
         JsonParser jsonParser = new JsonParser();
@@ -31,8 +31,6 @@ public class JsonHelper {
         jo.getAsJsonObject(objName).remove(jsonElement);
         return jo.toString();
     }
-    
-    
-    
+
 
 }

@@ -1,4 +1,3 @@
-
 package com.vuclip.premiumengg.automation.scheduled_activity_service.common.models;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -7,8 +6,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "logTime",
-    "eventId"
+        "logTime",
+        "eventId"
 })
 public class EventInfo {
 
@@ -19,13 +18,11 @@ public class EventInfo {
 
     /**
      * No args constructor for use in serialization
-     * 
      */
     public EventInfo() {
     }
 
     /**
-     * 
      * @param eventId
      * @param logTime
      */

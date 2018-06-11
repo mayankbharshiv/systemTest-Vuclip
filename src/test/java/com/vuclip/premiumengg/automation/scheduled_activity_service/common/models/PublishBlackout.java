@@ -1,4 +1,3 @@
-
 package com.vuclip.premiumengg.automation.scheduled_activity_service.common.models;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -7,10 +6,10 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "productId",
-    "partnerId",
-    "countryCode",
-    "blackoutWindow"
+        "productId",
+        "partnerId",
+        "countryCode",
+        "blackoutWindow"
 })
 public class PublishBlackout {
 
@@ -25,13 +24,11 @@ public class PublishBlackout {
 
     /**
      * No args constructor for use in serialization
-     * 
      */
     public PublishBlackout() {
     }
 
     /**
-     * 
      * @param blackoutWindow
      * @param countryCode
      * @param partnerId
