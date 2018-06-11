@@ -41,6 +41,7 @@ public class SASDeactivationTest {
 				// "DEACTIVATE_CONSENT", 123, "deactivation" },
 				// covered in sasTest{ "DEACTIVATION", "ACT_INIT", "DCT_INIT", "ERROR",
 				// "DEACTIVATE_CONSENT", 111, "deactivation" },
+			{ "DEACTIVATION", "SUSPEND", "DCT_INIT", "IN_PROGRESS", "DEACTIVATE_CONSENT", 111, "deactivation" },
 
 		};
 
@@ -76,7 +77,6 @@ public class SASDeactivationTest {
 	public Object[][] deactivationNegativeDataProvider() {
 		return new Object[][] {
 				{ "DEACTIVATION", "SUSPEND", "DCT_INIT", "CONFIRMED", "DEACTIVATE_CONSENT", 111, "deactivation" },
-				{ "DEACTIVATION", "SUSPEND", "DCT_INIT", "IN_PROGRESS", "DEACTIVATE_CONSENT", 111, "deactivation" },
 				{ "DEACTIVATION", "PARKING", "DCT_INIT", "NOTIFICATION_WAIT", "DEACTIVATE_CONSENT", 111,
 						"deactivation" },
 				{ "DEACTIVATION", "PARKING", "DEACTIVATION", "SUCCESS", "DEACTIVATE_CONSENT", 111, "deactivation" },

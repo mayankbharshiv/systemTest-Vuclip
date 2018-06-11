@@ -1,5 +1,6 @@
 package com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils;
 
+import java.math.BigInteger;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
@@ -83,7 +84,7 @@ public class SASValidationHelper {
 					"Verify activity type");
 	}
 
-	public static void verifyNoActivityRecordPresent(int productId, int partnerId, Integer subscriptionId, long date) {
+	public static void verifyNoActivityRecordPresent(int productId, int partnerId, Integer subscriptionId, BigInteger date) {
 		List<String> tables = Stream.of(SASTables.values()).map(Enum::name).collect(Collectors.toList());
 		for (String tableName : tables) {
 			try {

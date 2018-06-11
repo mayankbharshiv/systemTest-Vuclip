@@ -1,5 +1,6 @@
 package com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils;
 
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,6 +14,7 @@ import com.vuclip.premiumengg.automation.scheduled_activity_service.common.model
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.PublishConfigRequest;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.SchedulerRequest;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.UserSubscriptionRequest;
+import com.vuclip.premiumengg.automation.utils.AppAssert;
 import com.vuclip.premiumengg.automation.utils.DBUtils;
 import com.vuclip.premiumengg.automation.utils.ObjectMapperUtils;
 
@@ -168,9 +170,9 @@ public class SASUtils {
 				newActivityType.toUpperCase(), currentSubscriptionState, newCurrentSubscriptionState,
 				newTransactionState, newEventActionType, subscriptionId);
 		newSubscriptionRequest.getSubscriptionInfo()
-				.setNextBillingDate(newSubscriptionRequest.getSubscriptionInfo().getNextBillingDate() + 100);
+				.setNextBillingDate(DateTimeUtil.getDateByAddingValidity(newSubscriptionRequest.getSubscriptionInfo().getNextBillingDate(), 1, TimeUnitEnum.DAY.name()));
 		newSubscriptionRequest.getActivityEvent()
-				.setNextBillingDate(newSubscriptionRequest.getActivityEvent().getNextBillingDate() + 100);
+		.setNextBillingDate(DateTimeUtil.getDateByAddingValidity(newSubscriptionRequest.getActivityEvent().getNextBillingDate(), 1, TimeUnitEnum.DAY.name()));
 
 		SASValidationHelper.validate_sas_api_response(sasHelper.userSubscription(newSubscriptionRequest));
 
@@ -216,12 +218,13 @@ public class SASUtils {
 				partnerId, subscriptionId, countryCode, newActionTable.toUpperCase());
 	}
 
-	public static void executeActivityFlow(Integer productId, Integer partnerId, int subscriptionId,
-			String countryCode, String eventActionType, String activityType, String currentSubscriptionState,
-			String transactionState, String actionTable,String schedulerActivity, String beforeSchedularStatus, String afterSchedularStatus,String queueName) throws Exception {
-		
+	public static void executeActivityFlow(Integer productId, Integer partnerId, int subscriptionId, String countryCode,
+			String eventActionType, String activityType, String currentSubscriptionState, String transactionState,
+			String actionTable, String schedulerActivity, String beforeSchedularStatus, String afterSchedularStatus,
+			String queueName) throws Exception {
+
 		SASHelper sasHelper = new SASHelper();
-		
+
 		SASValidationHelper.validate_sas_api_response(
 				sasHelper.userSubscription(SASUtils.generateUserSubscriptionRequest(productId, partnerId, activityType,
 						"", currentSubscriptionState, transactionState, eventActionType, subscriptionId)));
@@ -251,9 +254,47 @@ public class SASUtils {
 				ObjectMapperUtils.readValueFromString(new String(message.getBody()), QueueResponse.class), productId,
 				partnerId, subscriptionId, countryCode, actionTable.toUpperCase());
 	}
-	
-	public static String getTestLogMessage(Integer productId, int subscriptionId, String actionType, String activityType, String currentSubscriptionState, String transactionState) {
-		return "Product ID: "+ productId+", subscription ID: "+subscriptionId + ", Activity Type: " + activityType + ", CSS:  " + currentSubscriptionState + ", Transaction State: "
-				+ transactionState + ", Event Type: " + actionType;
+
+	public static String getTestLogMessage(Integer productId, int subscriptionId, String actionType,
+			String activityType, String currentSubscriptionState, String transactionState) {
+		return "Product ID: " + productId + ", subscription ID: " + subscriptionId + ", Activity Type: " + activityType
+				+ ", CSS:  " + currentSubscriptionState + ", Transaction State: " + transactionState + ", Event Type: "
+				+ actionType;
 	}
+
+	public static void executeUserSubscription(Integer productId, Integer partnerId, int subscriptionId,
+			String countryCode, String eventActionType, String activityType, String currentSubscriptionState,
+			String transactionState, BigInteger endDate, BigInteger nBD, String actionTable, String status) throws Exception {
+
+		SASHelper sasHelper = new SASHelper();
+		UserSubscriptionRequest userSubscriptionRequest = SASUtils.generateUserSubscriptionRequest(productId, partnerId,
+				activityType, "", currentSubscriptionState, transactionState, eventActionType, subscriptionId);
+		userSubscriptionRequest.getSubscriptionInfo().setEndDate(endDate);
+		userSubscriptionRequest.getSubscriptionInfo().setNextBillingDate(nBD);
+		SASValidationHelper.validate_sas_api_response(sasHelper.userSubscription(userSubscriptionRequest));
+
+		Map<String, String> expectedRecords = new HashMap<String, String>();
+		expectedRecords.put("status", status);
+		expectedRecords.put("product_id", String.valueOf(productId));
+		expectedRecords.put("partner_id", String.valueOf(partnerId));
+		expectedRecords.put("subscription_id", String.valueOf(subscriptionId));
+		expectedRecords.put("country_code", countryCode);
+		expectedRecords.put("date", countryCode);
+
+		AppAssert.assertEqual(
+				DBUtils.getRecords(actionTable,
+						"subscription_id = " + subscriptionId + " and product_id = " + productId + " and partner_id="
+								+ partnerId + " and country_code='" + countryCode + "' and date=" + nBD+" and status='"+status+"'")
+						.size(),
+				1, "Verify record exists");
+
+	}
+	public static void executescheduler(Integer productId, Integer partnerId, String schedulerActivity) throws Exception {
+		SASHelper sasHelper = new SASHelper();
+
+		SASValidationHelper.validate_schedular_api_response(
+				sasHelper.scheduler(SASUtils.generateSchedulerRequest(productId, partnerId, schedulerActivity)));
+
+	}
+
 }

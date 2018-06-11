@@ -3,7 +3,6 @@ package com.vuclip.premiumengg.automation.scheduled_activity_service.common.base
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.Properties;
-import java.util.Random;
 
 import org.apache.commons.lang3.RandomUtils;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
@@ -16,7 +15,6 @@ import com.vuclip.premiumengg.automation.common.JDBCTemplate;
 import com.vuclip.premiumengg.automation.common.Log4J;
 import com.vuclip.premiumengg.automation.common.RabbitMQConnection;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.PublishConfigRequest;
-import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASDBHelper;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASHelper;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASUtils;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASValidationHelper;
