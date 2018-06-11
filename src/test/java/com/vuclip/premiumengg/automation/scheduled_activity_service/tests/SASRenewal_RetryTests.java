@@ -58,7 +58,7 @@ public class SASRenewal_RetryTests {
 		};
 	}
 
-	@Test(dataProvider = "renewalRetryPostiveDataProvider", groups = { "pending" })
+	@Test(dataProvider = "renewalRetryPostiveDataProvider", groups = { "positive" })
 	public void renewalRetryPostiveTests(String activityType, String currentSubscriptionState, String transactionState,
 			String actionType, String actionTable) throws Exception {
 
