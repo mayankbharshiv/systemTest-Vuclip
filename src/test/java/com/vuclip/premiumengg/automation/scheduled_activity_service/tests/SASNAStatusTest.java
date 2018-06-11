@@ -52,7 +52,7 @@ public class SASNAStatusTest {
 
     }
 
-    @Test(dataProvider = "sASNAStatusTestProvider", groups = {"positive"})
+    @Test(dataProvider = "sASNAStatusTestProvider", groups = {"negative"})
     public void statusNATests(String activityType, String currentSubscriptionState, String transactionState,
                               String eventActionType, String actionTable) throws Exception {
 
@@ -69,8 +69,8 @@ public class SASNAStatusTest {
 
             SASUtils.executeUserSubscription(productId, partnerId, subscriptionId, countryCode, eventActionType,
                     activityType, currentSubscriptionState, transactionState, endDate, nBD, actionTable, "OPEN");
-            BigInteger nBD1 = DateTimeUtil.getDateBySubtractingValidity(DateTimeUtil.getCurrentDateInGMT(), 20, TimeUnitEnum.DAY.name());
-
+            
+            BigInteger nBD1 = DateTimeUtil.getDateBySubtractingValidity(DateTimeUtil.getCurrentDateInGMT(), 22, TimeUnitEnum.DAY.name());
             SASUtils.executeUserSubscription(productId, partnerId, subscriptionId, countryCode, eventActionType,
                     activityType, currentSubscriptionState, transactionState, endDate, nBD1, actionTable, "OPEN");
 
