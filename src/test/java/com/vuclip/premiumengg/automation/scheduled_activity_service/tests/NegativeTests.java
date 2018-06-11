@@ -97,7 +97,7 @@ public class NegativeTests {
         String actionType = "CHARGING";
         String actionTable = "renewal";
 
-        int productId = RandomUtils.nextInt(92000, 92500);
+        int productId = RandomUtils.nextInt(88500, 88600);
         int partnerId = productId;
 
         PublishConfigRequest publishConfigRequest = SASUtils.loadJson("publishConfigVO.json",
@@ -138,21 +138,21 @@ public class NegativeTests {
                     .size(), 1, "Verify record created");
 
             SASValidationHelper.validate_schedular_api_response(
-                    sasHelper.scheduler(SASUtils.generateSchedulerRequest(productId, partnerId, actionTable)));
+                    sasHelper.scheduler(SASUtils.generateSchedulerRequest(productId, partnerId, "RENEWAL")));
+         
             List<Map<String, Object>> records = DBUtils.getRecords(actionTable, " product_id = " + productId
                     + " and partner_id=" + partnerId + " and date=" + nBD + " and country_code='" + countryCode + "'");
 
-            AppAssert.assertEqual(records.size(), 2, "Verify tow record present");
+            AppAssert.assertEqual(records.size(), 2, "Verify two record present");
 
-            boolean isInProgress = false, isOpen = false;
+            boolean /*isInProgress = false,*/ isOpen = false;
             for (Map<String, Object> map : records) {
-                if (map.get("status").toString().equalsIgnoreCase("IN_PROGRESS"))
-                    isInProgress = true;
+            	isOpen = false;
+            	System.out.println(map.get("status").toString());
                 if (map.get("status").toString().equalsIgnoreCase("OPEN"))
                     isOpen = true;
 
             }
-            AppAssert.assertTrue(isInProgress, "One in process record present");
             AppAssert.assertTrue(isOpen, "One Open record present");
 
         } catch (Exception e) {
