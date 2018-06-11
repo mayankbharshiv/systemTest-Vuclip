@@ -105,7 +105,7 @@ public class NegativeTests {
         String jsonString = ObjectMapperUtils.writeValueAsString(publishConfigRequest);
         jsonString = jsonString.replaceAll("1111", String.valueOf(productId));
         publishConfigRequest = ObjectMapperUtils.readValueFromString(jsonString, PublishConfigRequest.class);
-        SASUtils.changeBatchSize(publishConfigRequest, 1);
+        publishConfigRequest= SASUtils.changeBatchSize(publishConfigRequest, 1);
         SASValidationHelper.validate_sas_api_response(new SASHelper().saveProduct(publishConfigRequest));
 
         Integer subscriptionId = RandomUtils.nextInt(92000, 92500);
