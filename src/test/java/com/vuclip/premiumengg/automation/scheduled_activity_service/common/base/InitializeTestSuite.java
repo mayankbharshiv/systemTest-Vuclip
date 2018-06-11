@@ -1,14 +1,5 @@
 package com.vuclip.premiumengg.automation.scheduled_activity_service.common.base;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.util.Properties;
-
-import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeSuite;
-import org.testng.annotations.Test;
-
 import com.vuclip.premiumengg.automation.common.Configuration;
 import com.vuclip.premiumengg.automation.common.JDBCTemplate;
 import com.vuclip.premiumengg.automation.common.Log4J;
@@ -20,6 +11,14 @@ import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASUtils;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASValidationHelper;
 import com.vuclip.premiumengg.automation.utils.ObjectMapperUtils;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.Test;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.Properties;
 
 /**
  * @author Rahul Sahu
