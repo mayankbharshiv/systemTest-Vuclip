@@ -38,7 +38,7 @@ public class SASDeactivationTest {
                 // "DEACTIVATE_CONSENT", 123, "deactivation" },
                 // covered in sasTest{ "DEACTIVATION", "ACT_INIT", "DCT_INIT", "ERROR",
                 // "DEACTIVATE_CONSENT", 111, "deactivation" },
-                {"DEACTIVATION", "SUSPEND", "DCT_INIT", "IN_PROGRESS", "DEACTIVATE_CONSENT", 111, "deactivation"},
+                
 
         };
 
@@ -64,7 +64,7 @@ public class SASDeactivationTest {
                     "IN_PROGRESS", queueName);
 
         } catch (Exception e) {
-            logger.error("activationPositiveTest Failed");
+            logger.error("deactivationPositiveTest Failed");
             e.printStackTrace();
             AppAssert.assertTrue(false);
         }
@@ -84,7 +84,7 @@ public class SASDeactivationTest {
                 {"DEACTIVATION", "SUSPEND", "DEACTIVATED", "IN_PROGRESS", "DEACTIVATE_CONSENT", 111, "deactivation"},
                 {"DEACTIVATION", "PARKING", "DEACTIVATED", "NOTIFICATION_WAIT", "DEACTIVATE_CONSENT", 111,
                         "deactivation"},
-
+                {"DEACTIVATION","SUSPEND", "DCT_INIT", "IN_PROGRESS", "DEACTIVATE_CONSENT", 111, "deactivation"},
                 {"DEACTIVATION", "SUSPEND", "DCT_INIT", "SUCCESS", "DEACTIVATE_CONSENT", 111, "deactivation"},
 
         };
