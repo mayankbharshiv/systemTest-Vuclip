@@ -14,6 +14,7 @@ import com.vuclip.premiumengg.automation.common.JDBCTemplate;
 import com.vuclip.premiumengg.automation.common.Log4J;
 import com.vuclip.premiumengg.automation.common.RabbitMQConnection;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.PublishConfigRequest;
+import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASDBHelper;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASHelper;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASUtils;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASValidationHelper;
@@ -54,7 +55,7 @@ public class InitializeTestSuite {
 
             RabbitMQConnection.getRabbitTemplate().setMessageConverter(new Jackson2JsonMessageConverter());
             Log4J.getLogger().info("Cleanup Database Tables");
-           // SASDBHelper.cleanAllTables(null);
+            SASDBHelper.cleanAllTables(null);
 
 			SASUtils.productId = 1234567;
 			SASUtils.productConfig = SASUtils.loadJson("publishConfigVO.json", PublishConfigRequest.class);
