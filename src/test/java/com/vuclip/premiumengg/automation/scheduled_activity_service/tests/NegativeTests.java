@@ -41,15 +41,17 @@ public class NegativeTests {
         String actionType = "CHARGING";
         String actionTable = "renewal";
 
-        int productId = RandomUtils.nextInt(91000, 91500);
+        int productId = SASUtils.productId;
         int partnerId = productId;
 
-        PublishConfigRequest publishConfigRequest = SASUtils.loadJson("publishConfigVO.json",
-                PublishConfigRequest.class);
-        String jsonString = ObjectMapperUtils.writeValueAsString(publishConfigRequest);
-        jsonString = jsonString.replaceAll("1111", String.valueOf(productId));
-        publishConfigRequest = ObjectMapperUtils.readValueFromString(jsonString, PublishConfigRequest.class);
-        SASValidationHelper.validate_sas_api_response(new SASHelper().saveProduct(publishConfigRequest));
+//        PublishConfigRequest publishConfigRequest = SASUtils.productConfig;
+//        PublishConfigRequest publishConfigRequest = SASUtils.loadJson("publishConfigVO.json",
+//                PublishConfigRequest.class);
+//        String jsonString = ObjectMapperUtils.writeValueAsString(publishConfigRequest);
+//        jsonString = jsonString.replaceAll("1111", String.valueOf(productId));
+//        publishConfigRequest = ObjectMapperUtils.readValueFromString(jsonString, PublishConfigRequest.class);
+//        
+//        SASValidationHelper.validate_sas_api_response(new SASHelper().saveProduct(publishConfigRequest));
 
         Integer subscriptionId = RandomUtils.nextInt(91000, 91500);
 
