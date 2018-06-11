@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
+import com.vuclip.premiumengg.automation.common.Log4J;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -17,57 +18,61 @@ public class ObjectMapperUtils {
     private static ObjectMapper objectMapper = new ObjectMapper();
 
     /**
+     * Json file to java pojo conversion
+     *
      * @param filepath
      * @param returnType
      * @param <T>
      * @return
      */
     public static <T> T readValue(String filepath, Class<T> returnType) {
-        System.out.println("*** filepath: " + filepath);
+        Log4J.getLogger().debug("*** filepath: " + filepath);
         try {
             File f = new File(filepath);
-            System.out.println("Is File object is Null : " + (f == null) + "");
+            Log4J.getLogger().debug("Is File object is Null : " + (f == null) + "");
             return objectMapper.readValue(f, returnType);
         } catch (UnrecognizedPropertyException e) {
-            System.out.println("UnrecognizedPropertyException occurs : In JSON  ");
-            System.out.println(e.getMessage());
+            Log4J.getLogger().debug("UnrecognizedPropertyException occurs : In JSON  ");
+            Log4J.getLogger().debug(e.getMessage());
         } catch (JsonParseException e) {
-            System.out.println("JsonParseException occurs ");
-            System.out.println(e.getMessage());
+            Log4J.getLogger().debug("JsonParseException occurs ");
+            Log4J.getLogger().debug(e.getMessage());
         } catch (JsonMappingException e) {
-            System.out.println("JsonMappingException occurs ");
-            System.out.println(e.getMessage());
+            Log4J.getLogger().debug("JsonMappingException occurs ");
+            Log4J.getLogger().debug(e.getMessage());
         } catch (IOException e) {
 
-            System.out.println("IOException occurs ");
-            System.out.println(e.getMessage());
+            Log4J.getLogger().debug("IOException occurs ");
+            Log4J.getLogger().debug(e.getMessage());
         }
 
         return null;
     }
 
     /**
-     * @param jsonObject
+     * Json String to Java pojo conversion
+     *
+     * @param jsonString
      * @param returnType
      * @param <T>
      * @return
      */
-    public static <T> T readValueFromString(String jsonObject, Class<T> returnType) {
+    public static <T> T readValueFromString(String jsonString, Class<T> returnType) {
         try {
-            return objectMapper.readValue(jsonObject, returnType);
+            return objectMapper.readValue(jsonString, returnType);
         } catch (UnrecognizedPropertyException e) {
-            System.out.println("UnrecognizedPropertyException occurs  in JSON " + jsonObject);
-            System.out.println(e.getMessage());
+            Log4J.getLogger().debug("UnrecognizedPropertyException occurs  in JSON " + jsonString);
+            Log4J.getLogger().debug(e.getMessage());
         } catch (JsonParseException e) {
-            System.out.println("JsonParseException occurs In JSON " + jsonObject);
-            System.out.println(e.getMessage());
+            Log4J.getLogger().debug("JsonParseException occurs In JSON " + jsonString);
+            Log4J.getLogger().debug(e.getMessage());
         } catch (JsonMappingException e) {
-            System.out.println("JsonMappingException occurs In JSON" + jsonObject);
-            System.out.println(e.getMessage());
+            Log4J.getLogger().debug("JsonMappingException occurs In JSON" + jsonString);
+            Log4J.getLogger().debug(e.getMessage());
         } catch (IOException e) {
 
-            System.out.println("IOException occurs   " + jsonObject);
-            System.out.println(e.getMessage());
+            Log4J.getLogger().debug("IOException occurs   " + jsonString);
+            Log4J.getLogger().debug(e.getMessage());
         }
 
         return null;
@@ -84,7 +89,7 @@ public class ObjectMapperUtils {
         try {
             s = objectMapper.writeValueAsString(value);
         } catch (JsonProcessingException e) {
-            System.out.println(e.getMessage());
+            Log4J.getLogger().debug(e.getMessage());
         }
         return s;
     }
@@ -98,13 +103,13 @@ public class ObjectMapperUtils {
 
         File f = new File(filepath);
 
-        System.out.println("Is File object is Null : " + (f == null) + "");
+        Log4J.getLogger().debug("Is File object is Null : " + (f == null) + "");
         try {
 
             objectMapper.writeValue(f, value);
             return true;
         } catch (JsonProcessingException e) {
-            System.out.println(e.getMessage());
+            Log4J.getLogger().debug(e.getMessage());
             return false;
         } catch (IOException e) {
             e.printStackTrace();
@@ -128,7 +133,7 @@ public class ObjectMapperUtils {
             jaxbMarshaller.marshal(obj, sw);
             output = sw.toString();
         } catch (JAXBException jb) {
-            System.out.println("Error occured while marshalling object to xml {}" + jb.getMessage());
+            Log4J.getLogger().debug("Error occured while marshalling object to xml {}" + jb.getMessage());
         }
 
         return output;

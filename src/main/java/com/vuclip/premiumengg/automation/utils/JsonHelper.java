@@ -17,7 +17,20 @@ public class JsonHelper {
         JsonParser jsonParser = new JsonParser();
         JsonObject jo = (JsonObject) jsonParser.parse(jObj);
         jo.remove(jsonElement);
-        return jo.getAsString();
+
+        return jo.toString();
     }
+
+
+    public static <T> String remove(Class<T> type, T jsonObject, String objName, String jsonElement) {
+
+        String jObj = new GsonBuilder().create().toJson(jsonObject, type);
+        JsonParser jsonParser = new JsonParser();
+        JsonObject jo = (JsonObject) jsonParser.parse(jObj);
+//        jo.remove(jsonElement);
+        jo.getAsJsonObject(objName).remove(jsonElement);
+        return jo.toString();
+    }
+
 
 }

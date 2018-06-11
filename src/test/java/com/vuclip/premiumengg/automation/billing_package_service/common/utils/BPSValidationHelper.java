@@ -22,7 +22,8 @@ public class BPSValidationHelper {
      * @throws Exception
      */
     public void validate_billing_response(Response billingResponse, BillingResponse responseType) throws Exception {
-        Assert.assertEquals(billingResponse.getBody().jsonPath().getInt("responseCode"), responseType.getResponseCode());
+        Assert.assertEquals(billingResponse.getBody().jsonPath().getInt("responseCode"),
+                responseType.getResponseCode());
         Assert.assertEquals(billingResponse.getBody().jsonPath().getString("message"), responseType.getMessage());
         Assert.assertEquals(billingResponse.getBody().jsonPath().getBoolean("successful"), responseType.isSuccessful());
     }
@@ -31,10 +32,11 @@ public class BPSValidationHelper {
      * @param billingResponse
      * @throws Exception
      */
-    public void validate_billing_packages(Response billingResponse, BillingPackage billingPackage, String rootNode) throws Exception {
+    public void validate_billing_packages(Response billingResponse, BillingPackage billingPackage, String rootNode)
+            throws Exception {
         JsonPath billingPackages = new JsonPath(billingResponse.asString());
         billingPackages.setRoot(rootNode);
-        Map billingPack = billingPackages.get(getFindQuery(billingPackage.getProductId()));
+        Map<?, ?> billingPack = billingPackages.get(getFindQuery(billingPackage.getProductId()));
         Assert.assertEquals(billingPackage.getProductName(), billingPack.get("productName"));
         Assert.assertEquals(billingPackage.getPartnerId(), billingPack.get("partnerId"));
         Assert.assertEquals(billingPackage.getBillingCode(), billingPack.get("billingCode"));
@@ -47,14 +49,14 @@ public class BPSValidationHelper {
      * @throws Exception
      */
     public void validate_billing_package(Response billingResponse, BillingPackage billingPackage) throws Exception {
-        Assert.assertEquals(billingResponse.getBody().jsonPath()
-                .getInt("billingPackage.productId"), billingPackage.getProductId());
-        Assert.assertEquals(billingResponse.getBody().jsonPath()
-                .getString("billingPackage.productName"), billingPackage.getProductName());
-        Assert.assertEquals(billingResponse.getBody().jsonPath()
-                .getInt("billingPackage.partnerId"), billingPackage.getPartnerId());
-        Assert.assertEquals(billingResponse.getBody().jsonPath()
-                .getString("billingPackage.billingCode"), billingPackage.getBillingCode());
+        Assert.assertEquals(billingResponse.getBody().jsonPath().getInt("billingPackage.productId"),
+                billingPackage.getProductId());
+        Assert.assertEquals(billingResponse.getBody().jsonPath().getString("billingPackage.productName"),
+                billingPackage.getProductName());
+        Assert.assertEquals(billingResponse.getBody().jsonPath().getInt("billingPackage.partnerId"),
+                billingPackage.getPartnerId());
+        Assert.assertEquals(billingResponse.getBody().jsonPath().getString("billingPackage.billingCode"),
+                billingPackage.getBillingCode());
     }
 
     private String getFindQuery(int productId) throws ExecutionException {

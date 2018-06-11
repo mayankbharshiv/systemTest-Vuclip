@@ -32,5 +32,6 @@ public class Configuration {
     public static String smsServer;
 
     public static String sasServer;
+    public static long defaultTimeOutMillisForQueue = 2000;
 
 }

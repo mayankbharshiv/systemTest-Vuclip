@@ -1,6 +1,7 @@
 package com.vuclip.premiumengg.automation.utils;
 
 import com.vuclip.premiumengg.automation.common.JDBCTemplate;
+import com.vuclip.premiumengg.automation.common.Log4J;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -21,7 +22,8 @@ public class DBUtils {
         if (whereClause != null)
             query += " where " + whereClause;
         try {
-            JDBCTemplate.getDbConnection().execute(query);
+            Log4J.getLogger("DBLogger").info(query);
+            JDBCTemplate.getDbConnection().update(query);
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
@@ -32,6 +34,7 @@ public class DBUtils {
         if (whereClause != null)
             query += " where " + whereClause;
         try {
+            Log4J.getLogger("DBLogger").info(query);
             return JDBCTemplate.getDbConnection().queryForList(query);
         } catch (Exception ex) {
             System.out.println(ex.getMessage());

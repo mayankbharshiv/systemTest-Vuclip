@@ -6,19 +6,15 @@ import com.vuclip.premiumengg.automation.billing_package_service.common.models.B
 import com.vuclip.premiumengg.automation.billing_package_service.common.utils.BPSDBUtil;
 import com.vuclip.premiumengg.automation.billing_package_service.common.utils.BPSHelper;
 import com.vuclip.premiumengg.automation.billing_package_service.common.utils.BPSValidationHelper;
-import com.vuclip.premiumengg.automation.common.DBConnection;
 import io.restassured.response.Response;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import java.sql.Connection;
 
 /**
  * Created by Kohitij_Das on 23/03/18.
  */
 public class StoreBillingOption {
 
-    private static Connection dbConnection;
     private BPSHelper bpsHelper;
     private BPSValidationHelper validationHelper;
     private BPSDBUtil dbUtils;
@@ -29,7 +25,6 @@ public class StoreBillingOption {
         validationHelper = new BPSValidationHelper();
         dbUtils = new BPSDBUtil();
 
-        setupDbConnection();
         cleanupBillingOption();
     }
 
@@ -44,9 +39,8 @@ public class StoreBillingOption {
     @Test(dependsOnMethods = "verify_store_new_billing_option", enabled = false)
     public void verify_newly_created_billing_package() throws Exception {
         final String validBillingCode = BillingPackage.PACKAGE2.getBillingCode();
-        validationHelper.validate_billing_packages(bpsHelper
-                .getBillingOptionByBillingCode(validBillingCode), BillingPackage.PACKAGE2, "billingPackages"
-        );
+        validationHelper.validate_billing_packages(bpsHelper.getBillingOptionByBillingCode(validBillingCode),
+                BillingPackage.PACKAGE2, "billingPackages");
     }
 
     @Test(dependsOnMethods = "verify_newly_created_billing_package", enabled = false)
@@ -56,14 +50,10 @@ public class StoreBillingOption {
         validationHelper.validate_billing_packages(response, BillingPackage.PACKAGE2, "billingPackages");
     }
 
-    private void setupDbConnection() throws Exception {
-        dbConnection = DBConnection.getDbConnection();
-    }
-
     private void cleanupBillingOption() throws Exception {
-        dbUtils.cleanBillingPackageTable(BillingPackage.PACKAGE2.getBillingCode(), dbConnection);
-        dbUtils.cleanBillingPackageMappingTable(BillingPackage.PACKAGE2.getBillingCode(), dbConnection);
-        dbUtils.cleanBillingPartnerTable(BillingPackage.PACKAGE2.getPartnerId(), dbConnection);
-        dbUtils.cleanBillingProductTable(BillingPackage.PACKAGE2.getProductId(), dbConnection);
+        dbUtils.cleanBillingPackageTable(BillingPackage.PACKAGE2.getBillingCode());
+        dbUtils.cleanBillingPackageMappingTable(BillingPackage.PACKAGE2.getBillingCode());
+        dbUtils.cleanBillingPartnerTable(BillingPackage.PACKAGE2.getPartnerId());
+        dbUtils.cleanBillingProductTable(BillingPackage.PACKAGE2.getProductId());
     }
 }

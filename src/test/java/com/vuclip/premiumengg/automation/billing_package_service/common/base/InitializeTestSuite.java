@@ -1,7 +1,7 @@
 package com.vuclip.premiumengg.automation.billing_package_service.common.base;
 
 import com.vuclip.premiumengg.automation.common.Configuration;
-import com.vuclip.premiumengg.automation.common.DBConnection;
+import com.vuclip.premiumengg.automation.common.JDBCTemplate;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 
@@ -43,6 +43,6 @@ public class InitializeTestSuite {
 
     @AfterSuite(alwaysRun = true)
     public void teardown() throws Exception {
-        DBConnection.closeAllConnections();
+        JDBCTemplate.closeAllConnections();
     }
 }
