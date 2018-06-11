@@ -1,4 +1,3 @@
-
 package com.vuclip.premiumengg.automation.scheduled_activity_service.common.models;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -7,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "countryCode"
+        "countryCode"
 })
 public class PublishCountry {
 
@@ -16,13 +15,11 @@ public class PublishCountry {
 
     /**
      * No args constructor for use in serialization
-     * 
      */
     public PublishCountry() {
     }
 
     /**
-     * 
      * @param countryCode
      */
     public PublishCountry(String countryCode) {

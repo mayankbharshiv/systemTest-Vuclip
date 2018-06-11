@@ -1,5 +1,11 @@
 package com.vuclip.premiumengg.automation.scheduled_activity_service.tests;
 
+import com.vuclip.premiumengg.automation.common.Log4J;
+import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.ActivityType;
+import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.PublishConfigRequest;
+import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASHelper;
+import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASUtils;
+import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASValidationHelper;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
@@ -7,78 +13,69 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import com.vuclip.premiumengg.automation.common.Log4J;
-import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.ActivityType;
-import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.PublishConfigRequest;
-import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASHelper;
-import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASUtils;
-import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASValidationHelper;
-
 /**
- * 
  * @author mayank.bharshiv
- *
  */
 
 public class BlackoutTests {
-	private static Logger logger = Log4J.getLogger("BlackoutWindowTests");
-	private SASHelper sasHelper;
-	private int productId=0;
-	private int partnerId=0;
-	PublishConfigRequest publishConfigRequest = null;
-	String activityType = "WINBACK";
-	String previousSubscriptionState = "PARKING";
-	String currentSubscriptionState = "ACTIVATED";
-	String transactionState = "SUCCESS";
-	String actionType = "CHARGING";
-	Integer subscriptionId;
-	String actionTable = "renewal";
+    private static Logger logger = Log4J.getLogger("BlackoutWindowTests");
+    PublishConfigRequest publishConfigRequest = null;
+    String activityType = "WINBACK";
+    String previousSubscriptionState = "PARKING";
+    String currentSubscriptionState = "ACTIVATED";
+    String transactionState = "SUCCESS";
+    String actionType = "CHARGING";
+    Integer subscriptionId;
+    String actionTable = "renewal";
+    private SASHelper sasHelper;
+    private int productId = 0;
+    private int partnerId = 0;
 
-	@BeforeClass(alwaysRun = true)
-	public void setup() throws Exception {
-		sasHelper = new SASHelper();
-		productId = RandomUtils.nextInt(79000, 80000);
-		partnerId = productId;
-	}
+    @BeforeClass(alwaysRun = true)
+    public void setup() throws Exception {
+        sasHelper = new SASHelper();
+        productId = RandomUtils.nextInt(79000, 80000);
+        partnerId = productId;
+    }
 
-	@DataProvider(name = "setupBlackoutWindowConfig")
-	public Object[][] setupBlackoutWindowConfig() {
-		logger.info("========================Setting up config Data===========================");
+    @DataProvider(name = "setupBlackoutWindowConfig")
+    public Object[][] setupBlackoutWindowConfig() {
+        logger.info("========================Setting up config Data===========================");
 
-		return new Object[][] { { ActivityType.RENEWAL_TYPE, "0-23" } };
+        return new Object[][]{{ActivityType.RENEWAL_TYPE, "0-23"}};
 
-	}
+    }
 
-	@Test(dataProvider = "setupBlackoutWindowConfig",groups= {"positive"})
-	public void createBlackoutWindowConfigData(String activityType, String blackoutWindow) throws Exception {
+    @Test(dataProvider = "setupBlackoutWindowConfig", groups = {"positive"})
+    public void createBlackoutWindowConfigData(String activityType, String blackoutWindow) throws Exception {
 
-		publishConfigRequest = SASUtils.generateSaveProductConfig(productId, partnerId, activityType);
-		publishConfigRequest.getBlackouts().get(0).setBlackoutWindow(blackoutWindow);
-		SASValidationHelper.validate_sas_api_response(sasHelper.saveProduct(publishConfigRequest));
+        publishConfigRequest = SASUtils.generateSaveProductConfig(productId, partnerId, activityType);
+        publishConfigRequest.getBlackouts().get(0).setBlackoutWindow(blackoutWindow);
+        SASValidationHelper.validate_sas_api_response(sasHelper.saveProduct(publishConfigRequest));
 
-	}
+    }
 
-	@Test(dependsOnMethods = "createBlackoutWindowConfigData",groups= {"positive"})
-	public void invalidBlackoutWindowFieldValue() throws Exception {
+    @Test(dependsOnMethods = "createBlackoutWindowConfigData", groups = {"positive"})
+    public void invalidBlackoutWindowFieldValue() throws Exception {
 
-		subscriptionId = RandomUtils.nextInt(24000, 25000);
-		// SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
-		String testMessage = subscriptionId + " " + activityType + " " + previousSubscriptionState + " "
-				+ currentSubscriptionState + " " + transactionState + " " + actionType;
-		logger.info("==================>Starting Invalid BlackOut Window Field Value test  [ " + testMessage + " ]");
+        subscriptionId = RandomUtils.nextInt(24000, 25000);
+        // SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
+        String testMessage = subscriptionId + " " + activityType + " " + previousSubscriptionState + " "
+                + currentSubscriptionState + " " + transactionState + " " + actionType;
+        logger.info("==================>Starting Invalid BlackOut Window Field Value test  [ " + testMessage + " ]");
 
-		try {
+        try {
 
-			SASValidationHelper.validate_sas_api_response(
-					sasHelper.userSubscription(SASUtils.generateUserSubscriptionRequest(productId, partnerId,
-							activityType, previousSubscriptionState, currentSubscriptionState, transactionState,
-							actionType, subscriptionId)));
+            SASValidationHelper.validate_sas_api_response(
+                    sasHelper.userSubscription(SASUtils.generateUserSubscriptionRequest(productId, partnerId,
+                            activityType, previousSubscriptionState, currentSubscriptionState, transactionState,
+                            actionType, subscriptionId)));
 
-			SASValidationHelper.validate_schedular_invalid_api_response(
-					sasHelper.scheduler(SASUtils.generateSchedulerRequest(productId, partnerId, actionTable)));
+            SASValidationHelper.validate_schedular_invalid_api_response(
+                    sasHelper.scheduler(SASUtils.generateSchedulerRequest(productId, partnerId, actionTable)));
 
-		} catch (Exception e) {
-			Assert.fail(e.toString());
-		}
-	}
+        } catch (Exception e) {
+            Assert.fail(e.toString());
+        }
+    }
 }

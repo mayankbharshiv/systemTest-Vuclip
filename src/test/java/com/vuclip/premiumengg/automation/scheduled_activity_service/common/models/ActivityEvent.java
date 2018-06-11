@@ -1,42 +1,41 @@
-
 package com.vuclip.premiumengg.automation.scheduled_activity_service.common.models;
-
-import java.math.BigInteger;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+import java.math.BigInteger;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "eventType",
-    "userId",
-    "productId",
-    "partnerId",
-    "subscriptionBillingCode",
-    "chargedBillingCode",
-    "fallbackBillingCode",
-    "mode",
-    "action",
-    "activity",
-    "transactionId",
-    "transactionState",
-    "chargedPrice",
-    "partnerTransactionId",
-    "itemId",
-    "itemTypeId",
-    "actionResult",
-    "serviceId",
-    "subscriptionId",
-    "circleCode",
-    "errorCode",
-    "errorDesc",
-    "delayed",
-    "closed",
-    "customerTransactionId",
-    "userPreferredLanguage",
-    "userSource",
-    "nextBillingDate"
+        "eventType",
+        "userId",
+        "productId",
+        "partnerId",
+        "subscriptionBillingCode",
+        "chargedBillingCode",
+        "fallbackBillingCode",
+        "mode",
+        "action",
+        "activity",
+        "transactionId",
+        "transactionState",
+        "chargedPrice",
+        "partnerTransactionId",
+        "itemId",
+        "itemTypeId",
+        "actionResult",
+        "serviceId",
+        "subscriptionId",
+        "circleCode",
+        "errorCode",
+        "errorDesc",
+        "delayed",
+        "closed",
+        "customerTransactionId",
+        "userPreferredLanguage",
+        "userSource",
+        "nextBillingDate"
 })
 public class ActivityEvent {
 
@@ -99,13 +98,11 @@ public class ActivityEvent {
 
     /**
      * No args constructor for use in serialization
-     * 
      */
     public ActivityEvent() {
     }
 
     /**
-     * 
      * @param chargedPrice
      * @param transactionId
      * @param partnerId

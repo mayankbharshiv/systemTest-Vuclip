@@ -1,4 +1,3 @@
-
 package com.vuclip.premiumengg.automation.scheduled_activity_service.common.models;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -7,11 +6,11 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "activityType",
-    "actionType",
-    "previousSubscriptionState",
-    "currentSubscriptionState",
-    "activityResult"
+        "activityType",
+        "actionType",
+        "previousSubscriptionState",
+        "currentSubscriptionState",
+        "activityResult"
 })
 public class ActivityInfo {
 
@@ -28,13 +27,11 @@ public class ActivityInfo {
 
     /**
      * No args constructor for use in serialization
-     * 
      */
     public ActivityInfo() {
     }
 
     /**
-     * 
      * @param activityResult
      * @param previousSubscriptionState
      * @param currentSubscriptionState
