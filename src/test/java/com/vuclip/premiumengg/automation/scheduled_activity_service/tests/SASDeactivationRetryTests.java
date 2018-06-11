@@ -1,25 +1,16 @@
 package com.vuclip.premiumengg.automation.scheduled_activity_service.tests;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.log4j.Logger;
-import org.springframework.amqp.core.Message;
-import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import com.vuclip.premiumengg.automation.billing_package_service.common.models.QueueResponse;
 import com.vuclip.premiumengg.automation.common.Log4J;
-import com.vuclip.premiumengg.automation.common.RabbitMQConnection;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.PublishConfigRequest;
-import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASHelper;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASUtils;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASValidationHelper;
-import com.vuclip.premiumengg.automation.utils.DBUtils;
-import com.vuclip.premiumengg.automation.utils.ObjectMapperUtils;
+import com.vuclip.premiumengg.automation.utils.AppAssert;
 
 /**
  * 
@@ -28,8 +19,7 @@ import com.vuclip.premiumengg.automation.utils.ObjectMapperUtils;
  */
 
 public class SASDeactivationRetryTests {
-	private static Logger logger = Log4J.getLogger("ActivationRetryTests");
-	private SASHelper sasHelper;
+	private static Logger logger = Log4J.getLogger("SASDeactivationRetryTests");
 	int productId;
 	int partnerId;
 	PublishConfigRequest publishConfigRequest = null;
@@ -37,28 +27,12 @@ public class SASDeactivationRetryTests {
 
 	@BeforeClass(alwaysRun = true)
 	public void setup() throws Exception {
-		sasHelper = new SASHelper();
-		productId = SASUtils.productId;//RandomUtils.nextInt(2000, 3000);
+		productId = SASUtils.productId;
 		partnerId = productId;
 	}
 
-/*	@DataProvider(name = "getProductConfig")
-	public Object[][] getProductConfig() {
-		logger.info("========================Setting up config Data===========================");
-
-		return SASUtils.getALLActivityType();
-
-	}
-
-	@Test(dataProvider = "getProductConfig")
-	public void createConfigData(String activityType) throws Exception {
-
-		publishConfigRequest = SASUtils.generateSaveProductConfig(productId, partnerId, activityType);
-		SASValidationHelper.validate_sas_api_response(sasHelper.saveProduct(publishConfigRequest));
-	}*/
-
-	@DataProvider(name = "deactivationRetryPositiveTestType")
-	public Object[][] deactivationRetryPositiveTestType() {
+	@DataProvider(name = "deactivationRetryPositiveDataProvider")
+	public Object[][] deactivationRetryPositiveDataProvider() {
 		return new Object[][] {
 				{ "DEACTIVATION_RETRY", "DCT_INIT", "DCT_INIT", "ERROR", "DEACTIVATE_CONSENT", 101, "deactivation",
 						"OPEN" },
@@ -66,54 +40,33 @@ public class SASDeactivationRetryTests {
 						"OPEN" } };
 	}
 
-	@Test(/**dependsOnMethods = "createConfigData",**/ dataProvider = "deactivationRetryPositiveTestType",groups = {"positive"})
-	public void DeactivationRetryPositiveRetryTests(String activityType, String previousSubscriptionState,
-			String currentSubscriptionState, String transactionState, String actionType, Integer subscriptionId,
+	@Test(dataProvider = "deactivationRetryPositiveDataProvider", groups = { "positive" })
+	public void DeactivationRetryPositiveTest(String activityType, String previousSubscriptionState,
+			String currentSubscriptionState, String transactionState, String eventActionType, Integer subscriptionId,
 			String actionTable, String status) throws Exception {
 
 		subscriptionId = RandomUtils.nextInt(14000, 15000);
 		// SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
 		String testMessage = subscriptionId + " " + activityType + " " + previousSubscriptionState + " "
-				+ currentSubscriptionState + " " + transactionState + " " + actionType;
-		logger.info("==================>Starting positive Deactivation_Retry retry test  [ " + testMessage + " ]");
+				+ currentSubscriptionState + " " + transactionState + " " + eventActionType;
+		logger.info("==================>Starting Deactivation Retry Positive Test  [ " + testMessage + " ]");
 
 		try {
+			String schedulerActivity = actionTable;
+			String queueName = actionTable.toUpperCase();
+			SASUtils.executeActivityFlow(productId, partnerId, subscriptionId, countryCode, eventActionType,
+					activityType, currentSubscriptionState, transactionState, actionTable, schedulerActivity, "OPEN",
+					"IN_PROGRESS", queueName);
 
-			SASValidationHelper.validate_sas_api_response(
-					sasHelper.userSubscription(SASUtils.generateUserSubscriptionRequest(productId, partnerId,
-							activityType, previousSubscriptionState, currentSubscriptionState, transactionState,
-							actionType, subscriptionId)));
-
-			Map<String, String> expectedRecords = new HashMap<String, String>();
-			expectedRecords.put("status", "OPEN");
-			expectedRecords.put("product_id", String.valueOf(productId));
-			expectedRecords.put("partner_id", String.valueOf(partnerId));
-			expectedRecords.put("subscription_id", String.valueOf(subscriptionId));
-			expectedRecords.put("country_code", countryCode);
-
-			SASValidationHelper.validateTableRecord(DBUtils.getRecord(actionTable, "subscription_id = " + subscriptionId
-					+ " and product_id = " + productId + " and partner_id=" + partnerId).get(0), expectedRecords);
-
-			SASValidationHelper.validate_schedular_api_response(
-					sasHelper.scheduler(SASUtils.generateSchedulerRequest(productId, partnerId, actionTable)));
-
-			expectedRecords.put("status", "IN_PROGRESS");
-
-			SASValidationHelper.validateTableRecord(DBUtils.getRecord(actionTable, "subscription_id = " + subscriptionId
-					+ " and product_id=" + productId + " and partner_id=" + partnerId).get(0), expectedRecords);
-
-			Message message = RabbitMQConnection.getRabbitTemplate()
-					.receive(productId + "_" + partnerId + "_" + actionTable.toUpperCase() + "_REQUEST_BACKEND", 25000);
-			SASValidationHelper.validateQueueMessage(
-					ObjectMapperUtils.readValueFromString(new String(message.getBody()), QueueResponse.class),
-					productId, partnerId, subscriptionId, countryCode, actionTable.toUpperCase());
 		} catch (Exception e) {
-			Assert.fail(e.toString());
+			logger.error("activationPositiveTest Failed");
+			e.printStackTrace();
+			AppAssert.assertTrue(false);
 		}
 	}
 
-	@DataProvider(name = "deactivationRetryNegativeTestType")
-	public Object[][] deactivationRetryNegativeTestType() {
+	@DataProvider(name = "deactivationRetryNegativeDataProvider")
+	public Object[][] deactivationRetryNegativeDataProvider() {
 		return new Object[][] {
 
 				{ "DEACTIVATION_RETRY", "DCT_INIT", "DEACTIVATED", "SUCCESS", "DEACTIVATE_CONSENT", 103, "deactivation",
@@ -126,16 +79,15 @@ public class SASDeactivationRetryTests {
 						"OPEN" } };
 	}
 
-	@Test(/**dependsOnMethods = "createConfigData",**/ dataProvider = "deactivationRetryNegativeTestType",groups= {"negative"})
-	public void DeactivationRetryNegativeTestType(String activityType, String previousSubscriptionState,
+	@Test(dataProvider = "deactivationRetryNegativeDataProvider", groups = { "negative" })
+	public void deactivationRetryNegativeTest(String activityType, String previousSubscriptionState,
 			String currentSubscriptionState, String transactionState, String actionType, Integer subscriptionId,
 			String actionTable, String status) throws Exception {
 		subscriptionId = RandomUtils.nextInt(3000, 4000);
-		// SASDBHelper.cleanTestData("subscription_id=" + subscriptionId);
 		String testMessage = subscriptionId + " " + activityType + " " + previousSubscriptionState + " "
 				+ currentSubscriptionState + " " + transactionState + " " + actionType;
-		logger.info("==================>Starting Negative RetryDeactivationTests retry test  [ " + testMessage + " ]");
-		SASValidationHelper.negativeFlow(productId,partnerId, activityType, currentSubscriptionState, transactionState,
+		logger.info("==================>Starting deactivation Retry NegativeTest  [ " + testMessage + " ]");
+		SASValidationHelper.negativeFlow(productId, partnerId, activityType, currentSubscriptionState, transactionState,
 				actionType, subscriptionId);
 
 	}

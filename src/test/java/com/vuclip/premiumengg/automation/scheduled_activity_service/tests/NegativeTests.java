@@ -1,5 +1,6 @@
 package com.vuclip.premiumengg.automation.scheduled_activity_service.tests;
 
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +17,7 @@ import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASHelper;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASUtils;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASValidationHelper;
+import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.TimeUnitEnum;
 import com.vuclip.premiumengg.automation.utils.AppAssert;
 import com.vuclip.premiumengg.automation.utils.DBUtils;
 import com.vuclip.premiumengg.automation.utils.ObjectMapperUtils;
@@ -63,8 +65,8 @@ public class NegativeTests {
 					partnerId, activityType, "", currentSubscriptionState, transactionState, actionType,
 					subscriptionId);
 
-			long nBD = DateTimeUtil.getTimeInMillisAddDays(15);
-			long endDate = DateTimeUtil.getTimeInMillisAddDays(35);
+			BigInteger nBD = DateTimeUtil.getDateByAddingValidity(DateTimeUtil.getCurrentDateInGMT(), 15, TimeUnitEnum.DAY.name());
+			BigInteger endDate = DateTimeUtil.getDateByAddingValidity(DateTimeUtil.getCurrentDateInGMT(), 35, TimeUnitEnum.DAY.name());
 			userSubscriptionRequest.getSubscriptionInfo().setNextBillingDate(nBD);
 			userSubscriptionRequest.getSubscriptionInfo().setEndDate(endDate);
 
@@ -123,7 +125,7 @@ public class NegativeTests {
 			UserSubscriptionRequest userSubscriptionRequest = SASUtils.generateUserSubscriptionRequest(productId,
 					partnerId, activityType, "", currentSubscriptionState, transactionState, actionType,
 					subscriptionId);
-			long nBD = DateTimeUtil.getTimeInMillis("30", "12", "2017", "00", "00", "00");
+			BigInteger nBD = DateTimeUtil.getDateByAddingValidity(DateTimeUtil.getCurrentDateInGMT(), 35, TimeUnitEnum.DAY.name());
 			userSubscriptionRequest.getSubscriptionInfo().setNextBillingDate(nBD);
 			SASValidationHelper.validate_sas_api_response(sasHelper.userSubscription(userSubscriptionRequest));
 

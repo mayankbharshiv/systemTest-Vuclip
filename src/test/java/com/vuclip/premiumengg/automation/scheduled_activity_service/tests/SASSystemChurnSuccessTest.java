@@ -16,9 +16,11 @@ import com.vuclip.premiumengg.automation.common.Log4J;
 import com.vuclip.premiumengg.automation.common.RabbitMQConnection;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.PublishConfigRequest;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.UserSubscriptionRequest;
+import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.DateTimeUtil;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASHelper;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASUtils;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASValidationHelper;
+import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.TimeUnitEnum;
 import com.vuclip.premiumengg.automation.utils.DBUtils;
 import com.vuclip.premiumengg.automation.utils.ObjectMapperUtils;
 
@@ -124,10 +126,10 @@ public class SASSystemChurnSuccessTest {
 			UserSubscriptionRequest newSubscriptionRequest = SASUtils.generateUserSubscriptionRequest(productId,
 					partnerId, newActivityType.toUpperCase(), currentSubscriptionState, newCurrentSubscriptionState,
 					newTransactionState, newEventActionType, subscriptionId);
-			newSubscriptionRequest.getSubscriptionInfo()
-					.setNextBillingDate(newSubscriptionRequest.getSubscriptionInfo().getNextBillingDate() + 100);
-			newSubscriptionRequest.getActivityEvent()
-					.setNextBillingDate(newSubscriptionRequest.getActivityEvent().getNextBillingDate() + 100);
+			newSubscriptionRequest.getSubscriptionInfo().setNextBillingDate(DateTimeUtil.getDateByAddingValidity(
+					newSubscriptionRequest.getSubscriptionInfo().getNextBillingDate(), 1, TimeUnitEnum.DAY.name()));
+			newSubscriptionRequest.getActivityEvent().setNextBillingDate(DateTimeUtil.getDateByAddingValidity(
+					newSubscriptionRequest.getActivityEvent().getNextBillingDate(), 1, TimeUnitEnum.DAY.name()));
 
 			SASValidationHelper.validate_sas_api_response(sasHelper.userSubscription(newSubscriptionRequest));
 
