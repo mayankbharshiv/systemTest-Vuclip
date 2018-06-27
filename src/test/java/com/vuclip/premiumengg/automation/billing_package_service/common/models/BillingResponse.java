@@ -5,7 +5,7 @@ package com.vuclip.premiumengg.automation.billing_package_service.common.models;
  */
 public enum BillingResponse {
 
-    SUCCESS(true, 1, "Success"),
+    SUCCESS(true, 200, "Success"),
     NOTFOUND(false, 404, "No billing packages found"),
     BADREQUEST(false, 400, "productId : cannot be null");
 
