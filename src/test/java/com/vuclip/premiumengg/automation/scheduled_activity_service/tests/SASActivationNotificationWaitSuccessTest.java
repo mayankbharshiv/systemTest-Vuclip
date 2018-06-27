@@ -48,7 +48,7 @@ public class SASActivationNotificationWaitSuccessTest {
 						"CHARGING", "ACTIVATION", "ACT_INIT", "ERROR", "activation", "OPEN" } };
 	}
 
-	@Test(dataProvider = "activationNotificationWaitDataProvider", groups = { "positive" })
+	@Test(dataProvider = "activationNotificationWaitDataProvider", groups = { "once" })
 	public void activationNotificationWaitTest(String eventActionType, String activityType,
 			String currentSubscriptionState, String transactionState, String actionTable, String beforeSchedularStatus,
 			String afteNewEventStatus, String newEventActionType, String newActivityType,
