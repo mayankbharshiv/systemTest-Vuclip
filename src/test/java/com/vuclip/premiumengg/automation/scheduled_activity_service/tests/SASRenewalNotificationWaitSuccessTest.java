@@ -43,7 +43,7 @@ public class SASRenewalNotificationWaitSuccessTest {
 						"RENEWAL", "ACTIVATED", "NOTIFICATION_WAIT", "renewal", "OPEN" }, };
 	}
 
-	@Test(dataProvider = "activationNotificationWaitDataProvider", groups = { "positive" })
+	@Test(dataProvider = "activationNotificationWaitDataProvider", groups = { "once" })
 	public void activationNotificationWaitTest(String eventActionType, String activityType,
 			String currentSubscriptionState, String transactionState, String actionTable, String beforeSchedularStatus,
 			String afterSchedularStatus, String afteNewEventStatus, String newEventActionType, String newActivityType,
@@ -161,12 +161,25 @@ public class SASRenewalNotificationWaitSuccessTest {
 			logger.info("=========>Fourth event: First Subscription Event's DB verification");
 
 			expectedRecords.put("status", "SUCCESS");
-			String.valueOf(uSRequest.getSubscriptionInfo().getNextBillingDate());
+			expectedRecords.put("date", String.valueOf(uSRequest.getSubscriptionInfo().getNextBillingDate()));
 			SASValidationHelper.validateTableRecord(DBUtils
 					.getRecord(actionTable,
 							"subscription_id = " + subscriptionId + " and product_id=" + productId + " and partner_id="
 									+ partnerId + " and date=" + uSRequest.getSubscriptionInfo().getNextBillingDate())
 					.get(0), expectedRecords);
+
+			logger.info("=========>Fourth event: Fourth Subscription Event's DB verification");
+
+			expectedRecords.put("status", "OPEN");
+			expectedRecords.put("date",
+					String.valueOf(successSubscriptionRequest.getSubscriptionInfo().getNextBillingDate()));
+			SASValidationHelper.validateTableRecord(
+					DBUtils.getRecord(actionTable,
+							"subscription_id = " + subscriptionId + " and product_id=" + productId + " and partner_id="
+									+ partnerId + " and date="
+									+ successSubscriptionRequest.getSubscriptionInfo().getNextBillingDate())
+							.get(0),
+					expectedRecords);
 
 		} catch (Exception e) {
 			Assert.fail(e.getMessage());
