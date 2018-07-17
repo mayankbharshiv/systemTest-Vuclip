@@ -49,7 +49,7 @@ public class NegativeTest {
 				{ "FrequencyInMinuntesvalue" }, { "partnerId" }, { "PartnerIdVal" }, };
 	}
 
-	@Test(dataProvider = "dp1", groups = { "done" })
+	@Test(dataProvider = "dp1", groups = { "positive" })
 	public void VerifyActivityTypeTests(String field) throws Exception {
 		logger.info("=======>VerifyActivityTypeTests Test");
 		try {
