@@ -14,6 +14,7 @@ import com.vuclip.premiumengg.automation.common.JDBCTemplate;
 import com.vuclip.premiumengg.automation.common.Log4J;
 import com.vuclip.premiumengg.automation.common.RabbitAdminConnection;
 import com.vuclip.premiumengg.automation.common.RabbitMQConnection;
+import com.vuclip.premiumengg.automation.schedular_service.common.utils.SSDBHelper;
 
 /**
  * @author Rahul Sahu
@@ -48,7 +49,7 @@ public class InitializeTestSuite {
 			Configuration.rabbitMQUser = properties.getProperty("rabbitMQUser");
 			Configuration.rabbitMQPassword = properties.getProperty("rabbitMQPassword");
 
-
+			SSDBHelper.cleanTestData();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

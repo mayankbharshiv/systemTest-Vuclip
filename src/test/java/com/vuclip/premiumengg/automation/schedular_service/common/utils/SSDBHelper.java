@@ -16,15 +16,24 @@ public class SSDBHelper {
 			if (record != null && record.size() > 0) {
 				for (Map<String, Object> map : record) {
 					Long renewalRuleId = (Long) map.get("id");
-					System.out.println("Record deleted "+DBUtils.cleanTable("job_rules_time_window", " renewal_rules_id=" + renewalRuleId));
+					System.out.println("Record deleted "
+							+ DBUtils.cleanTable("job_rules_time_window", " renewal_rules_id=" + renewalRuleId));
 				}
-				System.out.println("Record deleted "+DBUtils.cleanTable("job_rules",
-						" product_id=" + productId + " and partner_id=" + partnerId + " and country='" + country + "'"));
+				System.out.println("Record deleted " + DBUtils.cleanTable("job_rules", " product_id=" + productId
+						+ " and partner_id=" + partnerId + " and country='" + country + "'"));
 
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
+	}
+
+	public static void cleanTestData() {
+
+		System.out.println("Record deleted " + DBUtils.cleanTable("job_rules_time_window", null));
+
+		System.out.println("Record deleted " + DBUtils.cleanTable("job_rules", null));
 
 	}
 
@@ -50,7 +59,6 @@ public class SSDBHelper {
 
 	}
 
-	
 	public static void logTableRecord(List<Map<String, Object>> records) {
 
 		for (Map<String, Object> map : records) {
