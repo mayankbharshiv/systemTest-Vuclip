@@ -11,15 +11,15 @@ public class SSDBHelper {
 
 	public static void cleanTestData(int productId, int partnerId, String country) {
 		try {
-			List<Map<String, Object>> record = DBUtils.getRecords("job_rules",
+			List<Map<String, Object>> record = DBUtils.getRecords("schedular.job_rules",
 					" product_id=" + productId + " and partner_id=" + partnerId + " and country='" + country + "'");
 			if (record != null && record.size() > 0) {
 				for (Map<String, Object> map : record) {
 					Long renewalRuleId = (Long) map.get("id");
 					System.out.println("Record deleted "
-							+ DBUtils.cleanTable("job_rules_time_window", " renewal_rules_id=" + renewalRuleId));
+							+ DBUtils.cleanTable("schedular.job_rules_time_window", " renewal_rules_id=" + renewalRuleId));
 				}
-				System.out.println("Record deleted " + DBUtils.cleanTable("job_rules", " product_id=" + productId
+				System.out.println("Record deleted " + DBUtils.cleanTable("schedular.job_rules", " product_id=" + productId
 						+ " and partner_id=" + partnerId + " and country='" + country + "'"));
 
 			}
@@ -31,15 +31,15 @@ public class SSDBHelper {
 
 	public static void cleanTestData() {
 
-		System.out.println("Record deleted " + DBUtils.cleanTable("job_rules_time_window", null));
+		System.out.println("Record deleted " + DBUtils.cleanTable("schedular.job_rules_time_window", null));
 
-		System.out.println("Record deleted " + DBUtils.cleanTable("job_rules", null));
+		System.out.println("Record deleted " + DBUtils.cleanTable("schedular.job_rules", null));
 
 	}
 
 	public static Map<String, Object> getJobRules(int productId, int partnerId, String country) {
 		try {
-			return DBUtils.getRecord("job_rules",
+			return DBUtils.getRecord("schedular.job_rules",
 					" product_id=" + productId + " and partner_id=" + partnerId + " and country='" + country + "'")
 					.get(0);
 		} catch (SQLException e) {
@@ -51,7 +51,7 @@ public class SSDBHelper {
 
 	public static Map<String, Object> getJobRuleTimeWindow(long renewalRuleId) {
 		try {
-			return DBUtils.getRecord("job_rules_time_window", " renewal_rules_id=" + renewalRuleId).get(0);
+			return DBUtils.getRecord("schedular.job_rules_time_window", " renewal_rules_id=" + renewalRuleId).get(0);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
