@@ -39,9 +39,19 @@ public class SSDBHelper {
 
 	public static Map<String, Object> getJobRules(int productId, int partnerId, String country) {
 		try {
-			return DBUtils.getRecord("schedular.job_rules",
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			List<Map<String, Object>> s= DBUtils.getRecord("schedular.job_rules",
 					" product_id=" + productId + " and partner_id=" + partnerId + " and country='" + country + "'")
-					.get(0);
+					;
+			if(s.size()<=0)
+				return null;
+			else
+				return s.get(0);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

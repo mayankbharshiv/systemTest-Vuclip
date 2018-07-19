@@ -49,11 +49,14 @@ public class VerifyActivityTypeTest {
 		RabbitMQHelper.sendMessage(queueMessage);
 
 		// validate job_rules and job_rules_window table
+		//adding this as on CI it is failing due to fastness of getting data from Db after performing operation
 		Map<String, Object> jobRuleRecord = SSDBHelper.getJobRules(p, p, country);
 		SSValidationHelper.verifyJobRulesRecord(jobRuleRecord, configurationMessage);
 		Map<String, Object> jobRuleTimeWindowRecord = SSDBHelper.getJobRuleTimeWindow((long) jobRuleRecord.get("id"));
 		SSValidationHelper.verifyJobRuleTimeWindowRecord(jobRuleTimeWindowRecord, configurationMessage);
 		SSDBHelper.cleanTestData(p, p, country);
+		
+		//add validation
 
 	}
 

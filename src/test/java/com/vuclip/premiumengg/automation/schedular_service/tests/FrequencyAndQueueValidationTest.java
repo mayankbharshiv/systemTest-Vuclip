@@ -32,7 +32,7 @@ public class FrequencyAndQueueValidationTest {
 		try {
 			logger.info("========> FrequencyAndQueueValidationTests Test");
 
-			int p = 5000;
+			int p = 1001;
 			String country = "MM";
 
 			SSDBHelper.cleanTestData(p, p, country);
@@ -44,6 +44,7 @@ public class FrequencyAndQueueValidationTest {
 			RabbitMQHelper.sendMessage(queueMessage);
 
 			// validate DB
+			Thread.sleep(3000);
 			Map<String, Object> jobRuleRecord = SSDBHelper.getJobRules(p, p, country);
 			System.out.println(jobRuleRecord.toString());
 			SSValidationHelper.verifyJobRulesRecord(jobRuleRecord, configurationMessage);
@@ -66,7 +67,7 @@ public class FrequencyAndQueueValidationTest {
 			message = null;
 			message = RabbitMQConnection.getRabbitTemplate().receive("UBS-JOB-Q-PUSH", 2000);
 			AppAssert.assertTrue(message == null, "Verify Job not executed for this rule");
-			SSDBHelper.cleanTestData(p, p, country);
+//			SSDBHelper.cleanTestData(p, p, country);
 
 		} catch (Exception e) {
 			e.printStackTrace();
