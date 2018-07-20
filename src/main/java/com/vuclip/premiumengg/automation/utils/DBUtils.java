@@ -17,16 +17,17 @@ public class DBUtils {
             return record;
     }
 
-    public static void cleanTable(String tableName, String whereClause) {
+    public static int cleanTable(String tableName, String whereClause) {
         String query = "delete from " + tableName;
         if (whereClause != null)
             query += " where " + whereClause;
         try {
             Log4J.getLogger("DBLogger").info(query);
-            JDBCTemplate.getDbConnection().update(query);
+           return  JDBCTemplate.getDbConnection().update(query);
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
+        return 0;
     }
 
     public static List<Map<String, Object>> getRecords(String tableName, String whereClause) {

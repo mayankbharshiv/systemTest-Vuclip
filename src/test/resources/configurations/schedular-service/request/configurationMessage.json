@@ -1,0 +1,15 @@
+{
+	"product": {
+		"id":999,
+		"name": "OTT"
+	},
+	"retry": {
+		"id": 999,
+		"partnerId": 1,
+		"country": "XX",
+		"activityType": "RENEWAL_RETRY",
+		"schedulingFrequencyInMinuntes": 1,
+		"executingTimeWindow": "00:00:01-23:59:59",
+		"executingDays": "1111111"
+	}
+}
