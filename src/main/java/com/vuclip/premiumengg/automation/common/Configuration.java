@@ -37,6 +37,8 @@ public class Configuration {
     
     public static String ssServer;
 
+    public static String adNetworkServiceServer;
+
     
     
 

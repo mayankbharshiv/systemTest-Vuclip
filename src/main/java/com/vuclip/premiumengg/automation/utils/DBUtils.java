@@ -42,4 +42,15 @@ public class DBUtils {
         }
         return null;
     }
+    public static void addRecordInTable(String tableName, String clause) {
+        String query = "INSERT INTO " + tableName;
+        if (clause != null)
+            query += " VALUES(" + clause + ")";
+        try {
+            Log4J.getLogger("DBLogger").info(query);
+            JDBCTemplate.getDbConnection().execute(query);
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
 }

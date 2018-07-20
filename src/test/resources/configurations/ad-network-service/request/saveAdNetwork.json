@@ -1,0 +1,13 @@
+{
+	"adNetworkId": 4,
+	"name": "TestAdnetwork",
+	"retryLimit": 1,
+	"requestParamName": "{{}}",
+	"notificationUrl": "{{}}",
+	"httpMethod": "GET",
+	"notifyOnActivity": "ALL",
+	"status": "active",
+	"churnNotificationUrl": "churn Notification Url ",
+	"sourceIdentifier": "D_KIM",
+	"operationType": "Create"
+}

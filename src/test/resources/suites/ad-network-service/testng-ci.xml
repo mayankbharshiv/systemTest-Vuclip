@@ -1,0 +1,21 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="sms-service" parallel="false" thread-count="1"
+	verbose="1" preserve-order="true" data-provider-thread-count="1">
+	<test name="sas-service" preserve-order="true">
+		<groups>
+			<run>
+			<!-- all system test cases are with positive tag and for regression test case it is tagged with regression -->
+				<include name="positive"></include>
+				<exclude name="bug"></exclude>
+				<exclude name="pending"></exclude>
+			</run>
+		</groups>
+		<packages>
+			<package
+				name="com.vuclip.premiumengg.automation.ad_network_service.common.base"></package>
+			<package
+				name="com.vuclip.premiumengg.automation.ad_network_service.tests"></package>
+		</packages>
+
+	</test>
+</suite>
