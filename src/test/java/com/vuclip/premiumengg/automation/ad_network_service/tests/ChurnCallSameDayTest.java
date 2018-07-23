@@ -62,9 +62,9 @@ public class ChurnCallSameDayTest {
 		message = ANSUtils.generateMessageForQueue(productId, userID, billingCode, "50.0", "CHARGING", "ACTIVATION", "SUCCESS",
 				"SUCCESS", subscriptionId, "ActivityEvent", nBD,
 				null, null, transactionId, userSource);
+		ANSMessageHelper.addMessageToQueue(message);
 		ANSValidationHelper.validateUserAdnotificationTable(productId, productId, transactionId,
 				"ad_notification_status", "SUCCESS");
-		ANSMessageHelper.addMessageToQueue(message);
 
 		message = ANSUtils.generateMessageForQueue(productId, userID, billingCode, "50.0", "PROCESS_DEACTIVATE", "DEACTIVATION",
 				"SUCCESS", "SUCCESS", subscriptionId, "ActivityEvent", nBD,
