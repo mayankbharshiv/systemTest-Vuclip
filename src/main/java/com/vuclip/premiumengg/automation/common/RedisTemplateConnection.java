@@ -54,13 +54,8 @@ public class RedisTemplateConnection {
 	public static void closeConnection() {
 		if(template!=null)
 			if(template.getConnectionFactory()!=null)
-				if(template.getConnectionFactory().getSentinelConnection()!=null)
-					try {
-						template.getConnectionFactory().getSentinelConnection().close();
-					} catch (IOException e) {
-						Log4J.getLogger().info("Error while closing ");
-						e.printStackTrace();
-					}
+				if(template.getConnectionFactory().getConnection()!=null)
+					template.getConnectionFactory().getConnection().close();
 	}
 	public static ValueOperations<String, Object> getValueOperation() {
 		return getRedisConnection().opsForValue();
