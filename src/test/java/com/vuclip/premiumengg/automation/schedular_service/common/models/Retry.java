@@ -1,4 +1,3 @@
-
 package com.vuclip.premiumengg.automation.schedular_service.common.models;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -7,13 +6,13 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "id",
-    "partnerId",
-    "country",
-    "activityType",
-    "schedulingFrequencyInMinuntes",
-    "executingTimeWindow",
-    "executingDays"
+        "id",
+        "partnerId",
+        "country",
+        "activityType",
+        "schedulingFrequencyInMinuntes",
+        "executingTimeWindow",
+        "executingDays"
 })
 public class Retry {
 
@@ -34,13 +33,11 @@ public class Retry {
 
     /**
      * No args constructor for use in serialization
-     * 
      */
     public Retry() {
     }
 
     /**
-     * 
      * @param id
      * @param executingTimeWindow
      * @param schedulingFrequencyInMinuntes

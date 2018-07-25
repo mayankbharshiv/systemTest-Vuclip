@@ -23,7 +23,7 @@ public class DBUtils {
             query += " where " + whereClause;
         try {
             Log4J.getLogger("DBLogger").info(query);
-           return  JDBCTemplate.getDbConnection().update(query);
+            return JDBCTemplate.getDbConnection().update(query);
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
@@ -42,6 +42,7 @@ public class DBUtils {
         }
         return null;
     }
+
     public static void addRecordInTable(String tableName, String clause) {
         String query = "INSERT INTO " + tableName;
         if (clause != null)

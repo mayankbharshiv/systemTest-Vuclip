@@ -1,15 +1,15 @@
-
 package com.vuclip.premiumengg.automation.billing_package_service.common.models;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+import java.util.List;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "product",
-    "pricePoints"
+        "product",
+        "pricePoints"
 })
 public class BPSSaveProductRequest {
 
@@ -20,13 +20,11 @@ public class BPSSaveProductRequest {
 
     /**
      * No args constructor for use in serialization
-     * 
      */
     public BPSSaveProductRequest() {
     }
 
     /**
-     * 
      * @param pricePoints
      * @param product
      */

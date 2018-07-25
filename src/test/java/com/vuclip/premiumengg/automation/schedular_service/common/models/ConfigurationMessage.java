@@ -1,4 +1,3 @@
-
 package com.vuclip.premiumengg.automation.schedular_service.common.models;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -7,24 +6,22 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "product",
-    "retry"
+        "product",
+        "retry"
 })
 public class ConfigurationMessage {
-	@JsonProperty("product")
+    @JsonProperty("product")
     private Product product;
     @JsonProperty("retry")
     private Retry retry;
 
     /**
      * No args constructor for use in serialization
-     * 
      */
     public ConfigurationMessage() {
     }
 
     /**
-     * 
      * @param product
      * @param retry
      */

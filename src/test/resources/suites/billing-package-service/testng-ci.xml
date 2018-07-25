@@ -1,17 +1,17 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="billing-package-service" parallel="methods"
-	thread-count="1" verbose="1" preserve-order="true"
-	data-provider-thread-count="1">
-	<test name="billing-package-service" preserve-order="true">
-		<classes>
-			<class
-				name="com.vuclip.premiumengg.automation.billing_package_service.common.base.InitializeTestSuite"></class>
-			<class
-				name="com.vuclip.premiumengg.automation.billing_package_service.tests.GetAllBillingOptions"></class>
-			<class
-				name="com.vuclip.premiumengg.automation.billing_package_service.tests.GetBillingOptionsWithFilter"></class>
-			<class
-				name="com.vuclip.premiumengg.automation.billing_package_service.tests.GetBillingOptionByBillingCode"></class>
-		</classes>
-	</test>
+       thread-count="1" verbose="1" preserve-order="true"
+       data-provider-thread-count="1">
+    <test name="billing-package-service" preserve-order="true">
+        <classes>
+            <class
+                    name="com.vuclip.premiumengg.automation.billing_package_service.common.base.InitializeTestSuite"></class>
+            <class
+                    name="com.vuclip.premiumengg.automation.billing_package_service.tests.GetAllBillingOptions"></class>
+            <class
+                    name="com.vuclip.premiumengg.automation.billing_package_service.tests.GetBillingOptionsWithFilter"></class>
+            <class
+                    name="com.vuclip.premiumengg.automation.billing_package_service.tests.GetBillingOptionByBillingCode"></class>
+        </classes>
+    </test>
 </suite>

@@ -1,23 +1,16 @@
-
 package com.vuclip.premiumengg.automation.ad_network_service.common.models;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import lombok.*;
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import java.util.HashMap;
+import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({ "countryId", "countryName", "countryCode", "timezone", "currency", "operationType" })
+@JsonPropertyOrder({"countryId", "countryName", "countryCode", "timezone", "currency", "operationType"})
 @Getter
 @Setter
 @ToString
@@ -26,19 +19,19 @@ import lombok.ToString;
 @NoArgsConstructor
 public class SaveCountry {
 
-	@JsonProperty("countryId")
-	private Integer countryId;
-	@JsonProperty("countryName")
-	private String countryName;
-	@JsonProperty("countryCode")
-	private String countryCode;
-	@JsonProperty("timezone")
-	private String timezone;
-	@JsonProperty("currency")
-	private String currency;
-	@JsonProperty("operationType")
-	private String operationType;
-	@JsonIgnore
-	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    @JsonProperty("countryId")
+    private Integer countryId;
+    @JsonProperty("countryName")
+    private String countryName;
+    @JsonProperty("countryCode")
+    private String countryCode;
+    @JsonProperty("timezone")
+    private String timezone;
+    @JsonProperty("currency")
+    private String currency;
+    @JsonProperty("operationType")
+    private String operationType;
+    @JsonIgnore
+    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
 }

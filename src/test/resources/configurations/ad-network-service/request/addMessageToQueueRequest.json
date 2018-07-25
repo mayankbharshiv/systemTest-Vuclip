@@ -1,8 +1,8 @@
 {
-	"properties": {
-		"delivery_mode": 1
-	},
-	"routing_key": "core_adnetwork",
-	"payload": "{\"eventType\":\"ActivityEvent\",\"userId\":\"userIdval}}\",\"msisdn\":\"msisdnval}}\",\"productId\":productIdval}},\"productName\":\"productNameval}}\",\"partnerId\":partnerIdval}},\"partnerName\":\"partnerNameval}}\",\"requestedBillingCode\":\"billingCode}}\",\"requestedPrice\":\"billingPrice}}\",\"attemptedBillingCode\":\"billingCode}}\",\"attemptedPrice\":\"billingPrice}}\",\"chargedBillingCode\":\"billingCode}}\",\"chargedPrice\":billingPrice}},\"currency\":null,\"mode\":\"WAP\",\"action\":\"CONSENT}}\",\"activity\":\"ACTIVATION}}\",\"transactionId\":\"TRANSACTION_KEY201804162345122\",\"transactionState\":\"transactionStateval}}\",\"partnerTransactionId\":null,\"itemId\":null,\"itemTypeId\":null,\"actionResult\":\"SUCCESS}}\",\"serviceId\":null,\"subscriptionId\":subscriptionIdval}},\"circleCode\":null,\"countryCode\":null,\"errorCode\":null,\"errorDesc\":null,\"delayed\":false,\"closed\":true,\"customerTransactionId\":\"customerTransactionIdval\",\"userPreferredLanguage\":null,\"userSource\":null,\"nextBillingDate\":futuredate}},\"adNetworkParams\":\"adNetworkParamsval}}\",\"churnNotificationParam\":\"churnNotificationParamval\"}}}",
-	"payload_encoding": "string"
+  "properties": {
+    "delivery_mode": 1
+  },
+  "routing_key": "core_adnetwork",
+  "payload": "{\"eventType\":\"ActivityEvent\",\"userId\":\"userIdval}}\",\"msisdn\":\"msisdnval}}\",\"productId\":productIdval}},\"productName\":\"productNameval}}\",\"partnerId\":partnerIdval}},\"partnerName\":\"partnerNameval}}\",\"requestedBillingCode\":\"billingCode}}\",\"requestedPrice\":\"billingPrice}}\",\"attemptedBillingCode\":\"billingCode}}\",\"attemptedPrice\":\"billingPrice}}\",\"chargedBillingCode\":\"billingCode}}\",\"chargedPrice\":billingPrice}},\"currency\":null,\"mode\":\"WAP\",\"action\":\"CONSENT}}\",\"activity\":\"ACTIVATION}}\",\"transactionId\":\"TRANSACTION_KEY201804162345122\",\"transactionState\":\"transactionStateval}}\",\"partnerTransactionId\":null,\"itemId\":null,\"itemTypeId\":null,\"actionResult\":\"SUCCESS}}\",\"serviceId\":null,\"subscriptionId\":subscriptionIdval}},\"circleCode\":null,\"countryCode\":null,\"errorCode\":null,\"errorDesc\":null,\"delayed\":false,\"closed\":true,\"customerTransactionId\":\"customerTransactionIdval\",\"userPreferredLanguage\":null,\"userSource\":null,\"nextBillingDate\":futuredate}},\"adNetworkParams\":\"adNetworkParamsval}}\",\"churnNotificationParam\":\"churnNotificationParamval\"}}}",
+  "payload_encoding": "string"
 }

@@ -6,13 +6,13 @@ import com.vuclip.premiumengg.automation.common.RabbitMQConnection;
 
 public class ANSMessageHelper {
 
-	public static void addMessageToQueue(Message message) throws Exception {
+    public static void addMessageToQueue(Message message) throws Exception {
 
-		Log4J.getLogger().info(message.toString());
+        Log4J.getLogger().info(message.toString());
 
-		RabbitMQConnection.getRabbitTemplate().convertAndSend("core_adnetwork", message);
-		Log4J.getLogger().info("Message sent");
-	}
+        RabbitMQConnection.getRabbitTemplate().convertAndSend("core_adnetwork", message);
+        Log4J.getLogger().info("Message sent");
+    }
 
 	/*public static void addMessageToQueue(Integer productId, String productName, Integer partnerId, String partnerName,
 			String userId, String attemptedBillingCode, String attemptedPrice, String chargedBillingCode,
@@ -49,6 +49,5 @@ public class ANSMessageHelper {
 		addMessageToQueue(message);
 	}*/
 
-	
 
 }
