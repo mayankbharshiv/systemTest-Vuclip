@@ -1,15 +1,11 @@
 /**
- * 
+ *
  */
 package com.vuclip.premiumengg.automation.schedular_service.common.models;
 
-import java.util.Date;
+import lombok.*;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -17,7 +13,7 @@ import lombok.ToString;
 @Builder
 @ToString
 public class EventInfo {
-	private Date logTime;
-	private String eventId;
-	private String eventType;
+    private Date logTime;
+    private String eventId;
+    private String eventType;
 }

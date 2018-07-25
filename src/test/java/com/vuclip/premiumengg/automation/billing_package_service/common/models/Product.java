@@ -1,4 +1,3 @@
-
 package com.vuclip.premiumengg.automation.billing_package_service.common.models;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -7,21 +6,21 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "productId",
-    "productName",
-    "productType",
-    "storeType",
-    "url",
-    "context",
-    "cassId",
-    "encryptionEnable",
-    "encryptionValidityInMinutes",
-    "callbackUrl",
-    "consentCancelUrl",
-    "errorUrl",
-    "description",
-    "status",
-    "operationType"
+        "productId",
+        "productName",
+        "productType",
+        "storeType",
+        "url",
+        "context",
+        "cassId",
+        "encryptionEnable",
+        "encryptionValidityInMinutes",
+        "callbackUrl",
+        "consentCancelUrl",
+        "errorUrl",
+        "description",
+        "status",
+        "operationType"
 })
 public class Product {
 
@@ -58,13 +57,11 @@ public class Product {
 
     /**
      * No args constructor for use in serialization
-     * 
      */
     public Product() {
     }
 
     /**
-     * 
      * @param status
      * @param consentCancelUrl
      * @param errorUrl

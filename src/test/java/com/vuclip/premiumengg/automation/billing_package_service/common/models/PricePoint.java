@@ -1,4 +1,3 @@
-
 package com.vuclip.premiumengg.automation.billing_package_service.common.models;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -7,39 +6,39 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "billingCode",
-    "price",
-    "description",
-    "validity",
-    "noOfCredits",
-    "serviceId",
-    "appId",
-    "ujId",
-    "itemId",
-    "itemTypeId",
-    "balanceCheckRequired",
-    "fallbackApplicable",
-    "TrialApplicable",
-    "fallbackPpBillingCode",
-    "freeTrialBillingCode",
-    "freeTrialDays",
-    "exclusionPeriod",
-    "autoRenewalApplicable",
-    "status",
-    "contentAccessPostDeactivation",
-    "noOfDaysContentAccessAllowInParking",
-    "noOfDaysContentAccessAllowInSuspend",
-    "parkingPeriod",
-    "suspendPeriod",
-    "activationCoolDownPeriod",
-    "productId",
-    "partnerId",
-    "countryCode",
-    "operationType",
-    "actInitValidity",
-    "deactivationRetryValidity",
-    "notificationWaitPeriod",
-    "timeUnit"
+        "billingCode",
+        "price",
+        "description",
+        "validity",
+        "noOfCredits",
+        "serviceId",
+        "appId",
+        "ujId",
+        "itemId",
+        "itemTypeId",
+        "balanceCheckRequired",
+        "fallbackApplicable",
+        "TrialApplicable",
+        "fallbackPpBillingCode",
+        "freeTrialBillingCode",
+        "freeTrialDays",
+        "exclusionPeriod",
+        "autoRenewalApplicable",
+        "status",
+        "contentAccessPostDeactivation",
+        "noOfDaysContentAccessAllowInParking",
+        "noOfDaysContentAccessAllowInSuspend",
+        "parkingPeriod",
+        "suspendPeriod",
+        "activationCoolDownPeriod",
+        "productId",
+        "partnerId",
+        "countryCode",
+        "operationType",
+        "actInitValidity",
+        "deactivationRetryValidity",
+        "notificationWaitPeriod",
+        "timeUnit"
 })
 public class PricePoint {
 
@@ -112,13 +111,11 @@ public class PricePoint {
 
     /**
      * No args constructor for use in serialization
-     * 
      */
     public PricePoint() {
     }
 
     /**
-     * 
      * @param balanceCheckRequired
      * @param freeTrialDays
      * @param parkingPeriod

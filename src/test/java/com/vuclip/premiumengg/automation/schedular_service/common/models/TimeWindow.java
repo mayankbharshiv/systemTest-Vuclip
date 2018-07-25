@@ -1,10 +1,6 @@
 package com.vuclip.premiumengg.automation.schedular_service.common.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 @Data
 @AllArgsConstructor
@@ -12,6 +8,6 @@ import lombok.ToString;
 @Builder
 @ToString
 public class TimeWindow {
-	private String startime;
-	private String endTime;
+    private String startime;
+    private String endTime;
 }

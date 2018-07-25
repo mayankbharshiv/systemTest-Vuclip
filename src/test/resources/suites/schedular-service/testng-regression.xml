@@ -1,19 +1,19 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="sms-service" parallel="false" thread-count="1"
-	verbose="1" preserve-order="true" data-provider-thread-count="1">
-	<test name="sas-service" preserve-order="true">
-		<groups>
-			<run>
-				<include name="positive"></include>
-				<include name="negative"></include>
-			</run>
-		</groups>
-		<packages>
-			<package
-				name="com.vuclip.premiumengg.automation.schedular_service.common.base"></package>
-			<package
-				name="com.vuclip.premiumengg.automation.schedular_service.tests"></package>
-		</packages>
+       verbose="1" preserve-order="true" data-provider-thread-count="1">
+    <test name="sas-service" preserve-order="true">
+        <groups>
+            <run>
+                <include name="positive"></include>
+                <include name="negative"></include>
+            </run>
+        </groups>
+        <packages>
+            <package
+                    name="com.vuclip.premiumengg.automation.schedular_service.common.base"></package>
+            <package
+                    name="com.vuclip.premiumengg.automation.schedular_service.tests"></package>
+        </packages>
 
-	</test>
+    </test>
 </suite>

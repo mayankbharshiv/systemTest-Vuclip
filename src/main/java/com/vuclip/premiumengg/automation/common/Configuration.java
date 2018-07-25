@@ -33,11 +33,11 @@ public class Configuration {
 
     public static String sasServer;
     public static long defaultTimeOutMillisForQueue = 2000;
-    
-    
+
+
     public static String ssServer;
 
-    
-    
+    public static String adNetworkServiceServer;
+
 
 }

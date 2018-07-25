@@ -6,7 +6,6 @@ import com.vuclip.premiumengg.automation.billing_package_service.common.utils.BP
 import com.vuclip.premiumengg.automation.billing_package_service.common.utils.BPSHelper;
 import com.vuclip.premiumengg.automation.billing_package_service.common.utils.BPSValidationHelper;
 import com.vuclip.premiumengg.automation.common.Log4J;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -15,32 +14,32 @@ import org.testng.annotations.Test;
  */
 public class GetBillingOptionByBillingCode {
 
-	private BPSHelper bpsHelper;
-	private BPSValidationHelper validationHelper;
+    private BPSHelper bpsHelper;
+    private BPSValidationHelper validationHelper;
 
-	@BeforeClass(alwaysRun = true)
-	public void setup() throws Exception {
-		bpsHelper = new BPSHelper();
-		validationHelper = new BPSValidationHelper();
-	}
+    @BeforeClass(alwaysRun = true)
+    public void setup() throws Exception {
+        bpsHelper = new BPSHelper();
+        validationHelper = new BPSValidationHelper();
+    }
 
-	@Test
-	public void verify_get_billing_options_with_valid_billingCode() throws Exception {
-		Log4J.getLogger()
-				.info("===================================>TEST: verify_get_billing_options_with_valid_billingCode");
+    @Test
+    public void verify_get_billing_options_with_valid_billingCode() throws Exception {
+        Log4J.getLogger()
+                .info("===================================>TEST: verify_get_billing_options_with_valid_billingCode");
 
-		final String validBillingCode = BPSContext.saveProductRequest.getPricePoints().get(0).getBillingCode();
-		validationHelper.validate_billing_packages(bpsHelper.getBillingOptionByBillingCode(validBillingCode),
-				BillingPackage.PACKAGE1, "billingPackages");
-	}
+        final String validBillingCode = BPSContext.saveProductRequest.getPricePoints().get(0).getBillingCode();
+        validationHelper.validate_billing_packages(bpsHelper.getBillingOptionByBillingCode(validBillingCode),
+                BillingPackage.PACKAGE1, "billingPackages");
+    }
 
-	@Test
-	public void verify_get_billing_options_with_invalid_billingCode() throws Exception {
-		Log4J.getLogger()
-				.info("===================================>TEST: verify_get_billing_options_with_invalid_billingCode");
+    @Test
+    public void verify_get_billing_options_with_invalid_billingCode() throws Exception {
+        Log4J.getLogger()
+                .info("===================================>TEST: verify_get_billing_options_with_invalid_billingCode");
 
-		final String invalidBillingCode = "999999";
-		validationHelper.validate_billing_response(bpsHelper.getBillingOptionByBillingCode(invalidBillingCode),
-				BillingResponse.NOTFOUND);
-	}
+        final String invalidBillingCode = "999999";
+        validationHelper.validate_billing_response(bpsHelper.getBillingOptionByBillingCode(invalidBillingCode),
+                BillingResponse.NOTFOUND);
+    }
 }

@@ -1,4 +1,3 @@
-
 package com.vuclip.premiumengg.automation.schedular_service.common.models;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -7,8 +6,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "id",
-    "name"
+        "id",
+        "name"
 })
 public class Product {
 
@@ -19,13 +18,11 @@ public class Product {
 
     /**
      * No args constructor for use in serialization
-     * 
      */
     public Product() {
     }
 
     /**
-     * 
      * @param id
      * @param name
      */

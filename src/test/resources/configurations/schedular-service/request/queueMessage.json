@@ -1,9 +1,9 @@
 {
-	"properties": {
-		"delivery_mode": 1,
-		"content_type": "application/json"
-	},
-	"routing_key": "UBS-CONFIG-Q-PULL",
-	"payload": "{\"product\":{\"id\":4,\"name\":\"newjob\"},\"retry\":{\"id\":1,\"partnerId\":1,\"country\":\"IN\",\"activityType\":\"DEACTIVATION_RETRY\",\"schedulingFrequencyInMinuntes\":1,\"executingTimeWindow\":\"00:00:00-12:00:00\",\"executingDays\":\"1111111\"}}",
-	"payload_encoding": "string"
+  "properties": {
+    "delivery_mode": 1,
+    "content_type": "application/json"
+  },
+  "routing_key": "UBS-CONFIG-Q-PULL",
+  "payload": "{\"product\":{\"id\":4,\"name\":\"newjob\"},\"retry\":{\"id\":1,\"partnerId\":1,\"country\":\"IN\",\"activityType\":\"DEACTIVATION_RETRY\",\"schedulingFrequencyInMinuntes\":1,\"executingTimeWindow\":\"00:00:00-12:00:00\",\"executingDays\":\"1111111\"}}",
+  "payload_encoding": "string"
 }
