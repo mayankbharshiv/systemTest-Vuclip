@@ -1,3 +1,4 @@
+
 package com.vuclip.premiumengg.automation.schedular_service.common.models;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -5,126 +6,150 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-        "id",
-        "partnerId",
-        "country",
-        "activityType",
-        "schedulingFrequencyInMinuntes",
-        "executingTimeWindow",
-        "executingDays"
-})
+@JsonPropertyOrder({ "retryId", "productId", "partnerId", "countryCode", "activityType", "schedulingFrequencyInMinutes",
+		"executingTimeWindow", "executingDays", "status" })
 public class Retry {
 
-    @JsonProperty("id")
-    private Integer id;
-    @JsonProperty("partnerId")
-    private Integer partnerId;
-    @JsonProperty("country")
-    private String country;
-    @JsonProperty("activityType")
-    private String activityType;
-    @JsonProperty("schedulingFrequencyInMinuntes")
-    private Integer schedulingFrequencyInMinuntes;
-    @JsonProperty("executingTimeWindow")
-    private String executingTimeWindow;
-    @JsonProperty("executingDays")
-    private String executingDays;
+	@JsonProperty("retryId")
+	private Integer retryId;
+	@JsonProperty("productId")
+	private Integer productId;
+	@JsonProperty("partnerId")
+	private Integer partnerId;
+	@JsonProperty("countryCode")
+	private String countryCode;
+	@JsonProperty("activityType")
+	private String activityType;
+	@JsonProperty("schedulingFrequencyInMinutes")
+	private Integer schedulingFrequencyInMinutes;
+	@JsonProperty("executingTimeWindow")
+	private String executingTimeWindow;
+	@JsonProperty("executingDays")
+	private String executingDays;
+	@JsonProperty("status")
+	private String status;
 
-    /**
-     * No args constructor for use in serialization
-     */
-    public Retry() {
-    }
+	/**
+	 * No args constructor for use in serialization
+	 * 
+	 */
+	public Retry() {
+	}
 
-    /**
-     * @param id
-     * @param executingTimeWindow
-     * @param schedulingFrequencyInMinuntes
-     * @param partnerId
-     * @param executingDays
-     * @param activityType
-     * @param country
-     */
-    public Retry(Integer id, Integer partnerId, String country, String activityType, Integer schedulingFrequencyInMinuntes, String executingTimeWindow, String executingDays) {
-        super();
-        this.id = id;
-        this.partnerId = partnerId;
-        this.country = country;
-        this.activityType = activityType;
-        this.schedulingFrequencyInMinuntes = schedulingFrequencyInMinuntes;
-        this.executingTimeWindow = executingTimeWindow;
-        this.executingDays = executingDays;
-    }
+	/**
+	 * 
+	 * @param executingTimeWindow
+	 * @param status
+	 * @param schedulingFrequencyInMinutes
+	 * @param retryId
+	 * @param countryCode
+	 * @param partnerId
+	 * @param executingDays
+	 * @param activityType
+	 * @param productId
+	 */
+	public Retry(Integer retryId, Integer productId, Integer partnerId, String countryCode, String activityType,
+			Integer schedulingFrequencyInMinutes, String executingTimeWindow, String executingDays, String status) {
+		super();
+		this.retryId = retryId;
+		this.productId = productId;
+		this.partnerId = partnerId;
+		this.countryCode = countryCode;
+		this.activityType = activityType;
+		this.schedulingFrequencyInMinutes = schedulingFrequencyInMinutes;
+		this.executingTimeWindow = executingTimeWindow;
+		this.executingDays = executingDays;
+		this.status = status;
+	}
 
-    @JsonProperty("id")
-    public Integer getId() {
-        return id;
-    }
+	@JsonProperty("retryId")
+	public Integer getRetryId() {
+		return retryId;
+	}
 
-    @JsonProperty("id")
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	@JsonProperty("retryId")
+	public void setRetryId(Integer retryId) {
+		this.retryId = retryId;
+	}
 
-    @JsonProperty("partnerId")
-    public Integer getPartnerId() {
-        return partnerId;
-    }
+	@JsonProperty("productId")
+	public Integer getProductId() {
+		return productId;
+	}
 
-    @JsonProperty("partnerId")
-    public void setPartnerId(Integer partnerId) {
-        this.partnerId = partnerId;
-    }
+	@JsonProperty("productId")
+	public void setProductId(Integer productId) {
+		this.productId = productId;
+	}
 
-    @JsonProperty("country")
-    public String getCountry() {
-        return country;
-    }
+	@JsonProperty("partnerId")
+	public Integer getPartnerId() {
+		return partnerId;
+	}
 
-    @JsonProperty("country")
-    public void setCountry(String country) {
-        this.country = country;
-    }
+	@JsonProperty("partnerId")
+	public void setPartnerId(Integer partnerId) {
+		this.partnerId = partnerId;
+	}
 
-    @JsonProperty("activityType")
-    public String getActivityType() {
-        return activityType;
-    }
+	@JsonProperty("countryCode")
+	public String getCountryCode() {
+		return countryCode;
+	}
 
-    @JsonProperty("activityType")
-    public void setActivityType(String activityType) {
-        this.activityType = activityType;
-    }
+	@JsonProperty("countryCode")
+	public void setCountryCode(String countryCode) {
+		this.countryCode = countryCode;
+	}
 
-    @JsonProperty("schedulingFrequencyInMinuntes")
-    public Integer getSchedulingFrequencyInMinuntes() {
-        return schedulingFrequencyInMinuntes;
-    }
+	@JsonProperty("activityType")
+	public String getActivityType() {
+		return activityType;
+	}
 
-    @JsonProperty("schedulingFrequencyInMinuntes")
-    public void setSchedulingFrequencyInMinuntes(Integer schedulingFrequencyInMinuntes) {
-        this.schedulingFrequencyInMinuntes = schedulingFrequencyInMinuntes;
-    }
+	@JsonProperty("activityType")
+	public void setActivityType(String activityType) {
+		this.activityType = activityType;
+	}
 
-    @JsonProperty("executingTimeWindow")
-    public String getExecutingTimeWindow() {
-        return executingTimeWindow;
-    }
+	@JsonProperty("schedulingFrequencyInMinutes")
+	public Integer getSchedulingFrequencyInMinutes() {
+		return schedulingFrequencyInMinutes;
+	}
 
-    @JsonProperty("executingTimeWindow")
-    public void setExecutingTimeWindow(String executingTimeWindow) {
-        this.executingTimeWindow = executingTimeWindow;
-    }
+	@JsonProperty("schedulingFrequencyInMinutes")
+	public void setSchedulingFrequencyInMinutes(Integer schedulingFrequencyInMinutes) {
+		this.schedulingFrequencyInMinutes = schedulingFrequencyInMinutes;
+	}
 
-    @JsonProperty("executingDays")
-    public String getExecutingDays() {
-        return executingDays;
-    }
+	@JsonProperty("executingTimeWindow")
+	public String getExecutingTimeWindow() {
+		return executingTimeWindow;
+	}
 
-    @JsonProperty("executingDays")
-    public void setExecutingDays(String executingDays) {
-        this.executingDays = executingDays;
-    }
+	@JsonProperty("executingTimeWindow")
+	public void setExecutingTimeWindow(String executingTimeWindow) {
+		this.executingTimeWindow = executingTimeWindow;
+	}
+
+	@JsonProperty("executingDays")
+	public String getExecutingDays() {
+		return executingDays;
+	}
+
+	@JsonProperty("executingDays")
+	public void setExecutingDays(String executingDays) {
+		this.executingDays = executingDays;
+	}
+
+	@JsonProperty("status")
+	public String getStatus() {
+		return status;
+	}
+
+	@JsonProperty("status")
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
 }

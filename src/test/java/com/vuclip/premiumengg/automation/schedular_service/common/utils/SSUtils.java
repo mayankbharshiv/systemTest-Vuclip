@@ -1,7 +1,6 @@
 package com.vuclip.premiumengg.automation.schedular_service.common.utils;
 
-import com.vuclip.premiumengg.automation.schedular_service.common.models.ConfigurationMessage;
-import com.vuclip.premiumengg.automation.schedular_service.common.models.QueueMessage;
+import com.vuclip.premiumengg.automation.schedular_service.common.models.SchedulerSaveProductRequest;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.PublishConfigRequest;
 import com.vuclip.premiumengg.automation.utils.ObjectMapperUtils;
 
@@ -20,38 +19,31 @@ public class SSUtils {
                 .readValue("src/test/resources/configurations/schedular-service/request/" + JsonFileName, type);
     }
 
-    public static ConfigurationMessage getConfigurationMessage(String activityType, int productId, int partnerId,
+    public static SchedulerSaveProductRequest getConfigurationMessage(String activityType, int productId, int partnerId,
                                                                int freInMinute) {
-        ConfigurationMessage configurationMessage = loadJson("configurationMessage.json", ConfigurationMessage.class);
-        configurationMessage.getRetry().setActivityType(activityType);
-        configurationMessage.getProduct().setId(productId);
-        configurationMessage.getRetry().setPartnerId(partnerId);
-        configurationMessage.getRetry().setSchedulingFrequencyInMinuntes(freInMinute);
+        SchedulerSaveProductRequest configurationMessage = loadJson("configurationMessage.json", SchedulerSaveProductRequest.class);
+        configurationMessage.getRetry().get(0).setActivityType(activityType);
+        configurationMessage.getRetry().get(0).setProductId(productId);
+        configurationMessage.getRetry().get(0).setPartnerId(partnerId);
+        configurationMessage.getRetry().get(0).setSchedulingFrequencyInMinutes(freInMinute);
         return configurationMessage;
     }
 
-    public static ConfigurationMessage getConfigurationMessage(String activityType, int productId, int partnerId,
+    public static SchedulerSaveProductRequest getConfigurationMessage(String activityType, int productId, int partnerId,
                                                                int freInMinute, String country) {
-        ConfigurationMessage configurationMessage = loadJson("configurationMessage.json", ConfigurationMessage.class);
-        configurationMessage.getRetry().setActivityType(activityType);
-        configurationMessage.getProduct().setId(productId);
-        configurationMessage.getRetry().setPartnerId(partnerId);
-        configurationMessage.getRetry().setSchedulingFrequencyInMinuntes(freInMinute);
-        configurationMessage.getRetry().setCountry(country);
+        SchedulerSaveProductRequest configurationMessage = loadJson("configurationMessage.json", SchedulerSaveProductRequest.class);
+        configurationMessage.getRetry().get(0).setActivityType(activityType);
+        configurationMessage.getRetry().get(0).setProductId(productId);
+        configurationMessage.getRetry().get(0).setPartnerId(partnerId);
+        configurationMessage.getRetry().get(0).setSchedulingFrequencyInMinutes(freInMinute);
+        configurationMessage.getRetry().get(0).setCountryCode(country);
         return configurationMessage;
     }
 
-    public static ConfigurationMessage getConfigurationMessage(String activityType) {
-        ConfigurationMessage configurationMessage = loadJson("configurationMessage.json", ConfigurationMessage.class);
-        configurationMessage.getRetry().setActivityType(activityType);
+    public static SchedulerSaveProductRequest getConfigurationMessage(String activityType) {
+        SchedulerSaveProductRequest configurationMessage = loadJson("configurationMessage.json", SchedulerSaveProductRequest.class);
+        configurationMessage.getRetry().get(0).setActivityType(activityType);
         return configurationMessage;
-    }
-
-    public static QueueMessage getQueueMessage(ConfigurationMessage configurationMessage) {
-        String jobMessage = (ObjectMapperUtils.writeValueAsString(configurationMessage));
-        QueueMessage queueMessage = loadJson("queueMessage.json", QueueMessage.class);
-        queueMessage.setPayload(jobMessage);
-        return queueMessage;
     }
 
 }
