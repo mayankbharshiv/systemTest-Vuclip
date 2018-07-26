@@ -1,22 +1,25 @@
 package com.vuclip.premiumengg.automation.schedular_service.common.utils;
 
-import com.vuclip.premiumengg.automation.common.Configuration;
-import io.restassured.http.ContentType;
-import io.restassured.response.Response;
-import io.restassured.specification.RequestSpecification;
+import static io.restassured.RestAssured.given;
+import static io.restassured.RestAssured.with;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static io.restassured.RestAssured.given;
-import static io.restassured.RestAssured.with;
+import com.vuclip.premiumengg.automation.common.Configuration;
+import com.vuclip.premiumengg.automation.schedular_service.common.models.SchedulerSaveProductRequest;
+
+import io.restassured.http.ContentType;
+import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
 
 /**
  * @author rahul.sahu
  */
 public class SSHelper {
+	// private static Logger logger = Log4J.getLogger("GetJobTests");
 
-    private static RequestSpecification requestSpecification;
+	private static RequestSpecification requestSpecification;
 
     public static RequestSpecification getRequestSpecification() {
 
@@ -27,6 +30,12 @@ public class SSHelper {
         return requestSpecification;
     }
 
+	public static Response sendMessage(SchedulerSaveProductRequest jsonString) throws Exception {
+		final Response response = given(getRequestSpecification()).contentType(ContentType.JSON).log().all()
+				.body(jsonString).urlEncodingEnabled(false).post("/saveProduct");
+		response.prettyPrint();
+		return response;
+	}
     public static Response getAllJobs() throws Exception {
 
         final Response response = given(getRequestSpecification()).contentType(ContentType.JSON).log().all()
@@ -104,5 +113,6 @@ public class SSHelper {
         response.prettyPrint();
         return response;
     }
+	
 
 }
