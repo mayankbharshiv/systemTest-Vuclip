@@ -1,28 +1,28 @@
 {
-    "product": {
-        "productId": 1111,
-        "productName": "PN_76107",
-        "productType": "OTT1111",
-        "storeType": "Full Store",
-        "url": "www.viu.com",
-        "context": "contextName",
-        "cassId": 123,
-        "encryptionEnable": true,
-        "encryptionValidityInMinutes": 30,
-        "callbackUrl": "www.viu.com",
-        "consentCancelUrl": "www.viu.com",
-        "errorUrl": "www.viu.com",
-        "description": "VIU Product",
-        "status": "ACTIVE",
-        "operationType":"Create"
-    },
-    "pricePoints": [
-        {
+  "product": {
+    "productId": 1111,
+    "productName": "PN_76107",
+    "productType": "OTT1111",
+    "storeType": "Full Store",
+    "url": "www.viu.com",
+    "context": "contextName",
+    "cassId": 123,
+    "encryptionEnable": true,
+    "encryptionValidityInMinutes": 30,
+    "callbackUrl": "www.viu.com",
+    "consentCancelUrl": "www.viu.com",
+    "errorUrl": "www.viu.com",
+    "description": "VIU Product",
+    "status": "ACTIVE",
+    "operationType": "Create"
+  },
+  "pricePoints": [
+    {
       "productId": 1111,
       "partnerId": 1111,
       "billingCode": "b1",
       "countryCode": "IN",
-	  "price": 100,
+      "price": 100,
       "description": "Price Point 1",
       "validity": 30,
       "noOfCredits": 99999,
@@ -51,6 +51,6 @@
       "deactivationRetryValidity": 5,
       "notificationWaitPeriod": 1,
       "timeUnit": "YEAR"
-        }
-    ]
+    }
+  ]
 }

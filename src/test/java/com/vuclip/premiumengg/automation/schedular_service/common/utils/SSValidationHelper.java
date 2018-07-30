@@ -1,9 +1,5 @@
 package com.vuclip.premiumengg.automation.schedular_service.common.utils;
 
-import java.util.Map;
-
-import org.apache.log4j.Logger;
-
 import com.vuclip.premiumengg.automation.billing_package_service.common.models.QueueResponse;
 import com.vuclip.premiumengg.automation.common.Log4J;
 import com.vuclip.premiumengg.automation.schedular_service.common.models.JobMessage;
@@ -11,8 +7,10 @@ import com.vuclip.premiumengg.automation.schedular_service.common.models.Schedul
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.SchedulerRequest;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.UserSubscriptionRequest;
 import com.vuclip.premiumengg.automation.utils.AppAssert;
-
 import io.restassured.response.Response;
+import org.apache.log4j.Logger;
+
+import java.util.Map;
 
 public class SSValidationHelper {
     private static Logger logger = Log4J.getLogger("SASValidationHelper");

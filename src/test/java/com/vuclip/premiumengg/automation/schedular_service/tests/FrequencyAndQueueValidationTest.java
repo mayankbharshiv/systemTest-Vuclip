@@ -1,11 +1,5 @@
 package com.vuclip.premiumengg.automation.schedular_service.tests;
 
-import java.util.Map;
-
-import org.apache.log4j.Logger;
-import org.springframework.amqp.core.Message;
-import org.testng.annotations.Test;
-
 import com.vuclip.premiumengg.automation.common.Log4J;
 import com.vuclip.premiumengg.automation.common.RabbitAdminConnection;
 import com.vuclip.premiumengg.automation.common.RabbitMQConnection;
@@ -17,6 +11,11 @@ import com.vuclip.premiumengg.automation.schedular_service.common.utils.SSUtils;
 import com.vuclip.premiumengg.automation.schedular_service.common.utils.SSValidationHelper;
 import com.vuclip.premiumengg.automation.utils.AppAssert;
 import com.vuclip.premiumengg.automation.utils.ObjectMapperUtils;
+import org.apache.log4j.Logger;
+import org.springframework.amqp.core.Message;
+import org.testng.annotations.Test;
+
+import java.util.Map;
 
 /**
  * @author rahul s
@@ -52,12 +51,12 @@ public class FrequencyAndQueueValidationTest {
             // validate with 404 it will come into queue and verify content
             RabbitAdminConnection.getRabbitAdminConnection().purgeQueue("UBS-JOB-Q-PUSH", false);
             SSHelper.runJob(SSUtils.jobName, SSUtils.groupName);
-           
+
             Message message = RabbitMQConnection.getRabbitTemplate().receive("UBS-JOB-Q-PUSH", 15000);
             String jsonMessage = new String(message.getBody());
             System.out.println(jsonMessage);
             JobMessage responseJobMessage = ObjectMapperUtils.readValueFromString(jsonMessage, JobMessage.class);
-            
+
             SSValidationHelper.verifyQueueMEssage(responseJobMessage, configurationMessage);
 
             // verify it should not process job rule
@@ -70,7 +69,7 @@ public class FrequencyAndQueueValidationTest {
 
         } catch (Exception e) {
             e.printStackTrace();
-        	AppAssert.assertTrue(false,"Test case failed due to exception "+e.getMessage());
+            AppAssert.assertTrue(false, "Test case failed due to exception " + e.getMessage());
 
         }
     }

@@ -20,7 +20,7 @@ public class SSUtils {
     }
 
     public static SchedulerSaveProductRequest getConfigurationMessage(String activityType, int productId, int partnerId,
-                                                               int freInMinute) {
+                                                                      int freInMinute) {
         SchedulerSaveProductRequest configurationMessage = loadJson("configurationMessage.json", SchedulerSaveProductRequest.class);
         configurationMessage.getRetry().get(0).setActivityType(activityType);
         configurationMessage.getRetry().get(0).setProductId(productId);
@@ -30,7 +30,7 @@ public class SSUtils {
     }
 
     public static SchedulerSaveProductRequest getConfigurationMessage(String activityType, int productId, int partnerId,
-                                                               int freInMinute, String country) {
+                                                                      int freInMinute, String country) {
         SchedulerSaveProductRequest configurationMessage = loadJson("configurationMessage.json", SchedulerSaveProductRequest.class);
         configurationMessage.getRetry().get(0).setActivityType(activityType);
         configurationMessage.getRetry().get(0).setProductId(productId);
