@@ -1,38 +1,41 @@
 {
-  "product": {
-    "productId": 1111,
-    "productName": "VIU1111",
-    "productType": "OTT1111",
-    "storeType": "Full Store",
-    "url": "www.viu.com",
-    "context": "contextName",
-    "cassId": 123,
-    "encryptionEnable": true,
-    "encryptionValidityInMinutes": 30,
-    "callbackUrl": "www.viu.com",
-    "consentCancelUrl": "www.viu.com",
-    "errorUrl": "www.viu.com",
-    "description": "VIU Product",
-    "status": "ACTIVE",
-    "operationType": "CREATE"
-  },
-  "pricePoints": [
-    {
-      "billingCode": "bc11",
-      "price": 100.0,
+    "product": {
+        "productId": 1111,
+        "productName": "PN_76107",
+        "productType": "OTT1111",
+        "storeType": "Full Store",
+        "url": "www.viu.com",
+        "context": "contextName",
+        "cassId": 123,
+        "encryptionEnable": true,
+        "encryptionValidityInMinutes": 30,
+        "callbackUrl": "www.viu.com",
+        "consentCancelUrl": "www.viu.com",
+        "errorUrl": "www.viu.com",
+        "description": "VIU Product",
+        "status": "ACTIVE",
+        "operationType":"Create"
+    },
+    "pricePoints": [
+        {
+      "productId": 1111,
+      "partnerId": 1111,
+      "billingCode": "b1",
+      "countryCode": "IN",
+	  "price": 100,
       "description": "Price Point 1",
       "validity": 30,
-      "noOfCredits": 99,
-      "serviceId": "1111",
+      "noOfCredits": 99999,
+      "serviceId": "1234",
       "appId": 1,
       "ujId": 1,
-      "itemId": 1111,
-      "itemTypeId": 1,
+      "itemId": 1,
+      "itemTypeId": 0,
       "balanceCheckRequired": true,
       "fallbackApplicable": false,
-      "TrialApplicable": true,
-      "fallbackPpBillingCode": "bc111111",
-      "freeTrialBillingCode": "bc111111",
+      "freeTrialApplicable": false,
+      "fallbackPpBillingCode": "b1",
+      "freeTrialBillingCode": "b1",
       "freeTrialDays": 0,
       "exclusionPeriod": 60,
       "autoRenewalApplicable": true,
@@ -40,17 +43,14 @@
       "contentAccessPostDeactivation": true,
       "noOfDaysContentAccessAllowInParking": 10,
       "noOfDaysContentAccessAllowInSuspend": 0,
-      "parkingPeriod": 100,
-      "suspendPeriod": 100,
+      "parkingPeriod": 10,
+      "suspendPeriod": 10,
       "activationCoolDownPeriod": 10,
-      "productId": 1111,
-      "partnerId": 1111,
-      "countryCode": "IN",
       "operationType": "Create",
       "actInitValidity": 5,
       "deactivationRetryValidity": 5,
       "notificationWaitPeriod": 1,
-      "timeUnit": "YEARS"
-    }
-  ]
+      "timeUnit": "YEAR"
+        }
+    ]
 }
