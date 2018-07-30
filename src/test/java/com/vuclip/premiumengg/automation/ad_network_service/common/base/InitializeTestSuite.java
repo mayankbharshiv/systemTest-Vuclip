@@ -64,17 +64,11 @@ public class InitializeTestSuite {
             SaveProduct saveProduct = ANSUtils.generateSaveProductConfig(ANSTestContext.productId,
                     ANSTestContext.productName, ANSTestContext.partnerId, ANSTestContext.adNetworkId,
                     ANSTestContext.billingCode);
+            ANSValidationHelper.validate_ans_api_response(ANSHelper.saveProduct(saveProduct));
+
 
             ANSValidationHelper.validate_ans_api_response(
                     ANSHelper.saveCountry(ANSTestContext.countryCode, ANSTestContext.timezone));
-
-            // TODO RAHUL
-            String sourceIdentifier = "D_KIM" + RandomUtils.nextInt(100, 900);
-            ANSTestContext.requestParamName = "voluum_tid" + RandomStringUtils.random(5, true, true);
-            ANSValidationHelper.validate_ans_api_response(ANSHelper.saveAdNetwork(ANSTestContext.adNetworkId,
-                    ANSTestContext.requestParamName, sourceIdentifier));
-
-            ANSValidationHelper.validate_ans_api_response(ANSHelper.saveProduct(saveProduct));
 
         } catch (Exception e) {
             e.printStackTrace();
