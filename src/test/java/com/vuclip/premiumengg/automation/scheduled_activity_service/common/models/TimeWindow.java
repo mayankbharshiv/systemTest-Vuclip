@@ -4,41 +4,21 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-"TimeWindow"
-})
+@JsonPropertyOrder({ "TimeWindow" })
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class TimeWindow {
 
-@JsonProperty("TimeWindow")
-private TimeWindow_ timeWindow;
-
-/**
-* No args constructor for use in serialization
-* 
-*/
-public TimeWindow() {
+	@JsonProperty("TimeWindow")
+	private TimeWindow_ timeWindow;
 }
-
-/**
-* 
-* @param timeWindow
-*/
-public TimeWindow(TimeWindow_ timeWindow) {
-super();
-this.timeWindow = timeWindow;
-}
-
-@JsonProperty("TimeWindow")
-public TimeWindow_ getTimeWindow() {
-return timeWindow;
-}
-
-@JsonProperty("TimeWindow")
-public void setTimeWindow(TimeWindow_ timeWindow) {
-this.timeWindow = timeWindow;
-}
-
-}
-//////--com.vuclip.premiumengg.automation.e2e.common.models.TimeWindow_.java//////--
-
