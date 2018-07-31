@@ -60,7 +60,7 @@ public class SASFreeTrialRenewalSuccessTest {
      * @param newAfterSchedularStatus
      * @param newQueueName
      */
-    @Test(dataProvider = "freeTrialRenewalSuccessDataProvider", groups = {"positive"})
+    @Test(dataProvider = "freeTrialRenewalSuccessDataProvider", groups = {"pending"})
     public void reeTrialRenewalSuccessTests(String eventActionType, String activityType,
                                             String currentSubscriptionState, String transactionState, String actionTable, String beforeSchedularStatus,
                                             String afterSchedularStatus, String afteNewEventStatus, String queueName, String newEventActionType,

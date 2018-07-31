@@ -1,9 +1,1 @@
-{
-  "jobId": 1,
-  "partnerId": 1,
-  "productId": 1,
-  "country": "IN",
-  "executingDays": "1111111",
-  "activityType": "SYSTEM_CHURN",
-  "timeWindow": "[TimeWindow(startime=00:01:01, endTime=23:01:01)]"
-}
+{"jobId":1 , "partnerId" : 1, "productId" : 1, "country": "IN", "executingDays":"1111111", "activityType":"RENEWAL", "timeWindow": [{"TimeWindow":{"startTime":"00:01:01", "endTime":"23:01:01"}}],"eventInfo":{"logTime":"1527406520000","eventId":"x-12334","eventType":"schedular"}}

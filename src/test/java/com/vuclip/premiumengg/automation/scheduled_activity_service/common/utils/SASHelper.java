@@ -15,67 +15,81 @@ import static io.restassured.RestAssured.with;
  * @author mayank.bharshiv
  */
 public class SASHelper {
-    final String saveProductResource = "/saveProduct";
-    final String userSubscriptionResource = "/event/userSubcription";
-    final String schedulerResource = "/schedular";
-    RequestSpecification requestSpecification;
+	final String saveProductResource = "/saveProduct";
+	final String userSubscriptionResource = "/event/userSubcription";
+	final String schedulerResource = "/schedular";
+	RequestSpecification requestSpecification;
 
-    /**
-     * Default constructor. Initializes the request template.
-     */
-    public SASHelper() {
+	/**
+	 * Default constructor. Initializes the request template.
+	 */
+	public SASHelper() {
 
-        this.requestSpecification = with().baseUri(Configuration.sasServer);
-    }
+		this.requestSpecification = with().baseUri(Configuration.sasServer);
+	}
 
-    /**
-     * @param publishConfigRequest
-     * @return response
-     * @throws Exception
-     */
-    public Response saveProduct(PublishConfigRequest publishConfigRequest) throws Exception {
+	/**
+	 * @param publishConfigRequest
+	 * @return response
+	 * @throws Exception
+	 */
+	public Response saveProduct(PublishConfigRequest publishConfigRequest) throws Exception {
 
-        final Response response = given(requestSpecification).contentType(ContentType.JSON).body(publishConfigRequest)
-                .log().all().post(saveProductResource);
-        response.prettyPrint();
-        return response;
-    }
+		final Response response = given(requestSpecification).contentType(ContentType.JSON).body(publishConfigRequest)
+				.log().all().post(saveProductResource);
+		response.prettyPrint();
+		return response;
+	}
 
-    /**
-     * @param publishConfigRequest
-     * @return response
-     * @throws Exception
-     */
-    public Response saveProduct(String publishConfigRequest) throws Exception {
+	/**
+	 * @param publishConfigRequest
+	 * @return response
+	 * @throws Exception
+	 */
+	public Response saveProduct(String publishConfigRequest) throws Exception {
 
-        final Response response = given(requestSpecification).contentType(ContentType.JSON).body(publishConfigRequest)
-                .post(saveProductResource);
-        // response.prettyPrint();
-        return response;
-    }
+		final Response response = given(requestSpecification).contentType(ContentType.JSON).body(publishConfigRequest)
+				.post(saveProductResource);
+		 response.prettyPrint();
+		return response;
+	}
 
-    /**
-     * @param userSubscriptionRequest
-     * @return
-     * @throws Exception
-     */
-    public Response userSubscription(UserSubscriptionRequest userSubscriptionRequest) throws Exception {
-        final Response response = given(requestSpecification).contentType(ContentType.JSON)
-                .body(userSubscriptionRequest).log().all().post(userSubscriptionResource);
-        response.prettyPrint();
-        return response;
-    }
+	/**
+	 * @param userSubscriptionRequest
+	 * @return
+	 * @throws Exception
+	 */
+	public Response userSubscription(UserSubscriptionRequest userSubscriptionRequest) throws Exception {
+		final Response response = given(requestSpecification).contentType(ContentType.JSON)
+				.body(userSubscriptionRequest).log().all().post(userSubscriptionResource);
+		response.prettyPrint();
+		return response;
+	}
 
-    /**
-     * @param schedulerRequest
-     * @return
-     * @throws Exception
-     */
-    public Response scheduler(SchedulerRequest schedulerRequest) throws Exception {
-        final Response response = given(requestSpecification).contentType(ContentType.JSON).body(schedulerRequest).log().all()
-                .post(schedulerResource);
-        response.prettyPrint();
-        return response;
-    }
+	/**
+	 * @param schedulerRequest
+	 * @return
+	 * @throws Exception
+	 */
+	public Response scheduler(SchedulerRequest schedulerRequest) throws Exception {
+		if (schedulerRequest.getActivityType() != null) {
+			if (schedulerRequest.getActivityType().equalsIgnoreCase("ACTIVATION"))
+				schedulerRequest.setActivityType("ACTIVATION_RETRY");
+			if (schedulerRequest.getActivityType().equalsIgnoreCase("DEACTIVATION"))
+				schedulerRequest.setActivityType("DEACTIVATION_RETRY");
+		}
+		final Response response = given(requestSpecification).contentType(ContentType.JSON).body(schedulerRequest).log()
+				.all().post(schedulerResource);
+		response.prettyPrint();
+		return response;
+	}
+
+	public Response scheduler(String jsonstring) throws Exception {
+
+		final Response response = given(requestSpecification).contentType(ContentType.JSON).body(jsonstring).log().all()
+				.post(schedulerResource);
+		response.prettyPrint();
+		return response;
+	}
 
 }
