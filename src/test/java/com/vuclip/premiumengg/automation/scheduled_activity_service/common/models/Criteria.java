@@ -1,5 +1,6 @@
 package com.vuclip.premiumengg.automation.scheduled_activity_service.common.models;
 
+import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -11,22 +12,21 @@ import lombok.Setter;
 import lombok.ToString;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({ "eventInfo", "userInfo", "activityInfo", "subscriptionInfo", "activityEvent" })
+@JsonPropertyOrder({ "criteriaId", "smsText", "criterions", "dateCoumputationCriterion" })
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class UserSubscriptionRequest {
+public class Criteria {
 
-	@JsonProperty("eventInfo")
-	private EventInfo eventInfo;
-	@JsonProperty("userInfo")
-	private UserInfo userInfo;
-	@JsonProperty("activityInfo")
-	private ActivityInfo activityInfo;
-	@JsonProperty("subscriptionInfo")
-	private SubscriptionInfo subscriptionInfo;
-	@JsonProperty("activityEvent")
-	private ActivityEvent activityEvent;
+	@JsonProperty("criteriaId")
+	private Integer criteriaId;
+	@JsonProperty("smsText")
+	private String smsText;
+	@JsonProperty("criterions")
+	private List<Criterion> criterions = null;
+	@JsonProperty("dateCoumputationCriterion")
+	private DateCoumputationCriterion dateCoumputationCriterion;
+
 }

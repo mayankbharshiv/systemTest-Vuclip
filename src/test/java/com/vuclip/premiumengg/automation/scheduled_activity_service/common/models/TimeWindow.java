@@ -11,22 +11,14 @@ import lombok.Setter;
 import lombok.ToString;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({ "eventInfo", "userInfo", "activityInfo", "subscriptionInfo", "activityEvent" })
+@JsonPropertyOrder({ "TimeWindow" })
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class UserSubscriptionRequest {
+public class TimeWindow {
 
-	@JsonProperty("eventInfo")
-	private EventInfo eventInfo;
-	@JsonProperty("userInfo")
-	private UserInfo userInfo;
-	@JsonProperty("activityInfo")
-	private ActivityInfo activityInfo;
-	@JsonProperty("subscriptionInfo")
-	private SubscriptionInfo subscriptionInfo;
-	@JsonProperty("activityEvent")
-	private ActivityEvent activityEvent;
+	@JsonProperty("TimeWindow")
+	private TimeWindow_ timeWindow;
 }

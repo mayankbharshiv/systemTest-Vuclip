@@ -1,327 +1,339 @@
 {
-  "product": {
-    "productId": 1111,
-    "productName": "VIU",
-    "productType": "FULL_STORE",
-    "url": "www.viu.com",
-    "context": "viu-context",
-    "cassId": 11,
-    "encryptionEnable": true,
-    "encryptionValidityInMinutes": 30,
-    "callbackUrl": "www.viu.com",
-    "consentCancelUrl": "www.viu.com",
-    "errorUrl": "www.viu.com",
-    "description": "VIU Product",
-    "status": "ACTIVE"
-  },
-  "productPartnerMappings": [
-    {
-      "productId": 1111,
-      "partnerId": 1111,
-      "chargingDependOnSmsDelivery": false,
-      "optOutSmsEnabled": true,
-      "preRenewalSmsEnabled": true,
-      "partnerConsentParserEndpoint": "Parse EndPoint",
-      "partnerConsentUrlGenerationEndpoint": "Url Generation EndPoint",
-      "dateFormat": "dd-mm-yyyy",
-      "validityFromPartner": true,
-      "blacklistValidity": 180,
-      "cooldownApplicable": true,
-      "cooldownValidity": 3,
-      "timeUnit": "hour",
-      "stepUpChargingApplicable": false,
-      "allowedFreeTrialCount": 1
-    }
-  ],
-  "productCountryMapping": {
-    "productId": 1111,
-    "countries": [
-      {
-        "countryCode": "IN"
-      }
+    "product": {
+        "productId": 1111,
+        "productName": "VIU",
+        "productType": "OTT",
+        "storeType": "Full Store",
+        "url": "www.viu.com",
+        "context": "contextName",
+        "cassId": 123,
+        "encryptionEnable": true,
+        "encryptionValidityInMinutes": 30,
+        "callbackUrl": "www.viu.com",
+        "consentCancelUrl": "www.viu.com",
+        "errorUrl": "www.viu.com",
+        "description": "VIU Product",
+        "status": "ACTIVE",
+        "operationType": "CREATE"
+    },
+    "productPartnerMappings": [
+        {
+            "productId": 1111,
+            "partnerId": 1111,
+            "chargingDependOnSmsDelivery": true,
+            "optOutSmsEnabled": true,
+            "preRenewalSmsEnabled": false,
+            "partnerConsentParserEndpoint": "Parse EndPoint",
+            "partnerConsentUrlGenerationEndpoint": "Url Generation EndPoint",
+            "dateFormat": "dd-mm-yyyy",
+            "operationType": "CREATE",
+            "blacklistApplicable": true,
+            "validityFromPartner": true,
+            "blacklistValidity": 180,
+            "cooldownApplicable": true,
+            "cooldownValidity": 3,
+            "timeUnit": "HOUR",
+            "stepUpChargingApplicable": false,
+            "allowedFreeTrialCount": 1
+        }
+    ],
+    "productCountryMapping": {
+        "productId": 1111,
+        "countries": [
+            {
+                "countryCode": "IN",
+                "operationType": "CREATE"
+            }
+        ]
+    },
+    "smsConfigs": [
+        {
+            "smsConfigId": 1,
+            "type": "CONTENT_SMS",
+            "redirectionContext": "Redirection Context",
+            "defaultSmsLanguageId": 1,
+            "batchSize": 50000,
+            "smsLength": 100,
+            "autoPlay": false,
+            "status": "active",
+            "criterias": [
+                {
+                    "criteriaId": 1,
+                    "smsText": "SMS Text",
+                    "criterions": [
+                        {
+                            "criterionId": 1,
+                            "name": "activity",
+                            "operator": "==",
+                            "value": "ACTIVATION",
+                            "groupingOperator": "NONE"
+                        }
+                    ],
+                    "dateCoumputationCriterion": {
+                        "dateComputationCriterionId": 1,
+                        "name": "next_billing_date",
+                        "operator": "+",
+                        "value": "24",
+                        "unit": "HOUR"
+                    }
+                }
+            ],
+            "productId": 1111,
+            "partnerId": 1111,
+            "countryCode": "IN",
+            "operationType": "CREATE"
+        }
+    ],
+    "retry": [
+        {
+            "retryId": 1,
+            "productId": 1111,
+            "partnerId": 1111,
+            "countryCode": "IN",
+            "operationType": "CREATE",
+            "activityType": "ACTIVATION_RETRY",
+            "maxRetryCount": 1000,
+            "retryIntervalInMinutes": 120,
+            "attemptWindow": "00:01AM-11:59PM",
+            "typeOfCycle": "CALANDER_DAY",
+            "batchSize": 50000,
+            "schedulingFrequencyInMinutes": 100,
+            "schedulingDays": "ALL",
+            "executingTimeWindow": "00:01-23:59",
+            "executingDays": "1111111",
+            "status": "active",
+            "actionDefaultEiligible": true,
+            "retryable": true
+        },
+        {
+            "retryId": 1,
+            "productId": 1111,
+            "partnerId": 1111,
+            "countryCode": "IN",
+            "operationType": "CREATE",
+            "activityType": "DEACTIVATION_RETRY",
+            "maxRetryCount": 1000,
+            "retryIntervalInMinutes": 120,
+            "attemptWindow": "00:01AM-11:59PM",
+            "typeOfCycle": "CALANDER_DAY",
+            "batchSize": 50000,
+            "schedulingFrequencyInMinutes": 100,
+            "schedulingDays": "ALL",
+            "executingTimeWindow": "00:01-23:59",
+            "executingDays": "1111111",
+            "status": "active",
+            "actionDefaultEiligible": true,
+            "retryable": true
+        },
+        {
+            "retryId": 1,
+            "productId": 1111,
+            "partnerId": 1111,
+            "countryCode": "IN",
+            "operationType": "CREATE",
+            "activityType": "RENEWAL",
+            "maxRetryCount": 1000,
+            "retryIntervalInMinutes": 120,
+            "attemptWindow": "00:01AM-11:59PM",
+            "typeOfCycle": "CALANDER_DAY",
+            "batchSize": 50000,
+            "schedulingFrequencyInMinutes": 100,
+            "schedulingDays": "ALL",
+            "executingTimeWindow": "00:01-23:59",
+            "executingDays": "1111111",
+            "status": "active",
+            "actionDefaultEiligible": true,
+            "retryable": true
+        },
+        {
+            "retryId": 1,
+            "productId": 1111,
+            "partnerId": 1111,
+            "countryCode": "IN",
+            "operationType": "CREATE",
+            "activityType": "RENEWAL_RETRY",
+            "maxRetryCount": 1000,
+            "retryIntervalInMinutes": 120,
+            "attemptWindow": "00:01AM-11:59PM",
+            "typeOfCycle": "CALANDER_DAY",
+            "batchSize": 50000,
+            "schedulingFrequencyInMinutes": 100,
+            "schedulingDays": "ALL",
+            "executingTimeWindow": "00:01-23:59",
+            "executingDays": "1111111",
+            "status": "active",
+            "actionDefaultEiligible": true,
+            "retryable": true
+        },
+        {
+            "retryId": 1,
+            "productId": 1111,
+            "partnerId": 1111,
+            "countryCode": "IN",
+            "operationType": "CREATE",
+            "activityType": "WINBACK",
+            "maxRetryCount": 1000,
+            "retryIntervalInMinutes": 120,
+            "attemptWindow": "00:01AM-11:59PM",
+            "typeOfCycle": "CALANDER_DAY",
+            "batchSize": 50000,
+            "schedulingFrequencyInMinutes": 100,
+            "schedulingDays": "ALL",
+            "executingTimeWindow": "00:01-23:59",
+            "executingDays": "1111111",
+            "status": "active",
+            "actionDefaultEiligible": true,
+            "retryable": true
+        },
+        {
+            "retryId": 1,
+            "productId": 1111,
+            "partnerId": 1111,
+            "countryCode": "IN",
+            "operationType": "CREATE",
+            "activityType": "SYSTEM_CHURN",
+            "maxRetryCount": 1000,
+            "retryIntervalInMinutes": 120,
+            "attemptWindow": "00:01AM-11:59PM",
+            "typeOfCycle": "CALANDER_DAY",
+            "batchSize": 50000,
+            "schedulingFrequencyInMinutes": 100,
+            "schedulingDays": "ALL",
+            "executingTimeWindow": "00:01-23:59",
+            "executingDays": "1111111",
+            "status": "active",
+            "actionDefaultEiligible": true,
+            "retryable": true
+        },
+        {
+            "retryId": 1,
+            "productId": 1111,
+            "partnerId": 1111,
+            "countryCode": "IN",
+            "operationType": "CREATE",
+            "activityType": "FREETRIAL_RENEWAL",
+            "maxRetryCount": 1000,
+            "retryIntervalInMinutes": 120,
+            "attemptWindow": "00:01AM-11:59PM",
+            "typeOfCycle": "CALANDER_DAY",
+            "batchSize": 50000,
+            "schedulingFrequencyInMinutes": 100,
+            "schedulingDays": "ALL",
+            "executingTimeWindow": "00:01-23:59",
+            "executingDays": "1111111",
+            "status": "active",
+            "actionDefaultEiligible": true,
+            "retryable": true
+        }
+    ],
+    "churnNotifications": [
+        {
+            "churnNotificationId": 1,
+            "typeOfChurn": "ALL",
+            "period": "24",
+            "productId": 1111,
+            "partnerId": 1111,
+            "countryCode": "IN",
+            "operationType": "CREATE"
+        }
+    ],
+    "adNetworkNotifications": [
+        {
+            "adNetworkNotificationId": 1,
+            "productId": 1111,
+            "partnerId": 1111,
+            "countryCode": "IN",
+            "id": 5,
+            "paidPercentage": 100,
+            "freePercentage": 50,
+            "winbackPercentage": 50,
+            "operationType": "CREATE"
+        }
+    ],
+    "pricePoints": [
+        {
+            "billingCode": "b1",
+            "price": 80,
+            "description": "Price Point 2",
+            "validity": 15,
+            "noOfCredits": 1111,
+            "serviceId": "121",
+            "appId": 1,
+            "ujId": 1,
+            "itemId": 1,
+            "itemTypeId": 0,
+            "balanceCheckRequired": true,
+            "fallbackApplicable": false,
+            "freeTrialApplicable": false,
+            "fallbackPpBillingCode": "b3",
+            "freeTrialBillingCode": "b3",
+            "freeTrialDays": 0,
+            "exclusionPeriod": 60,
+            "autoRenewalApplicable": true,
+            "status": "active",
+            "contentAccessPostDeactivation": true,
+            "noOfDaysContentAccessAllowInParking": 10,
+            "noOfDaysContentAccessAllowInSuspend": 0,
+            "parkingPeriod": 10,
+            "suspendPeriod": 10,
+            "activationCoolDownPeriod": 5,
+            "productId": 1111,
+            "partnerId": 1111,
+            "countryCode": "IN",
+            "operationType": "CREATE",
+            "actInitValidity": 5,
+            "deactivationRetryValidity": 5,
+            "notificationWaitPeriod": 1,
+            "timeUnit": "DAY"
+        }
+    ],
+    "stateConfigs": [
+        {
+            "stateConfigId": 1,
+            "productId": 1111,
+            "partnerId": 1111,
+            "countryCode": "IN",
+            "operationType": "CREATE",
+            "pricePoint": "b1",
+            "actInitDuration": 100,
+            "activeDuration": 30,
+            "parkingDuration": 10,
+            "graceDuration": 12,
+            "suspendDuration": 10,
+            "blacklistDuration": 10
+        }
+    ],
+    "blackouts": [
+        {
+            "blackoutId": 1,
+            "productId": 1111,
+            "partnerId": 1111,
+            "countryCode": "IN",
+            "period": "'7:30-7:31,23:00-23:01'",
+            "operationType": "CREATE",
+            "blackoutWindow": "05:00-05:01"
+        }
+    ],
+    "activityFlows": [
+        {
+            "activityFlowId": 1,
+            "productId": 1111,
+            "partnerId": 1111,
+            "countryCode": "IN",
+            "name": "ACTIVATION",
+            "billingCode": "b1",
+            "mode": "WAP",
+            "actions": [
+                {
+                    "action": "CONSENT",
+                    "flowType": "VUCLIP_CONSENT"
+                },
+                {
+                    "action": "CHARGING",
+                    "flowType": "VUCLIP_SYNC"
+                }
+            ],
+            "operationType": "CREATE"
+        }
     ]
-  },
-  "adNetworkNotifications": [
-    {
-      "adNetworkNotificationId": 1,
-      "productId": 1111,
-      "partnerId": 1111,
-      "countryCode": "IN",
-      "pricePoint": "b1",
-      "id": 1,
-      "paidPercentage": 100,
-      "freePercentage": 50,
-      "winbackPercentage": 90
-    }
-  ],
-  "activityFlows": [
-    {
-      "name": "ACTIVATION",
-      "billingPackageId": "b1",
-      "partnerId": 1111,
-      "mode": "WAP",
-      "actions": [
-        {
-          "action": "CONSENT",
-          "flowType": "VUCLIP_CONSENT"
-        },
-        {
-          "action": "REGISTRATION",
-          "flowType": "VUCLIP_SYNC"
-        },
-        {
-          "action": "CHARGING",
-          "flowType": "VUCLIP_ASYNC"
-        }
-      ]
-    },
-    {
-      "name": "WINBACK",
-      "partnerId": 1111,
-      "billingPackageId": "b1",
-      "actions": [
-        {
-          "action": "CHARGING",
-          "flowType": "VUCLIP_ASYNC"
-        }
-      ]
-    },
-    {
-      "name": "RENEWAL",
-      "partnerId": 1111,
-      "billingPackageId": "b1",
-      "actions": [
-        {
-          "action": "CHARGING",
-          "flowType": "VUCLIP_ASYNC"
-        }
-      ]
-    }
-  ],
-  "pricePoints": [
-    {
-      "billingCode": "b1",
-      "price": 50.0,
-      "description": "description",
-      "validity": 30,
-      "noOfCredits": 100,
-      "serviceId": 0,
-      "appId": 0,
-      "ujId": 0,
-      "itemId": 0,
-      "itemTypeId": 0,
-      "balanceCheckRequired": false,
-      "fallbackApplicable": false,
-      "freeTrialApplicable": false,
-      "fallbackPpBillingCode": "dummy",
-      "freeTrialBillingCode": "dummy",
-      "freeTrialDays": 10,
-      "exclusionPeriod": 10,
-      "autoRenewalApplicable": true,
-      "status": "active",
-      "contentAccessPostDeactivation": false,
-      "noOfDaysContentAccessAllowInParking": 0,
-      "noOfDaysContentAccessAllowInSuspend": 5,
-      "parkingPeriod": 240,
-      "suspendPeriod": 480,
-      "activationCoolDownPeriod": 1,
-      "productId": 1111,
-      "partnerId": 1111,
-      "countryCode": "IN",
-      "actInitValidity": 5,
-      "deactivationRetryValidity": 5,
-      "notificationWaitPeriod": 1,
-      "timeUnit": "hour"
-    }
-  ],
-  "retry": [
-    {
-      "productId": 1111,
-      "partnerId": 1111,
-      "countryCode": "IN",
-      "activityType": "ACTIVATION",
-      "maxRetryCount": 1000,
-      "retryIntervalInMinutes": 1,
-      "attemptWindow": "00:00AM-23:59PM",
-      "typeOfCycle": "DAY",
-      "batchSize": 50000,
-      "schedulingFrequencyInMinutes": 100,
-      "schedulingDays": "TEST",
-      "executingTimeWindow": "testwindow",
-      "executingDays": "1101011",
-      "status": "active",
-      "actionDefaultEiligible": true,
-      "retryable": true
-    },
-    {
-      "productId": 1111,
-      "partnerId": 1111,
-      "countryCode": "IN",
-      "activityType": "ACTIVATION_RETRY",
-      "maxRetryCount": 1000,
-      "retryIntervalInMinutes": 1,
-      "attemptWindow": "00:00AM-23:59PM",
-      "typeOfCycle": "DAY",
-      "batchSize": 50000,
-      "schedulingFrequencyInMinutes": 100,
-      "schedulingDays": "TEST",
-      "executingTimeWindow": "testwindow",
-      "executingDays": "1101011",
-      "status": "active",
-      "actionDefaultEiligible": true,
-      "retryable": true
-    },
-    {
-      "productId": 1111,
-      "partnerId": 1111,
-      "countryCode": "IN",
-      "activityType": "DEACTIVATION",
-      "maxRetryCount": 1000,
-      "retryIntervalInMinutes": 1,
-      "attemptWindow": "00:00AM-23:59PM",
-      "typeOfCycle": "DAY",
-      "batchSize": 50000,
-      "schedulingFrequencyInMinutes": 100,
-      "schedulingDays": "TEST",
-      "executingTimeWindow": "testwindow",
-      "executingDays": "1101011",
-      "status": "active",
-      "actionDefaultEiligible": true,
-      "retryable": true
-    },
-    {
-      "productId": 1111,
-      "partnerId": 1111,
-      "countryCode": "IN",
-      "activityType": "DEACTIVATION_RETRY",
-      "maxRetryCount": 1000,
-      "retryIntervalInMinutes": 1,
-      "attemptWindow": "00:00AM-23:59PM",
-      "typeOfCycle": "DAY",
-      "batchSize": 50000,
-      "schedulingFrequencyInMinutes": 100,
-      "schedulingDays": "TEST",
-      "executingTimeWindow": "testwindow",
-      "executingDays": "1101011",
-      "status": "active",
-      "actionDefaultEiligible": true,
-      "retryable": true
-    },
-    {
-      "productId": 1111,
-      "partnerId": 1111,
-      "countryCode": "IN",
-      "activityType": "RENEWAL",
-      "maxRetryCount": 1000,
-      "retryIntervalInMinutes": 1,
-      "attemptWindow": "00:00AM-23:59PM",
-      "typeOfCycle": "DAY",
-      "batchSize": 50000,
-      "schedulingFrequencyInMinutes": 100,
-      "schedulingDays": "TEST",
-      "executingTimeWindow": "testwindow",
-      "executingDays": "1101011",
-      "status": "active",
-      "actionDefaultEiligible": true,
-      "retryable": true
-    },
-    {
-      "productId": 1111,
-      "partnerId": 1111,
-      "countryCode": "IN",
-      "activityType": "RENEWAL_RETRY",
-      "maxRetryCount": 1000,
-      "retryIntervalInMinutes": 1,
-      "attemptWindow": "00:00AM-23:59PM",
-      "typeOfCycle": "DAY",
-      "batchSize": 50000,
-      "schedulingFrequencyInMinutes": 100,
-      "schedulingDays": "TEST",
-      "executingTimeWindow": "testwindow",
-      "executingDays": "1101011",
-      "status": "active",
-      "actionDefaultEiligible": true,
-      "retryable": true
-    },
-    {
-      "productId": 1111,
-      "partnerId": 1111,
-      "countryCode": "IN",
-      "activityType": "WINBACK",
-      "maxRetryCount": 1000,
-      "retryIntervalInMinutes": 1,
-      "attemptWindow": "00:00AM-23:59PM",
-      "typeOfCycle": "DAY",
-      "batchSize": 50000,
-      "schedulingFrequencyInMinutes": 100,
-      "schedulingDays": "TEST",
-      "executingTimeWindow": "testwindow",
-      "executingDays": "1101011",
-      "status": "active",
-      "actionDefaultEiligible": true,
-      "retryable": true
-    },
-    {
-      "productId": 1111,
-      "partnerId": 1111,
-      "countryCode": "IN",
-      "activityType": "SYSTEM_CHURN",
-      "maxRetryCount": 1000,
-      "retryIntervalInMinutes": 1,
-      "attemptWindow": "00:00AM-23:59PM",
-      "typeOfCycle": "DAY",
-      "batchSize": 50000,
-      "schedulingFrequencyInMinutes": 100,
-      "schedulingDays": "TEST",
-      "executingTimeWindow": "testwindow",
-      "executingDays": "1101011",
-      "status": "active",
-      "actionDefaultEiligible": true,
-      "retryable": true
-    },
-    {
-      "productId": 1111,
-      "partnerId": 1111,
-      "countryCode": "IN",
-      "activityType": "FREETRIAL_RENEWAL",
-      "maxRetryCount": 1000,
-      "retryIntervalInMinutes": 1,
-      "attemptWindow": "00:00AM-23:59PM",
-      "typeOfCycle": "DAY",
-      "batchSize": 50000,
-      "schedulingFrequencyInMinutes": 100,
-      "schedulingDays": "TEST",
-      "executingTimeWindow": "testwindow",
-      "executingDays": "1101011",
-      "status": "active",
-      "actionDefaultEiligible": true,
-      "retryable": true
-    },
-    {
-      "productId": 1111,
-      "partnerId": 1111,
-      "countryCode": "IN",
-      "activityType": "ACTIVATION",
-      "maxRetryCount": 1000,
-      "retryIntervalInMinutes": 1,
-      "attemptWindow": "00:00AM-23:59PM",
-      "typeOfCycle": "DAY",
-      "batchSize": 50000,
-      "schedulingFrequencyInMinutes": 100,
-      "schedulingDays": "TEST",
-      "executingTimeWindow": "testwindow",
-      "executingDays": "1101011",
-      "status": "active",
-      "actionDefaultEiligible": true,
-      "retryable": true
-    }
-  ],
-  "blackouts": [
-    {
-      "productId": 1111,
-      "partnerId": 1111,
-      "countryCode": "IN",
-      "blackoutWindow": "5:20-5:21"
-    }
-  ]
 }

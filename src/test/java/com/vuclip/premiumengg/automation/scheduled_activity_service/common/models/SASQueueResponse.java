@@ -11,24 +11,25 @@ import lombok.Setter;
 import lombok.ToString;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({ "activityType", "actionType", "previousSubscriptionState", "currentSubscriptionState",
-		"activityResult" })
+@JsonPropertyOrder({ "productId", "partnerId", "countryCode", "activityType", "subscriptionId", "attemptNumber" })
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class ActivityInfo {
+public class SASQueueResponse {
 
+	@JsonProperty("productId")
+	private Object productId;
+	@JsonProperty("partnerId")
+	private Object partnerId;
+	@JsonProperty("countryCode")
+	private String countryCode;
 	@JsonProperty("activityType")
-	private String activityType;
-	@JsonProperty("actionType")
-	private String actionType;
-	@JsonProperty("previousSubscriptionState")
-	private String previousSubscriptionState;
-	@JsonProperty("currentSubscriptionState")
-	private String currentSubscriptionState;
-	@JsonProperty("activityResult")
-	private String activityResult;
+	private String activitType;
+	@JsonProperty("subscriptionId")
+	private Object subscriptionId;
+	@JsonProperty("attemptNumber")
+	private Object attemptNumber;
 
 }

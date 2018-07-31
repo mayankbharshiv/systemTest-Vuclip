@@ -1,18 +1,18 @@
 package com.vuclip.premiumengg.automation.scheduled_activity_service.tests;
 
-import com.vuclip.premiumengg.automation.common.Log4J;
-import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.SchedulerRequest;
-import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASHelper;
-import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASUtils;
-import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASValidationHelper;
-import com.vuclip.premiumengg.automation.utils.JsonHelper;
-import com.vuclip.premiumengg.automation.utils.ObjectMapperUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+
+import com.vuclip.premiumengg.automation.common.Log4J;
+import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.SchedulerRequest;
+import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASHelper;
+import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASUtils;
+import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASValidationHelper;
+import com.vuclip.premiumengg.automation.utils.JsonHelper;
 
 public class SchedulerAPINegativeTests {
     private static Logger logger = Log4J.getLogger("SchedulerApiTest");
@@ -24,7 +24,7 @@ public class SchedulerAPINegativeTests {
     String transactionState = "SUCCESS";
     String actionType = "CHARGING";
     Integer subscriptionId;
-    String actionTable = "renewal";
+    String actionTable = "RENEWAL";
     private SASHelper sasHelper;
     private String countryCode = "IN";
 
@@ -70,6 +70,7 @@ public class SchedulerAPINegativeTests {
             SASValidationHelper.validate_schedular_invalid_api_response(sasHelper.scheduler(generateSchedulerRequest));
 
         } catch (Exception e) {
+        	e.printStackTrace();
             Assert.fail(e.toString());
         }
     }
@@ -99,9 +100,13 @@ public class SchedulerAPINegativeTests {
             SchedulerRequest generateSchedulerRequest = SASUtils.generateSchedulerRequest(productId, partnerId,
                     actionTable);
             String jsonString = JsonHelper.remove(SchedulerRequest.class, generateSchedulerRequest, jsonElement);
-            generateSchedulerRequest = ObjectMapperUtils.readValueFromString(jsonString, SchedulerRequest.class);
-            SASValidationHelper.validate_schedular_invalid_api_response(sasHelper.scheduler(generateSchedulerRequest));
+            System.out.println(jsonString);
+//            generateSchedulerRequest = ObjectMapperUtils.readValueFromString(jsonString, SchedulerRequest.class);
+//            System.out.println(generateSchedulerRequest.toString());
+
+            SASValidationHelper.validate_schedular_invalid_api_response(sasHelper.scheduler(jsonString));
         } catch (Exception e) {
+        	e.printStackTrace();
             Assert.fail(e.toString());
         }
     }

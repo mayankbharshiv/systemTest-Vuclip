@@ -1,12 +1,19 @@
 package com.vuclip.premiumengg.automation.scheduled_activity_service.common.base;
 
-import com.vuclip.premiumengg.automation.common.*;
+import com.vuclip.premiumengg.automation.common.Configuration;
+import com.vuclip.premiumengg.automation.common.JDBCTemplate;
+import com.vuclip.premiumengg.automation.common.Log4J;
+import com.vuclip.premiumengg.automation.common.RabbitAdminConnection;
+import com.vuclip.premiumengg.automation.common.RabbitMQConnection;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.PublishConfigRequest;
+import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.RabbitUtil;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASDBHelper;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASHelper;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASUtils;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASValidationHelper;
 import com.vuclip.premiumengg.automation.utils.ObjectMapperUtils;
+
+import org.springframework.amqp.rabbit.connection.RabbitUtils;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
@@ -22,78 +29,65 @@ import java.util.Properties;
 @Test
 public class InitializeTestSuite {
 
-    /**
-     * Method to be invoked before launch of any Suite execution.
-     */
-    @BeforeSuite(alwaysRun = true)
-    public final void init() {
-        Log4J.getLogger().info("====== SettingUp scheduled-activity-service-tests execution ======");
-        FileInputStream inputStream = null;
-        Properties properties = new Properties();
-        try {
-            String filePath = System.getProperty("propertiesFile");
-            File configFile = new File(filePath);
+	/**
+	 * Method to be invoked before launch of any Suite execution.
+	 */
+	@BeforeSuite(alwaysRun = true)
+	public final void init() {
+		Log4J.getLogger().info("====== SettingUp scheduled-activity-service-tests execution ======");
+		FileInputStream inputStream = null;
+		Properties properties = new Properties();
+		try {
+			String filePath = System.getProperty("propertiesFile");
+			File configFile = new File(filePath);
 
-            inputStream = new FileInputStream(configFile);
-            properties.load(inputStream);
+			inputStream = new FileInputStream(configFile);
+			properties.load(inputStream);
 
-            Configuration.sasServer = properties.getProperty("sasServer");
-            Configuration.dbServer = properties.getProperty("dbServer");
-            Configuration.dbPort = properties.getProperty("dbPort");
-            Configuration.dbName = properties.getProperty("dbName");
-            Configuration.dbUser = properties.getProperty("dbUser");
-            Configuration.dbPassword = properties.getProperty("dbPassword");
+			Configuration.sasServer = properties.getProperty("sasServer");
+			Configuration.dbServer = properties.getProperty("dbServer");
+			Configuration.dbPort = properties.getProperty("dbPort");
+			Configuration.dbName = properties.getProperty("dbName");
+			Configuration.dbUser = properties.getProperty("dbUser");
+			Configuration.dbPassword = properties.getProperty("dbPassword");
 
-            Configuration.rabbitMQServer = properties.getProperty("rabbitMQServer");
-            Configuration.rabbitMQPort = properties.getProperty("rabbitMQPort");
-            Configuration.rabbitMQUser = properties.getProperty("rabbitMQUser");
-            Configuration.rabbitMQPassword = properties.getProperty("rabbitMQPassword");
+			Configuration.rabbitMQServer = properties.getProperty("rabbitMQServer");
+			Configuration.rabbitMQPort = properties.getProperty("rabbitMQPort");
+			Configuration.rabbitMQUser = properties.getProperty("rabbitMQUser");
+			Configuration.rabbitMQPassword = properties.getProperty("rabbitMQPassword");
 
-            RabbitMQConnection.getRabbitTemplate().setMessageConverter(new Jackson2JsonMessageConverter());
-            Log4J.getLogger().info("Cleanup Database Tables");
+			RabbitMQConnection.getRabbitTemplate().setMessageConverter(new Jackson2JsonMessageConverter());
+			Log4J.getLogger().info("Cleanup Database Tables");
 
-            SASDBHelper.cleanAllTables(null);
+			// Delete queue for product because no consumer attached in system test.
+			RabbitUtil.deleteAllActivityQueue(SASUtils.productId, SASUtils.partnerId, SASUtils.countryCode);
+			SASDBHelper.cleanAllTables(null);
 
-            SASUtils.productId = 1234567;
-            SASUtils.productConfig = SASUtils.loadJson("publishConfigVO.json", PublishConfigRequest.class);
-            // Delete queue for product
-            try {
-                RabbitAdminConnection.getRabbitAdminConnection()
-                        .deleteQueue(SASUtils.productId + "_" + SASUtils.productId + "_SYSTEM_CHURN_REQUEST_BACKEND");
-                RabbitAdminConnection.getRabbitAdminConnection()
-                        .deleteQueue(SASUtils.productId + "_" + SASUtils.productId + "_ACTIVATION_REQUEST_BACKEND");
-                RabbitAdminConnection.getRabbitAdminConnection().deleteQueue(
-                        SASUtils.productId + "_" + SASUtils.productId + "_ACTIVATION_RETRY_REQUEST_BACKEND");
-                RabbitAdminConnection.getRabbitAdminConnection()
-                        .deleteQueue(SASUtils.productId + "_" + SASUtils.productId + "_DEACTIVATION_REQUEST_BACKEND");
-                RabbitAdminConnection.getRabbitAdminConnection().deleteQueue(
-                        SASUtils.productId + "_" + SASUtils.productId + "_DEACTIVATION_RETRY_REQUEST_BACKEND");
-                RabbitAdminConnection.getRabbitAdminConnection().deleteQueue(
-                        SASUtils.productId + "_" + SASUtils.productId + "_FREETRIAL_RENEWAL_REQUEST_BACKEND");
-                RabbitAdminConnection.getRabbitAdminConnection()
-                        .deleteQueue(SASUtils.productId + "_" + SASUtils.productId + "_RENEWAL_REQUEST_BACKEND");
-                RabbitAdminConnection.getRabbitAdminConnection()
-                        .deleteQueue(SASUtils.productId + "_" + SASUtils.productId + "_RENEWAL_RETRY_REQUEST_BACKEND");
-                RabbitAdminConnection.getRabbitAdminConnection()
-                        .deleteQueue(SASUtils.productId + "_" + SASUtils.productId + "_WINBACK_REQUEST_BACKEND");
-            } catch (Exception e) {
-                // TODO: handle exception
-            }
-            String jsonString = ObjectMapperUtils.writeValueAsString(SASUtils.productConfig);
-            jsonString = jsonString.replaceAll("1111", String.valueOf(SASUtils.productId));
-            SASUtils.productConfig = ObjectMapperUtils.readValueFromString(jsonString, PublishConfigRequest.class);
-            SASValidationHelper.validate_sas_api_response(new SASHelper().saveProduct(SASUtils.productConfig));
+			SASUtils.productId = 6789;
+			SASUtils.partnerId = SASUtils.productId;
+			SASUtils.countryCode = "IN";
+			SASUtils.billingCode = "b1";
+			SASUtils.productConfig = SASUtils.loadJson("publishConfigVO.json", PublishConfigRequest.class);
+			// change billing code
+			SASUtils.productConfig.getPricePoints().get(0).setBillingCode(SASUtils.billingCode);
+			// change product partner id and country code in config json
+			String jsonString = ObjectMapperUtils.writeValueAsString(SASUtils.productConfig);
+			jsonString = jsonString.replaceAll("1111", String.valueOf(SASUtils.productId));
+			jsonString = jsonString.replaceAll("9999", String.valueOf(SASUtils.partnerId));
+			jsonString = jsonString.replaceAll("CCDE", SASUtils.countryCode);
+			SASUtils.productConfig = ObjectMapperUtils.readValueFromString(jsonString, PublishConfigRequest.class);
+			SASValidationHelper.validate_sas_api_response(new SASHelper().saveProduct(SASUtils.productConfig));
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
-    @AfterSuite(alwaysRun = true)
-    public void teardown() throws Exception {
-        JDBCTemplate.closeAllConnections();
-        RabbitMQConnection.closeAllConnection();
-        RabbitAdminConnection.closeAllConnection();
-    }
+	@AfterSuite(alwaysRun = true)
+	public void teardown() throws Exception {
+		JDBCTemplate.closeAllConnections();
+		RabbitMQConnection.closeAllConnection();
+		RabbitAdminConnection.closeAllConnection();
+	}
 
 }

@@ -40,10 +40,10 @@ public class SASFreeTrailRenewalTests {
                 // "NOTIFICATION_WAIT","CHARGING", 104,"zero","OPEN" },
                 // not in develop branch { "FREETRIAL_RENEWAL", "ACTIVATED",
                 // "NOTIFICATION_WAIT", "CHARGING", 105,"zero","OPEN" },
-                {"FREETRIAL_RENEWAL", "SUSPEND", "LOW_BALANCE", "CHARGING", 101, "renewal_retry", "OPEN"},
-                {"FREETRIAL_RENEWAL", "SUSPEND", "ERROR", "CHARGING", 109, "renewal_retry", "OPEN"},
-                {"FREETRIAL_RENEWAL", "ACTIVATED", "ERROR", "CHARGING", 111, "renewal_retry", "OPEN"},
-                {"FREETRIAL_RENEWAL", "SUSPEND", "FAILURE", "CHARGING", 112, "renewal_retry", "OPEN"}};
+                {"FREETRIAL_RENEWAL", "SUSPEND", "LOW_BALANCE", "CHARGING", 101, "renewal", "OPEN"},
+                {"FREETRIAL_RENEWAL", "SUSPEND", "ERROR", "CHARGING", 109, "renewal", "OPEN"},
+                {"FREETRIAL_RENEWAL", "ACTIVATED", "ERROR", "CHARGING", 111, "renewal", "OPEN"},
+                {"FREETRIAL_RENEWAL", "SUSPEND", "FAILURE", "CHARGING", 112, "renewal", "OPEN"}};
 
     }
 
