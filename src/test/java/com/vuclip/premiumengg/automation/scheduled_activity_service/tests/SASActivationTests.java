@@ -1,16 +1,15 @@
 package com.vuclip.premiumengg.automation.scheduled_activity_service.tests;
 
-import org.apache.commons.lang3.RandomUtils;
-import org.apache.log4j.Logger;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
-
 import com.vuclip.premiumengg.automation.common.Log4J;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.RabbitUtil;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASUtils;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASValidationHelper;
 import com.vuclip.premiumengg.automation.utils.AppAssert;
+import org.apache.commons.lang3.RandomUtils;
+import org.apache.log4j.Logger;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 
 /**
  * @author mayank.bharshiv
@@ -35,9 +34,9 @@ public class SASActivationTests {
                 // "CHARGING", 101, "renewal", "OPEN" },
                 // covered in sasTest{ "ACTIVATION", "ACT_INIT", "ACT_INIT", "FAILURE",
                 // "CHARGING", 107, "activation", "OPEN" },
-        	
-                {"ACTIVATION", "ACT_INIT", "ACT_INIT", "ERROR", "CHARGING", 108, "activation", "OPEN","ACTIVATION_RETRY"},
-            
+
+                {"ACTIVATION", "ACT_INIT", "ACT_INIT", "ERROR", "CHARGING", 108, "activation", "OPEN", "ACTIVATION_RETRY"},
+
                 // covered in sasTest { "ACTIVATION", "ACT_INIT", "PARKING", "LOW_BALANCE",
                 // "CHARGING", 111, "winback", "OPEN" },
                 // Fail{ "ACTIVATION", "ACT_INIT", "ACT_INIT", "IN_PROGRESS", "CHARGING", 106,
@@ -51,19 +50,19 @@ public class SASActivationTests {
     @Test(dataProvider = "activationPostiveDataProvider", groups = {"positive"})
     public void activationPositiveTest(String activityType, String previousSubscriptionState,
                                        String currentSubscriptionState, String transactionState, String eventActionType, Integer subscriptionId,
-                                       String actionTable, String status,String queueName) throws Exception {
+                                       String actionTable, String status, String queueName) throws Exception {
 
         subscriptionId = RandomUtils.nextInt(31000, 32000);
 
         logger.info("==================>Starting activation Positive Test  [ " + SASUtils.getTestLogMessage(productId,
                 subscriptionId, eventActionType, activityType, currentSubscriptionState, transactionState) + " ]");
 
-       RabbitUtil.purgeAllActivityQueue(productId, partnerId, countryCode);
+        RabbitUtil.purgeAllActivityQueue(productId, partnerId, countryCode);
         try {
             String schedulerActivity = actionTable;
             SASUtils.executeActivityFlow(productId, partnerId, subscriptionId, countryCode, eventActionType,
                     activityType, currentSubscriptionState, transactionState, actionTable, schedulerActivity, "OPEN",
-                    "IN_PROGRESS", queueName,queueName);
+                    "IN_PROGRESS", queueName, queueName);
 
         } catch (Exception e) {
             logger.error("activationPositiveTest Failed");

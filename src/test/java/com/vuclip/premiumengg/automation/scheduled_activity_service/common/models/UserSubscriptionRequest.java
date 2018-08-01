@@ -3,15 +3,10 @@ package com.vuclip.premiumengg.automation.scheduled_activity_service.common.mode
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({ "eventInfo", "userInfo", "activityInfo", "subscriptionInfo", "activityEvent" })
+@JsonPropertyOrder({"eventInfo", "userInfo", "activityInfo", "subscriptionInfo", "activityEvent"})
 @Getter
 @Setter
 @NoArgsConstructor
@@ -19,14 +14,14 @@ import lombok.ToString;
 @ToString
 public class UserSubscriptionRequest {
 
-	@JsonProperty("eventInfo")
-	private EventInfo eventInfo;
-	@JsonProperty("userInfo")
-	private UserInfo userInfo;
-	@JsonProperty("activityInfo")
-	private ActivityInfo activityInfo;
-	@JsonProperty("subscriptionInfo")
-	private SubscriptionInfo subscriptionInfo;
-	@JsonProperty("activityEvent")
-	private ActivityEvent activityEvent;
+    @JsonProperty("eventInfo")
+    private EventInfo eventInfo;
+    @JsonProperty("userInfo")
+    private UserInfo userInfo;
+    @JsonProperty("activityInfo")
+    private ActivityInfo activityInfo;
+    @JsonProperty("subscriptionInfo")
+    private SubscriptionInfo subscriptionInfo;
+    @JsonProperty("activityEvent")
+    private ActivityEvent activityEvent;
 }

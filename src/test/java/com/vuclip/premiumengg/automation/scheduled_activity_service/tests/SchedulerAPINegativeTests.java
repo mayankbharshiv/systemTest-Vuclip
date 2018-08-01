@@ -1,18 +1,17 @@
 package com.vuclip.premiumengg.automation.scheduled_activity_service.tests;
 
-import org.apache.commons.lang3.RandomUtils;
-import org.apache.log4j.Logger;
-import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
-
 import com.vuclip.premiumengg.automation.common.Log4J;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.SchedulerRequest;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASHelper;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASUtils;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASValidationHelper;
 import com.vuclip.premiumengg.automation.utils.JsonHelper;
+import org.apache.commons.lang3.RandomUtils;
+import org.apache.log4j.Logger;
+import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 
 public class SchedulerAPINegativeTests {
     private static Logger logger = Log4J.getLogger("SchedulerApiTest");
@@ -70,7 +69,7 @@ public class SchedulerAPINegativeTests {
             SASValidationHelper.validate_schedular_invalid_api_response(sasHelper.scheduler(generateSchedulerRequest));
 
         } catch (Exception e) {
-        	e.printStackTrace();
+            e.printStackTrace();
             Assert.fail(e.toString());
         }
     }
@@ -106,7 +105,7 @@ public class SchedulerAPINegativeTests {
 
             SASValidationHelper.validate_schedular_invalid_api_response(sasHelper.scheduler(jsonString));
         } catch (Exception e) {
-        	e.printStackTrace();
+            e.printStackTrace();
             Assert.fail(e.toString());
         }
     }

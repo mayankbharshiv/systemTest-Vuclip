@@ -3,7 +3,6 @@ package com.vuclip.premiumengg.automation.ad_network_service.common.base;
 import com.vuclip.premiumengg.automation.ad_network_service.common.models.SaveProduct;
 import com.vuclip.premiumengg.automation.ad_network_service.common.utils.*;
 import com.vuclip.premiumengg.automation.common.*;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.testng.annotations.AfterSuite;

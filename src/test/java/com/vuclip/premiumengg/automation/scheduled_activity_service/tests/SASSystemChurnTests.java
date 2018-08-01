@@ -1,15 +1,14 @@
 package com.vuclip.premiumengg.automation.scheduled_activity_service.tests;
 
+import com.vuclip.premiumengg.automation.common.Log4J;
+import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.PublishConfigRequest;
+import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASUtils;
+import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASValidationHelper;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.log4j.Logger;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-
-import com.vuclip.premiumengg.automation.common.Log4J;
-import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.PublishConfigRequest;
-import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASUtils;
-import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASValidationHelper;
 
 /**
  * @author mayank.bharshiv
@@ -27,7 +26,6 @@ public class SASSystemChurnTests {
         productId = SASUtils.productId;
         partnerId = productId;
     }
-
 
 
     @DataProvider(name = "systemChurnNegativeDataProvider")

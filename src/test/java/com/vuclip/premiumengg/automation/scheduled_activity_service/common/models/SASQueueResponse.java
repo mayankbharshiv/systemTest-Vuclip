@@ -3,15 +3,10 @@ package com.vuclip.premiumengg.automation.scheduled_activity_service.common.mode
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({ "productId", "partnerId", "countryCode", "activityType", "subscriptionId", "attemptNumber" })
+@JsonPropertyOrder({"productId", "partnerId", "countryCode", "activityType", "subscriptionId", "attemptNumber"})
 @Getter
 @Setter
 @NoArgsConstructor
@@ -19,17 +14,17 @@ import lombok.ToString;
 @ToString
 public class SASQueueResponse {
 
-	@JsonProperty("productId")
-	private Object productId;
-	@JsonProperty("partnerId")
-	private Object partnerId;
-	@JsonProperty("countryCode")
-	private String countryCode;
-	@JsonProperty("activityType")
-	private String activitType;
-	@JsonProperty("subscriptionId")
-	private Object subscriptionId;
-	@JsonProperty("attemptNumber")
-	private Object attemptNumber;
+    @JsonProperty("productId")
+    private Object productId;
+    @JsonProperty("partnerId")
+    private Object partnerId;
+    @JsonProperty("countryCode")
+    private String countryCode;
+    @JsonProperty("activityType")
+    private String activitType;
+    @JsonProperty("subscriptionId")
+    private Object subscriptionId;
+    @JsonProperty("attemptNumber")
+    private Object attemptNumber;
 
 }
