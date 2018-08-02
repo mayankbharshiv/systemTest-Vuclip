@@ -35,7 +35,7 @@ public class DBUtils {
         if (whereClause != null)
             query += " where " + whereClause;
         try {
-            //Thread.sleep(1000);
+            Thread.sleep(2500);
             Log4J.getLogger("DBLogger").info(query);
             return JDBCTemplate.getDbConnection().queryForList(query);
         } catch (Exception ex) {
