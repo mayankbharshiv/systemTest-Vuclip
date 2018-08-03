@@ -35,7 +35,7 @@ public class GetJobTests {
 
     }
 
-    @Test(groups = {"positive"})
+    @Test(groups = {"positive"}, enabled = false)
     public void runJobTest() {
         logger.info("run All job Test");
         try {
