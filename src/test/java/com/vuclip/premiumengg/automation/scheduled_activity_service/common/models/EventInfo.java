@@ -23,7 +23,7 @@ import lombok.ToString;
 @EqualsAndHashCode
 @ToString
 public class EventInfo {
-	private Date logTime;
+	private long logTime;
 
 	private String eventId;
 	
