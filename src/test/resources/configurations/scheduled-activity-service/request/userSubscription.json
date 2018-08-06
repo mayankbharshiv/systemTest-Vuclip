@@ -38,7 +38,7 @@
 		"nextBillingDate": 1535520606000,
 		"serviceId": null,
 		"isDelayed": null,
-		"country": "MY",
+		"country": "IN",
 		"paid": false
 	},
 	"activityEvent": {
@@ -69,7 +69,7 @@
 		"serviceId": null,
 		"subscriptionId": 69225,
 		"circleCode": "circleCode",
-		"countryCode": "MY",
+		"countryCode": "IN",
 		"errorCode": null,
 		"errorDesc": null,
 		"delayed": false,
