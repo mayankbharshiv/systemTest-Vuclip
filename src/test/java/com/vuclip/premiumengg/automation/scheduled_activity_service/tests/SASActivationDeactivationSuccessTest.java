@@ -44,48 +44,37 @@ public class SASActivationDeactivationSuccessTest {
                  "CHARGING", "RENEWAL", "ACTIVATED", "SUCCESS","renewal", "OPEN",
                  "IN_PROGRESS", "RENEWAL","RENEWAL","RENEWAL"},
                 
-                // /* SECONDTIMEFIX */{"CHARGING", "ACTIVATION", "ACTIVATED", "SUCCESS",
-                // "renewal","OPEN", "IN_PROGRESS", "ERROR","RENEWAL","RENEWAL","RENEWAL",
-                // "CHARGING", "RENEWAL", "ACTIVATED", "ERROR", "renewal",
-                // "OPEN","IN_PROGRESS","RENEWAL_RETRY","RENEWAL_RETRY","RENEWAL_RETRY"},
-                //
-                // /* SECONDTIMEFIX */{"CHARGING", "ACTIVATION", "ACTIVATED", "SUCCESS",
-                // "renewal","OPEN", "IN_PROGRESS","FAILURE", "RENEWAL","RENEWAL","RENEWAL",
-                // "CHARGING", "RENEWAL", "ACTIVATED", "FAILURE","renewal",
-                // "OPEN","IN_PROGRESS", "RENEWAL_RETRY","RENEWAL_RETRY","RENEWAL_RETRY"},
-                //
-                // /* SECONDTIMEFIX */{ "CHARGING", "ACTIVATION", "ACT_INIT", "FAILURE",
-                // "activation", "OPEN", "IN_PROGRESS","SUCCESS", "ACTIVATION_RETRY",
-                // "ACTIVATION_RETRY", "ACTIVATION_RETRY",
-                // "CHARGING", "ACTIVATION_RETRY","ACTIVATED", "SUCCESS", "renewal", "OPEN",
-                // "IN_PROGRESS", "RENEWAL", "RENEWAL", "RENEWAL" },
+				/* SECONDTIMEFIX */{ "CHARGING", "ACTIVATION", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS",
+						"ERROR", "RENEWAL", "RENEWAL", "RENEWAL", "CHARGING", "RENEWAL", "ACTIVATED", "ERROR",
+						"renewal", "OPEN", "IN_PROGRESS", "RENEWAL_RETRY", "RENEWAL_RETRY", "RENEWAL_RETRY" },
 
-                // /* SECONDTIMEFIX */{"CHARGING", "ACTIVATION", "ACT_INIT", "FAILURE",
-                // "activation","OPEN", "IN_PROGRESS","FAILURE",
-                // "ACTIVATION_RETRY","ACTIVATION_RETRY","ACTIVATION_RETRY",
-                // "CHARGING", "ACTIVATION_RETRY", "ACT_INIT", "FAILURE","activation",
-                // "OPEN","IN_PROGRESS",
-                // "ACTIVATION_RETRY","ACTIVATION_RETRY","ACTIVATION_RETRY"},
-                // /* SECONDTIMEFIX */{"CHARGING", "ACTIVATION", "ACT_INIT", "FAILURE",
-                // "activation","OPEN", "IN_PROGRESS","ERROR",
-                // "ACTIVATION_RETRY","ACTIVATION_RETRY","ACTIVATION_RETRY",
-                // "CHARGING", "ACTIVATION_RETRY", "ACT_INIT", "ERROR","activation",
-                // "OPEN","IN_PROGRESS",
-                // "ACTIVATION_RETRY","ACTIVATION_RETRY","ACTIVATION_RETRY"},
+				/* SECONDTIMEFIX */{ "CHARGING", "ACTIVATION", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS",
+						"FAILURE", "RENEWAL", "RENEWAL", "RENEWAL", "CHARGING", "RENEWAL", "ACTIVATED", "FAILURE",
+						"renewal", "OPEN", "IN_PROGRESS", "RENEWAL_RETRY", "RENEWAL_RETRY", "RENEWAL_RETRY" },
 
-                // /* SECONDTIMEFIX */{"CHARGING", "ACTIVATION", "PARKING", "LOW_BALANCE",
-                // "winback","OPEN", "IN_PROGRESS","ERROR", "WINBACK","WINBACK","WINBACK"
-                // ,"CHARGING", "WINBACK", "PARKING", "ERROR", "winback","OPEN",
-                // "IN_PROGRESS","WINBACK","WINBACK","WINBACK"},
-                // /* SECONDTIMEFIX */{"CHARGING", "ACTIVATION", "PARKING", "LOW_BALANCE",
-                // "winback","OPEN", "IN_PROGRESS","SUCCESS", "WINBACK","WINBACK","WINBACK"
-                // ,"CHARGING", "WINBACK", "ACTIVATED", "SUCCESS", "renewal", "OPEN",
-                // "IN_PROGRESS", "RENEWAL","RENEWAL","RENEWAL"},
+				/* SECONDTIMEFIX */{ "CHARGING", "ACTIVATION", "ACT_INIT", "FAILURE", "activation", "OPEN",
+						"IN_PROGRESS", "SUCCESS", "ACTIVATION_RETRY", "ACTIVATION_RETRY", "ACTIVATION_RETRY",
+						"CHARGING", "ACTIVATION_RETRY", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS", "RENEWAL", "RENEWAL", "RENEWAL" },
 
-                // /* SECONDTIMEFIX */{"CHARGING", "ACTIVATION", "PARKING", "LOW_BALANCE",
-                // "winback","OPEN", "IN_PROGRESS","LOW_BALANCE", "WINBACK","WINBACK","WINBACK"
-                // ,"CHARGING", "WINBACK", "PARKING", "LOW_BALANCE","winback",
-                // "OPEN","IN_PROGRESS", "WINBACK","WINBACK","WINBACK"},
+				/* SECONDTIMEFIX */{ "CHARGING", "ACTIVATION", "ACT_INIT", "FAILURE", "activation", "OPEN",
+						"IN_PROGRESS", "FAILURE", "ACTIVATION_RETRY", "ACTIVATION_RETRY", "ACTIVATION_RETRY",
+						"CHARGING", "ACTIVATION_RETRY", "ACT_INIT", "FAILURE", "activation", "OPEN", "IN_PROGRESS",
+						"ACTIVATION_RETRY", "ACTIVATION_RETRY", "ACTIVATION_RETRY" },
+				/* SECONDTIMEFIX */{ "CHARGING", "ACTIVATION", "ACT_INIT", "FAILURE", "activation", "OPEN",
+						"IN_PROGRESS", "ERROR", "ACTIVATION_RETRY", "ACTIVATION_RETRY", "ACTIVATION_RETRY", "CHARGING",
+						"ACTIVATION_RETRY", "ACT_INIT", "ERROR", "activation", "OPEN", "IN_PROGRESS",
+						"ACTIVATION_RETRY","ACTIVATION_RETRY","ACTIVATION_RETRY"},
+
+				/* SECONDTIMEFIX */{ "CHARGING", "ACTIVATION", "PARKING", "LOW_BALANCE", "winback", "OPEN",
+						"IN_PROGRESS", "ERROR", "WINBACK", "WINBACK", "WINBACK", "CHARGING", "WINBACK", "PARKING",
+						"ERROR", "winback", "OPEN", "IN_PROGRESS", "WINBACK", "WINBACK", "WINBACK" },
+				/* SECONDTIMEFIX */{ "CHARGING", "ACTIVATION", "PARKING", "LOW_BALANCE", "winback", "OPEN",
+						"IN_PROGRESS", "SUCCESS", "WINBACK", "WINBACK", "WINBACK", "CHARGING", "WINBACK", "ACTIVATED",
+						"SUCCESS", "renewal", "OPEN", "IN_PROGRESS", "RENEWAL", "RENEWAL", "RENEWAL" },
+
+				/* SECONDTIMEFIX */{ "CHARGING", "ACTIVATION", "PARKING", "LOW_BALANCE", "winback", "OPEN",
+						"IN_PROGRESS", "LOW_BALANCE", "WINBACK", "WINBACK", "WINBACK", "CHARGING", "WINBACK", "PARKING",
+						"LOW_BALANCE", "winback", "OPEN","IN_PROGRESS", "WINBACK","WINBACK","WINBACK"},
 
                 //
                 // // /* fail */{ "CHARGING", "ACTIVATION", "ACT_INIT", "FAILURE", "activation",
@@ -165,7 +154,7 @@ public class SASActivationDeactivationSuccessTest {
         };
     }
 
-    @Test(dataProvider = "activationDeactivationPostiveDataProvider", groups = {"run"})
+    @Test(dataProvider = "activationDeactivationPostiveDataProvider", groups = {"positive"})
     public void activationDeactivationSuccessPositiveTests(String eventActionType, String activityType,
                                                            String currentSubscriptionState, String transactionState, String actionTable, String beforeSchedularStatus,
                                                            String afterSchedularStatus, String afteNewEventStatus, String schedularActivityType, String queueName,
