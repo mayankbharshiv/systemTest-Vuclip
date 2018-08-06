@@ -15,7 +15,8 @@ import com.vuclip.premiumengg.automation.common.Log4J;
 import com.vuclip.premiumengg.automation.common.RabbitAdminConnection;
 import com.vuclip.premiumengg.automation.common.RabbitMQConnection;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.PublishConfigRequest;
-import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.UserSubscriptionRequest;
+import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.RabbitUtil;
+import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASDBHelper;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASHelper;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASUtils;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASValidationHelper;
@@ -58,10 +59,9 @@ public class InitializeTestSuite {
             Log4J.getLogger().info("Cleanup Database Tables");
 
             // Delete queue for product because no consumer attached in system test.
-//            RabbitUtil.deleteAllActivityQueue(SASUtils.productId, SASUtils.partnerId, SASUtils.countryCode);
-//            SASDBHelper.cleanAllTables(null);
-            UserSubscriptionRequest userSubscriptionRequest = SASUtils.loadJson("userSubscription.json",
-                    UserSubscriptionRequest.class);
+            RabbitUtil.deleteAllActivityQueue(SASUtils.productId, SASUtils.partnerId, SASUtils.countryCode);
+            SASDBHelper.cleanAllTables(null);
+           
             SASUtils.productId = 6789;
             SASUtils.partnerId = SASUtils.productId;
             SASUtils.countryCode = "IN";
