@@ -14,7 +14,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 public class SchedulerAPINegativeTests {
-    private static Logger logger = Log4J.getLogger("SchedulerApiTest");
+    private static Logger logger = Log4J.getLogger("SchedulerAPINegativeTests");
     int productId;
     int partnerId;
     String activityType = "WINBACK";

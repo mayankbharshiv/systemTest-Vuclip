@@ -74,7 +74,7 @@ public class UserSubscriptionAPINegativeTests {
 
     }
 
-    @Test(dataProvider = "userSubscriptionMissingFieldsDataProvider", groups = {"positive"})
+    @Test(dataProvider = "userSubscriptionMissingFieldsDataProvider", groups = {"negative"})
     public void userSubscriptionMissingFieldsTest(String jsonElement) throws Exception {
         String jsonString;
         String activityType = "WINBACK";
