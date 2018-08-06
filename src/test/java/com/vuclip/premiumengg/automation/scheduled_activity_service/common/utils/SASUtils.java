@@ -1,17 +1,21 @@
 package com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils;
 
-import com.vuclip.premiumengg.automation.common.Log4J;
-import com.vuclip.premiumengg.automation.common.RabbitMQConnection;
-import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.*;
-import com.vuclip.premiumengg.automation.utils.AppAssert;
-import com.vuclip.premiumengg.automation.utils.DBUtils;
-import com.vuclip.premiumengg.automation.utils.ObjectMapperUtils;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.log4j.Logger;
 import org.springframework.amqp.core.Message;
 
-import java.math.BigInteger;
-import java.util.HashMap;
-import java.util.Map;
+import com.vuclip.premiumengg.automation.common.Log4J;
+import com.vuclip.premiumengg.automation.common.RabbitMQConnection;
+import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.ActivityType;
+import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.PublishConfigRequest;
+import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.SASQueueResponse;
+import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.SchedulerRequest;
+import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.UserSubscriptionRequest;
+import com.vuclip.premiumengg.automation.utils.AppAssert;
+import com.vuclip.premiumengg.automation.utils.DBUtils;
+import com.vuclip.premiumengg.automation.utils.ObjectMapperUtils;
 
 public class SASUtils {
     public static int productId;
@@ -78,8 +82,10 @@ public class SASUtils {
         userSubscriptionRequest.getActivityEvent().setPartnerId(partnerId);
         userSubscriptionRequest.getActivityEvent().setProductId(productId);
         userSubscriptionRequest.getSubscriptionInfo().setChargedBillingCode(billingCode);
-//        userSubscriptionRequest.getSubscriptionInfo().setFallbackBillingCode(billingCode);
         userSubscriptionRequest.getSubscriptionInfo().setSubscriptionBillingCode(billingCode);
+        userSubscriptionRequest.getActivityEvent().setAttemptedBillingCode(billingCode);
+        userSubscriptionRequest.getActivityEvent().setChargedBillingCode(billingCode);
+        userSubscriptionRequest.getActivityEvent().setRequestedBillingCode(billingCode);
         return userSubscriptionRequest;
     }
 
@@ -103,6 +109,9 @@ public class SASUtils {
         userSubscriptionRequest.getSubscriptionInfo().setChargedBillingCode(billingCode);
 //        userSubscriptionRequest.getSubscriptionInfo().setFallbackBillingCode(billingCode);
         userSubscriptionRequest.getSubscriptionInfo().setSubscriptionBillingCode(billingCode);
+        userSubscriptionRequest.getActivityEvent().setAttemptedBillingCode(billingCode);
+        userSubscriptionRequest.getActivityEvent().setChargedBillingCode(billingCode);
+        userSubscriptionRequest.getActivityEvent().setRequestedBillingCode(billingCode);
         return userSubscriptionRequest;
     }
 
@@ -112,19 +121,44 @@ public class SASUtils {
         UserSubscriptionRequest userSubscriptionRequest = loadJson("userSubscription.json",
                 UserSubscriptionRequest.class);
 
+//        userSubscriptionRequest.getSubscriptionInfo().getPartnerId();
+//		userSubscriptionRequest.getSubscriptionInfo().getCountry();
+//		userSubscriptionRequest.getSubscriptionInfo().getSubscriptionId();
+//		userSubscriptionRequest.getSubscriptionInfo().getEndDate();
+//		userSubscriptionRequest.getSubscriptionInfo().getNextBillingDate();
+//		userSubscriptionRequest.getSubscriptionInfo().getSubscriptionBillingCode();
+//
+//		
+//		userSubscriptionRequest.getActivityInfo().getActivityType();
+//		userSubscriptionRequest.getActivityInfo().getCurrentSubscriptionState();
+//		
+//		userSubscriptionRequest.getActivityEvent().getTransactionState();
+//		
+//		userSubscriptionRequest.getUserInfo().isFreeTrialUser();
+//		userSubscriptionRequest.getEventInfo().getLogTime().getTime();
+//		userSubscriptionRequest.getUserInfo().getUserId();
+        
+        
         userSubscriptionRequest.getActivityInfo().setActivityType(activityType);
         userSubscriptionRequest.getActivityInfo().setCurrentSubscriptionState(currentSubscriptionState);
-        userSubscriptionRequest.getActivityEvent().setTransactionState(transactionState);
         userSubscriptionRequest.getActivityInfo().setActionType(actionType);
+
         userSubscriptionRequest.getSubscriptionInfo().setSubscriptionId(subscriptionId);
-        userSubscriptionRequest.getActivityEvent().setSubscriptionId(subscriptionId);
         userSubscriptionRequest.getSubscriptionInfo().setProductId(productId);
         userSubscriptionRequest.getSubscriptionInfo().setPartnerId(partnerId);
+        userSubscriptionRequest.getSubscriptionInfo().setCountry("IN");
+        userSubscriptionRequest.getSubscriptionInfo().setChargedBillingCode(billingCode);
+        userSubscriptionRequest.getSubscriptionInfo().setSubscriptionBillingCode(billingCode);
+        userSubscriptionRequest.getSubscriptionInfo().setNextBillingDate(nextBillingDate);
+//        userSubscriptionRequest.getSubscriptionInfo().setEndDate();
+        
+        userSubscriptionRequest.getActivityEvent().setSubscriptionId(subscriptionId);
         userSubscriptionRequest.getActivityEvent().setPartnerId(partnerId);
         userSubscriptionRequest.getActivityEvent().setProductId(productId);
-        userSubscriptionRequest.getSubscriptionInfo().setChargedBillingCode(billingCode);
-//        userSubscriptionRequest.getSubscriptionInfo().setFallbackBillingCode(billingCode);
-        userSubscriptionRequest.getSubscriptionInfo().setSubscriptionBillingCode(billingCode);
+        userSubscriptionRequest.getActivityEvent().setTransactionState(transactionState);
+        userSubscriptionRequest.getActivityEvent().setAttemptedBillingCode(billingCode);
+        userSubscriptionRequest.getActivityEvent().setChargedBillingCode(billingCode);
+        userSubscriptionRequest.getActivityEvent().setRequestedBillingCode(billingCode);
         DateTimeUtil.getDateByAddingValidity(userSubscriptionRequest.getSubscriptionInfo().getNextBillingDate(), 1,
                 TimeUnitEnum.DAY.name());
         userSubscriptionRequest.getSubscriptionInfo().setNextBillingDate(nextBillingDate);
@@ -417,6 +451,7 @@ public class SASUtils {
 
         SASDBHelper.showAllActivityTableData("second", String.valueOf(subscriptionId));
         logger.info("=========>First Event: Vefiry DB After Schedular Call ");
+        Thread.sleep(5000);
         SASValidationHelper.verifyEventTable(actionTable, subscriptionId, productId, partnerId,
                 firstUserSubscriptionRequest.getSubscriptionInfo().getNextBillingDate(), afterSchedularStatus,
                 countryCode);
