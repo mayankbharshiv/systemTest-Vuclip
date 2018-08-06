@@ -68,8 +68,8 @@ public class NegativeTests {
                     TimeUnitEnum.DAY.name());
             BigInteger endDate = DateTimeUtil.getDateByAddingValidity(DateTimeUtil.getCurrentDateInGMT(), 35,
                     TimeUnitEnum.DAY.name());
-            userSubscriptionRequest.getSubscriptionInfo().setNextBillingDate(nBD);
-            userSubscriptionRequest.getSubscriptionInfo().setEndDate(endDate);
+            userSubscriptionRequest.getSubscriptionInfo().setNextBillingDate(nBD.longValue());
+            userSubscriptionRequest.getSubscriptionInfo().setEndDate(endDate.longValue());
 
             SASValidationHelper.validate_sas_api_response(sasHelper.userSubscription(userSubscriptionRequest));
 
@@ -131,7 +131,7 @@ public class NegativeTests {
                     subscriptionId);
             BigInteger nBD = DateTimeUtil.getDateByAddingValidity(DateTimeUtil.getCurrentDateInGMT(), 35,
                     TimeUnitEnum.DAY.name());
-            userSubscriptionRequest.getSubscriptionInfo().setNextBillingDate(nBD);
+            userSubscriptionRequest.getSubscriptionInfo().setNextBillingDate(nBD.longValue());
             SASValidationHelper.validate_sas_api_response(sasHelper.userSubscription(userSubscriptionRequest));
 
             AppAssert.assertEqual(DBUtils.getRecords(actionTable,
@@ -139,7 +139,7 @@ public class NegativeTests {
                             + partnerId + " and date=" + nBD + " and country_code='" + countryCode + "'")
                     .size(), 1, "Verify record created");
 
-            Integer secondSId = RandomUtils.nextInt(92000, 92500);
+            long secondSId = RandomUtils.nextLong(92000, 92500);
             userSubscriptionRequest.getSubscriptionInfo().setSubscriptionId(secondSId);
             SASValidationHelper.validate_sas_api_response(sasHelper.userSubscription(userSubscriptionRequest));
 

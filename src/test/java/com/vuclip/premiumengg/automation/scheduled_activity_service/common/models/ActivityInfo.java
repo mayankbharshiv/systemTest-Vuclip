@@ -1,29 +1,34 @@
 package com.vuclip.premiumengg.automation.scheduled_activity_service.common.models;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import lombok.*;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({"activityType", "actionType", "previousSubscriptionState", "currentSubscriptionState",
-        "activityResult"})
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+
+@Builder
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
 @ToString
 public class ActivityInfo {
 
-    @JsonProperty("activityType")
-    private String activityType;
-    @JsonProperty("actionType")
-    private String actionType;
-    @JsonProperty("previousSubscriptionState")
-    private String previousSubscriptionState;
-    @JsonProperty("currentSubscriptionState")
-    private String currentSubscriptionState;
-    @JsonProperty("activityResult")
-    private String activityResult;
+	private String activityType;
+
+	private String actionType;
+
+	private String previousSubscriptionState;
+
+	private String currentSubscriptionState;
+
+	private String activityResult;
+	
+
 
 }

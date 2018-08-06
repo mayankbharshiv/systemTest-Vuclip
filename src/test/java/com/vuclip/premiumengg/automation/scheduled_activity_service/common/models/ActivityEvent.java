@@ -1,80 +1,93 @@
 package com.vuclip.premiumengg.automation.scheduled_activity_service.common.models;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.math.BigInteger;
-
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({"eventType", "userId", "productId", "partnerId", "subscriptionBillingCode", "chargedBillingCode",
-        "fallbackBillingCode", "mode", "action", "activity", "transactionId", "transactionState", "chargedPrice",
-        "partnerTransactionId", "itemId", "itemTypeId", "actionResult", "serviceId", "subscriptionId", "circleCode",
-        "errorCode", "errorDesc", "delayed", "closed", "customerTransactionId", "userPreferredLanguage", "userSource",
-        "nextBillingDate"})
-@Getter
-@Setter
-@NoArgsConstructor
+@Builder
+@Getter@Setter
 @AllArgsConstructor
-@ToString
-public class ActivityEvent {
+@NoArgsConstructor
+public  class ActivityEvent { 
+	
+	private EventInfo eventInfo;
+	
+	private Long eventTimeStamp;
 
-    @JsonProperty("eventType")
-    private String eventType;
-    @JsonProperty("userId")
-    private String userId;
-    @JsonProperty("productId")
-    private Integer productId;
-    @JsonProperty("partnerId")
-    private Integer partnerId;
-    @JsonProperty("subscriptionBillingCode")
-    private String subscriptionBillingCode;
-    @JsonProperty("chargedBillingCode")
-    private String chargedBillingCode;
-    @JsonProperty("fallbackBillingCode")
-    private String fallbackBillingCode;
-    @JsonProperty("mode")
-    private String mode;
-    @JsonProperty("action")
-    private String action;
-    @JsonProperty("activity")
-    private Object activity;
-    @JsonProperty("transactionId")
-    private String transactionId;
-    @JsonProperty("transactionState")
-    private String transactionState;
-    @JsonProperty("chargedPrice")
-    private Double chargedPrice;
-    @JsonProperty("partnerTransactionId")
-    private Object partnerTransactionId;
-    @JsonProperty("itemId")
-    private Integer itemId;
-    @JsonProperty("itemTypeId")
-    private Integer itemTypeId;
-    @JsonProperty("actionResult")
-    private String actionResult;
-    @JsonProperty("serviceId")
-    private String serviceId;
-    @JsonProperty("subscriptionId")
-    private Integer subscriptionId;
-    @JsonProperty("circleCode")
-    private Object circleCode;
-    @JsonProperty("errorCode")
-    private String errorCode;
-    @JsonProperty("errorDesc")
-    private String errorDesc;
-    @JsonProperty("delayed")
-    private Boolean delayed;
-    @JsonProperty("closed")
-    private Boolean closed;
-    @JsonProperty("customerTransactionId")
-    private String customerTransactionId;
-    @JsonProperty("userPreferredLanguage")
-    private String userPreferredLanguage;
-    @JsonProperty("userSource")
-    private String userSource;
-    @JsonProperty("nextBillingDate")
-    private BigInteger nextBillingDate;
+	private String userId;
+	
+	private String msisdn;
+
+	private int productId;
+	
+	private String productName;
+
+	private int partnerId;
+	
+	private String partnerName;
+
+	private String requestedBillingCode;
+	
+	private String requestedPrice;
+	
+	private String attemptedBillingCode;
+
+	private String attemptedPrice;
+	
+	private String chargedBillingCode;
+	
+	private double chargedPrice;
+	
+	private String currency;
+
+	private String mode;
+
+	private String action;
+
+	private String activity;
+
+	private String transactionId;
+
+	private String transactionState;
+
+	private String partnerTransactionId;
+
+	private Integer itemId;
+
+	private Integer itemTypeId;
+
+	private String actionResult;
+
+	private String serviceId;
+
+	private Long subscriptionId;
+
+	private String circleCode;
+	
+	private String countryCode;
+	
+	private String errorCode;
+
+	private String errorDesc;
+
+	private boolean delayed;
+
+	private boolean closed;
+
+	private String customerTransactionId;
+
+	private String userPreferredLanguage;
+
+	private String userSource;
+
+	private Long nextBillingDate;
+	
+	private String adNetworkParams;
+	
+	private String churnNotificationParam;
+	
+	private Long activationDate;
 
 }

@@ -21,10 +21,25 @@ public class DateTimeUtil {
         return dateInMillis.subtract(BigInteger.valueOf(validityInMillis));
     }
 
+    public static long getDateByAddingValidity(long dateInMillis, int validity, String timeUnit) {
+        TimeUnitEnum timeUnitEnum = TimeUnitEnum.valueOf(TimeUnitEnum.class, timeUnit);
+        long validityInMillis = timeUnitEnum.toSeconds() * validity * 1000;
+        return validityInMillis;
+    }
+
+    public static long getDateBySubtractingValidity(long dateInMillis, int validity, String timeUnit) {
+        TimeUnitEnum timeUnitEnum = TimeUnitEnum.valueOf(TimeUnitEnum.class, timeUnit);
+        long validityInMillis = timeUnitEnum.toSeconds() * validity * 1000;
+        return validityInMillis;
+    }
+
     public static BigInteger getCurrentDateInGMT() {
         return BigInteger.valueOf(Calendar.getInstance(TimeZone.getTimeZone("GMT")).getTimeInMillis());
     }
 
+    public static long getCurrentDate() {
+        return (Calendar.getInstance(TimeZone.getTimeZone("GMT")).getTimeInMillis());
+    }
     public static long getTimeInMillis(String dd, String mm, String yyyy, String HH, String MM, String SS) {
 
         LocalDateTime localDateTime = LocalDateTime.parse(yyyy + "/" + mm + "/" + dd + " " + HH + ":" + MM + ":" + SS,

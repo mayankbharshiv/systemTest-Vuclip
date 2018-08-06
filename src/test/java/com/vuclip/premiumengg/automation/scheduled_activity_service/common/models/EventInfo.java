@@ -1,26 +1,31 @@
-//////--com.vuclip.premiumengg.automation.e2e.common.models.EventInfo.java//////--
-
 package com.vuclip.premiumengg.automation.scheduled_activity_service.common.models;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import lombok.*;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({"logTime", "eventId", "eventType"})
+import java.util.Date;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+/**
+ * @author shreyash
+ *
+ */
+@Builder
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
 @ToString
 public class EventInfo {
+	private Date logTime;
 
-    @JsonProperty("logTime")
-    private String logTime;
-    @JsonProperty("eventId")
-    private String eventId;
-    @JsonProperty("eventType")
-    private String eventType;
-
+	private String eventId;
+	
+	private String eventType;
 }

@@ -39,11 +39,11 @@ public class SASActivationDeactivationSuccessTest {
                  * newAfterSchedularStatus,String newSchedularActivityType, String
                  * newQueueName,String newQueueActivityType
                  */
-                // /* SECONDTIMEFIX */{"CHARGING", "ACTIVATION", "ACTIVATED", "SUCCESS",
-                // "renewal", "OPEN", "IN_PROGRESS","SUCCESS", "RENEWAL","RENEWAL","RENEWAL",
-                // "CHARGING", "RENEWAL", "ACTIVATED", "SUCCESS","renewal", "OPEN",
-                // "IN_PROGRESS", "RENEWAL","RENEWAL","RENEWAL"},
-                //
+                 /* SECONDTIMEFIX */{"CHARGING", "ACTIVATION", "ACTIVATED", "SUCCESS",
+                 "renewal", "OPEN", "IN_PROGRESS","SUCCESS", "RENEWAL","RENEWAL","RENEWAL",
+                 "CHARGING", "RENEWAL", "ACTIVATED", "SUCCESS","renewal", "OPEN",
+                 "IN_PROGRESS", "RENEWAL","RENEWAL","RENEWAL"},
+                
                 // /* SECONDTIMEFIX */{"CHARGING", "ACTIVATION", "ACTIVATED", "SUCCESS",
                 // "renewal","OPEN", "IN_PROGRESS", "ERROR","RENEWAL","RENEWAL","RENEWAL",
                 // "CHARGING", "RENEWAL", "ACTIVATED", "ERROR", "renewal",
@@ -165,7 +165,7 @@ public class SASActivationDeactivationSuccessTest {
         };
     }
 
-    @Test(dataProvider = "activationDeactivationPostiveDataProvider", groups = {"positive"})
+    @Test(dataProvider = "activationDeactivationPostiveDataProvider", groups = {"run"})
     public void activationDeactivationSuccessPositiveTests(String eventActionType, String activityType,
                                                            String currentSubscriptionState, String transactionState, String actionTable, String beforeSchedularStatus,
                                                            String afterSchedularStatus, String afteNewEventStatus, String schedularActivityType, String queueName,

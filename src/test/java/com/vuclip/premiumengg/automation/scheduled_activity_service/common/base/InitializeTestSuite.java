@@ -1,17 +1,25 @@
 package com.vuclip.premiumengg.automation.scheduled_activity_service.common.base;
 
-import com.vuclip.premiumengg.automation.common.*;
-import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.PublishConfigRequest;
-import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.*;
-import com.vuclip.premiumengg.automation.utils.ObjectMapperUtils;
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.Properties;
+
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.util.Properties;
+import com.vuclip.premiumengg.automation.common.Configuration;
+import com.vuclip.premiumengg.automation.common.JDBCTemplate;
+import com.vuclip.premiumengg.automation.common.Log4J;
+import com.vuclip.premiumengg.automation.common.RabbitAdminConnection;
+import com.vuclip.premiumengg.automation.common.RabbitMQConnection;
+import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.PublishConfigRequest;
+import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.UserSubscriptionRequest;
+import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASHelper;
+import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASUtils;
+import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASValidationHelper;
+import com.vuclip.premiumengg.automation.utils.ObjectMapperUtils;
 
 /**
  * @author Rahul Sahu
@@ -50,9 +58,10 @@ public class InitializeTestSuite {
             Log4J.getLogger().info("Cleanup Database Tables");
 
             // Delete queue for product because no consumer attached in system test.
-            RabbitUtil.deleteAllActivityQueue(SASUtils.productId, SASUtils.partnerId, SASUtils.countryCode);
-            SASDBHelper.cleanAllTables(null);
-
+//            RabbitUtil.deleteAllActivityQueue(SASUtils.productId, SASUtils.partnerId, SASUtils.countryCode);
+//            SASDBHelper.cleanAllTables(null);
+            UserSubscriptionRequest userSubscriptionRequest = SASUtils.loadJson("userSubscription.json",
+                    UserSubscriptionRequest.class);
             SASUtils.productId = 6789;
             SASUtils.partnerId = SASUtils.productId;
             SASUtils.countryCode = "IN";
