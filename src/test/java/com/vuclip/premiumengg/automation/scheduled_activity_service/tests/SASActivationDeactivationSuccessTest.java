@@ -156,7 +156,7 @@ public class SASActivationDeactivationSuccessTest {
 		};
 	}
 
-	@Test(dataProvider = "activationDeactivationPostiveDataProvider", groups = { "positive" })
+	@Test(dataProvider = "activationDeactivationPostiveDataProvider", groups = { "run" })
 	public void activationDeactivationSuccessPositiveTests(String eventActionType, String activityType,
 			String currentSubscriptionState, String transactionState, String actionTable, String beforeSchedularStatus,
 			String afterSchedularStatus, String afteNewEventStatus, String schedularActivityType, String queueName,

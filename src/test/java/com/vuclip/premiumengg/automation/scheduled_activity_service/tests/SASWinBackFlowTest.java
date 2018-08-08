@@ -67,7 +67,7 @@ public class SASWinBackFlowTest {
         };
     }
 
-    @Test(dataProvider = "SASWinBackFlowTestdp", groups = {"positive"})
+    @Test(dataProvider = "SASWinBackFlowTestdp", groups = {"run"})
     public void SASWinBackFlowTests(String eventActionType, String activityType, String currentSubscriptionState,
                                     String transactionState, String actionTable, String beforeSchedularStatus, String afterSchedularStatus,
                                     String afteNewEventStatus, String schedularActivityType, String queueName, String queueActivity,
