@@ -82,22 +82,53 @@ public class RabbitUtil {
 		case "SYSTEM_CHURN":
 			activityType = "DEACTIVATION";
 		}
-		return "" + productId + "_" + partnerId + "_" + country + "_" + activityType+ "_SCHEDULEDACTIVITY_COREACTIVITY";
+		return "" + productId + "_" + partnerId + "_" + country + "_" + activityType
+				+ "_SCHEDULEDACTIVITY_COREACTIVITY";
 	}
 
 	public static Message receive(RabbitTemplate rabbitTemplate, String queueName, long timeInMilli) {
-		/*
-		 * if (queueName.contains("ACTIVATION_SCHE")) queueName =
-		 * queueName.replaceAll("ACTIVATION", "ACTIVATION_RETRY"); if
-		 * (queueName.contains("DEACTIVATION_SCHE")) queueName =
-		 * queueName.replaceAll("DEACTIVATION", "DEACTIVATION_RETRY");
-		 */
+
+		// if (queueName.contains("ACTIVATION_SCHE"))
+		// queueName = queueName.replaceAll("ACTIVATION", "ACTIVATION_RETRY");
+		// if (queueName.contains("DEACTIVATION_SCHE"))
+		// queueName = queueName.replaceAll("DEACTIVATION", "DEACTIVATION_RETRY");
+
 		Log4J.getLogger().info("QUEUE NAME TO FETCH " + queueName);
 
 		Message message = rabbitTemplate.receive(queueName, timeInMilli);
 		if (message == null) {
 			Log4J.getLogger().info("RabbitMQ: Message is null not able to fetch  ");
-		}
+		} else
+			return message;
+		String[] qs = queueName.split("_");
+
+		Integer productId = Integer.parseInt(qs[0]);
+		Integer partnerId = Integer.parseInt(qs[1]);
+		String country = qs[2];
+		message = rabbitTemplate.receive(getQueueName(productId, partnerId, country, "ACTIVATION"), 5000);
+		if (message != null)
+			System.out.println(new String(message.getBody()));
+		message = rabbitTemplate.receive(getQueueName(productId, partnerId, country, "ACTIVATION_RETRY"), 5000);
+		if (message != null)
+			System.out.println(new String(message.getBody()));
+		message = rabbitTemplate.receive(getQueueName(productId, partnerId, country, "DEACTIVATION"), 5000);
+		if (message != null)
+			System.out.println(new String(message.getBody()));
+		message = rabbitTemplate.receive(getQueueName(productId, partnerId, country, "DEACTIVATION_RETRY"), 5000);
+		if (message != null)
+			System.out.println(new String(message.getBody()));
+		message = rabbitTemplate.receive(getQueueName(productId, partnerId, country, "RENEWAL"), 5000);
+		if (message != null)
+			System.out.println(new String(message.getBody()));
+		message = rabbitTemplate.receive(getQueueName(productId, partnerId, country, "SYSTEM_CHURN"), 5000);
+		if (message != null)
+			System.out.println(new String(message.getBody()));
+		message = rabbitTemplate.receive(getQueueName(productId, partnerId, country, "WINBACK"), 5000);
+		if (message != null)
+			System.out.println(new String(message.getBody()));
+		message = rabbitTemplate.receive(getQueueName(productId, partnerId, country, "FREETRIAL_RENEWAL"), 5000);
+		if (message != null)
+			System.out.println(new String(message.getBody()));
 		return message;
 	}
 }
