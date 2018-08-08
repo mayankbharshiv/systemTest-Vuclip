@@ -1,21 +1,16 @@
 package com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.apache.log4j.Logger;
-import org.springframework.amqp.core.Message;
-
 import com.vuclip.premiumengg.automation.common.Log4J;
 import com.vuclip.premiumengg.automation.common.RabbitMQConnection;
-import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.ActivityType;
-import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.PublishConfigRequest;
-import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.SASQueueResponse;
-import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.SchedulerRequest;
-import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.UserSubscriptionRequest;
+import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.*;
 import com.vuclip.premiumengg.automation.utils.AppAssert;
 import com.vuclip.premiumengg.automation.utils.DBUtils;
 import com.vuclip.premiumengg.automation.utils.ObjectMapperUtils;
+import org.apache.log4j.Logger;
+import org.springframework.amqp.core.Message;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class SASUtils {
     public static int productId;
@@ -137,8 +132,8 @@ public class SASUtils {
 //		userSubscriptionRequest.getUserInfo().isFreeTrialUser();
 //		userSubscriptionRequest.getEventInfo().getLogTime().getTime();
 //		userSubscriptionRequest.getUserInfo().getUserId();
-        
-        
+
+
         userSubscriptionRequest.getActivityInfo().setActivityType(activityType);
         userSubscriptionRequest.getActivityInfo().setCurrentSubscriptionState(currentSubscriptionState);
         userSubscriptionRequest.getActivityInfo().setActionType(actionType);
@@ -151,7 +146,7 @@ public class SASUtils {
         userSubscriptionRequest.getSubscriptionInfo().setSubscriptionBillingCode(billingCode);
         userSubscriptionRequest.getSubscriptionInfo().setNextBillingDate(nextBillingDate);
 //        userSubscriptionRequest.getSubscriptionInfo().setEndDate();
-        
+
         userSubscriptionRequest.getActivityEvent().setSubscriptionId(subscriptionId);
         userSubscriptionRequest.getActivityEvent().setPartnerId(partnerId);
         userSubscriptionRequest.getActivityEvent().setProductId(productId);

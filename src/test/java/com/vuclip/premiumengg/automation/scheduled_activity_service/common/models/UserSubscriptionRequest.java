@@ -1,12 +1,6 @@
 package com.vuclip.premiumengg.automation.scheduled_activity_service.common.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Builder
 @Getter
@@ -17,16 +11,16 @@ import lombok.ToString;
 @ToString
 public class UserSubscriptionRequest {
 
-	private EventInfo eventInfo;
+    private EventInfo eventInfo;
 
-	private UserInfo userInfo;
+    private UserInfo userInfo;
 
-	private ActivityInfo activityInfo;
+    private ActivityInfo activityInfo;
 
-	private SubscriptionInfo subscriptionInfo;
+    private SubscriptionInfo subscriptionInfo;
 
-	private ActivityEvent activityEvent;
+    private ActivityEvent activityEvent;
 
-	private Response response;
+    private Response response;
 
 }

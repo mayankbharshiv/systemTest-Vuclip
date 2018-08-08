@@ -13,7 +13,6 @@ import io.restassured.response.Response;
 import org.apache.log4j.Logger;
 import org.springframework.amqp.core.Message;
 
-import java.math.BigInteger;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;

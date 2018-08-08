@@ -40,6 +40,7 @@ public class DateTimeUtil {
     public static long getCurrentDate() {
         return (Calendar.getInstance(TimeZone.getTimeZone("GMT")).getTimeInMillis());
     }
+
     public static long getTimeInMillis(String dd, String mm, String yyyy, String HH, String MM, String SS) {
 
         LocalDateTime localDateTime = LocalDateTime.parse(yyyy + "/" + mm + "/" + dd + " " + HH + ":" + MM + ":" + SS,

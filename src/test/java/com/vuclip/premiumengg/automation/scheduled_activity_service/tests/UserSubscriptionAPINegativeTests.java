@@ -36,8 +36,8 @@ public class UserSubscriptionAPINegativeTests {
                 {null, "ACT_INIT", "ACT_INIT", "LOW_BALANCE", "CHARGING", 106, "winback", productId, partnerId},
                 {"ACTIVATION", "ACT_INIT", "ACT_INIT", "LOW_BALANCE", "CHARGING", 106, "winback", 0, partnerId},
                 {"ACTIVATION", "ACT_INIT", "ACT_INIT", "LOW_BALANCE", "CHARGING", 106, "winback", productId, 0},
-                // bug exist{ "ACTIVATION", "ACT_INIT", null, "SUCCESS", "CHARGING", 108,
-                // "activation", productId, partnerId }
+                /*bug exist{ "ACTIVATION", "ACT_INIT", null, "SUCCESS", "CHARGING", 108,
+                "activation", productId, partnerId }*/
 
         };
 

@@ -37,12 +37,12 @@ public class SchedulerAPINegativeTests {
     @DataProvider(name = "schedulerApiInvalidFieldValuesDataProvider")
     public Object[][] schedulerApiInvalidFieldValuesDataProvider() {
         return new Object[][]{
-                // bug{ 0, 0, countryCode,"RENEWAL" },
                 {0, 0, null, null},
-                // bug{ productId, 0, countryCode,"RENEWAL" },
                 {partnerId, productId, countryCode, null},
-                // bug { 0, partnerId, countryCode,"RENEWAL" },
-                // bug { partnerId, productId, null,"RENEWAL" },
+                /*bug{ 0, 0, countryCode,"RENEWAL" },
+                bug{ productId, 0, countryCode,"RENEWAL" },
+                bug { 0, partnerId, countryCode,"RENEWAL" },
+                bug { partnerId, productId, null,"RENEWAL" },*/
 
         };
     }
@@ -77,10 +77,11 @@ public class SchedulerAPINegativeTests {
     @DataProvider(name = "schedulerApiMissingFieldsDataProvider")
     public Object[][] schedulerApiMissingFieldsDataProvider() {
         return new Object[][]{
-                // bug{ "productId" },
-                // bug{ "partnerId" },
-                // bug{ "country" }
-                {"activityType"}};
+                /*bug{ "productId" },
+                bug{ "partnerId" },
+                bug{ "country" }*/
+                {"activityType"}
+        };
     }
 
     @Test(dataProvider = "schedulerApiMissingFieldsDataProvider", groups = {"positive"})
@@ -100,8 +101,8 @@ public class SchedulerAPINegativeTests {
                     actionTable);
             String jsonString = JsonHelper.remove(SchedulerRequest.class, generateSchedulerRequest, jsonElement);
             System.out.println(jsonString);
-//            generateSchedulerRequest = ObjectMapperUtils.readValueFromString(jsonString, SchedulerRequest.class);
-//            System.out.println(generateSchedulerRequest.toString());
+            /*generateSchedulerRequest = ObjectMapperUtils.readValueFromString(jsonString, SchedulerRequest.class);
+            System.out.println(generateSchedulerRequest.toString());*/
 
             SASValidationHelper.validate_schedular_invalid_api_response(sasHelper.scheduler(jsonString));
         } catch (Exception e) {

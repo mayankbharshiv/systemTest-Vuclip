@@ -174,8 +174,8 @@ public class SASSystemChurnSuccessTest {
             logger.info("=========>Second event: Queue verification " + RabbitUtil.getQueueName(productId, partnerId, countryCode, newQueueName));
             message = RabbitUtil.receive(RabbitMQConnection.getRabbitTemplate(),
                     RabbitUtil.getQueueName(productId, partnerId, countryCode, newQueueName), 10000);
-//			message = RabbitMQConnection.getRabbitTemplate().receive(
-//					productId + "_" + partnerId + "_" + newQueueName.toUpperCase() + "ccc", 25000);
+			/*message = RabbitMQConnection.getRabbitTemplate().receive(
+					productId + "_" + partnerId + "_" + newQueueName.toUpperCase() + "ccc", 25000);*/
 
             SASValidationHelper.validateQueueMessage(
                     ObjectMapperUtils.readValueFromString(new String(message.getBody()), SASQueueResponse.class),

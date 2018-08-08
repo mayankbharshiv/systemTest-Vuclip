@@ -1,19 +1,10 @@
 package com.vuclip.premiumengg.automation.scheduled_activity_service.common.models;
 
 
-import java.util.Date;
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 /**
  * @author shreyash
- *
  */
 @Builder
 @Getter
@@ -23,9 +14,9 @@ import lombok.ToString;
 @EqualsAndHashCode
 @ToString
 public class EventInfo {
-	private long logTime;
+    private long logTime;
 
-	private String eventId;
-	
-	private String eventType;
+    private String eventId;
+
+    private String eventType;
 }

@@ -1,93 +1,90 @@
 package com.vuclip.premiumengg.automation.scheduled_activity_service.common.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Builder
-@Getter@Setter
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public  class ActivityEvent { 
-	
-	private EventInfo eventInfo;
-	
-	private Long eventTimeStamp;
+public class ActivityEvent {
 
-	private String userId;
-	
-	private String msisdn;
+    private EventInfo eventInfo;
 
-	private int productId;
-	
-	private String productName;
+    private Long eventTimeStamp;
 
-	private int partnerId;
-	
-	private String partnerName;
+    private String userId;
 
-	private String requestedBillingCode;
-	
-	private String requestedPrice;
-	
-	private String attemptedBillingCode;
+    private String msisdn;
 
-	private String attemptedPrice;
-	
-	private String chargedBillingCode;
-	
-	private double chargedPrice;
-	
-	private String currency;
+    private int productId;
 
-	private String mode;
+    private String productName;
 
-	private String action;
+    private int partnerId;
 
-	private String activity;
+    private String partnerName;
 
-	private String transactionId;
+    private String requestedBillingCode;
 
-	private String transactionState;
+    private String requestedPrice;
 
-	private String partnerTransactionId;
+    private String attemptedBillingCode;
 
-	private Integer itemId;
+    private String attemptedPrice;
 
-	private Integer itemTypeId;
+    private String chargedBillingCode;
 
-	private String actionResult;
+    private double chargedPrice;
 
-	private String serviceId;
+    private String currency;
 
-	private Long subscriptionId;
+    private String mode;
 
-	private String circleCode;
-	
-	private String countryCode;
-	
-	private String errorCode;
+    private String action;
 
-	private String errorDesc;
+    private String activity;
 
-	private boolean delayed;
+    private String transactionId;
 
-	private boolean closed;
+    private String transactionState;
 
-	private String customerTransactionId;
+    private String partnerTransactionId;
 
-	private String userPreferredLanguage;
+    private Integer itemId;
 
-	private String userSource;
+    private Integer itemTypeId;
 
-	private Long nextBillingDate;
-	
-	private String adNetworkParams;
-	
-	private String churnNotificationParam;
-	
-	private Long activationDate;
+    private String actionResult;
+
+    private String serviceId;
+
+    private Long subscriptionId;
+
+    private String circleCode;
+
+    private String countryCode;
+
+    private String errorCode;
+
+    private String errorDesc;
+
+    private boolean delayed;
+
+    private boolean closed;
+
+    private String customerTransactionId;
+
+    private String userPreferredLanguage;
+
+    private String userSource;
+
+    private Long nextBillingDate;
+
+    private String adNetworkParams;
+
+    private String churnNotificationParam;
+
+    private Long activationDate;
 
 }
