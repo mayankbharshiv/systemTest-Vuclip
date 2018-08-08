@@ -112,37 +112,37 @@ public class RabbitUtil {
 		String country = qs[2];
 		
 		Log4J.getLogger().info(productId + "_" + partnerId + "_" + country + "ACTIVATION");
-		message = rabbitTemplate.receive(getQueueNames(productId, partnerId, country, "ACTIVATION"), 5000);
+		message = rabbitTemplate.receive(getQueueNames(productId, partnerId, country, "ACTIVATION"), 10);
 		if (message != null)
 			Log4J.getLogger().info(new String(message.getBody()));
 
 		Log4J.getLogger().info(productId + "_" + partnerId + "_" + country + "ACTIVATION");
-		message = rabbitTemplate.receive(getQueueNames(productId, partnerId, country, "ACTIVATION_RETRY"), 5000);
+		message = rabbitTemplate.receive(getQueueNames(productId, partnerId, country, "ACTIVATION_RETRY"), 10);
 		if (message != null)
 			Log4J.getLogger().info(new String(message.getBody()));
 		
-		Log4J.getLogger().info(productId + "_" + partnerId + "_" + country + "ACTIVATION");
-		message = rabbitTemplate.receive(getQueueNames(productId, partnerId, country, "DEACTIVATION"), 5000);
+		Log4J.getLogger().info(productId + "_" + partnerId + "_" + country + "DEACTIVATION");
+		message = rabbitTemplate.receive(getQueueNames(productId, partnerId, country, "DEACTIVATION"), 10);
 		if (message != null)
 			Log4J.getLogger().info(new String(message.getBody()));
 		
-		Log4J.getLogger().info(productId + "_" + partnerId + "_" + country + "ACTIVATION");
-		message = rabbitTemplate.receive(getQueueNames(productId, partnerId, country, "DEACTIVATION_RETRY"), 5000);
+		Log4J.getLogger().info(productId + "_" + partnerId + "_" + country + "DEACTIVATION_RETRY");
+		message = rabbitTemplate.receive(getQueueNames(productId, partnerId, country, "DEACTIVATION_RETRY"), 10);
 		if (message != null)
 			Log4J.getLogger().info(new String(message.getBody()));
 		
-		Log4J.getLogger().info(productId + "_" + partnerId + "_" + country + "ACTIVATION");
-		message = rabbitTemplate.receive(getQueueNames(productId, partnerId, country, "RENEWAL"), 5000);
+		Log4J.getLogger().info(productId + "_" + partnerId + "_" + country + "RENEWAL");
+		message = rabbitTemplate.receive(getQueueNames(productId, partnerId, country, "RENEWAL"), 10);
 		if (message != null)
 			Log4J.getLogger().info(new String(message.getBody()));
 		
-		Log4J.getLogger().info(productId + "_" + partnerId + "_" + country + "ACTIVATION");
-		message = rabbitTemplate.receive(getQueueNames(productId, partnerId, country, "SYSTEM_CHURN"), 5000);
+		Log4J.getLogger().info(productId + "_" + partnerId + "_" + country + "SYSTEM_CHURN");
+		message = rabbitTemplate.receive(getQueueNames(productId, partnerId, country, "SYSTEM_CHURN"), 10);
 		if (message != null)
 			Log4J.getLogger().info(new String(message.getBody()));
 		
-		Log4J.getLogger().info(productId + "_" + partnerId + "_" + country + "ACTIVATION");
-		message = rabbitTemplate.receive(getQueueNames(productId, partnerId, country, "WINBACK"), 5000);
+		Log4J.getLogger().info(productId + "_" + partnerId + "_" + country + "WINBACK");
+		message = rabbitTemplate.receive(getQueueNames(productId, partnerId, country, "WINBACK"), 10);
 		if (message != null)
 			Log4J.getLogger().info(new String(message.getBody()));
 		
