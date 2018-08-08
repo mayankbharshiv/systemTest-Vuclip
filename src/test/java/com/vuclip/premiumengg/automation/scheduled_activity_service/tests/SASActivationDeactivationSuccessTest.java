@@ -45,13 +45,13 @@ public class SASActivationDeactivationSuccessTest {
 						"SUCCESS", "RENEWAL", "RENEWAL", "RENEWAL", "CHARGING", "RENEWAL", "ACTIVATED", "SUCCESS",
 						"renewal", "OPEN", "IN_PROGRESS", "RENEWAL", "RENEWAL", "RENEWAL" },
 
-				/* SECONDTIMEFIX */{ "CHARGING", "ACTIVATION", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS",
-						"ERROR", "RENEWAL", "RENEWAL", "RENEWAL", "CHARGING", "RENEWAL", "ACTIVATED", "ERROR",
-						"renewal", "OPEN", "IN_PROGRESS", "RENEWAL", "RENEWAL", "RENEWAL" },
-
-				/* SECONDTIMEFIX */{ "CHARGING", "ACTIVATION", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS",
-						"FAILURE", "RENEWAL", "RENEWAL", "RENEWAL", "CHARGING", "RENEWAL", "ACTIVATED", "FAILURE",
-						"renewal", "OPEN", "IN_PROGRESS", "RENEWAL", "RENEWAL", "RENEWAL" },
+//				/* SECONDTIMEFIX */{ "CHARGING", "ACTIVATION", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS",
+//						"ERROR", "RENEWAL", "RENEWAL", "RENEWAL", "CHARGING", "RENEWAL", "ACTIVATED", "ERROR",
+//						"renewal", "OPEN", "IN_PROGRESS", "RENEWAL", "RENEWAL", "RENEWAL" },
+//
+//				/* SECONDTIMEFIX */{ "CHARGING", "ACTIVATION", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS",
+//						"FAILURE", "RENEWAL", "RENEWAL", "RENEWAL", "CHARGING", "RENEWAL", "ACTIVATED", "FAILURE",
+//						"renewal", "OPEN", "IN_PROGRESS", "RENEWAL", "RENEWAL", "RENEWAL" },
 
 				/* SECONDTIMEFIX */{ "CHARGING", "ACTIVATION", "ACT_INIT", "FAILURE", "activation", "OPEN",
 						"IN_PROGRESS", "SUCCESS", "ACTIVATION_RETRY", "ACTIVATION_RETRY", "ACTIVATION_RETRY",
@@ -81,7 +81,7 @@ public class SASActivationDeactivationSuccessTest {
 		};
 	}
 
-	@Test(dataProvider = "activationDeactivationPostiveDataProvider", groups = { "run" })
+	@Test(dataProvider = "activationDeactivationPostiveDataProvider", groups = { "positive" })
 	public void activationDeactivationSuccessPositiveTests(String eventActionType, String activityType,
 			String currentSubscriptionState, String transactionState, String actionTable, String beforeSchedularStatus,
 			String afterSchedularStatus, String afteNewEventStatus, String schedularActivityType, String queueName,

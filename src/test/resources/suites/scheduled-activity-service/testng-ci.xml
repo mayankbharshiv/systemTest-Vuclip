@@ -4,7 +4,7 @@
     <test name="sas-service" preserve-order="true">
         <groups>
             <run>
-                <include name="run"></include>
+                <include name="positive"></include>
             </run>
         </groups>
         <packages>

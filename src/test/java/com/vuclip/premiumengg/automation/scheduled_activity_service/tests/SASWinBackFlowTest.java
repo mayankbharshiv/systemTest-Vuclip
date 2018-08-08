@@ -36,21 +36,21 @@ public class SASWinBackFlowTest {
                 "SUCCESS", "RENEWAL", "RENEWAL", "RENEWAL", "CHARGING", "RENEWAL", "ACTIVATED", "SUCCESS",
                 "renewal", "OPEN", "IN_PROGRESS", "RENEWAL", "RENEWAL", "RENEWAL"},
 
-                /* SECONDTIMEFIX */ {"CHARGING", "WINBACK", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS",
-                "FAILURE", "RENEWAL", "RENEWAL", "RENEWAL", "CHARGING", "RENEWAL", "ACTIVATED", "FAILURE",
-                "renewal", "OPEN", "IN_PROGRESS", "RENEWAL", "RENEWAL", "RENEWAL"},
-
-                /* SECONDTIMEFIX */{"CHARGING", "WINBACK", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS",
-                "ERROR", "RENEWAL", "RENEWAL", "RENEWAL", "CHARGING", "RENEWAL", "ACTIVATED", "ERROR",
-                "renewal", "OPEN", "IN_PROGRESS", "RENEWAL", "RENEWAL", "RENEWAL"},
-
-                /* SECONDTIMEFIX */{"CHARGING", "WINBACK", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS",
-                "ERROR", "RENEWAL", "RENEWAL", "RENEWAL", "CHARGING", "RENEWAL", "SUSPEND", "ERROR", "renewal",
-                "OPEN", "IN_PROGRESS", "RENEWAL", "RENEWAL", "RENEWAL"},
-
-                /* SECONDTIMEFIX */ {"CHARGING", "WINBACK", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS",
-                "FAILURE", "RENEWAL", "RENEWAL", "RENEWAL", "CHARGING", "RENEWAL", "SUSPEND", "FAILURE",
-                "renewal", "OPEN", "IN_PROGRESS", "RENEWAL", "RENEWAL", "RENEWAL"},
+//                /* SECONDTIMEFIX */ {"CHARGING", "WINBACK", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS",
+//                "FAILURE", "RENEWAL", "RENEWAL", "RENEWAL", "CHARGING", "RENEWAL", "ACTIVATED", "FAILURE",
+//                "renewal", "OPEN", "IN_PROGRESS", "RENEWAL", "RENEWAL", "RENEWAL"},
+//
+//                /* SECONDTIMEFIX */{"CHARGING", "WINBACK", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS",
+//                "ERROR", "RENEWAL", "RENEWAL", "RENEWAL", "CHARGING", "RENEWAL", "ACTIVATED", "ERROR",
+//                "renewal", "OPEN", "IN_PROGRESS", "RENEWAL", "RENEWAL", "RENEWAL"},
+//
+//                /* SECONDTIMEFIX */{"CHARGING", "WINBACK", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS",
+//                "ERROR", "RENEWAL", "RENEWAL", "RENEWAL", "CHARGING", "RENEWAL", "SUSPEND", "ERROR", "renewal",
+//                "OPEN", "IN_PROGRESS", "RENEWAL", "RENEWAL", "RENEWAL"},
+//
+//                /* SECONDTIMEFIX */ {"CHARGING", "WINBACK", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS",
+//                "FAILURE", "RENEWAL", "RENEWAL", "RENEWAL", "CHARGING", "RENEWAL", "SUSPEND", "FAILURE",
+//                "renewal", "OPEN", "IN_PROGRESS", "RENEWAL", "RENEWAL", "RENEWAL"},
 
                 /* SECONDTIMEFIX */{"CHARGING", "WINBACK", "PARKING", "LOW_BALANCE", "winback", "OPEN", "IN_PROGRESS",
                 "SUCCESS", "WINBACK", "WINBACK", "WINBACK", "CHARGING", "WINBACK", "ACTIVATED", "SUCCESS",
@@ -67,7 +67,7 @@ public class SASWinBackFlowTest {
         };
     }
 
-    @Test(dataProvider = "SASWinBackFlowTestdp", groups = {"run"})
+    @Test(dataProvider = "SASWinBackFlowTestdp", groups = {"positive"})
     public void SASWinBackFlowTests(String eventActionType, String activityType, String currentSubscriptionState,
                                     String transactionState, String actionTable, String beforeSchedularStatus, String afterSchedularStatus,
                                     String afteNewEventStatus, String schedularActivityType, String queueName, String queueActivity,
