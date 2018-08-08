@@ -1,14 +1,16 @@
 package com.vuclip.premiumengg.automation.scheduled_activity_service.tests;
 
-import com.vuclip.premiumengg.automation.common.JDBCTemplate;
-import com.vuclip.premiumengg.automation.common.Log4J;
-import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+
+import com.vuclip.premiumengg.automation.common.JDBCTemplate;
+import com.vuclip.premiumengg.automation.common.Log4J;
+import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.RabbitUtil;
+import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASUtils;
 
 /**
  * @author rahul.sahu
@@ -80,6 +82,7 @@ public class SASWinBackFlowTest {
                 + " " + newActionTable;
         logger.info("***************Starting SASWinBackFlowTest  [ " + testMessage + " ]");
 
+        RabbitUtil.purgeAllActivityQueue(productId, partnerId, countryCode);
         try {
             JDBCTemplate.getDbConnection().update(
                     "INSERT INTO `scheduled_activity_service`.`winback` (`product_id`, `partner_id`, `country_code`, `date`, `subscription_id`, `attempt_number`, `is_eligible`, `status`, `user_id`) VALUES"
