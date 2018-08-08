@@ -116,7 +116,7 @@ public class RabbitUtil {
 		if (message != null)
 			Log4J.getLogger().info(new String(message.getBody()));
 
-		Log4J.getLogger().info(productId + "_" + partnerId + "_" + country + "ACTIVATION");
+		Log4J.getLogger().info(productId + "_" + partnerId + "_" + country + "ACTIVATION_RETRY");
 		message = rabbitTemplate.receive(getQueueNames(productId, partnerId, country, "ACTIVATION_RETRY"), 10);
 		if (message != null)
 			Log4J.getLogger().info(new String(message.getBody()));
