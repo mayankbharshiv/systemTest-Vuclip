@@ -65,6 +65,7 @@ public class RabbitUtil {
 	}
 
 	public static String getQueueName(Integer productId, Integer partnerId, String country, String activity) {
+		Log4J.getLogger().info("activity type"+activity);
 		String activityType = "";
 		switch (activity) {
 		case "ACTIVATION":
@@ -82,6 +83,8 @@ public class RabbitUtil {
 		case "SYSTEM_CHURN":
 			activityType = "DEACTIVATION";
 		}
+		Log4J.getLogger().info("new activity type"+activityType);
+
 		return "" + productId + "_" + partnerId + "_" + country + "_" + activityType
 				+ "_SCHEDULEDACTIVITY_COREACTIVITY";
 	}
@@ -92,16 +95,19 @@ public class RabbitUtil {
 	}
 
 	public static Message receive(RabbitTemplate rabbitTemplate, String queueName, long timeInMilli) {
-		timeInMilli = 200;
+		timeInMilli = 20;
+		// if (queueName.contains("ACTIVATION_SCHE"))
+		// queueName = queueName.replaceAll("ACTIVATION", "ACTIVATION_RETRY");
+		// if (queueName.contains("DEACTIVATION_SCHE"))
+		// queueName = queueName.replaceAll("DEACTIVATION", "DEACTIVATION_RETRY");
 
 		Log4J.getLogger().info("QUEUE NAME TO FETCH " + queueName);
 
 		Message message = rabbitTemplate.receive(queueName, timeInMilli);
 		if (message == null) {
-			Log4J.getLogger().info("RabbitMQ: not able to fetch  message");
+			Log4J.getLogger().info("RabbitMQ: Message is null not able to fetch  ");
 		} else
 			return message;
-		
 		String[] qs = queueName.split("_");
 
 		Integer productId = Integer.parseInt(qs[0]);
@@ -158,7 +164,7 @@ public class RabbitUtil {
 			return message;
 		}
 
-		Log4J.getLogger().info(productId + "_" + partnerId + "_" + country + "ACTIVATION");
+		Log4J.getLogger().info(productId + "_" + partnerId + "_" + country + "FREETRIAL_RENEWAL");
 		message = rabbitTemplate.receive(getQueueNames(productId, partnerId, country, "FREETRIAL_RENEWAL"), 5000);
 		if (message != null) {
 			Log4J.getLogger().info(new String(message.getBody()));
