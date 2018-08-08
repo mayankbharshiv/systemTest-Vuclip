@@ -1,67 +1,64 @@
 package com.vuclip.premiumengg.automation.scheduled_activity_service.common.models;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 import lombok.*;
 
-import java.math.BigInteger;
-
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({"subscriptionId", "subscriptionStatus", "startDate", "endDate", "activationDate",
-        "deactivationDate", "subscriptionBillingCode", "chargedBillingCode", "fallbackBillingCode", "mode",
-        "circleCode", "customerTransactionId", "chargedPrice", "partnerId", "productId", "itemId", "itemTypeId",
-        "nextBillingDate", "serviceId", "isDelayed", "paid", "country"})
+/**
+ * @author shreyash
+ */
+@Builder
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
 @ToString
 public class SubscriptionInfo {
 
-    @JsonProperty("subscriptionId")
-    private Integer subscriptionId;
-    @JsonProperty("subscriptionStatus")
+    private Long subscriptionId;
+
     private String subscriptionStatus;
-    @JsonProperty("startDate")
-    private long startDate;
-    @JsonProperty("endDate")
-    private BigInteger endDate;
-    @JsonProperty("activationDate")
-    private long activationDate;
-    @JsonProperty("deactivationDate")
-    private long deactivationDate;
-    @JsonProperty("subscriptionBillingCode")
+
+    private Long startDate;
+
+    private Long endDate;
+
+    private Long activationDate;
+
+    private Long deactivationDate;
+
     private String subscriptionBillingCode;
-    @JsonProperty("chargedBillingCode")
+
     private String chargedBillingCode;
-    @JsonProperty("fallbackBillingCode")
-    private Object fallbackBillingCode;
-    @JsonProperty("mode")
+
     private String mode;
-    @JsonProperty("circleCode")
-    private Object circleCode;
-    @JsonProperty("customerTransactionId")
+
+    private String circleCode;
+
     private String customerTransactionId;
-    @JsonProperty("chargedPrice")
-    private Double chargedPrice;
-    @JsonProperty("partnerId")
+
+    private boolean isPaid;
+
+    private String chargedPrice;
+
     private Integer partnerId;
-    @JsonProperty("productId")
+
     private Integer productId;
-    @JsonProperty("itemId")
+
     private Integer itemId;
-    @JsonProperty("itemTypeId")
+
     private Integer itemTypeId;
-    @JsonProperty("nextBillingDate")
-    private BigInteger nextBillingDate;
-    @JsonProperty("serviceId")
+
+    private Long nextBillingDate;
+
     private String serviceId;
-    @JsonProperty("isDelayed")
-    private Boolean isDelayed;
-    @JsonProperty("paid")
-    private Boolean paid;
-    @JsonProperty("country")
+
+    private String isDelayed;
+
     private String country;
+
+    private Long lastChargedDate;
+
+    private Double subscriptionPrice;
 
 }

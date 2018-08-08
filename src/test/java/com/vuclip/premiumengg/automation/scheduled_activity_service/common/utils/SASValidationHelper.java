@@ -13,7 +13,6 @@ import io.restassured.response.Response;
 import org.apache.log4j.Logger;
 import org.springframework.amqp.core.Message;
 
-import java.math.BigInteger;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
@@ -85,7 +84,7 @@ public class SASValidationHelper {
     }
 
     public static void verifyNoActivityRecordPresent(int productId, int partnerId, Integer subscriptionId,
-                                                     BigInteger date) {
+                                                     long date) {
         List<String> tables = Stream.of(SASTables.values()).map(Enum::name).collect(Collectors.toList());
         for (String tableName : tables) {
             try {
@@ -115,7 +114,7 @@ public class SASValidationHelper {
         }
 
         SASValidationHelper.verifyNoActivityRecordPresent(productId, partnerId, subscriptionId,
-                request.getSubscriptionInfo().getNextBillingDate());
+                request.getSubscriptionInfo().getNextBillingDate().longValue());
     }
 
     public static String whereClause(int subscriptionId, int productId, int partnerId, String nextBillingDate,
@@ -125,7 +124,7 @@ public class SASValidationHelper {
     }
 
     public static void verifyEventTable(String actionTable, int subscriptionId, int productId, int partnerId,
-                                        BigInteger billingDate, String status, String countryCode) {
+                                        long billingDate, String status, String countryCode) {
         try {
             AppAssert.assertTrue(DBUtils
                     .getRecord(actionTable,

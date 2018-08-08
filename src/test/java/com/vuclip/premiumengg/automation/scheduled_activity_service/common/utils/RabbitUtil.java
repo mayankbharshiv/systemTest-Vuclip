@@ -70,10 +70,11 @@ public class RabbitUtil {
     }
 
     public static Message receive(RabbitTemplate rabbitTemplate, String queueName, long timeInMilli) {
-        // if (queueName.contains("ACTIVATION_SCHE"))
-        // queueName = queueName.replaceAll("ACTIVATION", "ACTIVATION_RETRY");
-        // if (queueName.contains("DEACTIVATION_SCHE"))
-        // queueName = queueName.replaceAll("DEACTIVATION", "DEACTIVATION_RETRY");
+        /*
+        if (queueName.contains("ACTIVATION_SCHE"))
+        queueName = queueName.replaceAll("ACTIVATION", "ACTIVATION_RETRY");
+        if (queueName.contains("DEACTIVATION_SCHE"))
+        queueName = queueName.replaceAll("DEACTIVATION", "DEACTIVATION_RETRY");*/
         Log4J.getLogger().info("QUEUE NAME TO FETCH " + queueName);
 
         Message message = rabbitTemplate.receive(queueName, timeInMilli);

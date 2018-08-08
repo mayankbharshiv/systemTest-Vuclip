@@ -12,8 +12,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import java.math.BigInteger;
-
 /**
  * @author rahul.s
  */
@@ -56,7 +54,7 @@ public class SASNAStatusTest {
     public void statusNATests(String activityType, String currentSubscriptionState, String transactionState,
                               String eventActionType, String actionTable) throws Exception {
 
-        Integer subscriptionId = RandomUtils.nextInt(1000, 2000);
+        long subscriptionId = RandomUtils.nextInt(1000, 2000);
         logger.info("==================>Starting activation Retry Positive Test  [ "
                 + SASUtils.getTestLogMessage(productId, subscriptionId, eventActionType, activityType,
                 currentSubscriptionState, transactionState)
@@ -64,13 +62,13 @@ public class SASNAStatusTest {
 
         try {
 
-            BigInteger endDate = DateTimeUtil.getDateBySubtractingValidity(DateTimeUtil.getCurrentDateInGMT(), 10, TimeUnitEnum.DAY.name());
-            BigInteger nBD = DateTimeUtil.getDateBySubtractingValidity(DateTimeUtil.getCurrentDateInGMT(), 20, TimeUnitEnum.DAY.name());
+            long endDate = DateTimeUtil.getDateBySubtractingValidity(DateTimeUtil.getCurrentDate(), 10, TimeUnitEnum.DAY.name());
+            long nBD = DateTimeUtil.getDateBySubtractingValidity(DateTimeUtil.getCurrentDate(), 20, TimeUnitEnum.DAY.name());
 
             SASUtils.executeUserSubscription(productId, partnerId, subscriptionId, countryCode, eventActionType,
                     activityType, currentSubscriptionState, transactionState, endDate, nBD, actionTable, "OPEN");
 
-            BigInteger nBD1 = DateTimeUtil.getDateBySubtractingValidity(DateTimeUtil.getCurrentDateInGMT(), 22, TimeUnitEnum.DAY.name());
+            long nBD1 = DateTimeUtil.getDateBySubtractingValidity(DateTimeUtil.getCurrentDate(), 22, TimeUnitEnum.DAY.name());
             SASUtils.executeUserSubscription(productId, partnerId, subscriptionId, countryCode, eventActionType,
                     activityType, currentSubscriptionState, transactionState, endDate, nBD1, actionTable, "OPEN");
 
