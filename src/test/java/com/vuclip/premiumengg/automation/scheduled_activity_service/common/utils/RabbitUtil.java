@@ -105,30 +105,31 @@ public class RabbitUtil {
 		Integer productId = Integer.parseInt(qs[0]);
 		Integer partnerId = Integer.parseInt(qs[1]);
 		String country = qs[2];
+		Log4J.getLogger().info(productId+"_"+partnerId+"_"+country);
 		message = rabbitTemplate.receive(getQueueName(productId, partnerId, country, "ACTIVATION"), 5000);
 		if (message != null)
-			System.out.println(new String(message.getBody()));
+			Log4J.getLogger().info(new String(message.getBody()));
 		message = rabbitTemplate.receive(getQueueName(productId, partnerId, country, "ACTIVATION_RETRY"), 5000);
 		if (message != null)
-			System.out.println(new String(message.getBody()));
+			Log4J.getLogger().info(new String(message.getBody()));
 		message = rabbitTemplate.receive(getQueueName(productId, partnerId, country, "DEACTIVATION"), 5000);
 		if (message != null)
-			System.out.println(new String(message.getBody()));
+			Log4J.getLogger().info(new String(message.getBody()));
 		message = rabbitTemplate.receive(getQueueName(productId, partnerId, country, "DEACTIVATION_RETRY"), 5000);
 		if (message != null)
-			System.out.println(new String(message.getBody()));
+			Log4J.getLogger().info(new String(message.getBody()));
 		message = rabbitTemplate.receive(getQueueName(productId, partnerId, country, "RENEWAL"), 5000);
 		if (message != null)
-			System.out.println(new String(message.getBody()));
+			Log4J.getLogger().info(new String(message.getBody()));
 		message = rabbitTemplate.receive(getQueueName(productId, partnerId, country, "SYSTEM_CHURN"), 5000);
 		if (message != null)
-			System.out.println(new String(message.getBody()));
+			Log4J.getLogger().info(new String(message.getBody()));
 		message = rabbitTemplate.receive(getQueueName(productId, partnerId, country, "WINBACK"), 5000);
 		if (message != null)
-			System.out.println(new String(message.getBody()));
+			Log4J.getLogger().info(new String(message.getBody()));
 		message = rabbitTemplate.receive(getQueueName(productId, partnerId, country, "FREETRIAL_RENEWAL"), 5000);
 		if (message != null)
-			System.out.println(new String(message.getBody()));
+			Log4J.getLogger().info(new String(message.getBody()));
 		return message;
 	}
 }
