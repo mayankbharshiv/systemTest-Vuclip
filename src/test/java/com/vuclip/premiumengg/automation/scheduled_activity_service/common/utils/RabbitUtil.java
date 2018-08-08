@@ -92,7 +92,7 @@ public class RabbitUtil {
 	}
 
 	public static Message receive(RabbitTemplate rabbitTemplate, String queueName, long timeInMilli) {
-
+		timeInMilli=2000;
 		// if (queueName.contains("ACTIVATION_SCHE"))
 		// queueName = queueName.replaceAll("ACTIVATION", "ACTIVATION_RETRY");
 		// if (queueName.contains("DEACTIVATION_SCHE"))
