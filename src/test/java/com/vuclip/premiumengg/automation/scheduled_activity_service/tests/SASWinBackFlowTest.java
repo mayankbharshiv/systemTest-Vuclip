@@ -1,14 +1,16 @@
 package com.vuclip.premiumengg.automation.scheduled_activity_service.tests;
 
-import com.vuclip.premiumengg.automation.common.JDBCTemplate;
-import com.vuclip.premiumengg.automation.common.Log4J;
-import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+
+import com.vuclip.premiumengg.automation.common.JDBCTemplate;
+import com.vuclip.premiumengg.automation.common.Log4J;
+import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.RabbitUtil;
+import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.SASUtils;
 
 /**
  * @author rahul.sahu
@@ -34,21 +36,21 @@ public class SASWinBackFlowTest {
                 "SUCCESS", "RENEWAL", "RENEWAL", "RENEWAL", "CHARGING", "RENEWAL", "ACTIVATED", "SUCCESS",
                 "renewal", "OPEN", "IN_PROGRESS", "RENEWAL", "RENEWAL", "RENEWAL"},
 
-                /* SECONDTIMEFIX */ {"CHARGING", "WINBACK", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS",
-                "FAILURE", "RENEWAL", "RENEWAL", "RENEWAL", "CHARGING", "RENEWAL", "ACTIVATED", "FAILURE",
-                "renewal", "OPEN", "IN_PROGRESS", "RENEWAL_RETRY", "RENEWAL_RETRY", "RENEWAL_RETRY"},
-
-                /* SECONDTIMEFIX */{"CHARGING", "WINBACK", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS",
-                "ERROR", "RENEWAL", "RENEWAL", "RENEWAL", "CHARGING", "RENEWAL", "ACTIVATED", "ERROR",
-                "renewal", "OPEN", "IN_PROGRESS", "RENEWAL_RETRY", "RENEWAL_RETRY", "RENEWAL_RETRY"},
-
-                /* SECONDTIMEFIX */{"CHARGING", "WINBACK", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS",
-                "ERROR", "RENEWAL", "RENEWAL", "RENEWAL", "CHARGING", "RENEWAL", "SUSPEND", "ERROR", "renewal",
-                "OPEN", "IN_PROGRESS", "RENEWAL_RETRY", "RENEWAL_RETRY", "RENEWAL_RETRY"},
-
-                /* SECONDTIMEFIX */ {"CHARGING", "WINBACK", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS",
-                "FAILURE", "RENEWAL", "RENEWAL", "RENEWAL", "CHARGING", "RENEWAL", "SUSPEND", "FAILURE",
-                "renewal", "OPEN", "IN_PROGRESS", "RENEWAL_RETRY", "RENEWAL_RETRY", "RENEWAL_RETRY"},
+//                /* SECONDTIMEFIX */ {"CHARGING", "WINBACK", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS",
+//                "FAILURE", "RENEWAL", "RENEWAL", "RENEWAL", "CHARGING", "RENEWAL", "ACTIVATED", "FAILURE",
+//                "renewal", "OPEN", "IN_PROGRESS", "RENEWAL", "RENEWAL", "RENEWAL"},
+//
+//                /* SECONDTIMEFIX */{"CHARGING", "WINBACK", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS",
+//                "ERROR", "RENEWAL", "RENEWAL", "RENEWAL", "CHARGING", "RENEWAL", "ACTIVATED", "ERROR",
+//                "renewal", "OPEN", "IN_PROGRESS", "RENEWAL", "RENEWAL", "RENEWAL"},
+//
+//                /* SECONDTIMEFIX */{"CHARGING", "WINBACK", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS",
+//                "ERROR", "RENEWAL", "RENEWAL", "RENEWAL", "CHARGING", "RENEWAL", "SUSPEND", "ERROR", "renewal",
+//                "OPEN", "IN_PROGRESS", "RENEWAL", "RENEWAL", "RENEWAL"},
+//
+//                /* SECONDTIMEFIX */ {"CHARGING", "WINBACK", "ACTIVATED", "SUCCESS", "renewal", "OPEN", "IN_PROGRESS",
+//                "FAILURE", "RENEWAL", "RENEWAL", "RENEWAL", "CHARGING", "RENEWAL", "SUSPEND", "FAILURE",
+//                "renewal", "OPEN", "IN_PROGRESS", "RENEWAL", "RENEWAL", "RENEWAL"},
 
                 /* SECONDTIMEFIX */{"CHARGING", "WINBACK", "PARKING", "LOW_BALANCE", "winback", "OPEN", "IN_PROGRESS",
                 "SUCCESS", "WINBACK", "WINBACK", "WINBACK", "CHARGING", "WINBACK", "ACTIVATED", "SUCCESS",
@@ -65,7 +67,7 @@ public class SASWinBackFlowTest {
         };
     }
 
-    @Test(dataProvider = "SASWinBackFlowTestdp", groups = {"positive"})
+    @Test(dataProvider = "SASWinBackFlowTestdp", groups = {"bug"})
     public void SASWinBackFlowTests(String eventActionType, String activityType, String currentSubscriptionState,
                                     String transactionState, String actionTable, String beforeSchedularStatus, String afterSchedularStatus,
                                     String afteNewEventStatus, String schedularActivityType, String queueName, String queueActivity,
@@ -80,6 +82,7 @@ public class SASWinBackFlowTest {
                 + " " + newActionTable;
         logger.info("***************Starting SASWinBackFlowTest  [ " + testMessage + " ]");
 
+        RabbitUtil.purgeAllActivityQueue(productId, partnerId, countryCode);
         try {
             JDBCTemplate.getDbConnection().update(
                     "INSERT INTO `scheduled_activity_service`.`winback` (`product_id`, `partner_id`, `country_code`, `date`, `subscription_id`, `attempt_number`, `is_eligible`, `status`, `user_id`) VALUES"

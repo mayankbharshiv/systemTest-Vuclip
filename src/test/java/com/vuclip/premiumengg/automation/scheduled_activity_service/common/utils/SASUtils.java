@@ -6,11 +6,14 @@ import com.vuclip.premiumengg.automation.scheduled_activity_service.common.model
 import com.vuclip.premiumengg.automation.utils.AppAssert;
 import com.vuclip.premiumengg.automation.utils.DBUtils;
 import com.vuclip.premiumengg.automation.utils.ObjectMapperUtils;
+
+import org.apache.commons.lang3.RandomUtils;
 import org.apache.log4j.Logger;
 import org.springframework.amqp.core.Message;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class SASUtils {
     public static int productId;
@@ -65,22 +68,47 @@ public class SASUtils {
         UserSubscriptionRequest userSubscriptionRequest = loadJson("userSubscription.json",
                 UserSubscriptionRequest.class);
 
+//        userSubscriptionRequest.getActivityInfo().setActivityType(activityType);
+//        userSubscriptionRequest.getActivityInfo().setPreviousSubscriptionState(previousSubscriptionState);
+//        userSubscriptionRequest.getActivityInfo().setCurrentSubscriptionState(currentSubscriptionState);
+//        userSubscriptionRequest.getActivityEvent().setTransactionState(transactionState);
+//        userSubscriptionRequest.getActivityInfo().setActionType(actionType);
+//        userSubscriptionRequest.getSubscriptionInfo().setSubscriptionId(subscriptionId);
+//        userSubscriptionRequest.getActivityEvent().setSubscriptionId(subscriptionId);
+//        userSubscriptionRequest.getSubscriptionInfo().setProductId(productId);
+//        userSubscriptionRequest.getSubscriptionInfo().setPartnerId(partnerId);
+//        userSubscriptionRequest.getActivityEvent().setPartnerId(partnerId);
+//        userSubscriptionRequest.getActivityEvent().setProductId(productId);
+//        userSubscriptionRequest.getSubscriptionInfo().setChargedBillingCode(billingCode);
+//        userSubscriptionRequest.getSubscriptionInfo().setSubscriptionBillingCode(billingCode);
+//        userSubscriptionRequest.getActivityEvent().setAttemptedBillingCode(billingCode);
+//        userSubscriptionRequest.getActivityEvent().setChargedBillingCode(billingCode);
+//        userSubscriptionRequest.getActivityEvent().setRequestedBillingCode(billingCode);
+        String r=String.valueOf(RandomUtils.nextLong(1000000000L, 9000000000L));
+        userSubscriptionRequest.getUserInfo().setMsisdn(r);
+        userSubscriptionRequest.getUserInfo().setUserId(r);
+        userSubscriptionRequest.getActivityEvent().setMsisdn(r);
+        userSubscriptionRequest.getActivityEvent().setUserId(r);
         userSubscriptionRequest.getActivityInfo().setActivityType(activityType);
-        userSubscriptionRequest.getActivityInfo().setPreviousSubscriptionState(previousSubscriptionState);
         userSubscriptionRequest.getActivityInfo().setCurrentSubscriptionState(currentSubscriptionState);
-        userSubscriptionRequest.getActivityEvent().setTransactionState(transactionState);
         userSubscriptionRequest.getActivityInfo().setActionType(actionType);
+
         userSubscriptionRequest.getSubscriptionInfo().setSubscriptionId(subscriptionId);
-        userSubscriptionRequest.getActivityEvent().setSubscriptionId(subscriptionId);
         userSubscriptionRequest.getSubscriptionInfo().setProductId(productId);
         userSubscriptionRequest.getSubscriptionInfo().setPartnerId(partnerId);
-        userSubscriptionRequest.getActivityEvent().setPartnerId(partnerId);
-        userSubscriptionRequest.getActivityEvent().setProductId(productId);
+        userSubscriptionRequest.getSubscriptionInfo().setCountry("IN");
         userSubscriptionRequest.getSubscriptionInfo().setChargedBillingCode(billingCode);
         userSubscriptionRequest.getSubscriptionInfo().setSubscriptionBillingCode(billingCode);
+
+        userSubscriptionRequest.getActivityEvent().setSubscriptionId(subscriptionId);
+        userSubscriptionRequest.getActivityEvent().setPartnerId(partnerId);
+        userSubscriptionRequest.getActivityEvent().setProductId(productId);
+        userSubscriptionRequest.getActivityEvent().setTransactionState(transactionState);
         userSubscriptionRequest.getActivityEvent().setAttemptedBillingCode(billingCode);
         userSubscriptionRequest.getActivityEvent().setChargedBillingCode(billingCode);
         userSubscriptionRequest.getActivityEvent().setRequestedBillingCode(billingCode);
+        DateTimeUtil.getDateByAddingValidity(userSubscriptionRequest.getSubscriptionInfo().getNextBillingDate(), 1,
+                TimeUnitEnum.DAY.name());
         return userSubscriptionRequest;
     }
 
@@ -90,23 +118,48 @@ public class SASUtils {
         UserSubscriptionRequest userSubscriptionRequest = loadJson("userSubscription.json",
                 UserSubscriptionRequest.class);
 
+//        userSubscriptionRequest.getActivityInfo().setActivityType(activityType);
+//        // userSubscriptionRequest.getActivityInfo().setPreviousSubscriptionState(previousSubscriptionState);
+//        userSubscriptionRequest.getActivityInfo().setCurrentSubscriptionState(currentSubscriptionState);
+//        userSubscriptionRequest.getActivityEvent().setTransactionState(transactionState);
+//        userSubscriptionRequest.getActivityInfo().setActionType(actionType);
+//        userSubscriptionRequest.getSubscriptionInfo().setSubscriptionId(subscriptionId);
+//        userSubscriptionRequest.getActivityEvent().setSubscriptionId(subscriptionId);
+//        userSubscriptionRequest.getSubscriptionInfo().setProductId(productId);
+//        userSubscriptionRequest.getSubscriptionInfo().setPartnerId(partnerId);
+//        userSubscriptionRequest.getActivityEvent().setPartnerId(partnerId);
+//        userSubscriptionRequest.getActivityEvent().setProductId(productId);
+//        userSubscriptionRequest.getSubscriptionInfo().setChargedBillingCode(billingCode);
+////        userSubscriptionRequest.getSubscriptionInfo().setFallbackBillingCode(billingCode);
+//        userSubscriptionRequest.getSubscriptionInfo().setSubscriptionBillingCode(billingCode);
+//        userSubscriptionRequest.getActivityEvent().setAttemptedBillingCode(billingCode);
+//        userSubscriptionRequest.getActivityEvent().setChargedBillingCode(billingCode);
+//        userSubscriptionRequest.getActivityEvent().setRequestedBillingCode(billingCode);
+        String r=String.valueOf(RandomUtils.nextLong(1000000000L, 9000000000L));
+        userSubscriptionRequest.getUserInfo().setMsisdn(r);
+        userSubscriptionRequest.getUserInfo().setUserId(r);
+        userSubscriptionRequest.getActivityEvent().setMsisdn(r);
+        userSubscriptionRequest.getActivityEvent().setUserId(r);
         userSubscriptionRequest.getActivityInfo().setActivityType(activityType);
-        // userSubscriptionRequest.getActivityInfo().setPreviousSubscriptionState(previousSubscriptionState);
         userSubscriptionRequest.getActivityInfo().setCurrentSubscriptionState(currentSubscriptionState);
-        userSubscriptionRequest.getActivityEvent().setTransactionState(transactionState);
         userSubscriptionRequest.getActivityInfo().setActionType(actionType);
+
         userSubscriptionRequest.getSubscriptionInfo().setSubscriptionId(subscriptionId);
-        userSubscriptionRequest.getActivityEvent().setSubscriptionId(subscriptionId);
         userSubscriptionRequest.getSubscriptionInfo().setProductId(productId);
         userSubscriptionRequest.getSubscriptionInfo().setPartnerId(partnerId);
+        userSubscriptionRequest.getSubscriptionInfo().setCountry("IN");
+        userSubscriptionRequest.getSubscriptionInfo().setChargedBillingCode(billingCode);
+        userSubscriptionRequest.getSubscriptionInfo().setSubscriptionBillingCode(billingCode);
+
+        userSubscriptionRequest.getActivityEvent().setSubscriptionId(subscriptionId);
         userSubscriptionRequest.getActivityEvent().setPartnerId(partnerId);
         userSubscriptionRequest.getActivityEvent().setProductId(productId);
-        userSubscriptionRequest.getSubscriptionInfo().setChargedBillingCode(billingCode);
-//        userSubscriptionRequest.getSubscriptionInfo().setFallbackBillingCode(billingCode);
-        userSubscriptionRequest.getSubscriptionInfo().setSubscriptionBillingCode(billingCode);
+        userSubscriptionRequest.getActivityEvent().setTransactionState(transactionState);
         userSubscriptionRequest.getActivityEvent().setAttemptedBillingCode(billingCode);
         userSubscriptionRequest.getActivityEvent().setChargedBillingCode(billingCode);
         userSubscriptionRequest.getActivityEvent().setRequestedBillingCode(billingCode);
+        DateTimeUtil.getDateByAddingValidity(userSubscriptionRequest.getSubscriptionInfo().getNextBillingDate(), 1,
+                TimeUnitEnum.DAY.name());
         return userSubscriptionRequest;
     }
 
@@ -133,7 +186,11 @@ public class SASUtils {
 //		userSubscriptionRequest.getEventInfo().getLogTime().getTime();
 //		userSubscriptionRequest.getUserInfo().getUserId();
 
-
+        String r=String.valueOf(RandomUtils.nextLong(1000000000L, 9000000000L));
+        userSubscriptionRequest.getUserInfo().setMsisdn(r);
+        userSubscriptionRequest.getUserInfo().setUserId(r);
+        userSubscriptionRequest.getActivityEvent().setMsisdn(r);
+        userSubscriptionRequest.getActivityEvent().setUserId(r);
         userSubscriptionRequest.getActivityInfo().setActivityType(activityType);
         userSubscriptionRequest.getActivityInfo().setCurrentSubscriptionState(currentSubscriptionState);
         userSubscriptionRequest.getActivityInfo().setActionType(actionType);
