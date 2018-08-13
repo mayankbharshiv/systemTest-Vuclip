@@ -39,5 +39,7 @@ public class Configuration {
 
     public static String adNetworkServiceServer;
 
+	public static String csServer;
+
 
 }
