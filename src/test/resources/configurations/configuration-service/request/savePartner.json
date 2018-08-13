@@ -1,0 +1,16 @@
+{
+  "productName": "VIU",
+  "partnerName": "Etisalat UAE",
+  "description": "Etisalat UAE",
+  "status": "active",
+  "autoRenewalApplicable": false,
+  "type": "telco",
+  "stepUpCharging": true,
+  "userIdentifier": "user1",
+  "balanceCheckRequired": true,
+  "activationManagedBy": "Vuclip",
+  "renewalManagedBy": "Vuclip",
+  "deactivationManagedBy": "Vuclip",
+  "hasMoActivations": true,
+  "hasMoDeactivations": true
+}
