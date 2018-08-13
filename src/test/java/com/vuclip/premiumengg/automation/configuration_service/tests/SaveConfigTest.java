@@ -146,7 +146,7 @@ public class SaveConfigTest {
 		}
 	}
 
-	@Test(groups = { "positive" }, dependsOnMethods = { "saveConifgTests" }, priority = 3)
+	@Test(groups = { "positive" }, dependsOnMethods = { "saveConifgTests" }, priority = 2)
 	public void updateConfigTests() throws Exception {
 		logger.info("Starting ======> Verify config updated in Database");
 
@@ -177,13 +177,13 @@ public class SaveConfigTest {
 		}
 	}
 
-	@Test(groups = { "positive" }, dependsOnMethods = { "saveConifgTests" }, priority = 2)
+	@Test(groups = { "positive" }, dependsOnMethods = { "saveConifgTests" }, priority = 3)
 	public void getConfigByProductName() throws Exception {
 		logger.info("Starting ======>  Get Config By productName");
 
 		try {
 
-			expectedResponse = new ConfigResponseVO(true, 200, "Success", config);
+			expectedResponse = new ConfigResponseVO(true, 200, "Success", updateConfig.getConfig());
 			logger.info("Expected Response:" + expectedResponse.toString());
 
 			Response response = ConfigHelper.getConfigByProductName(productName);
@@ -205,7 +205,7 @@ public class SaveConfigTest {
 
 		try {
 
-			expectedResponse = new ConfigResponseVO(true, 200, "Success", config);
+			expectedResponse = new ConfigResponseVO(true, 200, "Success", updateConfig.getConfig());
 			logger.info("Expected Response:" + expectedResponse.toString());
 
 			Response response = ConfigHelper.getConfigByProductId(productId);
@@ -227,7 +227,8 @@ public class SaveConfigTest {
 
 		try {
 
-			expectedResponse = new ConfigResponseVO(true, 200, CSUtils.uBSMockURL + " : Successful\n", config);
+			expectedResponse = new ConfigResponseVO(true, 200, CSUtils.uBSMockURL + " : Successful\n",
+					updateConfig.getConfig());
 			logger.info("Expected Response:" + expectedResponse.toString());
 
 			Response response = ConfigHelper.deleteConfigByName(productName);
