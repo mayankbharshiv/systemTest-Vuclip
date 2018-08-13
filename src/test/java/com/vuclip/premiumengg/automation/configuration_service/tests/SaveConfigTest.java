@@ -54,6 +54,7 @@ public class SaveConfigTest {
 	private static ConfigVO config;
 	private static String productName;
 	private static int productId;
+	private static String adNetworkName="Ad Network 111";
 
 	@BeforeClass(alwaysRun = true)
 	public void setUP() throws Exception {
@@ -65,7 +66,7 @@ public class SaveConfigTest {
 
 		logger.info("cleaning record for AdNetwork");
 		int updateCountAdNetwork = DBUtils.cleanTable("ad_network",
-				"name = " + CSDBHelper.dbReadableFormat(SaveAdNetworkTest.adNetworkName));
+				"name = " + CSDBHelper.dbReadableFormat(adNetworkName));
 		logger.info("cleaned " + updateCountAdNetwork + " record");
 
 		logger.info("cleaning record for Partner");
@@ -93,7 +94,7 @@ public class SaveConfigTest {
 		CSValidationHelper.validate_cs_api_response(responseCountry);
 
 		logger.info("Save Ad Network");
-		AdNetworkRequestVO requestAdNetwork = AdNetworkUtil.createMockRequestVO(SaveAdNetworkTest.adNetworkName, 1,
+		AdNetworkRequestVO requestAdNetwork = AdNetworkUtil.createMockRequestVO(adNetworkName, 1,
 				"voluum_tid", "notification url", "GET", "ALL", "active", "churn notification url", "dummy");
 		Response responseAdNetwork = AdNetworkHelper.saveAdNetwork(requestAdNetwork);
 		CSValidationHelper.validate_cs_api_response(responseAdNetwork);
@@ -108,7 +109,7 @@ public class SaveConfigTest {
 					123L, true, 30, "www.viu.com", "www.viu.com", "www.viu.com", "VIU Product", "active",
 					"Etisalat UAE", true, true, true, "Parser Endpoint", "Url Generation Endpoint", "dd-mm-yyyy",
 					"India", "BC01", 100.0, 30, 99999, "1234", 1, 1, 1, ItemTypeId.PRODUCT, true, "Price Point 1",
-					false, "BC01", false, "BC01", false, 60, true, "active", true, 10, 0, 10, 10, 10, "Ad Network 1",
+					false, "BC01", false, "BC01", false, 60, true, "active", true, 10, 0, 10, 10, 10, adNetworkName,
 					10, 20, 30, "7:30-10:30,23:00-5:00", "ALL", "24", "ACTIVATION_RETRY", 10, 120, "7:00AM-2:00PM",
 					"CALANDER_DAY", 100, 200, 100, 30, 10, 12, 10, 10, "CONTENT_SMS", "Redirection Context", 1, 100,
 					100, true, "active",
