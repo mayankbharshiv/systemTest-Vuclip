@@ -40,7 +40,7 @@ public class VerifyGetUSerStatusResponse {
 		return dp.iterator();
 	}
 
-	@Test(dataProvider = "insertRecordActivation", groups = { "positive" })
+	@Test(dataProvider = "insertRecordActivation", groups = { "negative" })
 	public void getUserStatusActivationTest(GetUserStatusTestData getUserStatus) throws Exception {
 
 		logger.info("Starting ================> GetUserStatus Activation  Test");
