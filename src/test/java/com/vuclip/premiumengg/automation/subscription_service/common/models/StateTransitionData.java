@@ -315,8 +315,8 @@ public enum StateTransitionData {
 			"SUCCESS", "DCT_INIT", "end_date", "start_date", "subscription_status", "deactivation_retry_validity"),
 
 	DEACTIVATIONINITCNFFALSE(0, "MY", "D_KIM_87348", "WAP", 2230L, "2018-06-29 11:47:54", 1530253086000L, 0, "BC03",
-			"BC03", 0, null, 0.0, 1930253086000L, "2234567890", 1530253086000L, 0, 8181, 8181, 1929810600000L, null, 0,
-			"BC03", "ACT_INIT", 30, "1234567893", "DEACTIVATION_IN_PROGRESS", 4, 1, 7, "DEACTIVATE_CONSENT",
+			"BC03", 0, null, 0.0, 1930253086000L, "2123456789", 1530253086000L, 0, 8181, 8181, 1929810600000L, null, 0,
+			"BC03", "ACT_INIT", 30, "2123456789", "DEACTIVATION_IN_PROGRESS", 4, 1, 7, "DEACTIVATE_CONSENT",
 			"DEACTIVATION", "CONFIRMED", false, "SUCCESS", "DCT_INIT", "end_date", "start_date", "subscription_status",
 			"deactivation_retry_validity"),
 
