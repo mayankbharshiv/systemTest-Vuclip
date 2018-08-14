@@ -113,9 +113,6 @@ public class ConfirmSyncTest {
 
 			ConfirmSyncQueue confirmSync = TestDataCreator.getConfirmSyncQueueData(confirmSuccess);
 			RabbitMQConnection.getRabbitTemplate().convertAndSend("core_subscription", confirmSync);
-			// Response response = SHelper.confirmApi(confirmSync);
-			// SValidationHelper.validate_ss_api_response(response);
-			// AppAssert.assertTrue(response.then().extract().body().path("successful").equals(true));
 			SRabitMessageHelper.addMessageToQueue(confirmSync);
 			logger.info("Redis Validation");
 			String userSubAuthKey = "USERID_" + confirmSync.getProductId() + "_" + confirmSync.getUserId();
