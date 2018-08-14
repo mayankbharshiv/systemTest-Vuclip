@@ -58,7 +58,7 @@ public class InitializeTestSuite {
 			RabbitMQConnection.getRabbitTemplate().setMessageConverter(new Jackson2JsonMessageConverter());
 
 			Configuration.redisServers = properties.getProperty("ss.redis.clusters");
-RedisTemplateConnection.getRedisConnection().getConnectionFactory().getConnection().flushAll();
+			RedisTemplateConnection.getRedisConnection().getConnectionFactory().getConnection().flushAll();
 			SDBHelper.cleanAllTables(null);
 			SUtils.productId = 8181;
 			SUtils.productConfig = SUtils.loadJson("saveProduct.json", SaveProductRequest.class);
