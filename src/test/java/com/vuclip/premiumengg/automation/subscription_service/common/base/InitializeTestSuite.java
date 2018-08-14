@@ -14,6 +14,7 @@ import com.vuclip.premiumengg.automation.common.JDBCTemplate;
 import com.vuclip.premiumengg.automation.common.Log4J;
 import com.vuclip.premiumengg.automation.common.RabbitAdminConnection;
 import com.vuclip.premiumengg.automation.common.RabbitMQConnection;
+import com.vuclip.premiumengg.automation.common.RedisTemplateConnection;
 import com.vuclip.premiumengg.automation.subscription_service.common.models.SaveProductRequest;
 import com.vuclip.premiumengg.automation.subscription_service.common.utils.SDBHelper;
 import com.vuclip.premiumengg.automation.subscription_service.common.utils.SHelper;
@@ -57,7 +58,7 @@ public class InitializeTestSuite {
 			RabbitMQConnection.getRabbitTemplate().setMessageConverter(new Jackson2JsonMessageConverter());
 
 			Configuration.redisServers = properties.getProperty("ss.redis.clusters");
-
+RedisTemplateConnection.getRedisConnection().getConnectionFactory().getConnection().flushAll();
 			SDBHelper.cleanAllTables(null);
 			SUtils.productId = 8181;
 			SUtils.productConfig = SUtils.loadJson("saveProduct.json", SaveProductRequest.class);
