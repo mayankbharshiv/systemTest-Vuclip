@@ -35,20 +35,20 @@ public class LowBalanceActivationTests {
                 ANSHelper.saveAdNetwork(ANSTestContext.adNetworkId, ANSTestContext.requestParamName, sourceIdentifier));
 
         Message message = ANSUtils.generateMessageForQueue(productId, userID, billingCode, "50.0", "CONSENT", "ACTIVATION", "OPEN",
-                "SUCCESS", subscriptionId, "ActivityEvent", nBD,
+                "SUCCESS", subscriptionId, nBD,
                 ANSTestContext.requestParamName + "=" + requestParamVal, "adn_id=" + requestParamVal, transactionID, userSource);
         ANSMessageHelper.addMessageToQueue(message);
         AppAssert.assertTrue(ANSRedisUtils.keyPresent(transactionID), "Check Key Present");
 
         message = ANSUtils.generateMessageForQueue(productId, userID, billingCode, "50.0", "CONSENT", "ACTIVATION", "CONFIRMED",
-                "SUCCESS", subscriptionId, "ActivityEvent", nBD,
+                "SUCCESS", subscriptionId, nBD,
                 null, null, transactionID, userSource);
         ANSMessageHelper.addMessageToQueue(message);
         AppAssert.assertTrue(!ANSRedisUtils.keyNotPresent(transactionID), "Check Key not Present");
         ANSValidationHelper.verifyActivityRecordPresent(productId, partnerId, transactionID);
 
         message = ANSUtils.generateMessageForQueue(productId, userID, billingCode, "50.0", "CHARGING", "ACTIVATION", "LOW_BALANCE",
-                "LOW_BALANCE", subscriptionId, "ActivityEvent", nBD,
+                "LOW_BALANCE", subscriptionId, nBD,
                 null, null, transactionID, userSource);
         ANSMessageHelper.addMessageToQueue(message);
         ANSValidationHelper.validateNoActionTable(productId, partnerId, transactionID, "ad_notification_status");

@@ -36,13 +36,13 @@ public class ConsentFailureTests {
                 ANSHelper.saveAdNetwork(ANSTestContext.adNetworkId, ANSTestContext.requestParamName, sourceIdentifier));
 
         Message message = ANSUtils.generateMessageForQueue(productId, userID, billingCode, "50.0", "CONSENT", "ACTIVATION", "OPEN",
-                "SUCCESS", subscriptionId, "ActivityEvent", nBD,
+                "SUCCESS", subscriptionId, nBD,
                 ANSTestContext.requestParamName + "=" + requestParamVal, requestParamVal, transactionId, userSource);
         ANSMessageHelper.addMessageToQueue(message);
         AppAssert.assertTrue(ANSRedisUtils.keyPresent(transactionId), "Check Key Present");
 
         message = ANSUtils.generateMessageForQueue(productId, userID, billingCode, "50.0", "CONSENT", "ACTIVATION", "FAILURE",
-                "FAILURE", subscriptionId, "ActivityEvent", nBD,
+                "FAILURE", subscriptionId, nBD,
                 null, null, transactionId, userSource);
         ANSMessageHelper.addMessageToQueue(message);
         AppAssert.assertTrue(ANSRedisUtils.keyPresent(transactionId), "Check Key Present");

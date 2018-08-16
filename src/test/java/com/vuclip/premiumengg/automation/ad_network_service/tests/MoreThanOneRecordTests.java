@@ -37,27 +37,27 @@ public class MoreThanOneRecordTests {
                 ANSHelper.saveAdNetwork(ANSTestContext.adNetworkId, ANSTestContext.requestParamName, sourceIdentifier));
 
         Message message = ANSUtils.generateMessageForQueue(productId, userID, billingCode, "50.0", "CONSENT", "ACTIVATION", "OPEN",
-                "SUCCESS", subscriptionId, "ActivityEvent", nBD,
+                "SUCCESS", subscriptionId, nBD,
                 ANSTestContext.requestParamName + "=" + requestParamVal, requestParamVal, transactionID, userSource);
         ANSMessageHelper.addMessageToQueue(message);
         AppAssert.assertTrue(ANSRedisUtils.keyPresent(transactionID), "Check Key Present");
 
         message = ANSUtils.generateMessageForQueue(productId, userID, billingCode, "50.0", "CONSENT", "ACTIVATION", "OPEN",
-                "SUCCESS", subscriptionId, "ActivityEvent", nBD,
+                "SUCCESS", subscriptionId, nBD,
                 ANSTestContext.requestParamName + "=" + AnotherRequestParamVal, requestParamVal,
                 secondTransactionId, userSource);
         ANSMessageHelper.addMessageToQueue(message);
         AppAssert.assertTrue(ANSRedisUtils.keyPresent(secondTransactionId), "Check Key Present");
 
         message = ANSUtils.generateMessageForQueue(productId, userID, billingCode, "50.0", "CONSENT", "ACTIVATION", "CONFIRMED",
-                "SUCCESS", subscriptionId, "ActivityEvent", nBD, null, null, transactionID, userSource);
+                "SUCCESS", subscriptionId, nBD, null, null, transactionID, userSource);
 
         ANSMessageHelper.addMessageToQueue(message);
         AppAssert.assertTrue(!ANSRedisUtils.keyNotPresent(transactionID), "Check Key not Present");
         ANSValidationHelper.verifyActivityRecordPresent(productId, partnerId, transactionID);
 
         message = ANSUtils.generateMessageForQueue(productId, userID, billingCode, "50.0", "CHARGING", "ACTIVATION", "SUCCESS",
-                "SUCCESS", subscriptionId, "ActivityEvent", nBD, null, null, transactionID, userSource);
+                "SUCCESS", subscriptionId, nBD, null, null, transactionID, userSource);
         ANSMessageHelper.addMessageToQueue(message);
         ANSValidationHelper.validateUserAdnotificationTable(productId, partnerId, transactionID,
                 "ad_notification_status", "SUCCESS");

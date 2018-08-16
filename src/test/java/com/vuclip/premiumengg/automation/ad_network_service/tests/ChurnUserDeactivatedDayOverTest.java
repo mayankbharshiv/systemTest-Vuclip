@@ -40,26 +40,26 @@ public class ChurnUserDeactivatedDayOverTest {
         DBUtils.addRecordInTable("user_adnotification", addRow);
 
         Message message = ANSUtils.generateMessageForQueue(productId, userID, billingCode, "50.0", "CONSENT", "ACTIVATION", "OPEN",
-                "SUCCESS", subscriptionId, "ActivityEvent", nBD,
+                "SUCCESS", subscriptionId, nBD,
                 ANSTestContext.requestParamName + "=" + requestParamVal, requestParamVal, transactionId, userSource);
         ANSMessageHelper.addMessageToQueue(message);
         System.out.println(
                 "ANSRedisUtils.isKeyPresent(transactionId)   ===== >" + ANSRedisUtils.keyPresent(transactionId));
 
         message = ANSUtils.generateMessageForQueue(productId, userID, billingCode, "50.0", "CONSENT", "ACTIVATION", "CONFIRMED",
-                "SUCCESS", subscriptionId, "ActivityEvent", nBD,
+                "SUCCESS", subscriptionId, nBD,
                 ANSTestContext.requestParamName + "=" + requestParamVal, requestParamVal, transactionId, userSource);
         ANSMessageHelper.addMessageToQueue(message);
         System.out.println(
                 "ANSRedisUtils.isKeyPresent(transactionId)   ===== >" + ANSRedisUtils.keyPresent(transactionId));
 
         message = ANSUtils.generateMessageForQueue(productId, userID, billingCode, "50.0", "CHARGING", "ACTIVATION", "SUCCESS",
-                "SUCCESS", subscriptionId, "ActivityEvent", nBD,
+                "SUCCESS", subscriptionId, nBD,
                 ANSTestContext.requestParamName + "=" + requestParamVal, requestParamVal, transactionId, userSource);
         ANSMessageHelper.addMessageToQueue(message);
 
         message = ANSUtils.generateMessageForQueue(productId, userID, billingCode, "50.0", "PROCESS_DEACTIVATE", "DEACTIVATION", "SUCCESS",
-                "SUCCESS", subscriptionId, "ActivityEvent", nBD,
+                "SUCCESS", subscriptionId, nBD,
                 ANSTestContext.requestParamName + "=" + requestParamVal, requestParamVal, transactionId, userSource);
         ANSMessageHelper.addMessageToQueue(message);
         System.out.println(

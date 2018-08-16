@@ -94,7 +94,7 @@ public class UserSubscriptionAPINegativeTests {
 
             if (jsonElement.equals("productId") || jsonElement.equals("partnerId")
                     || (jsonElement.equals("transactionState"))) {
-                jsonString = JsonHelper.remove(UserSubscriptionRequest.class, userSubscriptionRequest, "activityEvent",
+                jsonString = JsonHelper.remove(UserSubscriptionRequest.class, userSubscriptionRequest,"activityEvent",
                         jsonElement);
                 if (jsonElement.equals("productId") || jsonElement.equals("partnerId")) {
                     jsonString = JsonHelper.remove(UserSubscriptionRequest.class, userSubscriptionRequest,

@@ -8,7 +8,7 @@ import lombok.*;
 import java.math.BigInteger;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({"eventType", "userId", "msisdn", "productId", "productName", "partnerId", "partnerName",
+@JsonPropertyOrder({ "userId", "msisdn", "productId", "productName", "partnerId", "partnerName",
         "requestedBillingCode", "requestedPrice", "attemptedBillingCode", "attemptedPrice", "chargedBillingCode",
         "chargedPrice", "currency", "mode", "action", "activity", "transactionId", "transactionState",
         "partnerTransactionId", "itemId", "itemTypeId", "actionResult", "serviceId", "subscriptionId", "circleCode",
@@ -22,8 +22,7 @@ import java.math.BigInteger;
 @NoArgsConstructor
 public class Message {
 
-    @JsonProperty("eventType")
-    private String eventType;
+
     @JsonProperty("userId")
     private String userId;
     @JsonProperty("msisdn")
