@@ -1,6 +1,6 @@
 package com.vuclip.premiumengg.automation.subscription_service.common.utils;
 
-import com.vuclip.premiumengg.automation.common.RedisConnectionSingleNode;
+import com.vuclip.premiumengg.automation.common.JedisConnection;
 import com.vuclip.premiumengg.automation.utils.RedisUtil;
 
 import redis.clients.jedis.Jedis;
@@ -26,7 +26,7 @@ public class SRedisUtils {
 	 */
 
 	public static boolean checkKey(String key) {
-		Jedis jedis=RedisConnectionSingleNode.getRedisConnection();
+		Jedis jedis=JedisConnection.getRedisConnection();
 		try {
 
 			if (jedis.exists(key)) {
@@ -44,7 +44,7 @@ public class SRedisUtils {
 
 	public static void insertIntoRedis(String key, String redisValue) {
 
-		RedisConnectionSingleNode.getRedisConnection().set(key, redisValue);
+		JedisConnection.getRedisConnection().set(key, redisValue);
 	}
 
 }

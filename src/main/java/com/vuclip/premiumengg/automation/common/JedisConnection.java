@@ -5,11 +5,11 @@ import redis.clients.jedis.Jedis;
 /**
  * Created by Kohitij_Das on 10/04/17.
  */
-public class RedisConnectionSingleNode {
+public class JedisConnection {
 
      private static Jedis redisConnectionSingleNode;
 
-    private RedisConnectionSingleNode() {
+    private JedisConnection() {
     }
 
     static String host;
@@ -24,7 +24,7 @@ public class RedisConnectionSingleNode {
                  host = hosts[0];
                  port = hosts[1];
             }
-            RedisConnectionSingleNode.redisConnectionSingleNode = new Jedis(host,Integer.parseInt(port));
+            JedisConnection.redisConnectionSingleNode = new Jedis(host,Integer.parseInt(port));
         }
         return redisConnectionSingleNode;
     }
