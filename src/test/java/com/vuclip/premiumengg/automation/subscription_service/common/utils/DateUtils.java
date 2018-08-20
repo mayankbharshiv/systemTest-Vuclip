@@ -1,5 +1,11 @@
 package com.vuclip.premiumengg.automation.subscription_service.common.utils;
 
+import com.vuclip.premiumengg.automation.utils.AppAssert;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -8,266 +14,248 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TimeZone;
-
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-
-import com.vuclip.premiumengg.automation.utils.AppAssert;
+import java.util.*;
 
 /*
  * Created By rahul s
  */
 public class DateUtils {
 
-	public static DateTimeFormatter formatterGMT;
+    public static DateTimeFormatter formatterGMT;
+    private static DateTimeFormatter formatterWithTimeZone;
+    private DateTimeFormatter formatterLocalTime;
+    private String timeZone;
 
-	private DateTimeFormatter formatterLocalTime;
+    public DateUtils(String localTimeZone) {
 
-	private static DateTimeFormatter formatterWithTimeZone;
+        this.timeZone = localTimeZone;
+        formatterGMT = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss")
+                .withZone(DateTimeZone.forTimeZone(TimeZone.getTimeZone("GMT")));
+        formatterLocalTime = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.s")
+                .withZone(DateTimeZone.forTimeZone(TimeZone.getTimeZone(timeZone)));
+        formatterWithTimeZone = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.s Z")
+                .withZone(DateTimeZone.forTimeZone(TimeZone.getTimeZone("GMT")));
 
-	private String timeZone;
+    }
 
-	public DateUtils(String localTimeZone) {
+    /**
+     * @param date1
+     * @param date2
+     * @param thresholdInMinutes
+     * @return
+     */
+    public static boolean compareDates(String date1, String date2, int thresholdInDays) throws ParseException {
 
-		this.timeZone = localTimeZone;
-		formatterGMT = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss")
-				.withZone(DateTimeZone.forTimeZone(TimeZone.getTimeZone("GMT")));
-		formatterLocalTime = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.s")
-				.withZone(DateTimeZone.forTimeZone(TimeZone.getTimeZone(timeZone)));
-		formatterWithTimeZone = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.s Z")
-				.withZone(DateTimeZone.forTimeZone(TimeZone.getTimeZone("GMT")));
+        long diff = Math
+                .abs(formatterGMT.parseDateTime(date1).getMillis() - formatterGMT.parseDateTime(date2).getMillis());
 
-	}
+        if (diff == 0) {
+            return true;
+        } else if (diff != 0 && (diff / (60 * 1000 * 60 * 24)) <= thresholdInDays) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
-	public String getTimeZone() {
-		return timeZone;
-	}
+    public static String convertToString(Date date) {
 
-	public void setTimeZone(String timeZone) {
-		this.timeZone = timeZone;
-	}
+        Instant di1 = Instant.ofEpochMilli(date.getTime());
+        LocalDateTime l1 = LocalDateTime.ofInstant(di1, ZoneId.of("GMT"));
+        System.out.println(l1.toString());
+        return l1.toString();
+    }
 
-	/**
-	 * @param time
-	 * @return
-	 * @throws ParseException
-	 */
-	public String getGMTTimefromLocal(String time) throws ParseException {
-		String tz = timeZone.replaceAll("GMT", "").replaceAll(":", "");
-		return formatterWithTimeZone.parseMutableDateTime(time + " " + tz).toString(formatterGMT);
-	}
+    public static String convertLongToStringDate(Long date) {
+        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(date);
+        return (formatter.format(calendar.getTime()));
+    }
 
-	/**
-	 * @return
-	 * @throws ParseException
-	 */
-	public Map<String, String> getGMTTimeforTpay() throws ParseException {
+    /**
+     * Java date.toString() direct can be passed to this function for which format
+     * is EEE MMM dd HH:mm:ss zzz yyyy
+     *
+     * @param date1
+     * @param date2
+     * @return
+     * @throws ParseException
+     */
+    public static long getDaysBetweenJavaDates(String date1, String date2) {
+        System.out.println(date1 + "   " + date2);
+        return getDaysBetweenDates(date1, date2, TimeFormatter.javaDateFormatter);
+    }
 
-		DateTime gmtTime = new DateTime(DateTimeZone.UTC);
+    public static long getDaysBetweenDates(String date1, String date2, SimpleDateFormat dateformatter) {
+        long diff = 0;
+        try {
+            diff = Math.abs(dateformatter.parse(date1).getTime() - dateformatter.parse(date2).getTime());
+        } catch (Exception e) {
 
-		formatterGMT = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss")
-				.withZone(DateTimeZone.forTimeZone(TimeZone.getTimeZone("GMT")));
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+            AppAssert.assertTrue(false, "Make sure format is correct");
+        }
 
-		Map<String, String> dateMap = new HashMap<String, String>();
+        return (diff / (60 * 1000 * 60 * 24));
+    }
 
-		dateMap.put("paymentDate", formatterGMT.print(gmtTime).concat("Z"));
-		dateMap.put("nextPaymentDate", formatterGMT.print(gmtTime.plusDays(1)).concat("Z"));
+    public static String extractDateTimeFromGMTTime(String dateStr, DateFormat dateFormat) {
+        try {
+            return convertToString(dateFormat.parse(dateStr)).replaceAll("T", " ");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
-		return dateMap;
-	}
+    public static long convertStringToTimestamp(String str_date) {
+        try {
+            DateFormat formatter;
+            formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date date = formatter.parse(str_date);
+            java.sql.Timestamp timeStampDate = new Timestamp(date.getTime());
 
-	/**
-	 * @return
-	 */
-	public String getCurrentLocalTime() {
+            return timeStampDate.getTime();
+        } catch (ParseException e) {
+            System.out.println("Exception :" + e);
+        }
+        return 0;
+    }
 
-		DateTime localTime = new DateTime(DateTimeZone.forTimeZone(TimeZone.getTimeZone(timeZone)));
-		return formatterLocalTime.print(localTime);
+    public static Boolean convertIntToBoolean(int value) {
+        Boolean myboolean = (value != 0);
+        return myboolean;
+    }
 
-	}
+    public String getTimeZone() {
+        return timeZone;
+    }
 
-	/**
-	 * @param period
-	 * @param timeUnit
-	 * @return
-	 * @throws ParseException
-	 */
-	public String addValidityGMT(String period, String timeUnit) throws ParseException {
+    public void setTimeZone(String timeZone) {
+        this.timeZone = timeZone;
+    }
 
-		String resultTime = null;
-		DateTime gmtTime = new DateTime(DateTimeZone.UTC);
+    /**
+     * @param time
+     * @return
+     * @throws ParseException
+     */
+    public String getGMTTimefromLocal(String time) throws ParseException {
+        String tz = timeZone.replaceAll("GMT", "").replaceAll(":", "");
+        return formatterWithTimeZone.parseMutableDateTime(time + " " + tz).toString(formatterGMT);
+    }
 
-		if ("DAY".equalsIgnoreCase(timeUnit)) {
+    /**
+     * @return
+     * @throws ParseException
+     */
+    public Map<String, String> getGMTTimeforTpay() throws ParseException {
 
-			resultTime = formatterGMT.print((gmtTime.plusDays(Integer.parseInt(period))));
+        DateTime gmtTime = new DateTime(DateTimeZone.UTC);
 
-		} else if ("HOUR".equalsIgnoreCase(timeUnit)) {
+        formatterGMT = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss")
+                .withZone(DateTimeZone.forTimeZone(TimeZone.getTimeZone("GMT")));
 
-			resultTime = formatterGMT.print((gmtTime.plusHours(Integer.parseInt(period))));
-		}
+        Map<String, String> dateMap = new HashMap<String, String>();
 
-		return resultTime;
-	}
+        dateMap.put("paymentDate", formatterGMT.print(gmtTime).concat("Z"));
+        dateMap.put("nextPaymentDate", formatterGMT.print(gmtTime.plusDays(1)).concat("Z"));
 
-	/**
-	 * @param period
-	 * @param timeUnit
-	 * @return
-	 * @throws ParseException
-	 */
-	public String addValidityLocal(String period, String timeUnit) throws ParseException {
+        return dateMap;
+    }
 
-		String resultTime = null;
-		DateTime localTime = new DateTime(DateTimeZone.forTimeZone(TimeZone.getTimeZone(timeZone)));
+    /**
+     * @return
+     */
+    public String getCurrentLocalTime() {
 
-		if ("DAY".equalsIgnoreCase(timeUnit)) {
+        DateTime localTime = new DateTime(DateTimeZone.forTimeZone(TimeZone.getTimeZone(timeZone)));
+        return formatterLocalTime.print(localTime);
 
-			resultTime = formatterLocalTime.print((localTime.plusDays(Integer.parseInt(period))));
+    }
 
-		} else if ("HOUR".equalsIgnoreCase(timeUnit)) {
+    /**
+     * @param period
+     * @param timeUnit
+     * @return
+     * @throws ParseException
+     */
+    public String addValidityGMT(String period, String timeUnit) throws ParseException {
 
-			resultTime = formatterLocalTime.print((localTime.plusHours(Integer.parseInt(period))));
-		}
+        String resultTime = null;
+        DateTime gmtTime = new DateTime(DateTimeZone.UTC);
 
-		return resultTime;
-	}
+        if ("DAY".equalsIgnoreCase(timeUnit)) {
 
-	/**
-	 * @param date1
-	 * @param date2
-	 * @param thresholdInMinutes
-	 * @return
-	 * @return
-	 */
-	public static boolean compareDates(String date1, String date2, int thresholdInDays) throws ParseException {
+            resultTime = formatterGMT.print((gmtTime.plusDays(Integer.parseInt(period))));
 
-		long diff = Math
-				.abs(formatterGMT.parseDateTime(date1).getMillis() - formatterGMT.parseDateTime(date2).getMillis());
+        } else if ("HOUR".equalsIgnoreCase(timeUnit)) {
 
-		if (diff == 0) {
-			return true;
-		} else if (diff != 0 && (diff / (60 * 1000 * 60 * 24)) <= thresholdInDays) {
-			return true;
-		} else {
-			return false;
-		}
-	}
+            resultTime = formatterGMT.print((gmtTime.plusHours(Integer.parseInt(period))));
+        }
 
-	/**
-	 * 
-	 * @param date1
-	 *            yyyy-MM-dd HH:mm:ss
-	 * @param date2
-	 *            yyyy-MM-dd HH:mm:ss
-	 * @return
-	 */
+        return resultTime;
+    }
 
-	public Long addDays(String date1, int days) throws ParseException {
+    /**
+     * @param period
+     * @param timeUnit
+     * @return
+     * @throws ParseException
+     */
+    public String addValidityLocal(String period, String timeUnit) throws ParseException {
 
-		long diff = (formatterGMT.parseDateTime(date1).getMillis());
-		if (days == 0)
-			return diff;
+        String resultTime = null;
+        DateTime localTime = new DateTime(DateTimeZone.forTimeZone(TimeZone.getTimeZone(timeZone)));
 
-		return (((diff / (1000 * 60 * 60 * 24)) + days) * (60 * 1000 * 60 * 24));
+        if ("DAY".equalsIgnoreCase(timeUnit)) {
 
-	}
+            resultTime = formatterLocalTime.print((localTime.plusDays(Integer.parseInt(period))));
 
-	public long convertToLong(Date date1, String zone) {
+        } else if ("HOUR".equalsIgnoreCase(timeUnit)) {
 
-		Instant di1 = Instant.ofEpochMilli(date1.getTime());
-		LocalDate l1 = LocalDateTime.ofInstant(di1, ZoneId.of(zone)).toLocalDate();
-		return l1.toEpochDay();
-	}
+            resultTime = formatterLocalTime.print((localTime.plusHours(Integer.parseInt(period))));
+        }
 
-	public static String convertToString(Date date) {
+        return resultTime;
+    }
 
-		Instant di1 = Instant.ofEpochMilli(date.getTime());
-		LocalDateTime l1 = LocalDateTime.ofInstant(di1, ZoneId.of("GMT"));
-		System.out.println(l1.toString());
-		return l1.toString();
-	}
+    /**
+     * @param date1 yyyy-MM-dd HH:mm:ss
+     * @param date2 yyyy-MM-dd HH:mm:ss
+     * @return
+     */
 
-	public static String convertLongToStringDate(Long date) {
-		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTimeInMillis(date);
-		return (formatter.format(calendar.getTime()));
-	}
+    public Long addDays(String date1, int days) throws ParseException {
 
-	/**
-	 * Java date directly passed
-	 * 
-	 * @param date1
-	 * @param date2
-	 * @param formatter
-	 * @return
-	 * @throws ParseException
-	 */
-	public long getDaysBetweenDates(Date date1, Date date2, SimpleDateFormat formatter) throws ParseException {
-		return getDaysBetweenJavaDates(date1.toString(), date2.toString());
-	}
+        long diff = (formatterGMT.parseDateTime(date1).getMillis());
+        if (days == 0)
+            return diff;
 
-	/**
-	 * Java date.toString() direct can be passed to this function for which format
-	 * is EEE MMM dd HH:mm:ss zzz yyyy
-	 * 
-	 * @param date1
-	 * @param date2
-	 * @return
-	 * @throws ParseException
-	 */
-	public static long getDaysBetweenJavaDates(String date1, String date2) {
-		System.out.println(date1 + "   " + date2);
-		return getDaysBetweenDates(date1, date2, TimeFormatter.javaDateFormatter);
-	}
+        return (((diff / (1000 * 60 * 60 * 24)) + days) * (60 * 1000 * 60 * 24));
 
-	public static long getDaysBetweenDates(String date1, String date2, SimpleDateFormat dateformatter) {
-		long diff = 0;
-		try {
-			diff = Math.abs(dateformatter.parse(date1).getTime() - dateformatter.parse(date2).getTime());
-		} catch (Exception e) {
+    }
 
-			e.printStackTrace();
-			System.out.println(e.getMessage());
-			AppAssert.assertTrue(false, "Make sure format is correct");
-		}
+    public long convertToLong(Date date1, String zone) {
 
-		return (diff / (60 * 1000 * 60 * 24));
-	}
+        Instant di1 = Instant.ofEpochMilli(date1.getTime());
+        LocalDate l1 = LocalDateTime.ofInstant(di1, ZoneId.of(zone)).toLocalDate();
+        return l1.toEpochDay();
+    }
 
-	public static String extractDateTimeFromGMTTime(String dateStr, DateFormat dateFormat) {
-		try {
-			return convertToString(dateFormat.parse(dateStr)).replaceAll("T", " ");
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	public static long convertStringToTimestamp(String str_date) {
-		try {
-			DateFormat formatter;
-			formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			Date date = formatter.parse(str_date);
-			java.sql.Timestamp timeStampDate = new Timestamp(date.getTime());
-
-			return timeStampDate.getTime();
-		} catch (ParseException e) {
-			System.out.println("Exception :" + e);
-		}
-		return 0;
-	}
-
-	public static Boolean convertIntToBoolean(int value) {
-		Boolean myboolean = (value != 0);
-		return myboolean;
-	}
+    /**
+     * Java date directly passed
+     *
+     * @param date1
+     * @param date2
+     * @param formatter
+     * @return
+     * @throws ParseException
+     */
+    public long getDaysBetweenDates(Date date1, Date date2, SimpleDateFormat formatter) throws ParseException {
+        return getDaysBetweenJavaDates(date1.toString(), date2.toString());
+    }
 
 }

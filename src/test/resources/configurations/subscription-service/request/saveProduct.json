@@ -1,285 +1,285 @@
 {
-   "product": {
+  "product": {
+    "productId": 1111,
+    "productName": "VIU",
+    "productType": "OTT",
+    "storeType": "Full Store",
+    "url": "www.viu.com",
+    "context": "contextName",
+    "cassId": 111123,
+    "encryptionEnable": true,
+    "encryptionValidityInMinutes": 30,
+    "callbackUrl": "www.viu.com",
+    "consentCancelUrl": "www.viu.com",
+    "errorUrl": "www.viu.com",
+    "description": "VIU Product",
+    "status": "ACTIVE",
+    "operationType": "Create"
+  },
+  "productPartnerMappings": [
+    {
       "productId": 1111,
-      "productName": "VIU",
-      "productType": "OTT",
-      "storeType": "Full Store",
-      "url": "www.viu.com",
-      "context": "contextName",
-      "cassId": 111123,
-      "encryptionEnable": true,
-      "encryptionValidityInMinutes": 30,
-      "callbackUrl": "www.viu.com",
-      "consentCancelUrl": "www.viu.com",
-      "errorUrl": "www.viu.com",
-      "description": "VIU Product",
-      "status": "ACTIVE",
-      "operationType": "Create"
-   },
-   "productPartnerMappings": [
+      "partnerId": 1111,
+      "chargingDependOnSmsDelivery": true,
+      "optOutSmsEnabled": true,
+      "preRenewalSmsEnabled": false,
+      "partnerConsentParserEndpoint": "Parse EndPoint",
+      "partnerConsentUrlGenerationEndpoint": "Url Generation EndPoint",
+      "dateFormat": "dd-mm-yyyy",
+      "operationType": "Create",
+      "blacklistApplicable": true,
+      "validityFromPartner": true,
+      "blacklistValidity": 30,
+      "cooldownApplicable": true,
+      "cooldownValidity": 3,
+      "timeUnit": "DAY",
+      "stepUpChargingApplicable": false,
+      "allowedFreeTrialCount": 1111
+    }
+  ],
+  "productCountryMapping": {
+    "productId": 1111,
+    "countries": [
       {
-         "productId": 1111,
-         "partnerId": 1111,
-         "chargingDependOnSmsDelivery": true,
-         "optOutSmsEnabled": true,
-         "preRenewalSmsEnabled": false,
-         "partnerConsentParserEndpoint": "Parse EndPoint",
-         "partnerConsentUrlGenerationEndpoint": "Url Generation EndPoint",
-         "dateFormat": "dd-mm-yyyy",
-         "operationType": "Create",
-         "blacklistApplicable": true,
-         "validityFromPartner": true,
-         "blacklistValidity": 30,
-         "cooldownApplicable": true,
-         "cooldownValidity": 3,
-         "timeUnit": "DAY",
-         "stepUpChargingApplicable": false,
-         "allowedFreeTrialCount": 1111
+        "countryCode": "MY",
+        "operationType": "Create"
       }
-   ],
-   "productCountryMapping": {
-      "productId": 1111,
-      "countries": [
-         {
-            "countryCode": "MY",
-            "operationType": "Create"
-         }
-      ]
-   },
-   "smsConfigs": [
-      {
-         "smsConfigId": 1111,
-         "type": "CONTENT_SMS",
-         "redirectionContext": "Redirection Context",
-         "defaultSmsLanguageId": 1111,
-         "batchSize": 300,
-         "smsLength": 300,
-         "autoPlay": false,
-         "status": "active",
-         "criterias": [
-            {
-               "criteriaId": 1111,
-               "smsText": "SMS Text",
-               "criterions": [
-                  {
-                     "criterionId": 1111,
-                     "name": "activity",
-                     "operator": "==",
-                     "value": "ACTIVATION",
-                     "groupingOperator": "NONE"
-                  }
-               ],
-               "dateCoumputationCriterion": {
-                  "dateComputationCriterionId": 1111,
-                  "name": "next_billing_date",
-                  "operator": "+",
-                  "value": "24",
-                  "unit": "HOUR"
-               }
-            }
-         ],
-         "productId": 1111,
-         "partnerId": 1111,
-         "countryCode": "MY",
-         "operationType": "Create"
-      }
-   ],
-   "retry": [
-      {
-         "retryId": 1111,
-         "productId": 1111,
-         "partnerId": 1111,
-         "countryCode": "MY",
-         "operationType": "Create",
-         "activityType": "ACTIVATION",
-         "maxRetryCount": 30,
-         "retryIntervalInMinutes": 111120,
-         "attemptWindow": "7:00AM-2:00PM",
-         "typeOfCycle": "CALANDER_DAY",
-         "batchSize": 0,
-         "schedulingFrequencyInMinutes": 300,
-         "schedulingDays": "Monday,Tuesday",
-         "executingTimeWindow": "7:10-8:10,9:00-12:00",
-         "executingDays": "1101011",
-         "status": "active",
-         "actionDefaultEiligible": false,
-         "retryable": true
-      }
-   ],
-   "churnNotifications": [
-      {
-         "churnNotificationId": 30,
-         "typeOfChurn": "ALL",
-         "period": "24",
-         "productId": 1111,
-         "partnerId": 1111,
-         "countryCode": "MY",
-         "operationType": "Create"
-      }
-   ],
-   "adNetworkNotifications": [
-      {
-         "adNetworkNotificationId": 30,
-         "productId": 1111,
-         "partnerId": 1111,
-         "countryCode": "MY",
-         "id": 5,
-         "paidPercentage": 30,
-         "freePercentage": 20,
-         "winbackPercentage": 30,
-         "operationType": "Create"
-      }
-   ],
-   "pricePoints": [
-      {
-         "billingCode": "BC03",
-         "price": 300,
-         "description": "Price Point 1111",
-         "validity": 30,
-         "noOfCredits": 99999,
-         "serviceId": "76",
-         "appId": 1111,
-         "ujId": 1111,
-         "itemId": 1111,
-         "itemTypeId": 0,
-         "balanceCheckRequired": true,
-         "fallbackApplicable": false,
-         "freeTrialApplicable": true,
-         "fallbackPpBillingCode": "BC03",
-         "freeTrialBillingCode": "BC03",
-         "freeTrialDays": 30,
-         "exclusionPeriod": 60,
-         "autoRenewalApplicable": true,
-         "status": "active",
-         "contentAccessPostDeactivation": true,
-         "noOfDaysContentAccessAllowInParking": 30,
-         "noOfDaysContentAccessAllowInSuspend": 0,
-         "parkingPeriod": 30,
-         "suspendPeriod": 30,
-         "activationCoolDownPeriod": 30,
-         "productId": 1111,
-         "partnerId": 1111,
-         "countryCode": "MY",
-         "operationType": "Create",
-         "actInitValidity": 5,
-         "deactivationRetryValidity": 5,
-         "notificationWaitPeriod": 10,
-         "timeUnit": "DAY"
-      },
+    ]
+  },
+  "smsConfigs": [
+    {
+      "smsConfigId": 1111,
+      "type": "CONTENT_SMS",
+      "redirectionContext": "Redirection Context",
+      "defaultSmsLanguageId": 1111,
+      "batchSize": 300,
+      "smsLength": 300,
+      "autoPlay": false,
+      "status": "active",
+      "criterias": [
         {
-         "billingCode": "BC01",
-         "price": 300,
-         "description": "Price Point 1111",
-         "validity": 30,
-         "noOfCredits": 99999,
-         "serviceId": "76",
-         "appId": 1111,
-         "ujId": 1111,
-         "itemId": 1111,
-         "itemTypeId": 0,
-         "balanceCheckRequired": true,
-         "fallbackApplicable": false,
-         "freeTrialApplicable": true,
-         "fallbackPpBillingCode": "BC01",
-         "freeTrialBillingCode": "BC01",
-         "freeTrialDays": 30,
-         "exclusionPeriod": 60,
-         "autoRenewalApplicable": true,
-         "status": "active",
-         "contentAccessPostDeactivation": true,
-         "noOfDaysContentAccessAllowInParking": 30,
-         "noOfDaysContentAccessAllowInSuspend": 0,
-         "parkingPeriod": 0,
-         "suspendPeriod": 30,
-         "activationCoolDownPeriod": 30,
-         "productId": 1111,
-         "partnerId": 1111,
-         "countryCode": "MY",
-         "operationType": "Create",
-         "actInitValidity": 5,
-         "deactivationRetryValidity": 5,
-         "notificationWaitPeriod": 10,
-         "timeUnit": "DAY"
-      }
-   ],
-   "stateConfigs": [
-      {
-         "stateConfigId": 1111,
-         "productId": 1111,
-         "partnerId": 1111,
-         "countryCode": "MY",
-         "operationType": "Create",
-         "pricePoint": "BC03",
-         "actInitDuration": 300,
-         "activeDuration": 30,
-         "parkingDuration": 30,
-         "graceDuration": 11112,
-         "suspendDuration": 30,
-         "blacklistDuration": 30
-      }
-   ],
-   "blackouts": [
-      {
-         "blackoutId": 1111,
-         "productId": 1111,
-         "partnerId": 1111,
-         "countryCode": "MY",
-         "period": "'7:30-10:30,23:00-5:00'",
-         "operationType": "Create",
-         "blackoutWindow": "'5:20-7:40'"
-      }
-   ],
-   "activityFlows": [
-      {
-         "activityFlowId": 1111,
-         "productId": 1111,
-         "partnerId": 1111,
-         "countryCode": "MY",
-         "name": "ACTIVATION",
-         "billingCode": "BC03",
-         "mode": "WAP",
-         "actions": [
+          "criteriaId": 1111,
+          "smsText": "SMS Text",
+          "criterions": [
             {
-               "actionId": 1111,
-               "action": "CONSENT",
-               "flowType": "VUCLIP_CONSENT"
+              "criterionId": 1111,
+              "name": "activity",
+              "operator": "==",
+              "value": "ACTIVATION",
+              "groupingOperator": "NONE"
             }
-         ],
-         "operationType": "Create"
-      },
-      {
-         "activityFlowId": 1111,
-         "productId": 1111,
-         "partnerId": 1111,
-         "countryCode": "MY",
-         "name": "DEACTIVATION",
-         "billingCode": "BC03",
-         "mode": "WAP",
-         "actions": [
-            {
-               "actionId": 1111,
-               "action": "CONSENT",
-               "flowType": "VUCLIP_CONSENT"
-            }
-         ],
-         "operationType": "Create"
-      },
-      {
-         "activityFlowId": 1111,
-         "productId": 1111,
-         "partnerId": 1111,
-         "countryCode": "MY",
-         "name": "RENEWAL",
-         "billingCode": "BC03",
-         "mode": "WAP",
-         "actions": [
-            {
-               "actionId": 1111,
-               "action": "CONSENT",
-               "flowType": "VUCLIP_CONSENT"
-            }
-         ],
-         "operationType": "Create"
-      }
-   ]
+          ],
+          "dateCoumputationCriterion": {
+            "dateComputationCriterionId": 1111,
+            "name": "next_billing_date",
+            "operator": "+",
+            "value": "24",
+            "unit": "HOUR"
+          }
+        }
+      ],
+      "productId": 1111,
+      "partnerId": 1111,
+      "countryCode": "MY",
+      "operationType": "Create"
+    }
+  ],
+  "retry": [
+    {
+      "retryId": 1111,
+      "productId": 1111,
+      "partnerId": 1111,
+      "countryCode": "MY",
+      "operationType": "Create",
+      "activityType": "ACTIVATION",
+      "maxRetryCount": 30,
+      "retryIntervalInMinutes": 111120,
+      "attemptWindow": "7:00AM-2:00PM",
+      "typeOfCycle": "CALANDER_DAY",
+      "batchSize": 0,
+      "schedulingFrequencyInMinutes": 300,
+      "schedulingDays": "Monday,Tuesday",
+      "executingTimeWindow": "7:10-8:10,9:00-12:00",
+      "executingDays": "1101011",
+      "status": "active",
+      "actionDefaultEiligible": false,
+      "retryable": true
+    }
+  ],
+  "churnNotifications": [
+    {
+      "churnNotificationId": 30,
+      "typeOfChurn": "ALL",
+      "period": "24",
+      "productId": 1111,
+      "partnerId": 1111,
+      "countryCode": "MY",
+      "operationType": "Create"
+    }
+  ],
+  "adNetworkNotifications": [
+    {
+      "adNetworkNotificationId": 30,
+      "productId": 1111,
+      "partnerId": 1111,
+      "countryCode": "MY",
+      "id": 5,
+      "paidPercentage": 30,
+      "freePercentage": 20,
+      "winbackPercentage": 30,
+      "operationType": "Create"
+    }
+  ],
+  "pricePoints": [
+    {
+      "billingCode": "BC03",
+      "price": 300,
+      "description": "Price Point 1111",
+      "validity": 30,
+      "noOfCredits": 99999,
+      "serviceId": "76",
+      "appId": 1111,
+      "ujId": 1111,
+      "itemId": 1111,
+      "itemTypeId": 0,
+      "balanceCheckRequired": true,
+      "fallbackApplicable": false,
+      "freeTrialApplicable": true,
+      "fallbackPpBillingCode": "BC03",
+      "freeTrialBillingCode": "BC03",
+      "freeTrialDays": 30,
+      "exclusionPeriod": 60,
+      "autoRenewalApplicable": true,
+      "status": "active",
+      "contentAccessPostDeactivation": true,
+      "noOfDaysContentAccessAllowInParking": 30,
+      "noOfDaysContentAccessAllowInSuspend": 0,
+      "parkingPeriod": 30,
+      "suspendPeriod": 30,
+      "activationCoolDownPeriod": 30,
+      "productId": 1111,
+      "partnerId": 1111,
+      "countryCode": "MY",
+      "operationType": "Create",
+      "actInitValidity": 5,
+      "deactivationRetryValidity": 5,
+      "notificationWaitPeriod": 10,
+      "timeUnit": "DAY"
+    },
+    {
+      "billingCode": "BC01",
+      "price": 300,
+      "description": "Price Point 1111",
+      "validity": 30,
+      "noOfCredits": 99999,
+      "serviceId": "76",
+      "appId": 1111,
+      "ujId": 1111,
+      "itemId": 1111,
+      "itemTypeId": 0,
+      "balanceCheckRequired": true,
+      "fallbackApplicable": false,
+      "freeTrialApplicable": true,
+      "fallbackPpBillingCode": "BC01",
+      "freeTrialBillingCode": "BC01",
+      "freeTrialDays": 30,
+      "exclusionPeriod": 60,
+      "autoRenewalApplicable": true,
+      "status": "active",
+      "contentAccessPostDeactivation": true,
+      "noOfDaysContentAccessAllowInParking": 30,
+      "noOfDaysContentAccessAllowInSuspend": 0,
+      "parkingPeriod": 0,
+      "suspendPeriod": 30,
+      "activationCoolDownPeriod": 30,
+      "productId": 1111,
+      "partnerId": 1111,
+      "countryCode": "MY",
+      "operationType": "Create",
+      "actInitValidity": 5,
+      "deactivationRetryValidity": 5,
+      "notificationWaitPeriod": 10,
+      "timeUnit": "DAY"
+    }
+  ],
+  "stateConfigs": [
+    {
+      "stateConfigId": 1111,
+      "productId": 1111,
+      "partnerId": 1111,
+      "countryCode": "MY",
+      "operationType": "Create",
+      "pricePoint": "BC03",
+      "actInitDuration": 300,
+      "activeDuration": 30,
+      "parkingDuration": 30,
+      "graceDuration": 11112,
+      "suspendDuration": 30,
+      "blacklistDuration": 30
+    }
+  ],
+  "blackouts": [
+    {
+      "blackoutId": 1111,
+      "productId": 1111,
+      "partnerId": 1111,
+      "countryCode": "MY",
+      "period": "'7:30-10:30,23:00-5:00'",
+      "operationType": "Create",
+      "blackoutWindow": "'5:20-7:40'"
+    }
+  ],
+  "activityFlows": [
+    {
+      "activityFlowId": 1111,
+      "productId": 1111,
+      "partnerId": 1111,
+      "countryCode": "MY",
+      "name": "ACTIVATION",
+      "billingCode": "BC03",
+      "mode": "WAP",
+      "actions": [
+        {
+          "actionId": 1111,
+          "action": "CONSENT",
+          "flowType": "VUCLIP_CONSENT"
+        }
+      ],
+      "operationType": "Create"
+    },
+    {
+      "activityFlowId": 1111,
+      "productId": 1111,
+      "partnerId": 1111,
+      "countryCode": "MY",
+      "name": "DEACTIVATION",
+      "billingCode": "BC03",
+      "mode": "WAP",
+      "actions": [
+        {
+          "actionId": 1111,
+          "action": "CONSENT",
+          "flowType": "VUCLIP_CONSENT"
+        }
+      ],
+      "operationType": "Create"
+    },
+    {
+      "activityFlowId": 1111,
+      "productId": 1111,
+      "partnerId": 1111,
+      "countryCode": "MY",
+      "name": "RENEWAL",
+      "billingCode": "BC03",
+      "mode": "WAP",
+      "actions": [
+        {
+          "actionId": 1111,
+          "action": "CONSENT",
+          "flowType": "VUCLIP_CONSENT"
+        }
+      ],
+      "operationType": "Create"
+    }
+  ]
 }

@@ -1,10 +1,9 @@
 {
-	"userDetails":{
-		"userId":"855965910799",
-		"msisdn":"855965910799"
-	},
-	"productId":1,
-	"partnerId":1,
-	"country":"IN"
-	
+  "userDetails": {
+    "userId": "855965910799",
+    "msisdn": "855965910799"
+  },
+  "productId": 1,
+  "partnerId": 1,
+  "country": "IN"
 }

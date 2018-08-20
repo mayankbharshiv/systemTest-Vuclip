@@ -3,19 +3,13 @@ package com.vuclip.premiumengg.automation.scheduled_activity_service.common.util
 import com.vuclip.premiumengg.automation.common.Log4J;
 import com.vuclip.premiumengg.automation.common.RabbitMQConnection;
 import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.*;
-import com.vuclip.premiumengg.automation.utils.AppAssert;
-import com.vuclip.premiumengg.automation.utils.DBUtils;
-import com.vuclip.premiumengg.automation.utils.DateTimeUtil;
-import com.vuclip.premiumengg.automation.utils.ObjectMapperUtils;
-import com.vuclip.premiumengg.automation.utils.TimeUnitEnum;
-
+import com.vuclip.premiumengg.automation.utils.*;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.log4j.Logger;
 import org.springframework.amqp.core.Message;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 public class SASUtils {
     public static int productId;
@@ -86,7 +80,7 @@ public class SASUtils {
 //        userSubscriptionRequest.getActivityEvent().setAttemptedBillingCode(billingCode);
 //        userSubscriptionRequest.getActivityEvent().setChargedBillingCode(billingCode);
 //        userSubscriptionRequest.getActivityEvent().setRequestedBillingCode(billingCode);
-        String r=String.valueOf(RandomUtils.nextLong(1000000000L, 9000000000L));
+        String r = String.valueOf(RandomUtils.nextLong(1000000000L, 9000000000L));
         userSubscriptionRequest.getUserInfo().setMsisdn(r);
         userSubscriptionRequest.getUserInfo().setUserId(r);
         userSubscriptionRequest.getActivityEvent().setMsisdn(r);
@@ -137,7 +131,7 @@ public class SASUtils {
 //        userSubscriptionRequest.getActivityEvent().setAttemptedBillingCode(billingCode);
 //        userSubscriptionRequest.getActivityEvent().setChargedBillingCode(billingCode);
 //        userSubscriptionRequest.getActivityEvent().setRequestedBillingCode(billingCode);
-        String r=String.valueOf(RandomUtils.nextLong(1000000000L, 9000000000L));
+        String r = String.valueOf(RandomUtils.nextLong(1000000000L, 9000000000L));
         userSubscriptionRequest.getUserInfo().setMsisdn(r);
         userSubscriptionRequest.getUserInfo().setUserId(r);
         userSubscriptionRequest.getActivityEvent().setMsisdn(r);
@@ -188,7 +182,7 @@ public class SASUtils {
 //		userSubscriptionRequest.getEventInfo().getLogTime().getTime();
 //		userSubscriptionRequest.getUserInfo().getUserId();
 
-        String r=String.valueOf(RandomUtils.nextLong(1000000000L, 9000000000L));
+        String r = String.valueOf(RandomUtils.nextLong(1000000000L, 9000000000L));
         userSubscriptionRequest.getUserInfo().setMsisdn(r);
         userSubscriptionRequest.getUserInfo().setUserId(r);
         userSubscriptionRequest.getActivityEvent().setMsisdn(r);

@@ -5,7 +5,6 @@ import com.vuclip.premiumengg.automation.ad_network_service.common.utils.*;
 import com.vuclip.premiumengg.automation.common.Log4J;
 import com.vuclip.premiumengg.automation.utils.DateTimeUtil;
 import com.vuclip.premiumengg.automation.utils.TimeUnitEnum;
-
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.testng.annotations.Test;

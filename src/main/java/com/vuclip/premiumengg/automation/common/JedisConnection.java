@@ -7,13 +7,12 @@ import redis.clients.jedis.Jedis;
  */
 public class JedisConnection {
 
-     private static Jedis redisConnectionSingleNode;
-
+    static String host;
+    static String port;
+    private static Jedis redisConnectionSingleNode;
     private JedisConnection() {
     }
 
-    static String host;
-    static String port;
     public static Jedis getRedisConnection() {
         if (redisConnectionSingleNode == null) {
             String redisHosts = Configuration.redisServers;
@@ -21,10 +20,10 @@ public class JedisConnection {
             String[] servers = redisHosts.split(",");
             for (String server : servers) {
                 String[] hosts = server.split(":");
-                 host = hosts[0];
-                 port = hosts[1];
+                host = hosts[0];
+                port = hosts[1];
             }
-            JedisConnection.redisConnectionSingleNode = new Jedis(host,Integer.parseInt(port));
+            JedisConnection.redisConnectionSingleNode = new Jedis(host, Integer.parseInt(port));
         }
         return redisConnectionSingleNode;
     }

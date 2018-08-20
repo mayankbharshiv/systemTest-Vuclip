@@ -1,21 +1,19 @@
 package com.vuclip.premiumengg.automation.configuration_service.common.utils;
 
+import com.vuclip.premiumengg.automation.billing_package_service.common.models.QueueResponse;
+import com.vuclip.premiumengg.automation.common.Log4J;
+import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.SASTables;
+import com.vuclip.premiumengg.automation.utils.AppAssert;
+import com.vuclip.premiumengg.automation.utils.DBUtils;
+import io.restassured.response.Response;
+import org.apache.log4j.Logger;
+
 import java.math.BigInteger;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import org.apache.log4j.Logger;
-
-import com.vuclip.premiumengg.automation.billing_package_service.common.models.QueueResponse;
-import com.vuclip.premiumengg.automation.common.Log4J;
-import com.vuclip.premiumengg.automation.scheduled_activity_service.common.models.SASTables;
-import com.vuclip.premiumengg.automation.utils.AppAssert;
-import com.vuclip.premiumengg.automation.utils.DBUtils;
-
-import io.restassured.response.Response;
 
 public class CSValidationHelper {
     private static Logger logger = Log4J.getLogger("CSValidationHelper");
@@ -34,12 +32,12 @@ public class CSValidationHelper {
         AppAssert.assertEqual(schedularApiResponse.getBody().asString(), "FAILURE", "verify scheduler api call");
     }
 
-    
+
     public static void validateTableRecord(List<Map<String, Object>> list, Map<String, Object> expectedRecord) {
         for (String key : expectedRecord.keySet()) {
-        	if (list.get(0).get(key) != null)
-            AppAssert.assertEqual(list.get(0).get(key).toString().toLowerCase(),  expectedRecord.get(key).toString().toLowerCase(),
-                    "Verify table fields");
+            if (list.get(0).get(key) != null)
+                AppAssert.assertEqual(list.get(0).get(key).toString().toLowerCase(), expectedRecord.get(key).toString().toLowerCase(),
+                        "Verify table fields");
         }
     }
 
@@ -63,7 +61,7 @@ public class CSValidationHelper {
     }
 
     public static void verifyNoActivityRecordPresent(int productId, int partnerId, Integer subscriptionId, BigInteger date) {
-   List<String> tables = Stream.of(SASTables.values()).map(Enum::name).collect(Collectors.toList());
+        List<String> tables = Stream.of(SASTables.values()).map(Enum::name).collect(Collectors.toList());
         for (String tableName : tables) {
             try {
                 AppAssert.assertTrue(
