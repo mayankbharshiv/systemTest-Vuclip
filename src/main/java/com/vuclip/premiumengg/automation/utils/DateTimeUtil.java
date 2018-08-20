@@ -1,4 +1,4 @@
-package com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils;
+package com.vuclip.premiumengg.automation.utils;
 
 import java.math.BigInteger;
 import java.time.LocalDateTime;

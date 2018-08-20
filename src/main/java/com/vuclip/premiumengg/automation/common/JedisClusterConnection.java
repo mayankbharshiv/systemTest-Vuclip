@@ -9,11 +9,11 @@ import java.util.Set;
 /**
  * Created by Kohitij_Das on 10/04/17.
  */
-public class RedisConnection {
+public class JedisClusterConnection {
 
     private static JedisCluster redisConnection;
 
-    private RedisConnection() {
+    private JedisClusterConnection() {
     }
 
     public static JedisCluster getRedisConnection() {
@@ -28,7 +28,7 @@ public class RedisConnection {
                 String port = hosts[1];
                 jedisClusterNodes.add(new HostAndPort(host, Integer.parseInt(port)));
             }
-            RedisConnection.redisConnection = new JedisCluster(jedisClusterNodes);
+            JedisClusterConnection.redisConnection = new JedisCluster(jedisClusterNodes);
         }
         return redisConnection;
     }

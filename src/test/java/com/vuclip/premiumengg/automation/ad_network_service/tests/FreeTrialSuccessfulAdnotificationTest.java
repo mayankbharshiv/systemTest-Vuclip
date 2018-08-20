@@ -4,9 +4,10 @@ import com.vuclip.premiumengg.automation.ad_network_service.common.models.Messag
 import com.vuclip.premiumengg.automation.ad_network_service.common.models.SaveProduct;
 import com.vuclip.premiumengg.automation.ad_network_service.common.utils.*;
 import com.vuclip.premiumengg.automation.common.Log4J;
-import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.DateTimeUtil;
-import com.vuclip.premiumengg.automation.scheduled_activity_service.common.utils.TimeUnitEnum;
 import com.vuclip.premiumengg.automation.utils.AppAssert;
+import com.vuclip.premiumengg.automation.utils.DateTimeUtil;
+import com.vuclip.premiumengg.automation.utils.TimeUnitEnum;
+
 import io.restassured.response.Response;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
