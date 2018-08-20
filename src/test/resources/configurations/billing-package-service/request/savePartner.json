@@ -1,0 +1,21 @@
+{
+  "partnerId": 1,
+  "partnerName": "Etisalat UAE",
+  "description": "Etisalat UAE",
+  "status": "ACTIVE",
+  "autoRenewalApplicable": false,
+  "type": "telco",
+  "stepUpCharging": true,
+  "userIdentifier": "user1",
+  "balanceCheckRequired": true,
+  "activationManagedBy": "Vuclip",
+  "renewalManagedBy": "Vuclip",
+  "deactivationManagedBy": "Vuclip",
+  "hasMoActivations": true,
+  "hasMoDeactivations": true,
+  "operationType": "Create",
+  "partnerActivationConsentParserUrl": "http://www.vuclip.com",
+  "partnerDeactivationConsentParserUrl": "http://www.vuclip.com",
+  "partnerActivationConsentInitiationUrl": "http://www.vuclip.com",
+  "partnerDeactivationConsentInitiationUrl": "http://www.vuclip.com"
+}

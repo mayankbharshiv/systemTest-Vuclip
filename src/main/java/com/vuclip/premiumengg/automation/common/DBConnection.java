@@ -2,48 +2,37 @@ package com.vuclip.premiumengg.automation.common;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-
+import java.sql.SQLException;
 
 public class DBConnection {
 
-    private static Connection vuconnectDbConnection;
+    private static Connection dbConnection;
 
-    private static Connection vuconnectSytemTestDbConnection;
-
-
-    public DBConnection() {
-        setVuconnectDbConnection();
-        setVuconnectSytemTestDbConnection();
+    private DBConnection() {
     }
 
-    public static Connection getVuconnectDbConnection() {
-        return vuconnectDbConnection;
-    }
-
-    public static void setVuconnectSytemTestDbConnection() {
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            String dbUrl = "jdbc:mysql://" + Configuration.dbServer + ":" + Configuration.dbPort + "/" + Configuration.vuconnectSystemtestDbName;
-            DBConnection.vuconnectSytemTestDbConnection = DriverManager.getConnection(dbUrl, Configuration.dbUser, Configuration.dbPassword);
-        } catch (Exception e) {
-            System.out.println("Exception in getting DBConnection: " + e.getMessage());
+    public static Connection getDbConnection() {
+        if (dbConnection == null) {
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                String dbUrl = "jdbc:mysql://" + Configuration.dbServer + ":" + Configuration.dbPort + "/"
+                        + Configuration.dbName;
+                DBConnection.dbConnection = DriverManager.getConnection(dbUrl, Configuration.dbUser,
+                        Configuration.dbPassword);
+            } catch (Exception e) {
+                System.out.println("Exception in getting DBConnection: " + e.getMessage());
+            }
         }
+        return dbConnection;
     }
 
-    public static Connection getVuconnectSytemTestDbConnection() {
-        return vuconnectSytemTestDbConnection;
-    }
-
-    private void setVuconnectDbConnection() {
-
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            String dbUrl = "jdbc:mysql://" + Configuration.dbServer + ":" + Configuration.dbPort + "/" + Configuration.vuconnectDbName;
-            DBConnection.vuconnectDbConnection = DriverManager.getConnection(dbUrl, Configuration.dbUser, Configuration.dbPassword);
-        } catch (Exception e) {
-            System.out.println("Exception in getting DBConnection: " + e.getMessage());
+    /**
+     * @throws SQLException
+     */
+    public static void closeAllConnections() throws SQLException {
+        if (!dbConnection.isClosed()) {
+            System.out.println("==========closing Database Connection==============");
+            dbConnection.close();
         }
-
-
     }
 }

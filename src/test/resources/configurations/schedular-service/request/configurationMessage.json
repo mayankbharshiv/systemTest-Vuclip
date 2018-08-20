@@ -1,0 +1,15 @@
+{
+  "retry": [
+    {
+      "retryId": 1,
+      "productId": 1,
+      "partnerId": 1,
+      "countryCode": "XX",
+      "activityType": "RENEWAL_RETRY",
+      "schedulingFrequencyInMinutes": 1,
+      "executingTimeWindow": "00:00:01-23:59:59",
+      "executingDays": "1111111",
+      "status": "active"
+    }
+  ]
+}

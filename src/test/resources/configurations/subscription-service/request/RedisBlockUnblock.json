@@ -1,0 +1,14 @@
+{
+   "id": 6,
+   "userId": "855965910799",
+   "msisdn": "855965910799",
+   "productId": 1,
+   "partnerId": 1,
+   "country": "IN",
+   "blockType": "BLACKLIST",
+   "startDate": 1532601998000,
+   "endDate": 1564135238000,
+   "createDate":1532601998000,
+   "modifyDate":1532601998000
+   
+}
