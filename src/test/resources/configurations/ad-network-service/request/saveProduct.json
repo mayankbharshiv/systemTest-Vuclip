@@ -131,8 +131,8 @@
     },
     {
       "adNetworkNotificationId": 0,
-      "productId": 11111,
-      "partnerId": 11111,
+      "productId": 0,
+      "partnerId": 0,
       "countryCode": "ccode",
       "id": 5,
       "paidPercentage": 100,

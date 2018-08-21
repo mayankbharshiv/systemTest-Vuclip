@@ -116,11 +116,10 @@ public class ANSUtils {
 
     public static Message generateMessageForQueue(Integer productId, String userId, String billingCode, String billingPrice,
                                                   String action, String activity, String transactionState, String actionResult, long subscriptionId,
-                                                  String eventType, BigInteger nextBillingDate, String adNetworkParams, Object churnNotificationParam,
+                                                   BigInteger nextBillingDate, String adNetworkParams, Object churnNotificationParam,
                                                   String transactionId, Object userSource) throws Exception {
 
         Message message = new Message();
-        message.setEventType(eventType);
         message.setProductId(productId);
         message.setProductName(String.valueOf(productId));
         message.setPartnerId(productId);
