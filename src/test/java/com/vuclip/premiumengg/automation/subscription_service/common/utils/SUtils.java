@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SUtils {
-
+	public static String ssFanOut="ST_SUBSCRIPTION_SCHEDULED_ACTIVITY";
     public static int productId = 8181;
     public static SaveProductRequest productConfig = null;
     private static Logger logger = Log4J.getLogger("SSUtils");
