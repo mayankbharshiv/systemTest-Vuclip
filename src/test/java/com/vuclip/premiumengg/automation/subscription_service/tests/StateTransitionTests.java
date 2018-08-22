@@ -128,16 +128,16 @@ public class StateTransitionTests {
         try {
             Log4J.getLogger("setting up test data into DB, Redis and RabbitMQ");
 
-            RabbitAdminConnection.getRabbitAdminConnection().purgeQueue("SUBSCRIPTION_SCHEDULED_ACTIVITY", false);
+            RabbitAdminConnection.getRabbitAdminConnection().purgeQueue(Sutils.ssFanOut, false);
 
             String userSubAuthKey = TestDataCreator.createStateTransitionTestDate(stateTransitionData);
 
-            Message message = RabbitMQConnection.getRabbitTemplate().receive("SUBSCRIPTION_SCHEDULED_ACTIVITY", 25000);
+            Message message = RabbitMQConnection.getRabbitTemplate().receive(Sutils.ssFanOut, 25000);
             if (message == null)
-                AppAssert.assertTrue(false, "Not able to fetch message from SUBSCRIPTION_SCHEDULED_ACTIVITY");
+                AppAssert.assertTrue(false, "Not able to fetch message from ST_SUBSCRIPTION_SCHEDULED_ACTIVITY");
             RabbitMessageResponse queueResponse = ObjectMapperUtils.readValueFromString(new String(message.getBody()),
                     RabbitMessageResponse.class);
-            Log4J.getLogger().info("RECEIVED FROM QUEUE SUBSCRIPTION_SCHEDULED_ACTIVITY "
+            Log4J.getLogger().info("RECEIVED FROM QUEUE ST_SUBSCRIPTION_SCHEDULED_ACTIVITY "
                     + ObjectMapperUtils.writeValueAsString(queueResponse));
 
             logger.info("DB Validation");
@@ -203,16 +203,16 @@ public class StateTransitionTests {
         try {
             Log4J.getLogger("setting up test data into DB, Redis and RabbitMQ");
 
-            RabbitAdminConnection.getRabbitAdminConnection().purgeQueue("SUBSCRIPTION_SCHEDULED_ACTIVITY", false);
+            RabbitAdminConnection.getRabbitAdminConnection().purgeQueue(Sutils.ssFanOut, false);
 
             String userSubAuthKey = TestDataCreator.createStateTransitionTestDate(stateTransitionData);
 
-            Message message = RabbitMQConnection.getRabbitTemplate().receive("SUBSCRIPTION_SCHEDULED_ACTIVITY", 25000);
+            Message message = RabbitMQConnection.getRabbitTemplate().receive(Sutils.ssFanOut, 25000);
             if (message == null)
-                AppAssert.assertTrue(false, "Not able to fetch message from SUBSCRIPTION_SCHEDULED_ACTIVITY");
+                AppAssert.assertTrue(false, "Not able to fetch message from ST_SUBSCRIPTION_SCHEDULED_ACTIVITY");
             RabbitMessageResponse queueResponse = ObjectMapperUtils.readValueFromString(new String(message.getBody()),
                     RabbitMessageResponse.class);
-            Log4J.getLogger().info("RECEIVED FROM QUEUE SUBSCRIPTION_SCHEDULED_ACTIVITY "
+            Log4J.getLogger().info("RECEIVED FROM QUEUE ST_SUBSCRIPTION_SCHEDULED_ACTIVITY "
                     + ObjectMapperUtils.writeValueAsString(queueResponse));
 
             logger.info("DB Validation");
