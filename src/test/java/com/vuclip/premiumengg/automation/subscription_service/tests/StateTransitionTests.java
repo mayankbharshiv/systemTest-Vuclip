@@ -128,11 +128,11 @@ public class StateTransitionTests {
         try {
             Log4J.getLogger("setting up test data into DB, Redis and RabbitMQ");
 
-            RabbitAdminConnection.getRabbitAdminConnection().purgeQueue(Sutils.ssFanOut, false);
+            RabbitAdminConnection.getRabbitAdminConnection().purgeQueue(SUtils.ssFanOut, false);
 
             String userSubAuthKey = TestDataCreator.createStateTransitionTestDate(stateTransitionData);
 
-            Message message = RabbitMQConnection.getRabbitTemplate().receive(Sutils.ssFanOut, 25000);
+            Message message = RabbitMQConnection.getRabbitTemplate().receive(SUtils.ssFanOut, 25000);
             if (message == null)
                 AppAssert.assertTrue(false, "Not able to fetch message from ST_SUBSCRIPTION_SCHEDULED_ACTIVITY");
             RabbitMessageResponse queueResponse = ObjectMapperUtils.readValueFromString(new String(message.getBody()),
@@ -203,11 +203,11 @@ public class StateTransitionTests {
         try {
             Log4J.getLogger("setting up test data into DB, Redis and RabbitMQ");
 
-            RabbitAdminConnection.getRabbitAdminConnection().purgeQueue(Sutils.ssFanOut, false);
+            RabbitAdminConnection.getRabbitAdminConnection().purgeQueue(SUtils.ssFanOut, false);
 
             String userSubAuthKey = TestDataCreator.createStateTransitionTestDate(stateTransitionData);
 
-            Message message = RabbitMQConnection.getRabbitTemplate().receive(Sutils.ssFanOut, 25000);
+            Message message = RabbitMQConnection.getRabbitTemplate().receive(SUtils.ssFanOut, 25000);
             if (message == null)
                 AppAssert.assertTrue(false, "Not able to fetch message from ST_SUBSCRIPTION_SCHEDULED_ACTIVITY");
             RabbitMessageResponse queueResponse = ObjectMapperUtils.readValueFromString(new String(message.getBody()),
