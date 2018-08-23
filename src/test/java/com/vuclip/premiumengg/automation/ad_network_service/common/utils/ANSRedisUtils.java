@@ -18,12 +18,15 @@ public class ANSRedisUtils {
             while (!isFound && count <= 3) {
                 Thread.sleep(1000);
                 s = RedisTemplateConnection.getRedisConnection().keys(getKeyPattern(transactionId));
+                
                 Log4J.getLogger("REDIS KEYS CHECK ").info(s.size());
-                if (s != null || (s != null && s.size() >= 1)) {
+                if (s.size() >= 1) {
                     isFound = true;
                 }
                 count++;
             }
+            
+            
             if (s == null)
                 return false;
 
@@ -41,6 +44,12 @@ public class ANSRedisUtils {
     }
 
     public static boolean keyNotPresent(String transactionId) {
+    	try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         return keyPresent(transactionId);
     }
 
