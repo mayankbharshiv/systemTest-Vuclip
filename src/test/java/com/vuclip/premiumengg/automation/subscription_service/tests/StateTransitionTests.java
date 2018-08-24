@@ -122,7 +122,7 @@ public class StateTransitionTests {
         return dp.iterator();
     }
 
-    @Test(dataProvider = "StateTransitionData", groups = {"run"})
+    @Test(dataProvider = "StateTransitionData", groups = {"positive"})
     public void actInitStateTransitionTests(StateTransitionData stateTransitionData) {
         logger.info("Starting ================> State Transition Test==> " + stateTransitionData.toString());
         try {
