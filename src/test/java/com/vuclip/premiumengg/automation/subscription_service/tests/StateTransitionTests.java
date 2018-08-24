@@ -122,7 +122,7 @@ public class StateTransitionTests {
         return dp.iterator();
     }
 
-    @Test(dataProvider = "StateTransitionData", groups = {"positive"})
+    @Test(dataProvider = "StateTransitionData", groups = {"run"})
     public void actInitStateTransitionTests(StateTransitionData stateTransitionData) {
         logger.info("Starting ================> State Transition Test==> " + stateTransitionData.toString());
         try {
@@ -135,8 +135,12 @@ public class StateTransitionTests {
             Message message = RabbitMQConnection.getRabbitTemplate().receive(SUtils.ssFanOut, 25000);
             if (message == null)
                 AppAssert.assertTrue(false, "Not able to fetch message from ST_SUBSCRIPTION_SCHEDULED_ACTIVITY");
+            Log4J.getLogger().info("FETCHED MESSAGE : "+new String(message.getBody()));
             RabbitMessageResponse queueResponse = ObjectMapperUtils.readValueFromString(new String(message.getBody()),
                     RabbitMessageResponse.class);
+            if(queueResponse==null)
+                AppAssert.assertTrue(false, "Not able to parse message");
+
             Log4J.getLogger().info("RECEIVED FROM QUEUE ST_SUBSCRIPTION_SCHEDULED_ACTIVITY "
                     + ObjectMapperUtils.writeValueAsString(queueResponse));
 
@@ -174,7 +178,7 @@ public class StateTransitionTests {
                     stateTransitionData.getSummary(), stateTransitionData.getSubscriptionStatusNew(),
                     stateTransitionData.getSubscription_billing_code(), stateTransitionData.getCharged_billing_code(),
                     stateTransitionData.getCountry(), stateTransitionData.getUserSource(),
-                    stateTransitionData.getMode(), queueResponse.getSubscriptionInfo().isPaid());
+                    stateTransitionData.getMode(), queueResponse.getSubscriptionInfo().getPaid());
         } catch (Exception e) {
             e.printStackTrace();
             AppAssert.assertTrue(false);
@@ -242,7 +246,7 @@ public class StateTransitionTests {
                     stateTransitionData.getSummary(), stateTransitionData.getSubscriptionStatusNew(),
                     stateTransitionData.getSubscription_billing_code(), stateTransitionData.getCharged_billing_code(),
                     stateTransitionData.getCountry(), stateTransitionData.getUserSource(),
-                    stateTransitionData.getMode(), queueResponse.getSubscriptionInfo().isPaid());
+                    stateTransitionData.getMode(), queueResponse.getSubscriptionInfo().getPaid());
         } catch (Exception e) {
             e.printStackTrace();
             AppAssert.assertTrue(false);
