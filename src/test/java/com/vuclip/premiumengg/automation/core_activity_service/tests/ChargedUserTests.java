@@ -105,7 +105,7 @@ public class ChargedUserTests {
 					"Verify Key Not Present");
 		} catch (Exception e) {
 			e.printStackTrace();
-			Assert.fail();
+			AppAssert.assertTrue(false, "Test fail");
 		}
 
 	}
