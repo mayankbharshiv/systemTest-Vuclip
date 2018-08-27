@@ -5,7 +5,7 @@
         <groups>
             <run>
                 <!-- all system test cases are with positive tag and for regression test case it is tagged with regression -->
-                <include name="run"></include>
+                <include name="positive"></include>
                 <exclude name="bug"></exclude>
                 <exclude name="pending"></exclude>
             </run>

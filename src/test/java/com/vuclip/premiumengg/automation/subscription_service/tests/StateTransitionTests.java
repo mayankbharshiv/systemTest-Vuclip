@@ -174,7 +174,7 @@ public class StateTransitionTests {
                     stateTransitionData.getSummary(), stateTransitionData.getSubscriptionStatusNew(),
                     stateTransitionData.getSubscription_billing_code(), stateTransitionData.getCharged_billing_code(),
                     stateTransitionData.getCountry(), stateTransitionData.getUserSource(),
-                    stateTransitionData.getMode(), queueResponse.getSubscriptionInfo().isPaid());
+                    stateTransitionData.getMode(), queueResponse.getSubscriptionInfo().getPaid());
         } catch (Exception e) {
             e.printStackTrace();
             AppAssert.assertTrue(false);
@@ -242,7 +242,7 @@ public class StateTransitionTests {
                     stateTransitionData.getSummary(), stateTransitionData.getSubscriptionStatusNew(),
                     stateTransitionData.getSubscription_billing_code(), stateTransitionData.getCharged_billing_code(),
                     stateTransitionData.getCountry(), stateTransitionData.getUserSource(),
-                    stateTransitionData.getMode(), queueResponse.getSubscriptionInfo().isPaid());
+                    stateTransitionData.getMode(), queueResponse.getSubscriptionInfo().getPaid());
         } catch (Exception e) {
             e.printStackTrace();
             AppAssert.assertTrue(false);
