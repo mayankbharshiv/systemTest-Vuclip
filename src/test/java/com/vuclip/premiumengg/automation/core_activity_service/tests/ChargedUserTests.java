@@ -1,6 +1,7 @@
 package com.vuclip.premiumengg.automation.core_activity_service.tests;
 
 import org.apache.log4j.Logger;
+import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -50,6 +51,7 @@ public class ChargedUserTests {
 
 		} catch (Exception e) {
 			e.printStackTrace();
+			Assert.fail();
 		}
 
 	}
@@ -76,6 +78,7 @@ public class ChargedUserTests {
 					"Verify Key Present");
 		} catch (Exception e) {
 			e.printStackTrace();
+			Assert.fail();
 		}
 
 	}
@@ -102,6 +105,7 @@ public class ChargedUserTests {
 					"Verify Key Not Present");
 		} catch (Exception e) {
 			e.printStackTrace();
+			Assert.fail();
 		}
 
 	}
