@@ -73,7 +73,7 @@ public class UnblockUserTest {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			Assert.fail();
+			AppAssert.assertTrue(false, "Test fail");
 		}
 
 	}
