@@ -40,6 +40,8 @@ public class Configuration {
     public static String adNetworkServiceServer;
 
     public static String csServer;
+    
+    public static String casServer;
 
 
 }

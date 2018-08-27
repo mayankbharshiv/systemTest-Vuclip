@@ -1,0 +1,577 @@
+{
+	"product": {
+		"productId": 1111,
+		"productName": "VIU",
+		"productType": "OTT",
+		"storeType": "Full Store",
+		"url": "www.viu.com",
+		"context": "contextName",
+		"cassId": 123,
+		"encryptionEnable": true,
+		"encryptionValidityInMinutes": 30,
+		"callbackUrl": "www.viu.com",
+		"consentCancelUrl": "www.viu.com",
+		"errorUrl": "www.viu.com",
+		"description": "VIU Product",
+		"status": "ACTIVE",
+		"operationType": "CREATE"
+	},
+	"productPartnerMappings": [
+		{
+			"productId": 1111,
+			"partnerId": 1111,
+			"chargingDependOnSmsDelivery": true,
+			"optOutSmsEnabled": true,
+			"preRenewalSmsEnabled": false,
+			"partnerConsentParserEndpoint": "Parse EndPoint",
+			"partnerConsentUrlGenerationEndpoint": "Url Generation EndPoint",
+			"dateFormat": "dd-mm-yyyy",
+			"operationType": "CREATE",
+			"blacklistApplicable": true,
+			"validityFromPartner": true,
+			"blacklistValidity": 180,
+			"cooldownApplicable": true,
+			"cooldownValidity": 3,
+			"timeUnit": "HOUR",
+			"stepUpChargingApplicable": false,
+			"allowedFreeTrialCount": 1
+		}
+	],
+	"productCountryMapping": {
+		"productId": 1111,
+		"countries": [
+			{
+				"countryCode": "IN",
+				"operationType": "CREATE"
+			}
+		]
+	},
+	"smsConfigs": [
+		{
+			"smsConfigId": 1,
+			"type": "CONTENT_SMS",
+			"redirectionContext": "Redirection Context",
+			"defaultSmsLanguageId": 1,
+			"batchSize": 100,
+			"smsLength": 100,
+			"autoPlay": false,
+			"status": "active",
+			"criterias": [
+				{
+					"criteriaId": 1,
+					"smsText": "SMS Text",
+					"criterions": [
+						{
+							"criterionId": 1,
+							"name": "activity",
+							"operator": "==",
+							"value": "ACTIVATION",
+							"groupingOperator": "NONE"
+						}
+					],
+					"dateCoumputationCriterion": {
+						"dateComputationCriterionId": 1,
+						"name": "next_billing_date",
+						"operator": "+",
+						"value": "24",
+						"unit": "HOUR"
+					}
+				}
+			],
+			"productId": 1111,
+			"partnerId": 1111,
+			"countryCode": "IN",
+			"operationType": "CREATE"
+		}
+	],
+	"retry": [
+		{
+			"retryId": 1,
+			"productId": 1111,
+			"partnerId": 1111,
+			"countryCode": "IN",
+			"operationType": "CREATE",
+			"activityType": "ACTIVATION_RETRY",
+			"maxRetryCount": 10,
+			"retryIntervalInMinutes": 120,
+			"attemptWindow": "7:00AM-2:00PM",
+			"typeOfCycle": "CALANDER_DAY",
+			"batchSize": 0,
+			"schedulingFrequencyInMinutes": 100,
+			"schedulingDays": "Monday,Tuesday",
+			"executingTimeWindow": "7:10-8:10,9:00-12:00",
+			"executingDays": "1101011",
+			"status": "active",
+			"actionDefaultEiligible": false,
+			"retryable": true
+		},
+		{
+			"retryId": 1,
+			"productId": 1111,
+			"partnerId": 1111,
+			"countryCode": "IN",
+			"operationType": "CREATE",
+			"activityType": "DEACTIVATION_RETRY",
+			"maxRetryCount": 10,
+			"retryIntervalInMinutes": 120,
+			"attemptWindow": "7:00AM-2:00PM",
+			"typeOfCycle": "CALANDER_DAY",
+			"batchSize": 0,
+			"schedulingFrequencyInMinutes": 100,
+			"schedulingDays": "Monday,Tuesday",
+			"executingTimeWindow": "7:10-8:10,9:00-12:00",
+			"executingDays": "1101011",
+			"status": "active",
+			"actionDefaultEiligible": false,
+			"retryable": true
+		},
+		{
+			"retryId": 1,
+			"productId": 1111,
+			"partnerId": 1111,
+			"countryCode": "IN",
+			"operationType": "CREATE",
+			"activityType": "RENEWAL",
+			"maxRetryCount": 10,
+			"retryIntervalInMinutes": 120,
+			"attemptWindow": "7:00AM-2:00PM",
+			"typeOfCycle": "CALANDER_DAY",
+			"batchSize": 10,
+			"schedulingFrequencyInMinutes": 100,
+			"schedulingDays": "Monday,Tuesday",
+			"executingTimeWindow": "7:10-8:10,9:00-12:00",
+			"executingDays": "1101011",
+			"status": "active",
+			"actionDefaultEiligible": true,
+			"retryable": true
+		},
+		{
+			"retryId": 1,
+			"productId": 1111,
+			"partnerId": 1111,
+			"countryCode": "IN",
+			"operationType": "CREATE",
+			"activityType": "WINBACK",
+			"maxRetryCount": 10,
+			"retryIntervalInMinutes": 120,
+			"attemptWindow": "7:00AM-2:00PM",
+			"typeOfCycle": "CALANDER_DAY",
+			"batchSize": 0,
+			"schedulingFrequencyInMinutes": 100,
+			"schedulingDays": "Monday,Tuesday",
+			"executingTimeWindow": "7:10-8:10,9:00-12:00",
+			"executingDays": "1101011",
+			"status": "active",
+			"actionDefaultEiligible": false,
+			"retryable": true
+		},
+		{
+			"retryId": 1,
+			"productId": 1111,
+			"partnerId": 1111,
+			"countryCode": "IN",
+			"operationType": "CREATE",
+			"activityType": "FREETRIAL_RENEWAL",
+			"maxRetryCount": 10,
+			"retryIntervalInMinutes": 120,
+			"attemptWindow": "7:00AM-2:00PM",
+			"typeOfCycle": "CALANDER_DAY",
+			"batchSize": 0,
+			"schedulingFrequencyInMinutes": 100,
+			"schedulingDays": "Monday,Tuesday",
+			"executingTimeWindow": "7:10-8:10,9:00-12:00",
+			"executingDays": "1101011",
+			"status": "active",
+			"actionDefaultEiligible": false,
+			"retryable": true
+		}
+	],
+	"churnNotifications": [
+		{
+			"churnNotificationId": 1,
+			"typeOfChurn": "ALL",
+			"period": "24",
+			"productId": 1111,
+			"partnerId": 1111,
+			"countryCode": "IN",
+			"operationType": "CREATE"
+		}
+	],
+	"adNetworkNotifications": [
+		{
+			"adNetworkNotificationId": 1,
+			"productId": 1111,
+			"partnerId": 1111,
+			"countryCode": "IN",
+			"id": 5,
+			"paidPercentage": 100,
+			"freePercentage": 50,
+			"winbackPercentage": 50,
+			"operationType": "CREATE"
+		}
+	],
+	"pricePoints": [
+		{
+			"billingCode": "b1",
+			"price": 80,
+			"description": "Price Point 2",
+			"validity": 15,
+			"noOfCredits": 9999,
+			"serviceId": "121",
+			"appId": 1,
+			"ujId": 1,
+			"itemId": 1,
+			"itemTypeId": 0,
+			"balanceCheckRequired": true,
+			"fallbackApplicable": false,
+			"freeTrialApplicable": false,
+			"fallbackPpBillingCode": "b3",
+			"freeTrialBillingCode": "b3",
+			"freeTrialDays": 0,
+			"exclusionPeriod": 60,
+			"autoRenewalApplicable": true,
+			"status": "active",
+			"contentAccessPostDeactivation": true,
+			"noOfDaysContentAccessAllowInParking": 10,
+			"noOfDaysContentAccessAllowInSuspend": 0,
+			"parkingPeriod": 10,
+			"suspendPeriod": 10,
+			"activationCoolDownPeriod": 5,
+			"productId": 1111,
+			"partnerId": 1111,
+			"countryCode": "IN",
+			"operationType": "CREATE",
+			"actInitValidity": 5,
+			"deactivationRetryValidity": 5,
+			"notificationWaitPeriod": 1,
+			"timeUnit": "DAY"
+		},
+		{
+			"billingCode": "b2",
+			"price": 100,
+			"description": "Price Point 2",
+			"validity": 30,
+			"noOfCredits": 99999,
+			"serviceId": "121",
+			"appId": 1,
+			"ujId": 1,
+			"itemId": 1,
+			"itemTypeId": 0,
+			"balanceCheckRequired": true,
+			"fallbackApplicable": true,
+			"freeTrialApplicable": true,
+			"fallbackPpBillingCode": "b3",
+			"freeTrialBillingCode": "b3",
+			"freeTrialDays": 10,
+			"exclusionPeriod": 60,
+			"autoRenewalApplicable": true,
+			"status": "active",
+			"contentAccessPostDeactivation": true,
+			"noOfDaysContentAccessAllowInParking": 10,
+			"noOfDaysContentAccessAllowInSuspend": 0,
+			"parkingPeriod": 10,
+			"suspendPeriod": 10,
+			"activationCoolDownPeriod": 15,
+			"productId": 1111,
+			"partnerId": 1111,
+			"countryCode": "IN",
+			"operationType": "CREATE",
+			"actInitValidity": 5,
+			"deactivationRetryValidity": 5,
+			"notificationWaitPeriod": 1,
+			"timeUnit": "DAY"
+		},
+		{
+			"billingCode": "b4",
+			"price": 50,
+			"description": "Price Point 3",
+			"validity": 7,
+			"noOfCredits": 99999,
+			"serviceId": "121",
+			"appId": 1,
+			"ujId": 1,
+			"itemId": 1,
+			"itemTypeId": 0,
+			"balanceCheckRequired": true,
+			"fallbackApplicable": false,
+			"freeTrialApplicable": false,
+			"fallbackPpBillingCode": "b3",
+			"freeTrialBillingCode": "b3",
+			"freeTrialDays": 10,
+			"exclusionPeriod": 60,
+			"autoRenewalApplicable": true,
+			"status": "active",
+			"contentAccessPostDeactivation": true,
+			"noOfDaysContentAccessAllowInParking": 10,
+			"noOfDaysContentAccessAllowInSuspend": 0,
+			"parkingPeriod": 10,
+			"suspendPeriod": 10,
+			"activationCoolDownPeriod": 15,
+			"productId": 1111,
+			"partnerId": 1111,
+			"countryCode": "IN",
+			"operationType": "CREATE",
+			"actInitValidity": 5,
+			"deactivationRetryValidity": 5,
+			"notificationWaitPeriod": 1,
+			"timeUnit": "DAY"
+		},
+		{
+			"billingCode": "b3",
+			"price": 0,
+			"description": "free trailpp",
+			"validity": 10,
+			"noOfCredits": 99999,
+			"serviceId": "121",
+			"appId": 1,
+			"ujId": 1,
+			"itemId": 1,
+			"itemTypeId": 0,
+			"balanceCheckRequired": false,
+			"fallbackApplicable": false,
+			"freeTrialApplicable": true,
+			"fallbackPpBillingCode": "",
+			"freeTrialBillingCode": "",
+			"freeTrialDays": 10,
+			"exclusionPeriod": 60,
+			"autoRenewalApplicable": true,
+			"status": "active",
+			"contentAccessPostDeactivation": true,
+			"noOfDaysContentAccessAllowInParking": 10,
+			"noOfDaysContentAccessAllowInSuspend": 0,
+			"parkingPeriod": 10,
+			"suspendPeriod": 10,
+			"activationCoolDownPeriod": 15,
+			"productId": 1111,
+			"partnerId": 1111,
+			"countryCode": "IN",
+			"operationType": "CREATE",
+			"actInitValidity": 5,
+			"deactivationRetryValidity": 5,
+			"notificationWaitPeriod": 1,
+			"timeUnit": "DAY"
+		},
+		{
+			"billingCode": "b5",
+			"price": 10,
+			"description": "free trailpp",
+			"validity": 1,
+			"noOfCredits": 9999,
+			"serviceId": "121",
+			"appId": 1,
+			"ujId": 1,
+			"itemId": 1,
+			"itemTypeId": 0,
+			"balanceCheckRequired": false,
+			"fallbackApplicable": false,
+			"freeTrialApplicable": false,
+			"fallbackPpBillingCode": "",
+			"freeTrialBillingCode": "",
+			"freeTrialDays": 10,
+			"exclusionPeriod": 60,
+			"autoRenewalApplicable": true,
+			"status": "active",
+			"contentAccessPostDeactivation": true,
+			"noOfDaysContentAccessAllowInParking": 10,
+			"noOfDaysContentAccessAllowInSuspend": 0,
+			"parkingPeriod": 10,
+			"suspendPeriod": 10,
+			"activationCoolDownPeriod": 15,
+			"productId": 1111,
+			"partnerId": 1111,
+			"countryCode": "IN",
+			"operationType": "CREATE",
+			"actInitValidity": 5,
+			"deactivationRetryValidity": 5,
+			"notificationWaitPeriod": 1,
+			"timeUnit": "DAY"
+		}
+	],
+	"stateConfigs": [
+		{
+			"stateConfigId": 1,
+			"productId": 1111,
+			"partnerId": 1111,
+			"countryCode": "IN",
+			"operationType": "CREATE",
+			"pricePoint": "b1",
+			"actInitDuration": 100,
+			"activeDuration": 30,
+			"parkingDuration": 10,
+			"graceDuration": 12,
+			"suspendDuration": 10,
+			"blacklistDuration": 10
+		}
+	],
+	"blackouts": [
+		{
+			"blackoutId": 1,
+			"productId": 1111,
+			"partnerId": 1111,
+			"countryCode": "IN",
+			"period": "'7:30-10:30,23:00-5:00'",
+			"operationType": "CREATE",
+			"blackoutWindow": "05:00-05:01"
+		}
+	],
+	"activityFlows": [
+		{
+			"activityFlowId": 1,
+			"productId": 1111,
+			"partnerId": 1111,
+			"countryCode": "IN",
+			"name": "ACTIVATION",
+			"billingCode": "b1",
+			"mode": "WAP",
+			"actions": [
+				{
+					"action": "CONSENT",
+					"flowType": "VUCLIP_CONSENT"
+				},
+				{
+					"action": "CHARGING",
+					"flowType": "VUCLIP_SYNC"
+				}
+			],
+			"operationType": "CREATE"
+		},
+		{
+			"activityFlowId": 1,
+			"productId": 1111,
+			"partnerId": 1111,
+			"countryCode": "IN",
+			"name": "ACTIVATION",
+			"billingCode": "b2",
+			"mode": "WAP",
+			"actions": [
+				{
+					"action": "CONSENT",
+					"flowType": "VUCLIP_CONSENT"
+				},
+				{
+					"action": "CHARGING",
+					"flowType": "VUCLIP_SYNC"
+				}
+			],
+			"operationType": "CREATE"
+		},
+		{
+			"activityFlowId": 1,
+			"productId": 1111,
+			"partnerId": 1111,
+			"countryCode": "IN",
+			"name": "DEACTIVATION",
+			"billingCode": "b1",
+			"mode": "WAP",
+			"actions": [
+				{
+					"actionId": 1,
+					"action": "PROCESS_DEACTIVATE",
+					"flowType": "VUCLIP_SYNC"
+				}
+			],
+			"operationType": "CREATE"
+		},
+		{
+			"activityFlowId": 1,
+			"productId": 1111,
+			"partnerId": 1111,
+			"countryCode": "IN",
+			"name": "DEACTIVATION",
+			"billingCode": "b2",
+			"mode": "WAP",
+			"actions": [
+				{
+					"actionId": 1,
+					"action": "PROCESS_DEACTIVATE",
+					"flowType": "VUCLIP_SYNC"
+				}
+			],
+			"operationType": "CREATE"
+		},
+		{
+			"activityFlowId": 1,
+			"productId": 1111,
+			"partnerId": 1111,
+			"countryCode": "IN",
+			"name": "DEACTIVATION",
+			"billingCode": "b3",
+			"mode": "WAP",
+			"actions": [
+				{
+					"actionId": 1,
+					"action": "PROCESS_DEACTIVATE",
+					"flowType": "VUCLIP_SYNC"
+				}
+			],
+			"operationType": "CREATE"
+		},
+		{
+			"activityFlowId": 1,
+			"productId": 1111,
+			"partnerId": 1111,
+			"countryCode": "IN",
+			"name": "RENEWAL",
+			"billingCode": "b1",
+			"mode": "BACKEND",
+			"actions": [
+				{
+					"actionId": 1,
+					"action": "CHARGING",
+					"flowType": "VUCLIP_ASYNC"
+				}
+			],
+			"operationType": "CREATE"
+		},
+		{
+			"activityFlowId": 1,
+			"productId": 1111,
+			"partnerId": 1111,
+			"countryCode": "IN",
+			"name": "RENEWAL",
+			"billingCode": "b2",
+			"mode": "BACKEND",
+			"actions": [
+				{
+					"actionId": 1,
+					"action": "CHARGING",
+					"flowType": "VUCLIP_ASYNC"
+				}
+			],
+			"operationType": "CREATE"
+		},
+		{
+			"activityFlowId": 1,
+			"productId": 1111,
+			"partnerId": 1111,
+			"countryCode": "IN",
+			"name": "FREETRIAL_RENEWAL",
+			"billingCode": "b3",
+			"mode": "BACKEND",
+			"actions": [
+				{
+					"actionId": 1,
+					"action": "CHARGING",
+					"flowType": "VUCLIP_ASYNC"
+				}
+			],
+			"operationType": "CREATE"
+		},
+		{
+			"activityFlowId": 1,
+			"productId": 1111,
+			"partnerId": 1111,
+			"countryCode": "IN",
+			"name": "BLACKLIST",
+			"mode": "CC_TOOL",
+			"actions": [
+				{
+					"actionId": 1,
+					"action": "PROCESS_BLACKLIST",
+					"flowType": "VUCLIP_SYNC"
+				}
+			],
+			"operationType": "CREATE"
+		}
+	]
+}
