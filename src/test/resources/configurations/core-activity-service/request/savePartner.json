@@ -14,8 +14,8 @@
    "hasMoActivations":true,
    "hasMoDeactivations":true,
    "operationType":"Create",
-   "partnerActivationConsentParserUrl":"{{partnerurl}}consent/activationConsentParser",
-   "partnerDeactivationConsentParserUrl":"{{partnerurl}}consent/deactivationConsentParser",
-   "partnerActivationConsentInitiationUrl":"{{partnerurl}}consent/activationConsent",
-   "partnerDeactivationConsentInitiationUrl":"{{partnerurl}}consent/deactivationConsent"
+   "partnerActivationConsentParserUrl":"partnerurlconsent/activationConsentParser",
+   "partnerDeactivationConsentParserUrl":"partnerurlconsent/deactivationConsentParser",
+   "partnerActivationConsentInitiationUrl":"partnerurlconsent/activationConsent",
+   "partnerDeactivationConsentInitiationUrl":"partnerurlconsent/deactivationConsent"
 }
