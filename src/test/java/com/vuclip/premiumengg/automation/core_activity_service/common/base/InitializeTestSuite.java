@@ -9,7 +9,12 @@ import org.testng.annotations.BeforeSuite;
 
 import com.vuclip.premiumengg.automation.common.Configuration;
 import com.vuclip.premiumengg.automation.common.JDBCTemplate;
+import com.vuclip.premiumengg.automation.core_activity_service.common.models.SavePartnerRequestVO;
+import com.vuclip.premiumengg.automation.core_activity_service.common.models.SaveProductRequestVO;
+import com.vuclip.premiumengg.automation.core_activity_service.common.utils.CASDBUtils;
+import com.vuclip.premiumengg.automation.core_activity_service.common.utils.CASHelper;
 import com.vuclip.premiumengg.automation.core_activity_service.common.utils.CASUtils;
+import com.vuclip.premiumengg.automation.core_activity_service.common.utils.CASValidationHelper;
 
 /**
  * @author Kohitij_Das
@@ -41,7 +46,7 @@ public class InitializeTestSuite {
 			CASUtils.uBSMockURL = properties.getProperty("uBSMockURL");
 			CASUtils.partnerId = 1;
 			CASUtils.productId = 1;
-/*
+
 			CASDBUtils.dbCleanUp(CASUtils.productId = 1, CASUtils.partnerId = 1);
 			System.out.println("Save Product");
 			SaveProductRequestVO saveProductRequest = CASUtils.saveProductRequest(CASUtils.productId);
@@ -50,7 +55,7 @@ public class InitializeTestSuite {
 			System.out.println("Save Partner");
 			SavePartnerRequestVO savePartnerRequest = CASUtils.savePartnerRequest(CASUtils.partnerId,
 					CASUtils.uBSMockURL);
-			CASValidationHelper.validateResponse(CASHelper.savePartner(savePartnerRequest));*/
+			CASValidationHelper.validateResponse(CASHelper.savePartner(savePartnerRequest));
 
 		} catch (Exception e) {
 			e.printStackTrace();

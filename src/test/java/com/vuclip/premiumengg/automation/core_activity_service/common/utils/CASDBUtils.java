@@ -11,7 +11,7 @@ public class CASDBUtils {
 
 	public static void dbCleanUp(int productId, int partnerId) {
 		logger.info("Delete product and partner related config from database");
-		DBUtils.cleanTable("product_partner_country_mapping", "product_id=" + productId + "partner_id=" + partnerId);
+		DBUtils.cleanTable("product_partner_country_mapping", "product_id=" + productId + " and partner_id=" + partnerId);
 		DBUtils.cleanTable("product_info", "product_id=" + productId);
 		DBUtils.cleanTable("partner_info", "partner_id=" + partnerId);
 

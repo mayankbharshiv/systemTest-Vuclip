@@ -21,7 +21,6 @@ import com.vuclip.premiumengg.automation.core_activity_service.common.models.Unb
 import com.vuclip.premiumengg.automation.core_activity_service.common.models.UserChargingInfo;
 import com.vuclip.premiumengg.automation.core_activity_service.common.models.UserDetails;
 import com.vuclip.premiumengg.automation.core_activity_service.common.models.UserStatus;
-import com.vuclip.premiumengg.automation.subscription_service.common.utils.SUtils;
 import com.vuclip.premiumengg.automation.utils.ObjectMapperUtils;
 
 public class CASUtils {
@@ -30,6 +29,16 @@ public class CASUtils {
 	public static String uBSMockURL = null;
 	public static int partnerId;
 	public static int productId;
+
+	/**
+	 * @param JsonFileName
+	 * @param type
+	 * @return
+	 */
+	public static <T> T loadJson(String JsonFileName, Class<T> type) {
+		return ObjectMapperUtils
+				.readValue("src/test/resources/configurations/core-activity-service/request/" + JsonFileName, type);
+	}
 
 	public static ChargedUserRequestVO createMockRequestVO(Object... params) {
 		logger.info("Create Mock Request for Charged User");
@@ -113,21 +122,21 @@ public class CASUtils {
 	}
 
 	public static SavePartnerRequestVO savePartnerRequest(int partnerId, String ubsMockUrl) {
-		SavePartnerRequestVO savePartner = SUtils.loadJson("savePartner.json", SavePartnerRequestVO.class);
+		SavePartnerRequestVO savePartner = CASUtils.loadJson("savePartner.json", SavePartnerRequestVO.class);
 		savePartner.setPartnerId(partnerId);
 		savePartner.setPartnerActivationConsentParserUrl(
-				savePartner.getPartnerActivationConsentParserUrl().replaceAll("{{partnerurl}}", ubsMockUrl));
+				savePartner.getPartnerActivationConsentParserUrl().replaceAll("partnerurl", ubsMockUrl));
 		savePartner.setPartnerDeactivationConsentInitiationUrl(
-				savePartner.getPartnerDeactivationConsentInitiationUrl().replaceAll("{{partnerurl}}", ubsMockUrl));
+				savePartner.getPartnerDeactivationConsentInitiationUrl().replaceAll("partnerurl", ubsMockUrl));
 		savePartner.setPartnerActivationConsentInitiationUrl(
-				savePartner.getPartnerActivationConsentInitiationUrl().replaceAll("{{partnerurl}}", ubsMockUrl));
+				savePartner.getPartnerActivationConsentInitiationUrl().replaceAll("partnerurl", ubsMockUrl));
 		savePartner.setPartnerDeactivationConsentInitiationUrl(
-				savePartner.getPartnerDeactivationConsentInitiationUrl().replaceAll("{{partnerurl}}", ubsMockUrl));
+				savePartner.getPartnerDeactivationConsentInitiationUrl().replaceAll("partnerurl", ubsMockUrl));
 		return savePartner;
 	}
 
 	public static SaveProductRequestVO saveProductRequest(int productId) {
-		SaveProductRequestVO saveProduct = SUtils.loadJson("saveProduct.json", SaveProductRequestVO.class);
+		SaveProductRequestVO saveProduct = CASUtils.loadJson("saveProduct.json", SaveProductRequestVO.class);
 		String jsonString = ObjectMapperUtils.writeValueAsString(saveProduct);
 		jsonString = jsonString.replaceAll("1111", String.valueOf(productId));
 		saveProduct = ObjectMapperUtils.readValueFromString(jsonString, SaveProductRequestVO.class);
