@@ -130,7 +130,7 @@ public class CASUtils {
 				savePartner.getPartnerDeactivationConsentInitiationUrl().replaceAll("partnerurl", ubsMockUrl));
 		savePartner.setPartnerActivationConsentInitiationUrl(
 				savePartner.getPartnerActivationConsentInitiationUrl().replaceAll("partnerurl", ubsMockUrl));
-		savePartner.setPartnerDeactivationConsentInitiationUrl(
+		savePartner.setPartnerDeactivationConsentParserUrl(
 				savePartner.getPartnerDeactivationConsentParserUrl().replaceAll("partnerurl", ubsMockUrl));
 		return savePartner;
 	}
